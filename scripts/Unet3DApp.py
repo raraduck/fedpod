@@ -21,6 +21,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
+from torch.cuda.amp import GradScaler, autocast
 
 from utils.configs import parse_args
 from utils.misc import *
@@ -28,8 +29,6 @@ from models import get_unet
 from dsets import get_dataset, get_base_transform, get_aug_transform, custom_collate
 from utils.optim import get_optimizer
 from utils.loss import SoftDiceBCEWithLogitsLoss, robust_sigmoid
-from torch.cuda.amp import GradScaler, autocast
-
 # from PIL import Image
 # import torchvision.transforms as tf
 # ToPILImage 변환기 초기화
@@ -69,7 +68,7 @@ class Unet3DApp:
                 print(f"DataParallel applied with {self.selected_gpu_count} GPUs.")
         return model
 
-    def initModel(self, weight_path=None):
+    def initModel(self,  weight_path=None):
         model = get_unet(self.cli_args)
         # load model
         if weight_path is None:
@@ -183,6 +182,61 @@ class Unet3DApp:
         else:
             raise NotImplementedError(f"[MODE:{mode}] is not implemented on local_initializer()")
     
+    def train(self, epoch, model, train_loader, loss_fn, optimizer, scaler, mode='training'):
+        model.train()
+        for i, (image, label, _, name, affine, label_names) in enumerate(tqdm(train_loader, desc=f"Epoch {epoch} Progress")): # inner_epoch should update local model
+            if self.cli_args.use_gpu:
+                image, label = image.float().cuda(), label.float().cuda()
+            else:
+                image, label = image.float(), label.float()
+
+            with autocast((self.cli_args.amp) and (scaler is not None)):
+                if self.cli_args.unet_arch == 'unet':
+                    preds = model(image)[0]
+                else:
+                    msg = f'{self.cli_args.unet_arch} Network output not yet guaranteed.'
+                    raise NotImplementedError(msg)
+
+                bce_loss, dsc_loss_by_channels = loss_fn(preds, label)
+                avg_dsc_loss = dsc_loss_by_channels.mean()
+                loss = bce_loss + avg_dsc_loss
+            # compute gradient and do optimizer step
+            optimizer.zero_grad()
+            if self.cli_args.amp and scaler is not None:
+                scaler.scale(loss).backward()
+                if self.cli_args.clip_grad:
+                    scaler.unscale_(optimizer)  # enable grad clipping
+                    nn.utils.clip_grad_norm_(model.parameters(), 10)
+                scaler.step(optimizer)
+                scaler.update()
+            else:
+                loss.backward()
+                if self.cli_args.clip_grad:
+                    nn.utils.clip_grad_norm_(model.parameters(), 10)
+                optimizer.step()
+            # torch.cuda.synchronize()
+            
+            
+            # middle_slice = image.shape[4] // 2
+            # slice_image = image[0, 0, :, :, middle_slice].cpu()  # GPU 사용 시 CPU로 변환
+            # max_label = torch.max(label.type(torch.uint8), dim=1, keepdim=True)[0]
+            # label_image = max_label[0, 0, :, :, middle_slice].cpu() * 255  # GPU 사용 시 CPU로 변환
+            # # 텐서 값을 0-255로 스케일링하고 uint8로 변환
+            # slice_image = slice_image - slice_image.min()  # 최소값을 0으로 만듦
+            # slice_image = slice_image / slice_image.max() * 255.0  # 최대값을 255로 만듦
+            # slice_image = slice_image.type(torch.uint8)  # uint8로 변환
+            # # 텐서를 PIL 이미지로 변환
+            # pil_image = to_pil(slice_image)
+            # pil_label = to_pil(label_image)
+            # # 이미지를 저장할 경로 설정 (폴더가 없을 경우 생성)
+            # output_dir = 'test'
+            # if not os.path.exists(output_dir):
+            #     os.makedirs(output_dir)
+            # file_name1 = os.path.join(output_dir, f'image_{i}_{name[0]}.jpg')
+            # pil_image.save(file_name1)
+            # file_name2 = os.path.join(output_dir, f'label_{i}_{name[0]}.jpg')
+            # pil_label.save(file_name2)
+
     def infer(self, round, model: nn.Module, 
                 infer_loader, loss_fn, 
                 mode: str, save_pred: bool = True):
@@ -197,9 +251,9 @@ class Unet3DApp:
 
         # seg_names = self.cli_args.label_names
         with torch.no_grad():
-            for i, (image, label, _, name, affine, label_names) in enumerate(tqdm(infer_loader, desc=f"Infer Progress")):
-                # if i % 10 != 0:
-                #     continue
+            for i, (image, label, _, name, affine, label_names) in enumerate(infer_loader):
+                if i % 10 != 0:
+                    continue
                 label_name = [el[0] for el in label_names]
                 if self.cli_args.use_gpu:
                     image, label = image.float().cuda(), label.float().cuda()
@@ -230,7 +284,7 @@ class Unet3DApp:
 
                 # output seg map
                 if save_pred: # and (round == 0):
-                    if (i % 1 == 0) and mode in ['pre', 'test']:
+                    if (i % 10 == 0) and mode in ['pre', 'test']:
                         modality = self.cli_args.input_channel_names
                         scale = 255
                         save_img_nifti(image, scale, name, mode[:4], 'img',
@@ -239,7 +293,7 @@ class Unet3DApp:
                         save_seg_nifti(label, name, mode[:4], 'labels',
                                        affine, label_map, save_val_path)
 
-                    if (i % 1 == 0):
+                    if (i % 10 == 0):
                         # seg_labels = label_names
                         scale = 100
                         save_img_nifti(seg_map, scale, name, mode[:4], 'prob',
@@ -248,10 +302,9 @@ class Unet3DApp:
                         save_seg_nifti(seg_map_th, name, mode[:4], 'pred',
                                     affine, label_map, save_val_path)
 
-
-    def main(self):
+    def run_infer(self):
         test_dict = load_subjects_list(
-            self.cli_args.cases_split, self.cli_args.inst_ids, TrainOrVal=['train','val','test'], mode='test')
+            self.cli_args.cases_split, self.cli_args.inst_ids, TrainOrVal=['test'], mode='test')
         
         _, self.cli_args.weight_path = self.initModel(self.cli_args.weight_path)
 
@@ -262,7 +315,51 @@ class Unet3DApp:
             test_setup['test_loader'], test_setup['loss_fn'], 
             mode='test')
 
-if __name__ == '__main__':
-    args = sys.argv[1:]
-    App_args = Unet3DApp(args)
-    App_args.main()
+
+    def run_train(self):
+        train_val_dict = load_subjects_list(
+            self.cli_args.cases_split, self.cli_args.inst_ids, TrainOrVal=['train','val'], mode='train')
+        
+        _, self.cli_args.weight_path = self.initModel(self.cli_args.weight_path)
+
+        train_setup = self.initializer(train_val_dict, mode='train')
+
+        # Pre-Validation
+        self.infer(self.cli_args.round, train_setup['model'], 
+            train_setup['val_loader'], train_setup['loss_fn'], 
+            mode='pre')
+        # , save_pred=self.cli_args.save_pred)
+
+        from_epoch = self.cli_args.round * self.cli_args.epochs + 0
+        to_epoch = self.cli_args.round * self.cli_args.epochs + self.cli_args.epochs
+        for epoch in tqdm(range(from_epoch, to_epoch), desc="Epochs Progress"):
+            print(f"training {epoch}/{to_epoch-1}")
+            self.train(epoch, train_setup['model'], 
+            train_setup['train_loader'], train_setup['loss_fn'], 
+            train_setup['optimizer'], train_setup['scaler'], mode='training')
+            # torch.cuda.empty_cache()
+
+        # Post-Validation
+        self.infer(self.cli_args.round, train_setup['model'], 
+            train_setup['val_loader'], train_setup['loss_fn'], 
+            mode='post')
+        # , save_pred=self.cli_args.save_pred)
+
+        
+        # save the best model on validation set
+        # if self.cli_args.save_model:
+
+        # 학습, 평가 및 테스트 후 모델을 CPU로 이동
+        if isinstance(train_setup['model'], nn.DataParallel):
+            train_setup['model'] = train_setup['model'].module  # Extract original model from DataParallel wrapper
+        train_setup['model'] = train_setup['model'].to('cpu')  # Move model back to CPU
+
+        # self.logger.info("==> Saving...")
+        state = {'model': train_setup['model'].state_dict(), 'args': self.cli_args}
+        save_model_path = os.path.join("states", self.timestamp, "models")
+        os.makedirs(save_model_path, exist_ok=True)
+        torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.round:02}E{epoch:02}_last.pth"))
+        # save_model_path4 = f"last_epoch_{to_epoch:03d}"
+        # save_model_folder = os.path.join(save_model_path1, save_model_path2, save_model_path4)
+        # os.makedirs(save_model_folder, exist_ok=True)
+        # torch.save(global_state_dict, os.path.join(save_model_folder, f'last_ckpt.pth'))
