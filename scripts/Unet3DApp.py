@@ -80,7 +80,7 @@ class Unet3DApp:
             # exp_folder = time.strftime("%Y%m%d_%H%M%S")
             save_model_path = os.path.join("states", self.timestamp, "models")
             os.makedirs(save_model_path, exist_ok=True)
-            init_model_path = os.path.join(save_model_path, f"R{0:02}E{0:02}.pth")
+            init_model_path = os.path.join(save_model_path, f"R{0:02}E{0:03}.pth")
             torch.save(state, init_model_path)
             self.logger.info(f"[{mode}] ==> Initialize random model at {init_model_path}...")
         else:
@@ -248,8 +248,6 @@ class Unet3DApp:
                 f"{str(batch_time)}",
             ]))
             end = time.time()
-            
-            
             # middle_slice = image.shape[4] // 2
             # slice_image = image[0, 0, :, :, middle_slice].cpu()  # GPU 사용 시 CPU로 변환
             # max_label = torch.max(label.type(torch.uint8), dim=1, keepdim=True)[0]
@@ -269,12 +267,20 @@ class Unet3DApp:
             # pil_image.save(file_name1)
             # file_name2 = os.path.join(output_dir, f'label_{i}_{name[0]}.jpg')
             # pil_label.save(file_name2)
+        return {
+            'bce_loss': bce_meter.avg,
+            'dsc_loss': dsc_meter.avg,
+            'total_loss': loss_meter.avg,
+            # 'lr': optimizer.state_dict()['param_groups'][0]['lr'],
+        }
 
     def infer(self, round, model: nn.Module, 
                 infer_loader, loss_fn, 
                 mode: str, save_pred: bool = True):
         model.eval()
+        seg_names = self.cli_args.label_names
         batch_time = AverageMeter('Time', ':6.3f')
+        case_metrics_meter = CaseSegMetricsMeter(seg_names)
 
         save_val_path = os.path.join("states", self.timestamp, f"R{round:02}")
         os.makedirs(save_val_path, exist_ok=True)
@@ -283,7 +289,6 @@ class Unet3DApp:
         # if not os.path.exists(save_epoch_path):
         #     os.makedirs(save_epoch_path, exist_ok=True)
 
-        # seg_names = self.cli_args.label_names
         end = time.time()
         with torch.no_grad():
             for i, (image, label, _, name, affine, label_names) in enumerate(infer_loader):
@@ -306,12 +311,8 @@ class Unet3DApp:
                     mode=self.cli_args.sliding_window_mode
                 )
                 # val loss
-                # _, dsc_loss_by_channels = loss_fn(seg_map, label)
+                _, dsc_loss_by_channels = loss_fn(seg_map, label)
                 # calc metric
-                # dsc_loss_by_channels_np = dsc_loss_by_channels.cpu().numpy()
-                # avg_dsc_loss = dsc_loss_by_channels.mean()
-                # loss = bce_loss + avg_dsc_loss
-                # dsc_loss_by_channels_np = dsc_loss_by_channels.cpu().numpy()
 
                 if self.cli_args.unet_arch == 'unet':
                     seg_map = robust_sigmoid(seg_map)
@@ -322,16 +323,14 @@ class Unet3DApp:
 
                 # discrete
                 seg_map_th = torch.where(seg_map > 0.5, True, False)
+
+                dsc_loss_by_channels_np = dsc_loss_by_channels.cpu().numpy()
                 dice = metrics.dice(seg_map_th, label)
                 hd95 = metrics.hd95(seg_map_th, label)
                 batch_time.update(time.time() - end)
-                # print(f"infer: dice-{dice.mean():.3f}, hd95-{hd95.mean():.3f}")
-                # self.logger.info(":".join([
-                #     f"[VAL]:R{round:02}:P{((i+1)/len(infer_loader)*100):03.0f}%",
-                #     f"DSC {dice.mean():2.3f}",
-                #     f"HD95 {hd95.mean():2.3f}",
-                #     f" {str(batch_time)}",
-                # ]))
+                case_metrics_meter.update(dsc_loss_by_channels_np, dice, hd95, name, bsz)
+                end = time.time()
+
                 for bat_idx, (bat_dice, bat_hd95) in enumerate(zip(dice,hd95)):
                     bat_list=[]
                     bat_list+=[
@@ -342,7 +341,6 @@ class Unet3DApp:
                     for (lbl, dsc, hd) in zip(label_name, bat_dice, bat_hd95):
                         bat_list+=[f"{lbl}:{dsc:.2f}:{hd:2.1f}"]
                     self.logger.info(" ".join(bat_list))
-                end = time.time()
 
                 # output seg map
                 if save_pred: # and (round == 0):
@@ -363,6 +361,7 @@ class Unet3DApp:
                     label_map = self.cli_args.label_index
                     save_seg_nifti(seg_map_th, name, mode[:4], 'pred',
                                 affine, label_map, save_val_path)
+        return case_metrics_meter.mean()
 
     def run_infer(self):
         test_dict = load_subjects_list(
@@ -373,9 +372,13 @@ class Unet3DApp:
         test_setup = self.initializer(test_dict, mode='test')
 
         # Pre-Validation
-        self.infer(self.cli_args.round, test_setup['model'], 
-            test_setup['test_loader'], test_setup['loss_fn'], 
-            mode='test')
+        self.infer(
+            self.cli_args.round, 
+            test_setup['model'], 
+            test_setup['test_loader'], 
+            test_setup['loss_fn'], 
+            mode='test'
+        )
 
 
     def run_train(self):
@@ -387,41 +390,49 @@ class Unet3DApp:
         train_setup = self.initializer(train_val_dict, mode='train')
 
         # Pre-Validation
-        self.infer(self.cli_args.round, train_setup['model'], 
-            train_setup['val_loader'], train_setup['loss_fn'], 
-            mode='pre')
-        # , save_pred=self.cli_args.save_pred)
+        pre_metrics = self.infer(
+            self.cli_args.round, 
+            train_setup['model'], 
+            train_setup['val_loader'], 
+            train_setup['loss_fn'], 
+            mode='pre'
+        )
 
+        train_tb_dict = {}
         from_epoch = self.cli_args.round * self.cli_args.epochs + 0
         to_epoch = self.cli_args.round * self.cli_args.epochs + self.cli_args.epochs
         for epoch in range(from_epoch, to_epoch):
-            # print(f"training {epoch}/{to_epoch-1}")
-            self.train(self.cli_args.round, epoch, train_setup['model'], 
-            train_setup['train_loader'], train_setup['loss_fn'], 
-            train_setup['optimizer'], train_setup['scaler'], mode='training')
-            # torch.cuda.empty_cache()
+            train_tb_dict[epoch] = self.train(
+                self.cli_args.round, epoch, 
+                train_setup['model'], 
+                train_setup['train_loader'], 
+                train_setup['loss_fn'], 
+                train_setup['optimizer'], 
+                train_setup['scaler'], 
+                mode='training'
+            )
 
         # Post-Validation
-        self.infer(self.cli_args.round, train_setup['model'], 
-            train_setup['val_loader'], train_setup['loss_fn'], 
-            mode='post')
-        # , save_pred=self.cli_args.save_pred)
-
-        
-        # save the best model on validation set
-        # if self.cli_args.save_model:
+        post_metrics = self.infer(
+            self.cli_args.round, 
+            train_setup['model'], 
+            train_setup['val_loader'], 
+            train_setup['loss_fn'], 
+            mode='post'
+        )
 
         # 학습, 평가 및 테스트 후 모델을 CPU로 이동
         if isinstance(train_setup['model'], nn.DataParallel):
             train_setup['model'] = train_setup['model'].module  # Extract original model from DataParallel wrapper
         train_setup['model'] = train_setup['model'].to('cpu')  # Move model back to CPU
 
-        # self.logger.info("==> Saving...")
-        state = {'model': train_setup['model'].state_dict(), 'args': self.cli_args}
+        state = {
+            'model': train_setup['model'].state_dict(), 
+            'args': self.cli_args,
+            'train_tb_dict': train_tb_dict,
+            'pre_metrics': pre_metrics,
+            'post_metrics': post_metrics
+        }
         save_model_path = os.path.join("states", self.timestamp, "models")
         os.makedirs(save_model_path, exist_ok=True)
         torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.round:02}E{epoch:03}_last.pth"))
-        # save_model_path4 = f"last_epoch_{to_epoch:03d}"
-        # save_model_folder = os.path.join(save_model_path1, save_model_path2, save_model_path4)
-        # os.makedirs(save_model_folder, exist_ok=True)
-        # torch.save(global_state_dict, os.path.join(save_model_folder, f'last_ckpt.pth'))

@@ -174,3 +174,38 @@ def initialization_logger(args, timestamp):
     logger.info(args)
 
     return logger
+
+
+class CaseSegMetricsMeter(object):
+    """Stores segmentation metric (dice & hd95) for every case"""
+
+    def __init__(self, label_names):
+        self.cols = [
+            *[f'DSCL_{el}' for el in label_names],
+            *[f'DICE_{el}' for el in label_names],
+            *[f'HD95_{el}' for el in label_names],
+        ]
+        self.reset()
+
+    def reset(self):
+        self.cases = pd.DataFrame(columns=self.cols)
+
+    def update(self, dscloss, dice, hd95, names, bsz):
+        ch_size = dice.shape[1]
+        for i in range(bsz):
+            self.cases.loc[names[i]] = [
+                *[dscloss[i, idx] for idx in range(ch_size)],
+                *[dice[i, idx] for idx in range(ch_size)],
+                *[hd95[i, idx] for idx in range(ch_size)],
+                # dice[i, 1], dice[i, 0], dice[i, 2],
+                # hd95[i, 1], hd95[i, 0], hd95[i, 2],
+            ]
+
+    def mean(self):
+        return self.cases.mean(0).to_dict()
+
+    def output(self, save_epoch_path):
+        # all cases csv
+        self.cases.to_csv(join(save_epoch_path, "case_metrics.csv"))
+        # summary txt
+        self.cases.mean(0).to_csv(join(save_epoch_path, "case_metrics_summary.txt"), sep='\t')
