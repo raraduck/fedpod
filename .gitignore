@@ -2,6 +2,7 @@ venv
 cc359ppmi_first
 states
 test
+logs
 
 # pycharm
 .idea

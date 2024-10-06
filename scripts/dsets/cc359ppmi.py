@@ -9,80 +9,6 @@ from dsets.dataset_utils import nib_load
 import nibabel as nib
 import glob
 
-
-####################################################################################################
-# transforms
-
-# class ConvertToMultiChannel(transforms.MapTransform):
-#     def __init__(self, keys, labels):
-#         super().__init__(keys)
-#         self.labels = labels
-#
-#     def __call__(self, data):
-#         d = dict(data)
-#         for key in self.keys:
-#             label_map = np.squeeze(d[key], axis=0)
-#             channels = []
-#             for label_group in self.labels:
-#                 # Initialize channel with False
-#                 channel = np.zeros_like(label_map, dtype=np.bool_)
-#                 # Logical OR for each label in the group
-#                 for label in label_group:
-#                     channel = np.logical_or(channel, label_map == label)
-#                 channels.append(channel)
-#             d[key] = np.stack(channels, axis=0)  # Stack along a new channel dimension
-#         return d
-#
-#
-# def get_gaain_base_transform(args):
-#     """
-#     FutureWarning: <class 'monai.transforms.utility.array.AddChannel'>:
-#     Class `AddChannel` has been deprecated since version 0.8.
-#     please use MetaTensor data type and monai.transforms.EnsureChannelFirst instead.
-#     warn_deprecated(obj, msg, warning_category)
-#     """
-#     base_transform = [
-#         transforms.EnsureTyped(keys=['t1', 'label']),  # 데이터를 MetaTensor로 변환
-#         # [B, H, W, D] --> [B, C, H, W, D]
-#         # transforms.AddChanneld(keys=['t1', 'label']),  (depricated)
-#
-#         # MetaTensor 데이터 타입을 사용하고 첫 번째 차원을 채널 차원으로 보장
-#         # transforms.EnsureChannelFirstd(keys=['t1', 'label']),
-#         # transforms.AddChanneld(keys=['t1', 'label']),
-#
-#         # 데이터를 RAS 방향으로 조정
-#         transforms.Orientationd(keys=['t1', 'label'], axcodes="RAS"),
-#
-#         # # t1 이미지에 대한 Spacing 변환 (bilinear 보간)
-#         # transforms.Spacingd(keys=['t1'], pixdim=(2.5, 2.5, 2.5), mode='bilinear'),
-#         #
-#         # # label에 대한 Spacing 변환 (nearest 보간)
-#         # transforms.Spacingd(keys=['label'], pixdim=(2.5, 2.5, 2.5), mode='nearest'),
-#
-#         # t1 이미지에 대한 Resize 변환 (bilinear 보간)
-#         transforms.Resized(keys=['t1', 'label'], spatial_size=(args.resize, args.resize, args.resize), mode=['area', 'nearest']),
-#
-#         # t1 키를 사용하여 로버스트 Z-점수 정규화 적용
-#         RobustZScoreNormalization(keys=['t1']),
-#
-#         # t1 이미지를 image 키로 합쳐서 차원을 확장
-#         transforms.ConcatItemsd(keys=['t1'], name='image', dim=0),
-#
-#         # t1 키 삭제
-#         transforms.DeleteItemsd(keys=['t1']),
-#
-#         # label 키를 여러 채널로 변환, args.label_groups에서 지정된 레이블 그룹 사용
-#         ConvertToMultiChannel(keys=["label"], labels=args.label_groups)
-#         # ConvertToMultiChannel(keys=["label"], labels=[[2, 41, 3, 42, 11, 50, 12, 51]])
-#         # transforms.LabelToMaskd(keys='label', select_labels=[11, 12, 50, 51], merge_channels=False, allow_missing_keys=False)
-#         # transforms.ConvertToMultiChannelBasedOnBratsClassesd(keys='label'),
-#     ]
-#     return base_transform
-
-
-####################################################################################################
-# dataset
-
 class CC359PPMIDataset(Dataset):
     def __init__(self, args, data_root: str, inst_root: str, mode: str, case_names: list = [], input_channel_names: list = [], label_names: list = [], transforms=None, custom_lower_bound=1, custom_upper_bound=99999):
         super(CC359PPMIDataset, self).__init__()
@@ -136,7 +62,7 @@ class CC359PPMIDataset(Dataset):
             # _mask = np.where(_mask != 0, 100, 0)
             channels_dict['striatum'] = _mask
 
-        mask = np.array(nib_load(join(base_dir, 'striatum_sub.nii.gz'))[0], dtype='uint16')  # ground truth
+        mask = np.array(nib_load(join(base_dir, 'striatum_orig.nii.gz'))[0], dtype='uint16')  # ground truth
         channels_dict['label'] = mask
         # _t2, _ = nib_load(join(base_dir, 'brain.nii.gz'))
         # t2 = np.array(_t2, dtype='float32')

@@ -105,3 +105,72 @@ def save_seg_nifti(seg_map: Tensor, names: list, mode: str, postfix:str, affine_
             nib.Nifti1Image(seg_img, affine_src[b]),
             join(save_epoch_seg_path, f'{postfix}_{names[b]}.nii.gz')
         )
+
+
+class AverageMeter(object):
+    """Computes and stores the average and current value"""
+
+    def __init__(self, name, fmt=':f'):
+        self.name = name
+        self.fmt = fmt
+        self.reset()
+
+    def reset(self):
+        self.val = 0
+        self.avg = 0
+        self.sum = 0
+        self.count = 0
+
+    def update(self, val, n=1):
+        self.val = val
+        self.sum += val * n
+        self.count += n
+        self.avg = self.sum / self.count
+
+    def __str__(self):
+        fmtstr = '{name} {val' + self.fmt + '} ({avg' + self.fmt + '})'
+        return fmtstr.format(**self.__dict__)
+
+
+def setup_logger(log_dir, log_file):
+
+    root_logger = logging.getLogger()
+    # logger.propagate = False
+    for handler in list(root_logger.handlers):
+        root_logger.removeHandler(handler)
+
+    logfmt_str = "%(asctime)s %(levelname)-2s pid:%(process)d %(name)s:%(lineno)03d:%(funcName)-12s %(message)s"
+    formatter = logging.Formatter(logfmt_str, datefmt="%Y%m%d-%H%M%S")
+
+    streamHandler = logging.StreamHandler()
+    streamHandler.setFormatter(formatter)
+    streamHandler.setLevel(logging.INFO)
+    root_logger.addHandler(streamHandler)
+
+    # 파일 핸들러 설정 (선택적)
+    # if not os.path.exists(log_dir):
+    os.makedirs(log_dir, exist_ok=True)
+    file_handler = logging.FileHandler(filename=os.path.join(log_dir, log_file), mode="a")
+    file_handler.setLevel(logging.DEBUG)
+    file_format = logging.Formatter(logfmt_str)
+    file_handler.setFormatter(file_format)
+    root_logger.addHandler(file_handler)
+
+    root_logger.setLevel(logging.INFO)  # 전체 로거의 기본 레벨 설정
+    return root_logger  # 로거 인스턴스를 반환합니다.
+
+
+def initialization_logger(args, timestamp):
+    # set random seed
+    # seed_everything(args.seed)
+
+    # make exp dir
+    # writer = SummaryWriter(os.path.join('runs', args.exp_name))
+
+    # init logger & save args
+    logger = setup_logger(log_dir='logs', log_file=timestamp)
+    logger.info(f"{'-' * 20} New Experiment {'-' * 20}")
+    # logger.info(' '.join(sys.argv))
+    logger.info(args)
+
+    return logger

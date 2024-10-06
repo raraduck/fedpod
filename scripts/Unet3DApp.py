@@ -25,6 +25,7 @@ from torch.cuda.amp import GradScaler, autocast
 
 from utils.configs import parse_args
 from utils.misc import *
+import utils.metrics as metrics
 from models import get_unet
 from dsets import get_dataset, get_base_transform, get_aug_transform, custom_collate
 from utils.optim import get_optimizer
@@ -40,6 +41,8 @@ class Unet3DApp:
         self.cli_args = args
         self.timestamp = time.strftime("%Y%m%d_%H%M%S")
         self.device = torch.device("cpu")
+        self.logger = initialization_logger(self.cli_args, self.timestamp)
+        self.logger.info(f"[INIT] created logger at timestamp-{self.timestamp}...")
         self.cli_args.multi_batch_size = self.cli_args.batch_size
 
         self.use_cuda = self.cli_args.use_gpu and torch.cuda.is_available()
@@ -53,22 +56,22 @@ class Unet3DApp:
             self.cli_args.label_index = list(range(1, 1+self.cli_args.num_classes))
         self.cli_args.input_channels = self.cli_args.input_channel_names.__len__()
 
-    def setup_gpu(self, model):
+    def setup_gpu(self, model, mode):
         current_device = next(model.parameters()).device
         if current_device == self.device:
-            # self.logger.info(f"Model is already on the correct device: {self.device}.")
-            print(f"Model is already on the correct device: {self.device}.")
+            self.logger.info(f"[{mode}] Model is already on the correct device: {self.device}.")
+            # print(f"Model is already on the correct device: {self.device}.")
         else:
-            # self.logger.info(f"Model is currently on {current_device}, moving to {self.device}.")
-            print(f"Model is currently on {current_device}, moving to {self.device}.")
+            self.logger.info(f"[{mode}] Model is currently on {current_device}, moving to {self.device}.")
+            # print(f"Model is currently on {current_device}, moving to {self.device}.")
             model = model.to(self.device)
             if self.use_cuda and self.selected_gpu_count > 1:
                 model = nn.DataParallel(model)
-                # self.logger.info(f"DataParallel applied with {self.selected_gpu_count} GPUs.")
-                print(f"DataParallel applied with {self.selected_gpu_count} GPUs.")
+                self.logger.info(f"[{mode}] DataParallel applied with {self.selected_gpu_count} GPUs.")
+                # print(f"DataParallel applied with {self.selected_gpu_count} GPUs.")
         return model
 
-    def initModel(self,  weight_path=None):
+    def initModel(self, weight_path=None, mode='INIT'):
         model = get_unet(self.cli_args)
         # load model
         if weight_path is None:
@@ -79,14 +82,14 @@ class Unet3DApp:
             os.makedirs(save_model_path, exist_ok=True)
             init_model_path = os.path.join(save_model_path, f"R{0:02}E{0:02}.pth")
             torch.save(state, init_model_path)
+            self.logger.info(f"[{mode}] ==> Initialize random model at {init_model_path}...")
         else:
-            # self.logger.info(f"==> Loading pretrain model: {self.cli_args.weight_path}...")
             assert weight_path.endswith(".pth")
             model_state = torch.load(weight_path, map_location='cpu')['model']
             new_state_dict = {k.replace('module.', ''): v for k, v in model_state.items()}
             model.load_state_dict(new_state_dict)
             init_model_path = weight_path
-        # self.logger.info("Model initialized on CPU")
+            self.logger.info(f"[{mode}] ==> Loading model from: {init_model_path}...")
 
         return model, init_model_path
 
@@ -132,14 +135,15 @@ class Unet3DApp:
 
     def initializer(self, subjects_dict, mode='train'):
         if mode == 'train':
+            self.logger.info(f"[TRN] Processing with train_loader and val_loader...")
             train_cases = natsort.natsorted(subjects_dict['train'])
             train_dataset, train_loader = self.initTrainDl(train_cases)
-
             val_cases = natsort.natsorted(subjects_dict['val'])
             val_dataset, val_loader = self.initValDl(val_cases, 'val')
 
-            model, _ = self.initModel(self.cli_args.weight_path)
-            model = self.setup_gpu(model)
+            self.logger.info(f"[TRN] Processing with model...")
+            model, _ = self.initModel(self.cli_args.weight_path, mode='TRN')
+            model = self.setup_gpu(model, mode='TRN')
             optimizer = get_optimizer(self.cli_args, model)
             loss_fn = SoftDiceBCEWithLogitsLoss(channel_weights=None).to(self.device)
             scaler = GradScaler() if self.cli_args.amp else None
@@ -159,10 +163,12 @@ class Unet3DApp:
             # train_cases = natsort.natsorted(subjects_dict['test'])
             # train_dataset, train_loader = self.initTrainDl(train_cases)
 
+            self.logger.info(f"[TEST] Processing with test_loader...")
             test_cases = natsort.natsorted(subjects_dict['test'])
             test_dataset, test_loader = self.initValDl(test_cases, 'test')
 
-            model, _ = self.initModel(self.cli_args.weight_path)
+            self.logger.info(f"[TEST] Processing with model...")
+            model, _ = self.initModel(self.cli_args.weight_path, mode='TEST')
             model = self.setup_gpu(model)
             # optimizer = get_optimizer(self.cli_args, model)
             loss_fn = SoftDiceBCEWithLogitsLoss(channel_weights=None).to(self.device)
@@ -180,26 +186,36 @@ class Unet3DApp:
                 # 'scaler': scaler,
             }
         else:
-            raise NotImplementedError(f"[MODE:{mode}] is not implemented on local_initializer()")
+            raise NotImplementedError(f"[MODE:{mode}] is not implemented on initializer()")
     
-    def train(self, epoch, model, train_loader, loss_fn, optimizer, scaler, mode='training'):
+    def train(self, round, epoch, model, train_loader, loss_fn, optimizer, scaler, mode='training'):
         model.train()
-        for i, (image, label, _, name, affine, label_names) in enumerate(tqdm(train_loader, desc=f"Epoch {epoch} Progress")): # inner_epoch should update local model
+        data_time = AverageMeter('Data', ':6.3f')
+        batch_time = AverageMeter('Time', ':6.3f')
+        bce_meter = AverageMeter('BCE', ':.4f')
+        dsc_meter = AverageMeter('Dice', ':.4f')
+        loss_meter = AverageMeter('Loss', ':.4f')
+        end = time.time()
+        for i, (image, label, _, name, affine, label_names) in enumerate(train_loader): # inner_epoch should update local model
+            data_time.update(time.time() - end)
             if self.cli_args.use_gpu:
                 image, label = image.float().cuda(), label.float().cuda()
             else:
                 image, label = image.float(), label.float()
+            bsz = image.size(0)
 
             with autocast((self.cli_args.amp) and (scaler is not None)):
                 if self.cli_args.unet_arch == 'unet':
                     preds = model(image)[0]
                 else:
                     msg = f'{self.cli_args.unet_arch} Network output not yet guaranteed.'
+                    self.logger.error(msg)
                     raise NotImplementedError(msg)
 
                 bce_loss, dsc_loss_by_channels = loss_fn(preds, label)
                 avg_dsc_loss = dsc_loss_by_channels.mean()
                 loss = bce_loss + avg_dsc_loss
+
             # compute gradient and do optimizer step
             optimizer.zero_grad()
             if self.cli_args.amp and scaler is not None:
@@ -215,6 +231,23 @@ class Unet3DApp:
                     nn.utils.clip_grad_norm_(model.parameters(), 10)
                 optimizer.step()
             # torch.cuda.synchronize()
+
+            bce_meter.update(bce_loss.item(), bsz)
+            dsc_meter.update(avg_dsc_loss.item(), bsz)
+            loss_meter.update(loss.item(), bsz)
+            batch_time.update(time.time() - end)
+            # print(f"train: bloss-{bce_loss.item():.3f}, dloss-{avg_dsc_loss.item():.3f}, bdloss-{loss.item():.3f}")
+            self.logger.info(" ".join([
+                f"[TRN]({((i+1)/len(train_loader)*100):3.0f}%)",
+                f"R:{round:02}",
+                f"E:{epoch:03}",
+                f"D:{i:03}/{len(train_loader):03}",
+                f"BCEL:{bce_loss.item():2.3f}",
+                f"DSCL:{avg_dsc_loss.item():2.3f}",
+                f"BCEL+DSCL:{loss.item():2.3f}",
+                f"{str(batch_time)}",
+            ]))
+            end = time.time()
             
             
             # middle_slice = image.shape[4] // 2
@@ -241,6 +274,7 @@ class Unet3DApp:
                 infer_loader, loss_fn, 
                 mode: str, save_pred: bool = True):
         model.eval()
+        batch_time = AverageMeter('Time', ':6.3f')
 
         save_val_path = os.path.join("states", self.timestamp, f"R{round:02}")
         os.makedirs(save_val_path, exist_ok=True)
@@ -250,15 +284,17 @@ class Unet3DApp:
         #     os.makedirs(save_epoch_path, exist_ok=True)
 
         # seg_names = self.cli_args.label_names
+        end = time.time()
         with torch.no_grad():
             for i, (image, label, _, name, affine, label_names) in enumerate(infer_loader):
-                if i % 10 != 0:
-                    continue
+                # if i % 10 != 0:
+                #     continue
                 label_name = [el[0] for el in label_names]
                 if self.cli_args.use_gpu:
                     image, label = image.float().cuda(), label.float().cuda()
                 else:
                     image, label = image.float(), label.float()
+                bsz = image.size(0)
 
                 # get seg map
                 seg_map = sliding_window_inference(
@@ -271,20 +307,46 @@ class Unet3DApp:
                 )
                 # val loss
                 # _, dsc_loss_by_channels = loss_fn(seg_map, label)
+                # calc metric
+                # dsc_loss_by_channels_np = dsc_loss_by_channels.cpu().numpy()
+                # avg_dsc_loss = dsc_loss_by_channels.mean()
+                # loss = bce_loss + avg_dsc_loss
+                # dsc_loss_by_channels_np = dsc_loss_by_channels.cpu().numpy()
 
                 if self.cli_args.unet_arch == 'unet':
                     seg_map = robust_sigmoid(seg_map)
                 else:
                     msg = f"currently model is {self.cli_args.unet_arch}.\n If the model is not unet, it is necessary to check the value range of seg_map before applying any thresholding."
-                    print(msg)
+                    self.logger.error(msg)
                     raise NotImplementedError(msg)
 
                 # discrete
                 seg_map_th = torch.where(seg_map > 0.5, True, False)
+                dice = metrics.dice(seg_map_th, label)
+                hd95 = metrics.hd95(seg_map_th, label)
+                batch_time.update(time.time() - end)
+                # print(f"infer: dice-{dice.mean():.3f}, hd95-{hd95.mean():.3f}")
+                # self.logger.info(":".join([
+                #     f"[VAL]:R{round:02}:P{((i+1)/len(infer_loader)*100):03.0f}%",
+                #     f"DSC {dice.mean():2.3f}",
+                #     f"HD95 {hd95.mean():2.3f}",
+                #     f" {str(batch_time)}",
+                # ]))
+                for bat_idx, (bat_dice, bat_hd95) in enumerate(zip(dice,hd95)):
+                    bat_list=[]
+                    bat_list+=[
+                        f"[{mode.upper()}]({((i+1)/len(infer_loader)*100):3.0f}%)",
+                        f"{name[bat_idx]}",
+                        f"[DSC:HD95]",
+                    ]
+                    for (lbl, dsc, hd) in zip(label_name, bat_dice, bat_hd95):
+                        bat_list+=[f"{lbl}:{dsc:.2f}:{hd:2.1f}"]
+                    self.logger.info(" ".join(bat_list))
+                end = time.time()
 
                 # output seg map
                 if save_pred: # and (round == 0):
-                    if (i % 10 == 0) and mode in ['pre', 'test']:
+                    if mode in ['pre', 'test']:
                         modality = self.cli_args.input_channel_names
                         scale = 255
                         save_img_nifti(image, scale, name, mode[:4], 'img',
@@ -293,14 +355,14 @@ class Unet3DApp:
                         save_seg_nifti(label, name, mode[:4], 'labels',
                                        affine, label_map, save_val_path)
 
-                    if (i % 10 == 0):
-                        # seg_labels = label_names
-                        scale = 100
-                        save_img_nifti(seg_map, scale, name, mode[:4], 'prob',
-                                    affine, label_name, save_val_path)
-                        label_map = self.cli_args.label_index
-                        save_seg_nifti(seg_map_th, name, mode[:4], 'pred',
-                                    affine, label_map, save_val_path)
+                    # if (i % 10 == 0):
+                    # seg_labels = label_names
+                    scale = 100
+                    save_img_nifti(seg_map, scale, name, mode[:4], 'prob',
+                                affine, label_name, save_val_path)
+                    label_map = self.cli_args.label_index
+                    save_seg_nifti(seg_map_th, name, mode[:4], 'pred',
+                                affine, label_map, save_val_path)
 
     def run_infer(self):
         test_dict = load_subjects_list(
@@ -320,7 +382,7 @@ class Unet3DApp:
         train_val_dict = load_subjects_list(
             self.cli_args.cases_split, self.cli_args.inst_ids, TrainOrVal=['train','val'], mode='train')
         
-        _, self.cli_args.weight_path = self.initModel(self.cli_args.weight_path)
+        _, self.cli_args.weight_path = self.initModel(self.cli_args.weight_path, mode='INIT')
 
         train_setup = self.initializer(train_val_dict, mode='train')
 
@@ -332,9 +394,9 @@ class Unet3DApp:
 
         from_epoch = self.cli_args.round * self.cli_args.epochs + 0
         to_epoch = self.cli_args.round * self.cli_args.epochs + self.cli_args.epochs
-        for epoch in tqdm(range(from_epoch, to_epoch), desc="Epochs Progress"):
-            print(f"training {epoch}/{to_epoch-1}")
-            self.train(epoch, train_setup['model'], 
+        for epoch in range(from_epoch, to_epoch):
+            # print(f"training {epoch}/{to_epoch-1}")
+            self.train(self.cli_args.round, epoch, train_setup['model'], 
             train_setup['train_loader'], train_setup['loss_fn'], 
             train_setup['optimizer'], train_setup['scaler'], mode='training')
             # torch.cuda.empty_cache()
@@ -358,7 +420,7 @@ class Unet3DApp:
         state = {'model': train_setup['model'].state_dict(), 'args': self.cli_args}
         save_model_path = os.path.join("states", self.timestamp, "models")
         os.makedirs(save_model_path, exist_ok=True)
-        torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.round:02}E{epoch:02}_last.pth"))
+        torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.round:02}E{epoch:03}_last.pth"))
         # save_model_path4 = f"last_epoch_{to_epoch:03d}"
         # save_model_folder = os.path.join(save_model_path1, save_model_path2, save_model_path4)
         # os.makedirs(save_model_folder, exist_ok=True)
