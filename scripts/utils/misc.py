@@ -16,7 +16,7 @@ from torch import nn
 
 def load_subjects_list(round: int, split_path: str, inst_ids: list, TrainOrVal: list, mode='train'):
     df = pd.read_csv(split_path)
-    Partition_rule = 'Partition_ID' if round < 0 else f"R{round}"
+    Partition_rule = 'Partition_ID' if round == -1 else f"R{round}"
     if mode == 'train': # set(mode) == set(['train', 'val']):
         unique_inst_ids = [int(el) for el in set(df[df['TrainOrVal'].isin(TrainOrVal)][Partition_rule])]
         unique_inst_ids = unique_inst_ids if inst_ids == [-1] else [el for el in unique_inst_ids if el in inst_ids]
