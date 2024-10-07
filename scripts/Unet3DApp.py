@@ -365,7 +365,9 @@ class Unet3DApp:
 
     def run_infer(self):
         test_dict = load_subjects_list(
-            self.cli_args.cases_split, self.cli_args.inst_ids, TrainOrVal=['test'], mode='test')
+            self.cli_args.round, self.cli_args.cases_split, self.cli_args.inst_ids, 
+            TrainOrVal=['test'], mode='test'
+        )
         
         _, self.cli_args.weight_path = self.initModel(self.cli_args.weight_path)
 
@@ -383,7 +385,9 @@ class Unet3DApp:
 
     def run_train(self):
         train_val_dict = load_subjects_list(
-            self.cli_args.cases_split, self.cli_args.inst_ids, TrainOrVal=['train','val'], mode='train')
+            self.cli_args.round, self.cli_args.cases_split, self.cli_args.inst_ids, 
+            TrainOrVal=['train','val'], mode='train'
+        )
         
         _, self.cli_args.weight_path = self.initModel(self.cli_args.weight_path, mode='INIT')
 
