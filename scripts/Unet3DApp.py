@@ -344,7 +344,7 @@ class Unet3DApp:
 
                 # output seg map
                 if save_pred: # and (round == 0):
-                    if mode in ['pre', 'test']:
+                    if (curr_epoch == 0) and (mode in ['pre', 'test']):
                         modality = self.cli_args.input_channel_names
                         scale = 255
                         save_img_nifti(image, scale, name, mode[:4], 'img',
