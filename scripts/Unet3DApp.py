@@ -32,17 +32,17 @@ from utils.optim import get_optimizer
 from utils.loss import SoftDiceBCEWithLogitsLoss, robust_sigmoid
 # from PIL import Image
 # import torchvision.transforms as tf
-# ToPILImage 변환기 초기화
+# ToPILImage 변환timestamp기 초기화
 # to_pil = tf.ToPILImage()
 class Unet3DApp:
     def __init__(self, sys_argv=None):
         # 기본 로거 설정 (기본값 사용)
         args = parse_args(sys_argv)
         self.cli_args = args
-        self.timestamp = self.cli_args.job_name if self.cli_args.job_name else time.strftime("%Y%m%d_%H%M%S")
+        self.job_name = self.cli_args.job_name if self.cli_args.job_name else time.strftime("%Y%m%d_%H%M%S")
         self.device = torch.device("cpu")
-        self.logger = initialization_logger(self.cli_args, self.timestamp)
-        self.logger.info(f"[INIT] created logger at timestamp-{self.timestamp}...")
+        self.logger = initialization_logger(self.cli_args, self.job_name)
+        self.logger.info(f"[INIT] created logger at job_name-{self.job_name}...")
         self.cli_args.multi_batch_size = self.cli_args.batch_size
 
         self.use_cuda = self.cli_args.use_gpu and torch.cuda.is_available()
@@ -78,7 +78,7 @@ class Unet3DApp:
             state = {'model': model.state_dict(), 'epoch': 0, 'args': self.cli_args}
             # exp_folder = f"{self.cli_args.exp_name}"
             # exp_folder = time.strftime("%Y%m%d_%H%M%S")
-            save_model_path = os.path.join("states", self.timestamp, "models")
+            save_model_path = os.path.join("states", f"{self.cli_args.round:02}", self.job_name, "models")
             os.makedirs(save_model_path, exist_ok=True)
             init_model_path = os.path.join(save_model_path, f"R{0:02}E{0:03}.pth")
             torch.save(state, init_model_path)
@@ -283,7 +283,7 @@ class Unet3DApp:
         batch_time = AverageMeter('Time', ':6.3f')
         case_metrics_meter = CaseSegMetricsMeter(seg_names)
 
-        save_val_path = os.path.join("states", self.timestamp, f"E{curr_epoch:02}")
+        save_val_path = os.path.join("states", f"{self.cli_args.round:02}", self.job_name, f"E{curr_epoch:02}")
         os.makedirs(save_val_path, exist_ok=True)
         # folder_lv3 = f"{mode}_epoch_{epoch:03d}"
         # save_epoch_path = os.path.join("states", folder_dir1, folder_dir2, folder_dir3)
@@ -462,6 +462,6 @@ class Unet3DApp:
             'D': (Pre_DSCL - Post_DSCL),
             'time': time.time() - time_in_total,
         }
-        save_model_path = os.path.join("states", self.timestamp, "models")
+        save_model_path = os.path.join("states", f"{self.cli_args.round:02}", self.job_name, "models")
         os.makedirs(save_model_path, exist_ok=True)
         torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.round:02}E{epoch:03}_last.pth"))
