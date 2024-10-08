@@ -14,12 +14,14 @@ import torch
 from torch import Tensor
 from torch import nn
 
-def load_subjects_list(round: int, split_path: str, inst_ids: list, TrainOrVal: list, mode='train'):
+def load_subjects_list(round: int, split_path: str, inst_ids: list, TrainOrVal: list, partition_by_round=False, mode='train'):
     df = pd.read_csv(split_path)
-    Partition_rule = 'Partition_ID' if round == -1 else f"R{round}"
+    Partition_rule = f"R{round}" if partition_by_round else 'Partition_ID'
+    if partition_by_round:
+        assert f"R{round}" in df.columns.to_list(), f"{split_path} does not have R{round} column"
     if mode == 'train': # set(mode) == set(['train', 'val']):
         unique_inst_ids = [int(el) for el in set(df[df['TrainOrVal'].isin(TrainOrVal)][Partition_rule])]
-        unique_inst_ids = unique_inst_ids if inst_ids == [-1] else [el for el in unique_inst_ids if el in inst_ids]
+        unique_inst_ids = unique_inst_ids if len(inst_ids)==0 else [el for el in unique_inst_ids if el in inst_ids]
         filtered_df = df[df[Partition_rule].isin(unique_inst_ids)]
         train_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['train'])]['Subject_ID'])
         val_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['val'])]['Subject_ID'])
@@ -34,7 +36,7 @@ def load_subjects_list(round: int, split_path: str, inst_ids: list, TrainOrVal: 
     elif mode == 'test': # in mode:
         # assert inst_ids == [0], 'test must have 0 inst_id'
         unique_inst_ids = [int(el) for el in set(df[df['TrainOrVal'].isin(TrainOrVal)][Partition_rule])]
-        unique_inst_ids = unique_inst_ids if inst_ids == [-1] else [el for el in unique_inst_ids if el in inst_ids]
+        unique_inst_ids = unique_inst_ids if len(inst_ids)==0 else [el for el in unique_inst_ids if el in inst_ids]
         # assert unique_inst_ids == [0], 'test must have 0 Partition_ID'
         filtered_df = df[df[Partition_rule].isin(unique_inst_ids)]
         test_list = list(filtered_df[filtered_df['TrainOrVal'].isin(TrainOrVal)]['Subject_ID'])

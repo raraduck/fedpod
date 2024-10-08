@@ -169,7 +169,7 @@ class Unet3DApp:
 
             self.logger.info(f"[TEST] Processing with model...")
             model, _ = self.initModel(self.cli_args.weight_path, mode='TEST')
-            model = self.setup_gpu(model)
+            model = self.setup_gpu(model, mode='TEST')
             # optimizer = get_optimizer(self.cli_args, model)
             loss_fn = SoftDiceBCEWithLogitsLoss(channel_weights=None).to(self.device)
             # scaler = GradScaler() if self.cli_args.amp else None
@@ -268,9 +268,9 @@ class Unet3DApp:
             # file_name2 = os.path.join(output_dir, f'label_{i}_{name[0]}.jpg')
             # pil_label.save(file_name2)
         return {
-            'bce_loss': bce_meter.avg,
-            'dsc_loss': dsc_meter.avg,
-            'total_loss': loss_meter.avg,
+            'BCEL_AVG': bce_meter.avg,
+            'DSCL_AVG': dsc_meter.avg,
+            'TOTAL_AVG': loss_meter.avg,
             # 'lr': optimizer.state_dict()['param_groups'][0]['lr'],
         }
 
@@ -361,20 +361,29 @@ class Unet3DApp:
                     label_map = self.cli_args.label_index
                     save_seg_nifti(seg_map_th, name, mode[:4], 'pred',
                                 affine, label_map, save_val_path)
-        return case_metrics_meter.mean()
+        return {
+            'DSCL_AVG': np.mean([v for k, v in case_metrics_meter.mean().items() if 'DSCL' in k]),
+            'DICE_AVG': np.mean([v for k, v in case_metrics_meter.mean().items() if 'DICE' in k]),
+            'HD95_AVG': np.mean([v for k, v in case_metrics_meter.mean().items() if 'HD95' in k]),
+            **case_metrics_meter.mean(),
+        }
 
     def run_infer(self):
         test_dict = load_subjects_list(
-            self.cli_args.round, self.cli_args.cases_split, self.cli_args.inst_ids, 
-            TrainOrVal=['test'], mode='test'
+            self.cli_args.round, 
+            self.cli_args.cases_split, 
+            self.cli_args.inst_ids, 
+            TrainOrVal=['test'], 
+            partition_by_round=(self.cli_args.rounds > 0),
+            mode='test'
         )
         
         _, self.cli_args.weight_path = self.initModel(self.cli_args.weight_path)
 
         test_setup = self.initializer(test_dict, mode='test')
 
-        # Pre-Validation
-        self.infer(
+        # Test-Validation
+        test_metrics = self.infer(
             self.cli_args.round, 
             test_setup['model'], 
             test_setup['test_loader'], 
@@ -384,9 +393,14 @@ class Unet3DApp:
 
 
     def run_train(self):
+        time_in_total = time.time()
         train_val_dict = load_subjects_list(
-            self.cli_args.round, self.cli_args.cases_split, self.cli_args.inst_ids, 
-            TrainOrVal=['train','val'], mode='train'
+            self.cli_args.round, 
+            self.cli_args.cases_split, 
+            self.cli_args.inst_ids, 
+            TrainOrVal=['train','val'], 
+            partition_by_round=(self.cli_args.rounds > 0),
+            mode='train'
         )
         
         _, self.cli_args.weight_path = self.initModel(self.cli_args.weight_path, mode='INIT')
@@ -430,12 +444,19 @@ class Unet3DApp:
             train_setup['model'] = train_setup['model'].module  # Extract original model from DataParallel wrapper
         train_setup['model'] = train_setup['model'].to('cpu')  # Move model back to CPU
 
+        Pre_DSCL = pre_metrics['DSCL_AVG']
+        Post_DSCL = post_metrics['DSCL_AVG']
+        Post_DSCL = np.min([Pre_DSCL, Post_DSCL])
         state = {
             'model': train_setup['model'].state_dict(), 
             'args': self.cli_args,
             'train_tb_dict': train_tb_dict,
             'pre_metrics': pre_metrics,
-            'post_metrics': post_metrics
+            'post_metrics': post_metrics,
+            'P': train_setup['train_loader'].dataset.__len__(),
+            'I': (Pre_DSCL + Post_DSCL)/2,
+            'D': (Pre_DSCL - Post_DSCL),
+            'time': time.time() - time_in_total,
         }
         save_model_path = os.path.join("states", self.timestamp, "models")
         os.makedirs(save_model_path, exist_ok=True)

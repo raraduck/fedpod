@@ -34,7 +34,8 @@ def parse_1d_int_list(string):
         # 외부 대괄호 제거
         inner_string = string[1:-1].strip()
         if not inner_string:
-            raise ValueError("Inner content cannot be empty.")
+            # raise ValueError("Inner content cannot be empty.")
+            return []
         # 내부 리스트 파싱
         return [int(el) for el in inner_string.split(',')]
     except Exception as e:
