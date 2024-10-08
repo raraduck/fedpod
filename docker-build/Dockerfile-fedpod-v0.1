@@ -1,0 +1,20 @@
+FROM ubuntu:20.04
+
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    python3-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# PyTorch 설치
+RUN pip3 install SimpleITK==2.2.1 jupyterlab medpy matplotlib natsort nibabel numpy pandas pillow tensorboard torch tqdm torchsummary monai
+
+# 작업 디렉토리 설정
+WORKDIR /fedpod
+
+# 애플리케이션 코드 추가
+COPY ./scripts /fedpod/scripts
+COPY ./run_train.sh /fedpod
+
+# 애플리케이션 실행
+CMD ["python3", "--version"]

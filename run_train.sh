@@ -1,4 +1,4 @@
-python scripts/run_train.py \
+python3 scripts/run_train.py \
 	--rounds 0 \
 	--round 0 \
 	--epochs 2 \
@@ -9,7 +9,7 @@ python scripts/run_train.py \
 	--data_root cc359ppmi128 \
 	--inst_root inst_0* \
 	\
-	--cases_split cc359ppmi/CC359PPMI_v1.csv \
+	--cases_split cc359ppmi128/CC359PPMI_v1.csv \
 	--inst_ids [1] \
 	--batch_size 1 \
 	\
