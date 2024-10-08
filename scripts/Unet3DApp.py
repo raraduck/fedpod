@@ -83,6 +83,7 @@ class Unet3DApp:
             init_model_path = os.path.join(save_model_path, f"R{0:02}E{0:03}.pth")
             torch.save(state, init_model_path)
             self.logger.info(f"[{mode}] ==> Initialize random model at {init_model_path}...")
+            self.logger.warning(f"[{mode}] ==> Created random model at round {self.cli_args.round} not at round 0...")
         else:
             assert weight_path.endswith(".pth")
             model_state = torch.load(weight_path, map_location='cpu')['model']
