@@ -370,6 +370,7 @@ class Unet3DApp:
 
     def run_infer(self):
         test_dict = load_subjects_list(
+            self.cli_args.rounds, 
             self.cli_args.round, 
             self.cli_args.cases_split, 
             self.cli_args.inst_ids, 
@@ -395,6 +396,7 @@ class Unet3DApp:
     def run_train(self):
         time_in_total = time.time()
         train_val_dict = load_subjects_list(
+            self.cli_args.rounds,
             self.cli_args.round, 
             self.cli_args.cases_split, 
             self.cli_args.inst_ids, 

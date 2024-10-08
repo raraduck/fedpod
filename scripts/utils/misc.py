@@ -14,11 +14,12 @@ import torch
 from torch import Tensor
 from torch import nn
 
-def load_subjects_list(round: int, split_path: str, inst_ids: list, TrainOrVal: list, partition_by_round=False, mode='train'):
+def load_subjects_list(rounds: int, round: int, split_path: str, inst_ids: list, TrainOrVal: list, partition_by_round=False, mode='train'):
     df = pd.read_csv(split_path)
     Partition_rule = f"R{round}" if partition_by_round else 'Partition_ID'
     if partition_by_round:
-        assert f"R{round}" in df.columns.to_list(), f"{split_path} does not have R{round} column"
+        assert df.columns.to_list().__len__() >= rounds, f"{split_path} has not enough columns of {df.columns.to_list()} to run {rounds} rounds."
+        assert f"R{round}" in df.columns.to_list(), f"{split_path} does not have R{round} column."
     if mode == 'train': # set(mode) == set(['train', 'val']):
         unique_inst_ids = [int(el) for el in set(df[df['TrainOrVal'].isin(TrainOrVal)][Partition_rule])]
         unique_inst_ids = unique_inst_ids if len(inst_ids)==0 else [el for el in unique_inst_ids if el in inst_ids]
