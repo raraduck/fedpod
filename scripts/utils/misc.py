@@ -150,7 +150,7 @@ def setup_logger(log_dir, log_file):
 
     streamHandler = logging.StreamHandler()
     streamHandler.setFormatter(formatter)
-    streamHandler.setLevel(logging.INFO)
+    streamHandler.setLevel(logging.DEBUG)
     root_logger.addHandler(streamHandler)
 
     # 파일 핸들러 설정 (선택적)
@@ -162,7 +162,7 @@ def setup_logger(log_dir, log_file):
     file_handler.setFormatter(file_format)
     root_logger.addHandler(file_handler)
 
-    root_logger.setLevel(logging.INFO)  # 전체 로거의 기본 레벨 설정
+    root_logger.setLevel(logging.DEBUG)  # 전체 로거의 기본 레벨 설정
     return root_logger  # 로거 인스턴스를 반환합니다.
 
 
