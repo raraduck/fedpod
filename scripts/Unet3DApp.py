@@ -274,7 +274,7 @@ class Unet3DApp:
             # 'lr': optimizer.state_dict()['param_groups'][0]['lr'],
         }
 
-    def infer(self, round, model: nn.Module, 
+    def infer(self, curr_epoch, model: nn.Module, 
                 infer_loader, loss_fn, 
                 mode: str, save_pred: bool = True):
         model.eval()
@@ -282,7 +282,7 @@ class Unet3DApp:
         batch_time = AverageMeter('Time', ':6.3f')
         case_metrics_meter = CaseSegMetricsMeter(seg_names)
 
-        save_val_path = os.path.join("states", self.timestamp, f"R{round:02}")
+        save_val_path = os.path.join("states", self.timestamp, f"E{curr_epoch:02}")
         os.makedirs(save_val_path, exist_ok=True)
         # folder_lv3 = f"{mode}_epoch_{epoch:03d}"
         # save_epoch_path = os.path.join("states", folder_dir1, folder_dir2, folder_dir3)
@@ -384,7 +384,7 @@ class Unet3DApp:
 
         # Test-Validation
         test_metrics = self.infer(
-            self.cli_args.round, 
+            0, 
             test_setup['model'], 
             test_setup['test_loader'], 
             test_setup['loss_fn'], 
@@ -407,9 +407,12 @@ class Unet3DApp:
 
         train_setup = self.initializer(train_val_dict, mode='train')
 
+        from_epoch = self.cli_args.round * self.cli_args.epochs + 0
+        to_epoch = self.cli_args.round * self.cli_args.epochs + self.cli_args.epochs
+
         # Pre-Validation
         pre_metrics = self.infer(
-            self.cli_args.round, 
+            from_epoch, 
             train_setup['model'], 
             train_setup['val_loader'], 
             train_setup['loss_fn'], 
@@ -417,8 +420,6 @@ class Unet3DApp:
         )
 
         train_tb_dict = {}
-        from_epoch = self.cli_args.round * self.cli_args.epochs + 0
-        to_epoch = self.cli_args.round * self.cli_args.epochs + self.cli_args.epochs
         for epoch in range(from_epoch, to_epoch):
             train_tb_dict[epoch] = self.train(
                 self.cli_args.round, epoch, 
@@ -432,7 +433,7 @@ class Unet3DApp:
 
         # Post-Validation
         post_metrics = self.infer(
-            self.cli_args.round, 
+            to_epoch-1, 
             train_setup['model'], 
             train_setup['val_loader'], 
             train_setup['loss_fn'], 
