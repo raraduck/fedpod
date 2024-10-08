@@ -3,6 +3,8 @@ kind: Pod
 metadata:
   name: fedpod
 spec:
+spec:
+  restartPolicy: Never
   containers:
   - name: fedpod-container
     image: dwnusa/fedpod:v0.3.6  # Docker 이미지
