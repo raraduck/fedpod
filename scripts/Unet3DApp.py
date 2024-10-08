@@ -39,7 +39,7 @@ class Unet3DApp:
         # 기본 로거 설정 (기본값 사용)
         args = parse_args(sys_argv)
         self.cli_args = args
-        self.timestamp = time.strftime("%Y%m%d_%H%M%S")
+        self.timestamp = self.cli_args.job_name if self.cli_args.job_name else time.strftime("%Y%m%d_%H%M%S")
         self.device = torch.device("cpu")
         self.logger = initialization_logger(self.cli_args, self.timestamp)
         self.logger.info(f"[INIT] created logger at timestamp-{self.timestamp}...")

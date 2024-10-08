@@ -1,4 +1,5 @@
 python3 scripts/run_train.py \
+    --job_name inst_01 \
 	--rounds 0 \
 	--round 0 \
 	--epochs 2 \

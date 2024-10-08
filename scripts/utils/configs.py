@@ -7,6 +7,8 @@ from .tools import *
 def parse_args(argv):
     """args of segmentation tasks"""
     parser = argparse.ArgumentParser()
+    # meta
+    parser.add_argument('--job_name', type=str, default=None, help='create job_name folder to save results')
     # data
     parser.add_argument('--cases_split', type=str, default=None, help='file path for split csv')
     parser.add_argument('--inst_ids', type=parse_1d_int_list, default=[])
@@ -35,7 +37,6 @@ def parse_args(argv):
     parser.add_argument('--rounds', type=int, default=5)
     parser.add_argument('--round', type=int, default=0)
     parser.add_argument('--epochs', type=int, default=10)
-    # parser.add_argument('--epoch', type=int, default=10)
     parser.add_argument('--num_workers', type=int, default=0, help='number of workers to load data')
     parser.add_argument('--batch_size', type=int, default=2)
     parser.add_argument('--use_gpu', action='store_true', default=False, help='enable gpu (default: False)')
