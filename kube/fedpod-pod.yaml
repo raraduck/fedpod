@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fedpod
+spec:
+  containers:
+  - name: fedpod-container
+    image: dwnusa/fedpod:v0.3.6  # Docker 이미지
+    command: ["/bin/bash", "-c"]  # 쉘 명령으로 실행
+    args: ["./run_train.sh -j inst_01 -R 3 -r 0 -E 1 -i 1"]
+    volumeMounts:
+    - name: cc359ppmi128-volume
+      mountPath: /fedpod/cc359ppmi128
+    - name: states-volume
+      mountPath: /fedpod/states
+    stdin: true
+    tty: true
+  volumes:
+  - name: cc359ppmi128-volume
+    hostPath:
+      path: /fedpod/cc359ppmi128  # 로컬 경로
+      type: Directory
+  - name: states-volume
+    hostPath:
+      path: /fedpod/states  # 로컬 경로
+      type: Directory
