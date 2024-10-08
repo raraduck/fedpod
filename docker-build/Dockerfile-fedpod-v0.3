@@ -19,4 +19,6 @@ WORKDIR /fedpod
 COPY ./scripts /fedpod/scripts
 COPY ./run_train.sh /fedpod
 
+RUN chmod +x /fedpod/run_train.sh
+
 CMD ["python3", "--version"]
