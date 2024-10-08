@@ -1,10 +1,37 @@
 #!/bin/bash
+job_name=""
+rounds=""
+round=""
+epochs=""
+inst_id=""
+
+# 명령줄 옵션 처리
+while getopts j:R:r:E:i: option
+do
+    case "${option}"
+    in
+        j) job_name=${OPTARG};;
+        R) rounds=${OPTARG};;
+        r) round=${OPTARG};;
+        E) epochs=${OPTARG};;
+        i) inst_id=${OPTARG};;
+    esac
+done
+
+# 필수 옵션 검사
+if [ -z "$job_name" ] || [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$epochs" ] || [ -z "$inst_id" ]; then
+    echo "Error: All parameters are required."
+    echo "Usage: $0 -j <job_name> -r <rounds> -R <round> -e <epochs> -i <inst_id>"
+    exit 1
+fi
+
+echo "job: $job_name, rounds: $rounds, round: $round, epochs: $epochs, inst: $inst_id"
 
 python3 scripts/run_train.py \
-    --job_name inst_01 \
-	--rounds 0 \
-	--round 0 \
-	--epochs 2 \
+    --job_name $job_name \
+	--rounds $rounds \
+	--round $round \
+	--epochs $epochs \
 	\
 	--resize 128 \
 	--patch_size 128 \
@@ -13,7 +40,7 @@ python3 scripts/run_train.py \
 	--inst_root inst_0* \
 	\
 	--cases_split cc359ppmi128/CC359PPMI_v1.csv \
-	--inst_ids [1] \
+	--inst_ids [$inst_id] \
 	--batch_size 1 \
 	\
 	--input_channel_names [t1] \

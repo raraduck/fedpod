@@ -15,5 +15,5 @@ numpy == 1.21.6
 ```
 ### run container
 ```
-> docker run -v ./cc359ppmi128:/fedpod/cc359ppmi128 -v ./states/R00:/fedpod/states -it fedpod:v0.3
+> docker run -v ./cc359ppmi128:/fedpod/cc359ppmi128 -v ./states/R00:/fedpod/states -it fedpod:v0.3 ./run_train.sh -j inst_01 -R 1 -r 0 -E 1 -i 1
 ```
