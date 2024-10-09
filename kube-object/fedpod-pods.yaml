@@ -13,10 +13,10 @@ spec:
     args: ["./run_train.sh -g 0 -j inst_01 -R 0 -r 0 -E 2 -i 1"]
     resources:
       requests:
-        cpu: "1"
+        cpu: "4"
         memory: "32G"
       limits:
-        cpu: "2"
+        cpu: "6"
         memory: "64G"
     volumeMounts:
     - name: cc359ppmi128-volume
@@ -50,10 +50,10 @@ spec:
     args: ["./run_train.sh -g 0 -j inst_02 -R 0 -r 0 -E 2 -i 2"]
     resources:
       requests:
-        cpu: "1"
+        cpu: "4"
         memory: "32G"
       limits:
-        cpu: "2"
+        cpu: "6"
         memory: "64G"
     volumeMounts:
     - name: cc359ppmi128-volume
@@ -87,10 +87,10 @@ spec:
     args: ["./run_train.sh -g 0 -j inst_03 -R 0 -r 0 -E 2 -i 3"]
     resources:
       requests:
-        cpu: "1"
+        cpu: "4"
         memory: "32G"
       limits:
-        cpu: "2"
+        cpu: "6"
         memory: "64G"
     volumeMounts:
     - name: cc359ppmi128-volume
@@ -124,10 +124,10 @@ spec:
     args: ["./run_train.sh -g 0 -j inst_04 -R 0 -r 0 -E 2 -i 4"]
     resources:
       requests:
-        cpu: "1"
+        cpu: "4"
         memory: "32G"
       limits:
-        cpu: "2"
+        cpu: "6"
         memory: "64G"
     volumeMounts:
     - name: cc359ppmi128-volume
@@ -162,10 +162,10 @@ spec:
     resources:
       requests:
         cpu: "4"
-        memory: "64G"
+        memory: "32G"
       limits:
-        cpu: "12"
-        memory: "120G"
+        cpu: "6"
+        memory: "64G"
     volumeMounts:
     - name: cc359ppmi128-volume
       mountPath: /fedpod/cc359ppmi128
@@ -198,10 +198,10 @@ spec:
     args: ["./run_train.sh -g 0 -j inst_06 -R 0 -r 0 -E 2 -i 6"]
     resources:
       requests:
-        cpu: "1"
+        cpu: "4"
         memory: "32G"
       limits:
-        cpu: "2"
+        cpu: "6"
         memory: "64G"
     volumeMounts:
     - name: cc359ppmi128-volume
