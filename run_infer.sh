@@ -1,41 +1,45 @@
 #!/bin/bash
+save_infer=""
 use_gpu=""
 job_name=""
-# rounds=""
-# round=""
-# epochs=""
+rounds=""
+round=""
+epochs=""
 inst_id=""
-model_pth=""
+model_pth="None"
 
 # 명령줄 옵션 처리
-while getopts g:j:i:m: option
+while getopts s:g:j:r:E:i:m: option
 do
     case "${option}"
     in
+        s) save_infer=${OPTARG};;
         g) use_gpu=${OPTARG};;
         j) job_name=${OPTARG};;
-        # R) rounds=${OPTARG};;
-        # r) round=${OPTARG};;
-        # E) epochs=${OPTARG};;
+        R) rounds=${OPTARG};;
+        r) round=${OPTARG};;
+        E) epochs=${OPTARG};;
         i) inst_id=${OPTARG};;
 		m) model_pth=${OPTARG};;
     esac
 done
 
 # 필수 옵션 검사
-if [ -z "$use_gpu" ] || [ -z "$job_name" ] || [ -z "$inst_id" ] || [ -z "$model_pth" ]; then
+if [ -z "$save_infer" ] || [ -z "$use_gpu" ] || [ -z "$job_name" ] || [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$epochs" ] || [ -z "$inst_id" ]; then
     echo "Error: All parameters are required."
-    echo "Usage: $0 -g <use_gpu> -j <job_name> -r <rounds> -R <round> -e <epochs> -i <inst_id>"
+    echo "Usage: $0 -s <save_infer> -g <use_gpu> -j <job_name> -R <rounds> -r <round> -e <epochs> -i <inst_id> -m <model_pth>"
     exit 1
 fi
 
-echo "gpu: $use_gpu, job: $job_name, inst: $inst_id, model_pth: $model_pth"
+echo "save_infer: $save_infer, gpu: $use_gpu, job: $job_name, round: $round, epochs: $epochs, inst: $inst_id, model_pth: $model_pth"
 
 python3 scripts/run_infer.py \
+	--save_infer $save_infer \
+    --use_gpu $use_gpu \
     --job_name $job_name \
-	--rounds 0 \
-	--round 0 \
-	--epochs 0 \
+	--rounds $rounds \
+	--round $round \
+	--epochs $epochs \
 	\
 	--resize 128 \
 	--patch_size 128 \
@@ -46,7 +50,6 @@ python3 scripts/run_infer.py \
 	--cases_split cc359ppmi128/CC359PPMI_v1.csv \
 	--inst_ids [$inst_id] \
 	--batch_size 1 \
-    --use_gpu $use_gpu \
 	\
 	--weight_path $model_pth \
 	--input_channel_names [t1] \

@@ -8,6 +8,9 @@ def parse_args(argv):
     """args of segmentation tasks"""
     parser = argparse.ArgumentParser()
     # meta
+    # parser.add_argument('--use_gpu', action='store_true', default=False, help='enable gpu (default: False)')
+    parser.add_argument('--save_infer', type=int, choices=[0, 1], default=1, help='whether save individual prediction')
+    parser.add_argument('--use_gpu', type=int, choices=[0, 1], default=0, help='Enable GPU (0 = No, 1 = Yes, default: 0)')
     parser.add_argument('--job_name', type=str, default=None, help='create job_name folder to save results')
     # data
     parser.add_argument('--cases_split', type=str, default=None, help='file path for split csv')
@@ -22,8 +25,8 @@ def parse_args(argv):
     parser.add_argument('--inst_root', type=str, default='inst_01/', help='root dir of inst')
     
     # data augmentation
-    parser.add_argument('--zoom', action='store_true', default=False, help='enable zoom to crop (default: False)')
-    parser.add_argument('--flip_lr', action='store_true', default=False, help='enable flip to left and right (default: False)')
+    parser.add_argument('--zoom', type=int, choices=[0, 1], default=0, help='enable zoom to crop (default: False)')
+    parser.add_argument('--flip_lr', type=int, choices=[0, 1], default=0, help='enable flip to left and right (default: False)')
     parser.add_argument('--resize', type=int, default=256, help='resize')
     parser.add_argument('--patch_size', type=int, default=256, help='patch size')
     parser.add_argument('--pos_ratio', type=float, default=1.0,
@@ -39,14 +42,12 @@ def parse_args(argv):
     parser.add_argument('--epochs', type=int, default=10)
     parser.add_argument('--num_workers', type=int, default=0, help='number of workers to load data')
     parser.add_argument('--batch_size', type=int, default=2)
-    # parser.add_argument('--use_gpu', action='store_true', default=False, help='enable gpu (default: False)')
-    parser.add_argument('--use_gpu', type=int, choices=[0, 1], default=0, help='Enable GPU (0 = No, 1 = Yes, default: 0)')
     parser.add_argument('--optim', type=str, default='adam', help='optimizer',
         choices=['adam', 'adamw', 'sgd'])
     parser.add_argument('--lr', type=float, default=1e-3, help='learning rate')
-    parser.add_argument('--clip_grad', action='store_true', help='whether to clip gradient')
+    parser.add_argument('--clip_grad', type=int, choices=[0, 1], default=0, help='whether to clip gradient')
     parser.add_argument('--weight_decay', '--wd', default=1e-4, type=float, help='weight decay')
-    parser.add_argument('--amp', action='store_true', help='using mixed precision')
+    parser.add_argument('--amp', type=int, choices=[0, 1], default=0, help='using mixed precision')
 
     # infer
     parser.add_argument('--patch_overlap', type=float, default=0.5,
@@ -62,8 +63,7 @@ def parse_args(argv):
         choices=['unet3d', 'unet'], help='Architecuture of the U-Net')
     parser.add_argument('--channels_list', type=parse_1d_int_list, default=[64, 128, 256],
         help="#channels of every levels of decoder in a top-down order")
-    parser.add_argument('--deep_supervision', action='store_true',
-        help='whether use deep supervision')
+    parser.add_argument('--deep_supervision', type=int, choices=[0, 1], default=0, help='whether use deep supervision')
     parser.add_argument('--block', type=str, default='plain', choices=['plain', 'res'],
         help='Type of convolution block')
     parser.add_argument('--ds_layer', type=int, default=4,

@@ -267,7 +267,7 @@ class Unet3DApp:
 
     def infer(self, curr_epoch, model: nn.Module, 
                 infer_loader, loss_fn, 
-                mode: str, save_pred: bool = True):
+                mode: str, save_infer: bool = True):
         model.eval()
         seg_names = self.cli_args.label_names
         batch_time = AverageMeter('Time', ':6.3f')
@@ -334,8 +334,8 @@ class Unet3DApp:
                     self.logger.info(" ".join(bat_list))
 
                 # output seg map
-                if save_pred: # and (round == 0):
-                    if (curr_epoch == 0) and (mode in ['pre', 'test']):
+                if save_infer: # and (round == 0):
+                    if (curr_epoch == 0) and (mode in ['pre', 'val', 'test']):
                         modality = self.cli_args.input_channel_names
                         scale = 255
                         save_img_nifti(image, scale, name, mode[:4], 'img',
@@ -385,7 +385,8 @@ class Unet3DApp:
             train_setup['model'], 
             train_setup['val_loader'], 
             train_setup['loss_fn'], 
-            mode='pre'
+            mode='pre',
+            save_infer=self.cli_args.save_infer
         )
 
         train_tb_dict = {}
@@ -406,7 +407,8 @@ class Unet3DApp:
             train_setup['model'], 
             train_setup['val_loader'], 
             train_setup['loss_fn'], 
-            mode='post'
+            mode='post',
+            save_infer=self.cli_args.save_infer
         )
 
         # 학습, 평가 및 테스트 후 모델을 CPU로 이동
@@ -460,7 +462,8 @@ class Unet3DApp:
             infer_setup['model'], 
             infer_setup['infer_loader'], 
             infer_setup['loss_fn'], 
-            mode=infer_mode
+            mode=infer_mode,
+            save_infer=self.cli_args.save_infer
         )
 
         state = {
