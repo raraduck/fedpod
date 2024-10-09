@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fedcuda
+spec:
+  nodeName: node02
+  containers:
+  - name: os-ubuntu
+    image: dwnusa/fedpod:v0.4.0-cuda
+    imagePullPolicy: IfNotPresent
+    command:
+    - "/bin/sleep"
+    - "3650d"
+    resources:
+      limits:
+        cpu: "2"
+        memory: "8G"
+        nvidia.com/gpu: "1"
