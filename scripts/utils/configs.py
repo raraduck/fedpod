@@ -39,7 +39,8 @@ def parse_args(argv):
     parser.add_argument('--epochs', type=int, default=10)
     parser.add_argument('--num_workers', type=int, default=0, help='number of workers to load data')
     parser.add_argument('--batch_size', type=int, default=2)
-    parser.add_argument('--use_gpu', action='store_true', default=False, help='enable gpu (default: False)')
+    # parser.add_argument('--use_gpu', action='store_true', default=False, help='enable gpu (default: False)')
+    parser.add_argument('--use_gpu', type=int, choices=[0, 1], default=0, help='Enable GPU (0 = No, 1 = Yes, default: 0)')
     parser.add_argument('--optim', type=str, default='adam', help='optimizer',
         choices=['adam', 'adamw', 'sgd'])
     parser.add_argument('--lr', type=float, default=1e-3, help='learning rate')
