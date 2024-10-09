@@ -9,7 +9,7 @@ inst_id=""
 model_pth="None"
 
 # 명령줄 옵션 처리
-while getopts s:g:j:r:E:i:m: option
+while getopts s:g:j:R:r:E:i:m: option
 do
     case "${option}"
     in
@@ -27,7 +27,7 @@ done
 # 필수 옵션 검사
 if [ -z "$save_infer" ] || [ -z "$use_gpu" ] || [ -z "$job_name" ] || [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$epochs" ] || [ -z "$inst_id" ]; then
     echo "Error: All parameters are required."
-    echo "Usage: $0 -s <save_infer> -g <use_gpu> -j <job_name> -R <rounds> -r <round> -e <epochs> -i <inst_id> -m <model_pth>"
+    echo "Usage: $0 -s <save_infer> -g <use_gpu> -j <job_name> -R <rounds> -r <round> -E <epochs> -i <inst_id> -m <model_pth>"
     exit 1
 fi
 
