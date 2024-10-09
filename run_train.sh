@@ -23,11 +23,11 @@ done
 # 필수 옵션 검사
 if [ -z "$use_gpu" ] || [ -z "$job_name" ] || [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$epochs" ] || [ -z "$inst_id" ]; then
     echo "Error: All parameters are required."
-    echo "Usage: $0 -j <job_name> -r <rounds> -R <round> -e <epochs> -i <inst_id> -g <use_gpu>"
+    echo "Usage: $0 -g <use_gpu> -j <job_name> -r <rounds> -R <round> -e <epochs> -i <inst_id>"
     exit 1
 fi
 
-echo "job: $job_name, rounds: $rounds, round: $round, epochs: $epochs, inst: $inst_id"
+echo "gpu: $use_gpu, job: $job_name, rounds: $rounds, round: $round, epochs: $epochs, inst: $inst_id"
 
 python3 scripts/run_train.py \
     --job_name $job_name \
