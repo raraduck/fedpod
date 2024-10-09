@@ -44,7 +44,7 @@ python3 scripts/run_train.py \
 	--cases_split cc359ppmi128/CC359PPMI_v1.csv \
 	--inst_ids [$inst_id] \
 	--batch_size 1 \
-    --use_gpu $gpu \
+    --use_gpu $use_gpu \
 	\
 	--input_channel_names [t1] \
 	--label_groups [[26,26],[58,58],[11,11],[50,50],[12,12],[51,51]] \
