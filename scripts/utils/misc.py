@@ -36,18 +36,18 @@ def load_subjects_list(rounds: int, round: int, split_path: str, inst_ids: list,
             'val': val_list,
         }
         return train_val_dict
-    elif mode == 'test': # in mode:
+    elif mode in ['val', 'test']: # in mode:
         # assert inst_ids == [0], 'test must have 0 inst_id'
         unique_inst_ids = [int(el) for el in set(df[df['TrainOrVal'].isin(TrainOrVal)][Partition_rule])]
         unique_inst_ids = unique_inst_ids if len(inst_ids)==0 else [el for el in unique_inst_ids if el in inst_ids]
         # assert unique_inst_ids == [0], 'test must have 0 Partition_ID'
         filtered_df = df[df[Partition_rule].isin(unique_inst_ids)]
-        test_list = list(filtered_df[filtered_df['TrainOrVal'].isin(TrainOrVal)]['Subject_ID'])
-        test_dict = {
+        infer_list = list(filtered_df[filtered_df['TrainOrVal'].isin(TrainOrVal)]['Subject_ID'])
+        infer_dict = {
             'inst_ids': unique_inst_ids,
-            'test': test_list,
+            'infer': infer_list,
         }
-        return test_dict
+        return infer_dict
     else:
         raise NotImplementedError(f"[MODE:{mode}] is not implemented on load_inst_cases()")
 
