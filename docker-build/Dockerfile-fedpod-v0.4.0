@@ -18,7 +18,9 @@ COPY --from=builder /usr/lib /usr/lib
 WORKDIR /fedpod
 COPY ./scripts /fedpod/scripts
 COPY ./run_train.sh /fedpod
+COPY ./run_infer.sh /fedpod
 
 RUN chmod +x /fedpod/run_train.sh
+RUN chmod +x /fedpod/run_infer.sh
 
 CMD ["python3", "--version"]
