@@ -8,7 +8,7 @@ inst_id=""
 model_pth=""
 
 # 명령줄 옵션 처리
-while getopts g:j:R:r:E:i: option
+while getopts g:j:i:m: option
 do
     case "${option}"
     in
