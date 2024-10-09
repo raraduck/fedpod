@@ -7,9 +7,9 @@ spec:
   restartPolicy: Never
   containers:
   - name: fedpod-container
-    image: dwnusa/fedpod:v0.3.6  # Docker 이미지
+    image: dwnusa/fedpod:v0.3.7  # Docker 이미지
     command: ["/bin/bash", "-c"]  # 쉘 명령으로 실행
-    args: ["./run_train.sh -j inst_01 -R 3 -r 0 -E 1 -i 1"]
+    args: ["./run_train.sh -j inst_all -R 0 -r 0 -E 20 -i 1,2,3,4,5,6"]
     volumeMounts:
     - name: cc359ppmi128-volume
       mountPath: /fedpod/cc359ppmi128
