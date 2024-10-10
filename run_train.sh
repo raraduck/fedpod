@@ -6,7 +6,7 @@ rounds=""
 round=""
 epochs=""
 inst_id=""
-model_pth=""
+model_pth="None"
 
 # 명령줄 옵션 처리
 while getopts s:g:j:R:r:E:i:m: option
