@@ -21,7 +21,7 @@ do
 done
 
 # 필수 옵션 검사
-if [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$method" ] || [ -z "$job_name" ] || [ -z "$inst_id" ]; then
+if [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$algorithm" ] || [ -z "$job_name" ] || [ -z "$inst_id" ]; then
     echo "Error: All parameters are required."
     echo "Usage: $0 -R <rounds> -r <round> -a <algorithm> -j <job_name> -i <inst_id> -m <model_pth>"
     exit 1
