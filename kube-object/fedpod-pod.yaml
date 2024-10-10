@@ -1,207 +1,23 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: fedpod-01
+  name: fedpod01
 spec:
   # nodeName: node02
   restartPolicy: Never
   containers:
   - name: fedpod-container
-    image: dwnusa/fedpod:v0.3.9  # Docker 이미지
+    image: dwnusa/fedpod:v0.4.5  # Docker 이미지
     imagePullPolicy: IfNotPresent
     command: ["/bin/bash", "-c"]  # 쉘 명령으로 실행
-    args: ["./run_train.sh -g 0 -j inst_01 -R 0 -r 0 -E 2 -i 1"]
-    resources:
-      requests:
-        cpu: "1"
-        memory: "32G"
-      limits:
-        cpu: "2"
-        memory: "64G"
-    volumeMounts:
-    - name: cc359ppmi128-volume
-      mountPath: /fedpod/cc359ppmi128
-    - name: states-volume
-      mountPath: /fedpod/states
-    stdin: true
-    tty: true
-  volumes:
-  - name: cc359ppmi128-volume
-    hostPath:
-      path: /fedpod/cc359ppmi128  # 로컬 경로
-      type: Directory
-  - name: states-volume
-    hostPath:
-      path: /fedpod/states  # 로컬 경로
-      type: Directory
----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: fedpod-02
-spec:
-  # nodeName: node03
-  restartPolicy: Never
-  containers:
-  - name: fedpod-container
-    image: dwnusa/fedpod:v0.3.9  # Docker 이미지
-    imagePullPolicy: IfNotPresent
-    command: ["/bin/bash", "-c"]  # 쉘 명령으로 실행
-    args: ["./run_train.sh -g 0 -j inst_02 -R 0 -r 0 -E 2 -i 2"]
-    resources:
-      requests:
-        cpu: "1"
-        memory: "32G"
-      limits:
-        cpu: "2"
-        memory: "64G"
-    volumeMounts:
-    - name: cc359ppmi128-volume
-      mountPath: /fedpod/cc359ppmi128
-    - name: states-volume
-      mountPath: /fedpod/states
-    stdin: true
-    tty: true
-  volumes:
-  - name: cc359ppmi128-volume
-    hostPath:
-      path: /fedpod/cc359ppmi128  # 로컬 경로
-      type: Directory
-  - name: states-volume
-    hostPath:
-      path: /fedpod/states  # 로컬 경로
-      type: Directory
----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: fedpod-03
-spec:
-  # nodeName: node03
-  restartPolicy: Never
-  containers:
-  - name: fedpod-container
-    image: dwnusa/fedpod:v0.3.9  # Docker 이미지
-    imagePullPolicy: IfNotPresent
-    command: ["/bin/bash", "-c"]  # 쉘 명령으로 실행
-    args: ["./run_train.sh -g 0 -j inst_03 -R 0 -r 0 -E 2 -i 3"]
-    resources:
-      requests:
-        cpu: "1"
-        memory: "32G"
-      limits:
-        cpu: "2"
-        memory: "64G"
-    volumeMounts:
-    - name: cc359ppmi128-volume
-      mountPath: /fedpod/cc359ppmi128
-    - name: states-volume
-      mountPath: /fedpod/states
-    stdin: true
-    tty: true
-  volumes:
-  - name: cc359ppmi128-volume
-    hostPath:
-      path: /fedpod/cc359ppmi128  # 로컬 경로
-      type: Directory
-  - name: states-volume
-    hostPath:
-      path: /fedpod/states  # 로컬 경로
-      type: Directory
----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: fedpod-04
-spec:
-  # nodeName: node04
-  restartPolicy: Never
-  containers:
-  - name: fedpod-container
-    image: dwnusa/fedpod:v0.3.9  # Docker 이미지
-    imagePullPolicy: IfNotPresent
-    command: ["/bin/bash", "-c"]  # 쉘 명령으로 실행
-    args: ["./run_train.sh -g 0 -j inst_04 -R 0 -r 0 -E 2 -i 4"]
-    resources:
-      requests:
-        cpu: "1"
-        memory: "32G"
-      limits:
-        cpu: "2"
-        memory: "64G"
-    volumeMounts:
-    - name: cc359ppmi128-volume
-      mountPath: /fedpod/cc359ppmi128
-    - name: states-volume
-      mountPath: /fedpod/states
-    stdin: true
-    tty: true
-  volumes:
-  - name: cc359ppmi128-volume
-    hostPath:
-      path: /fedpod/cc359ppmi128  # 로컬 경로
-      type: Directory
-  - name: states-volume
-    hostPath:
-      path: /fedpod/states  # 로컬 경로
-      type: Directory
----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: fedpod-05
-spec:
-  # nodeName: node01
-  restartPolicy: Never
-  containers:
-  - name: fedpod-container
-    image: dwnusa/fedpod:v0.3.9  # Docker 이미지
-    imagePullPolicy: IfNotPresent
-    command: ["/bin/bash", "-c"]  # 쉘 명령으로 실행
-    args: ["./run_train.sh -g 0 -j inst_05 -R 0 -r 0 -E 2 -i 5"]
+    # args: ["./run_train.sh -s 1 -g 0 -j inst1 -R 5 -r 4 -E 2 -i 1 -m states/R00r00/inst_01/models/R00E000.pth"]
+    args: ["./run_train.sh -s 1 -g 0 -j inst1 -R 5 -r 4 -E 2 -i 1"]
     resources:
       requests:
         cpu: "4"
-        memory: "64G"
-      limits:
-        cpu: "12"
-        memory: "120G"
-    volumeMounts:
-    - name: cc359ppmi128-volume
-      mountPath: /fedpod/cc359ppmi128
-    - name: states-volume
-      mountPath: /fedpod/states
-    stdin: true
-    tty: true
-  volumes:
-  - name: cc359ppmi128-volume
-    hostPath:
-      path: /fedpod/cc359ppmi128  # 로컬 경로
-      type: Directory
-  - name: states-volume
-    hostPath:
-      path: /fedpod/states  # 로컬 경로
-      type: Directory
----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: fedpod-06
-spec:
-  # nodeName: node04
-  restartPolicy: Never
-  containers:
-  - name: fedpod-container
-    image: dwnusa/fedpod:v0.3.9  # Docker 이미지
-    imagePullPolicy: IfNotPresent
-    command: ["/bin/bash", "-c"]  # 쉘 명령으로 실행
-    args: ["./run_train.sh -g 0 -j inst_06 -R 0 -r 0 -E 2 -i 6"]
-    resources:
-      requests:
-        cpu: "1"
         memory: "32G"
       limits:
-        cpu: "2"
+        cpu: "6"
         memory: "64G"
     volumeMounts:
     - name: cc359ppmi128-volume

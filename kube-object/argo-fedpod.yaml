@@ -1,0 +1,91 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: parallel-jobs-
+spec:
+  entrypoint: parallel-steps
+  templates:
+
+  # 메인 엔트리포인트: withItems를 사용하여 병렬 작업을 실행
+  - name: parallel-steps
+    steps:
+    # 첫 번째 스텝: withItems를 사용하여 여러 개의 작업을 병렬로 실행
+    - - name: run-parallel-jobs
+        template: simple-job
+        arguments:
+          parameters:
+          - name: job-id
+            value: "{{item.job}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: round
+            value: "0"
+        withItems:
+        - { job: "Job1", inst: "1" }
+        - { job: "Job2", inst: "2" }
+        - { job: "Job3", inst: "3" }
+        - { job: "Job4", inst: "4" }
+        - { job: "Job5", inst: "5" }
+        - { job: "Job6", inst: "6" }
+    
+    # 두 번째 스텝: 첫 번째 스텝이 완료된 후 실행되는 병렬 작업
+    - - name: run-more-parallel-jobs
+        template: simple-job
+        arguments:
+          parameters:
+          - name: job-id
+            value: "{{item.job}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: round
+            value: "1"
+        withItems:
+        - { job: "Job1", inst: "1" }
+        - { job: "Job2", inst: "2" }
+        - { job: "Job3", inst: "3" }
+        - { job: "Job4", inst: "4" }
+        - { job: "Job5", inst: "5" }
+        - { job: "Job6", inst: "6" }
+
+  # 실제로 병렬로 실행될 간단한 작업 정의
+  - name: simple-job
+    inputs:
+      parameters:
+      - name: job-id
+      - name: inst-id
+      - name: round
+#    container:
+#      image: alpine:latest
+#      command: ["/bin/sh", "-c"]
+#      args:
+#        - |
+#          echo "Running {{inputs.parameters.job-id}} with sleep {{inputs.parameters.sleep-duration}} seconds";
+#          sleep {{inputs.parameters.sleep-duration}};
+#          echo "{{inputs.parameters.job-id}} completed after {{inputs.parameters.sleep-duration}} seconds";
+    container:
+      image: dwnusa/fedpod:v0.4.5
+      command: ["/bin/sh", "-c"]
+      args: ["./run_train.sh -s 1 -g 0 -j {{inputs.parameters.job-id}} -R 5 -r {{inputs.parameters.round}} -E 1 -i {{inputs.parameters.inst-id}}"]
+      resources:
+        requests:
+          cpu: "4"
+          memory: "32G"
+        limits:
+          cpu: "6"
+          memory: "64G"
+      volumeMounts:
+      - name: cc359ppmi128-volume
+        mountPath: /fedpod/cc359ppmi128
+      - name: states-volume
+        mountPath: /fedpod/states
+      stdin: true
+      tty: true
+    volumes:
+    - name: cc359ppmi128-volume
+      hostPath:
+        path: /fedpod/cc359ppmi128  # 로컬 경로
+        type: Directory
+    - name: states-volume
+      hostPath:
+        path: /fedpod/states  # 로컬 경로
+        type: Directory

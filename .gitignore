@@ -3,6 +3,7 @@ cc359ppmi_first
 states
 test
 logs
+temp
 
 # pycharm
 .idea
