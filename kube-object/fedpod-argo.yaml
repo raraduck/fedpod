@@ -1,0 +1,159 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: parallel-jobs-
+spec:
+  entrypoint: parallel-steps
+  templates:
+
+  # 메인 엔트리포인트: withItems를 사용하여 병렬 작업을 실행
+  - name: parallel-steps
+    steps:
+    - - name: run-aggregation-jobs-00
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: rounds
+            value: "5"
+          - name: round
+            value: "0"
+          - name: algorithm
+            value: "fedavg"
+          - name: job-id
+            value: "inst"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/cc359ppmi128/R00E000.pth"
+        withItems:
+        - { inst: "0" }
+    - - name: run-train-jobs-00
+        template: train-job
+        arguments:
+          parameters:
+          - name: job-id
+            value: "inst"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: round
+            value: "0"
+          - name: model_pth
+            value: "/fedpod/states/R05r00.pth"
+        withItems:
+        - { inst: "1" }
+        - { inst: "2" }
+        - { inst: "3" }
+        - { inst: "4" }
+        - { inst: "5" }
+        - { inst: "6" }
+    - - name: run-aggregation-jobs-01
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: rounds
+            value: "5"
+          - name: round
+            value: "1"
+          - name: algorithm
+            value: "fedavg"
+          - name: job-id
+            value: "inst"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "None"
+        withItems:
+        - { inst: "0" }
+   # 두 번째 스텝: 첫 번째 스텝이 완료된 후 실행되는 병렬 작업
+    - - name: run-train-jobs-01
+        template: train-job
+        arguments:
+          parameters:
+          - name: job-id
+            value: "inst"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: round
+            value: "1"
+          - name: model_pth
+            value: "/fedpod/states/R05r01.pth"
+        withItems:
+        - { inst: "1" }
+        - { inst: "2" }
+        - { inst: "3" }
+        - { inst: "4" }
+        - { inst: "5" }
+        - { inst: "6" }
+
+  # 실제로 병렬로 실행될 간단한 작업 정의
+  - name: train-job
+    inputs:
+      parameters:
+      - name: job-id
+      - name: inst-id
+      - name: round
+    container:
+      image: dwnusa/fedpod:v0.4.8
+      command: ["/bin/sh", "-c"]
+      args: ["./run_train.sh -s 1 -g 0 -j {{inputs.parameters.job-id}}{{inputs.parameters.inst-id}} -R 5 -r {{inputs.parameters.round}} -E 1 -i {{inputs.parameters.inst-id}}"]
+      resources:
+        requests:
+          cpu: "4"
+          memory: "32G"
+        limits:
+          cpu: "6"
+          memory: "64G"
+      volumeMounts:
+      - name: cc359ppmi128-volume
+        mountPath: /fedpod/cc359ppmi128
+      - name: states-volume
+        mountPath: /fedpod/states
+      stdin: true
+      tty: true
+    volumes:
+    - name: cc359ppmi128-volume
+      hostPath:
+        path: /fedpod/cc359ppmi128  # 로컬 경로
+        type: Directory
+    - name: states-volume
+      hostPath:
+        path: /fedpod/states  # 로컬 경로
+        type: Directory
+
+  - name: aggregation-job
+    inputs:
+      parameters:
+      - name: rounds
+      - name: round
+      - name: algorithm
+      - name: job-id
+      - name: inst-id
+      - name: model_pth
+    container:
+      image: dwnusa/fedpod:v0.4.8
+      command: ["/bin/sh", "-c"]
+      args: ["./run_aggregation.sh -R {{inputs.parameters.rounds}} -r {{inputs.parameters.round}} -a {{inputs.parameters.algorithm}} -j {{inputs.parameters.job-id}} -i {{inputs.parameters.inst-id}} -m {{inputs.parameters.model_pth}}"]
+      # args: ["./run_aggregation.sh -r 0 -R 5 -a fedavg -j inst -i 0 -m /fedpod/cc359ppmi128/R00E000.pth"]
+      resources:
+        requests:
+          cpu: "2"
+          memory: "4G"
+        limits:
+          cpu: "6"
+          memory: "8G"
+      volumeMounts:
+      - name: cc359ppmi128-volume
+        mountPath: /fedpod/cc359ppmi128
+      - name: states-volume
+        mountPath: /fedpod/states
+      stdin: true
+      tty: true
+    volumes:
+    - name: cc359ppmi128-volume
+      hostPath:
+        path: /fedpod/cc359ppmi128  # 로컬 경로
+        type: Directory
+    - name: states-volume
+      hostPath:
+        path: /fedpod/states  # 로컬 경로
+        type: Directory
