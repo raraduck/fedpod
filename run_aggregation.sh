@@ -13,10 +13,10 @@ do
     in
         R) rounds=${OPTARG};;
         r) round=${OPTARG};;
-		a) algorithm=${OPTARG};;
+        a) algorithm=${OPTARG};;
         j) job_name=${OPTARG};;
         i) inst_id=${OPTARG};;
-		m) model_pth=${OPTARG};;
+        m) model_pth=${OPTARG};;
     esac
 done
 

@@ -10,7 +10,7 @@ from Aggregator import *
 parser = argparse.ArgumentParser()
 parser.add_argument('--rounds', type=int, default=5)
 parser.add_argument('--round', type=int, default=0)
-parser.add_argument('--method', type=str, default="fedavg", 
+parser.add_argument('--algorithm', type=str, default="fedavg", 
     choices=['fedavg', 'fedpid', 'fedpod'], help='type of avg')
 parser.add_argument('--job_id', type=str, default="")
 parser.add_argument('--inst_id', type=int, default=0)
@@ -22,7 +22,7 @@ if __name__ == '__main__':
     prev_round = args.round - 1
     curr_round = args.round
     base_dir = os.path.join('/','fedpod','states')
-    if args.method == "fedavg":
+    if args.algorithm == "fedavg":
         if prev_round < 0:
             orig_file = args.cli_args.weight_path
             curr_round_dir = os.path.join(base_dir, f"R{args.rounds:02}r{curr_round:02}")
@@ -48,6 +48,6 @@ if __name__ == '__main__':
             save_model_path = os.path.join(curr_round_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
             torch.save(state, save_model_path)
     else:
-        raise NotImplementedError(f"{args.method.upper()} is not implemented on Aggregator()")
+        raise NotImplementedError(f"{args.algorithm.upper()} is not implemented on Aggregator()")
     
 
