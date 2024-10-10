@@ -15,18 +15,20 @@ spec:
         arguments:
           parameters:
           - name: job-id
-            value: "{{item.job}}"
+            value: "inst"
           - name: inst-id
             value: "{{item.inst}}"
           - name: round
             value: "0"
+          - name: model_pth
+            value: "/fedpod/cc359ppmi128/R00E000.pth"
         withItems:
-        - { job: "Job1", inst: "1" }
-        - { job: "Job2", inst: "2" }
-        - { job: "Job3", inst: "3" }
-        - { job: "Job4", inst: "4" }
-        - { job: "Job5", inst: "5" }
-        - { job: "Job6", inst: "6" }
+        - { inst: "1" }
+        - { inst: "2" }
+        - { inst: "3" }
+        - { inst: "4" }
+        - { inst: "5" }
+        - { inst: "6" }
     
     # 두 번째 스텝: 첫 번째 스텝이 완료된 후 실행되는 병렬 작업
     - - name: run-more-parallel-jobs
@@ -34,18 +36,20 @@ spec:
         arguments:
           parameters:
           - name: job-id
-            value: "{{item.job}}"
+            value: "inst"
           - name: inst-id
             value: "{{item.inst}}"
           - name: round
             value: "1"
+          - name: model_pth
+            value: "/fedpod/cc359ppmi128/R00E000.pth"
         withItems:
-        - { job: "Job1", inst: "1" }
-        - { job: "Job2", inst: "2" }
-        - { job: "Job3", inst: "3" }
-        - { job: "Job4", inst: "4" }
-        - { job: "Job5", inst: "5" }
-        - { job: "Job6", inst: "6" }
+        - { inst: "1" }
+        - { inst: "2" }
+        - { inst: "3" }
+        - { inst: "4" }
+        - { inst: "5" }
+        - { inst: "6" }
 
   # 실제로 병렬로 실행될 간단한 작업 정의
   - name: simple-job
@@ -65,7 +69,7 @@ spec:
     container:
       image: dwnusa/fedpod:v0.4.5
       command: ["/bin/sh", "-c"]
-      args: ["./run_train.sh -s 1 -g 0 -j {{inputs.parameters.job-id}} -R 5 -r {{inputs.parameters.round}} -E 1 -i {{inputs.parameters.inst-id}}"]
+      args: ["./run_train.sh -s 1 -g 0 -j {{inputs.parameters.job-id}}{{inputs.parameters.inst-id}} -R 5 -r {{inputs.parameters.round}} -E 1 -i {{inputs.parameters.inst-id}}"]
       resources:
         requests:
           cpu: "4"

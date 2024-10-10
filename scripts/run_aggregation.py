@@ -24,7 +24,8 @@ if __name__ == '__main__':
         # # pth_list = [os.path.join(base_path, job) for idx, job in enumerate(args.job_ids,1) if str(idx) in args.inst_ids]
         # # # fedavg()
         # print(pth_list)
-        pattern = os.path.join(os.getcwd(), 'states', f"R{args.rounds:02}r{args.round:02}", 'Job[1-9]', 'models', '*_last.pth')
+        base_dir = os.path.join('/','fedpod','states')
+        pattern = os.path.join(base_dir, f"R{args.rounds:02}r{args.round:02}", f"{args.job_id}*", 'models', '*_last.pth')
         trg_pth = glob.glob(pattern)
         print(pattern)
         print(trg_pth)
