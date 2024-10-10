@@ -21,7 +21,7 @@ done
 # 필수 옵션 검사
 if [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$method" ] || [ -z "$job_name" ] || [ -z "$inst_id" ]; then
     echo "Error: All parameters are required."
-    echo "Usage: $0 -s -R <rounds> -r <round> -m <method> -j <job_name> -i <inst_id>"
+    echo "Usage: $0 -R <rounds> -r <round> -m <method> -j <job_name> -i <inst_id>"
     exit 1
 fi
 
@@ -31,5 +31,5 @@ python3 scripts/run_aggregation.py \
 	--rounds $rounds \
 	--round $round \
 	--method $method \
-	--job_id $job_id \
+	--job_id $job_name \
 	--inst_id $inst_id
