@@ -24,7 +24,7 @@ if __name__ == '__main__':
     base_dir = os.path.join('/','fedpod','states')
     if args.algorithm == "fedavg":
         if prev_round < 0:
-            orig_file = args.cli_args.weight_path
+            orig_file = args.weight_path
             curr_round_dir = os.path.join(base_dir, f"R{args.rounds:02}r{curr_round:02}")
             os.makedirs(curr_round_dir, exist_ok=True)
             save_model_path = os.path.join(curr_round_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
