@@ -44,7 +44,7 @@ class Unet3DApp:
         self.job_name = self.cli_args.job_name if self.cli_args.job_name else time.strftime("%Y%m%d_%H%M%S")
         self.device = torch.device("cpu")
         self.logger = initialization_logger(self.cli_args, self.job_name)
-        self.logger.info(f"[INIT] created logger at job_name-{self.job_name}...")
+        self.logger.info(f"[{self.cli_args.job_name.upper()}][INIT] created logger at job_name-{self.job_name}...")
         self.cli_args.multi_batch_size = self.cli_args.batch_size
 
         self.use_cuda = self.cli_args.use_gpu and torch.cuda.is_available()
@@ -61,15 +61,15 @@ class Unet3DApp:
     def setup_gpu(self, model, mode):
         current_device = next(model.parameters()).device
         if current_device == self.device:
-            self.logger.info(f"[{mode}] Model is already on the correct device: {self.device}.")
+            self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode}] Model is already on the correct device: {self.device}.")
             # print(f"Model is already on the correct device: {self.device}.")
         else:
-            self.logger.info(f"[{mode}] Model is currently on {current_device}, moving to {self.device}.")
+            self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode}] Model is currently on {current_device}, moving to {self.device}.")
             # print(f"Model is currently on {current_device}, moving to {self.device}.")
             model = model.to(self.device)
             if self.use_cuda and self.selected_gpu_count > 1:
                 model = nn.DataParallel(model)
-                self.logger.info(f"[{mode}] DataParallel applied with {self.selected_gpu_count} GPUs.")
+                self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode}] DataParallel applied with {self.selected_gpu_count} GPUs.")
                 # print(f"DataParallel applied with {self.selected_gpu_count} GPUs.")
         return model
 
@@ -84,15 +84,15 @@ class Unet3DApp:
             os.makedirs(save_model_path, exist_ok=True)
             init_model_path = os.path.join(save_model_path, f"R{0:02}E{0:03}.pth")
             torch.save(state, init_model_path)
-            self.logger.info(f"[{mode}] ==> Initialize random model at {init_model_path}...")
-            self.logger.warning(f"[{mode}] ==> Created random model at round {self.cli_args.round} not at round 0...")
+            self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode}] ==> Initialize random model at {init_model_path}...")
+            self.logger.warning(f"[{self.cli_args.job_name.upper()}][{mode}] ==> Created random model at round {self.cli_args.round} not at round 0...")
         else:
             assert weight_path.endswith(".pth")
             model_state = torch.load(weight_path, map_location='cpu')['model']
             new_state_dict = {k.replace('module.', ''): v for k, v in model_state.items()}
             model.load_state_dict(new_state_dict)
             init_model_path = weight_path
-            self.logger.info(f"[{mode}] ==> Loading model from: {init_model_path}...")
+            self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode}] ==> Loading model from: {init_model_path}...")
 
         return model, init_model_path
 
@@ -138,13 +138,13 @@ class Unet3DApp:
 
     def initializer(self, subjects_dict, mode='train'):
         if mode == 'train':
-            self.logger.info(f"[TRN] Processing with train_loader and val_loader...")
+            self.logger.info(f"[{self.cli_args.job_name.upper()}][TRN] Processing with train_loader and val_loader...")
             train_cases = natsort.natsorted(subjects_dict['train'])
             train_dataset, train_loader = self.initTrainDl(train_cases)
             val_cases = natsort.natsorted(subjects_dict['val'])
             val_dataset, val_loader = self.initValDl(val_cases, 'val')
 
-            self.logger.info(f"[TRN] Processing with model...")
+            self.logger.info(f"[{self.cli_args.job_name.upper()}][TRN] Processing with model...")
             model, _ = self.initModel(self.cli_args.weight_path, mode='TRN')
             model = self.setup_gpu(model, mode='TRN')
             optimizer = get_optimizer(self.cli_args, model)
@@ -163,11 +163,11 @@ class Unet3DApp:
                 'scaler': scaler,
             }
         elif mode in ['val', 'test']:
-            self.logger.info(f"[{mode.upper()}] Processing with infer_loader...")
+            self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode.upper()}] Processing with infer_loader...")
             infer_cases = natsort.natsorted(subjects_dict['infer'])
             infer_dataset, infer_loader = self.initValDl(infer_cases, mode)
 
-            self.logger.info(f"[{mode.upper()}] Processing with model...")
+            self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode.upper()}] Processing with model...")
             model, _ = self.initModel(self.cli_args.weight_path, mode=mode.upper())
             model = self.setup_gpu(model, mode=mode.upper())
             loss_fn = SoftDiceBCEWithLogitsLoss(channel_weights=None).to(self.device)
@@ -179,7 +179,7 @@ class Unet3DApp:
                 'loss_fn': loss_fn,
             }
         else:
-            raise NotImplementedError(f"[MODE:{mode}] is not implemented on initializer()")
+            raise NotImplementedError(f"[{self.cli_args.job_name.upper()}][MODE:{mode}] is not implemented on initializer()")
     
     def train(self, round, epoch, model, train_loader, loss_fn, optimizer, scaler, mode='training'):
         model.train()
@@ -231,7 +231,7 @@ class Unet3DApp:
             batch_time.update(time.time() - end)
             # print(f"train: bloss-{bce_loss.item():.3f}, dloss-{avg_dsc_loss.item():.3f}, bdloss-{loss.item():.3f}")
             self.logger.info(" ".join([
-                f"[TRN]({((i+1)/len(train_loader)*100):3.0f}%)",
+                f"[{self.cli_args.job_name.upper()}][TRN]({((i+1)/len(train_loader)*100):3.0f}%)",
                 f"R:{round:02}",
                 f"E:{epoch:03}",
                 f"D:{i:03}/{len(train_loader):03}",
@@ -327,7 +327,7 @@ class Unet3DApp:
                 for bat_idx, (bat_dice, bat_hd95) in enumerate(zip(dice,hd95)):
                     bat_list=[]
                     bat_list+=[
-                        f"[{mode.upper()}]({((i+1)/len(infer_loader)*100):3.0f}%)",
+                        f"[{self.cli_args.job_name.upper()}][{mode.upper()}]({((i+1)/len(infer_loader)*100):3.0f}%)",
                         f"{name[bat_idx]}",
                         f"[DSC:HD95]",
                     ]
