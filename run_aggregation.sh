@@ -20,11 +20,12 @@ do
     esac
 done
 
+echo "rounds: $rounds, round: $round, algorithm: $algorithm, job: $job_name, inst: $inst_id, model_pth: $model_pth"
+
 # 필수 옵션 검사
 if [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$algorithm" ] || [ -z "$job_name" ] || [ -z "$inst_id" ]; then
     echo "Error: All parameters are required."
     echo "Usage: $0 -R <rounds> -r <round> -a <algorithm> -j <job_name> -i <inst_id> -m <model_pth>"
-    echo "rounds: $rounds, round: $round, algorithm: $algorithm, job: $job_name, inst: $inst_id, model_pth: $model_pth"
     exit 1
 fi
 
