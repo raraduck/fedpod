@@ -23,8 +23,8 @@ if __name__ == '__main__':
         inst_dir = os.path.join(round_dir, f"{args.job_id}*")
         pattern = os.path.join(inst_dir, 'models', '*_last.pth')
         pth_path = glob.glob(pattern)
-        print(pattern)
-        print(pth_path)
+        # print(pattern)
+        # print(pth_path)
         global_state_dict = fedavg(pth_path)
         state = {'model': global_state_dict}
 
