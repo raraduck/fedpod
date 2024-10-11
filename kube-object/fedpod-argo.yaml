@@ -11,7 +11,7 @@ spec:
     - name: job-prefix
       value: "inst"
     - name: split_csv
-      value: "cc359ppmi128/CC359PPMI_v1-test.csv"
+      value: "cc359ppmi128/CC359PPMI_v1.csv"
   templates:
   # 메인 엔트리포인트: withItems를 사용하여 병렬 작업을 실행
   - name: parallel-steps
