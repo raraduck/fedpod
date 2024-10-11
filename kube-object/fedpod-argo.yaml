@@ -176,6 +176,21 @@ spec:
         - { inst: "5" }
         - { inst: "6" }
 
+  # round 5 (end)
+    - - name: run-aggregation-jobs-05
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: round
+            value: "5"
+          - name: algorithm
+            value: "fedavg"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "None"
+        withItems:
+        - { inst: "0" }
 
 
 
