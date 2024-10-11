@@ -380,9 +380,11 @@ class Unet3DApp:
 
         val_epoch = self.cli_args.round * self.cli_args.epochs + 0
         
+        from_epoch = self.cli_args.epochs * (self.cli_args.round)
+        to_epoch = self.cli_args.epochs * (self.cli_args.round + 1)
         # Validation
         infer_metrics = self.infer(
-            0, 
+            from_epoch, 
             infer_setup['model'], 
             infer_setup['infer_loader'], 
             infer_setup['loss_fn'], 
@@ -413,6 +415,7 @@ class Unet3DApp:
         )
         if train_val_dict['train'].__len__() == 0:
             self.run_infer(infer_mode='val')
+            return
         
         _, self.cli_args.weight_path = self.initModel(self.cli_args.weight_path, mode='INIT')
 
