@@ -434,7 +434,7 @@ class Unet3DApp:
         }
         save_model_path = os.path.join("states", f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", self.job_name, "models")
         os.makedirs(save_model_path, exist_ok=True)
-        torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.round:02}E{epoch:03}_last.pth"))
+        torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}_last.pth"))
 
 
     def run_infer(self):
