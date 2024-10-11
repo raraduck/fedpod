@@ -23,7 +23,9 @@ def load_subjects_list(rounds: int, round: int, split_path: str, inst_ids: list,
         assert round < rounds, f"Round must be smaller than rounds."
         assert f"R{round}" in rounds_list, f"{split_path} does not have R{round} column."
     if mode == 'train': # set(mode) == set(['train', 'val']):
-        unique_inst_ids = [int(el) for el in set(df[df['TrainOrVal'].isin(TrainOrVal)][Partition_rule])]
+        filtered_series = df[df['TrainOrVal'].isin(TrainOrVal)][Partition_rule].dropna()
+        assert filtered_series.__len__() > 0, f"Not found train or val from current round {Partition_rule}, please check csv file {split_path}"
+        unique_inst_ids = [int(el) for el in set(filtered_series)]
         unique_inst_ids = unique_inst_ids if len(inst_ids)==0 else [el for el in unique_inst_ids if el in inst_ids]
         filtered_df = df[df[Partition_rule].isin(unique_inst_ids)]
         train_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['train'])]['Subject_ID'])
@@ -38,7 +40,9 @@ def load_subjects_list(rounds: int, round: int, split_path: str, inst_ids: list,
         return train_val_dict
     elif mode in ['val', 'test']: # in mode:
         # assert inst_ids == [0], 'test must have 0 inst_id'
-        unique_inst_ids = [int(el) for el in set(df[df['TrainOrVal'].isin(TrainOrVal)][Partition_rule])]
+        filtered_series = df[df['TrainOrVal'].isin(TrainOrVal)][Partition_rule].dropna()
+        assert filtered_series.__len__() > 0, f"Not found train or val from current round {Partition_rule}, please check csv file {split_path}"
+        unique_inst_ids = [int(el) for el in set(filtered_series)]
         unique_inst_ids = unique_inst_ids if len(inst_ids)==0 else [el for el in unique_inst_ids if el in inst_ids]
         # assert unique_inst_ids == [0], 'test must have 0 Partition_ID'
         filtered_df = df[df[Partition_rule].isin(unique_inst_ids)]
