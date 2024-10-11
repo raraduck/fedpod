@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "::::::::::initial aggregation requires initial_model" && \
 echo "::::::::::initial_model is just copied to under states/job-step folder" && \
-bash run_aggregation.sh \
+bash /fedpod/un_aggregation.sh \
     -R 2 \
     -r 0 \
     -a fedavg \
@@ -21,7 +21,7 @@ cp /fedpod/states/R02r00/test0/R02r00.pth /fedpod/states/R02r00/test1/models/R02
 
 cp /fedpod/states/R02r00/test0/R02r00.pth /fedpod/states/R02r00/test2/models/R02r00_last.pth && \
 
-bash run_aggregation.sh \
+bash /fedpod/run_aggregation.sh \
     -R 2 \
     -r 1 \
     -a fedavg \

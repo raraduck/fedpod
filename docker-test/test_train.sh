@@ -1,7 +1,7 @@
 #!/bin/bash
 # echo "::::::::::initial aggregation requires initial_model" && \
 # echo "::::::::::initial_model is just copied to under states/job-step folder" && \
-bash run_train.sh \
+bash /fedpod/run_train.sh \
      -s 0 \
      -g 0 \
      -j test1 \
@@ -9,7 +9,7 @@ bash run_train.sh \
      -r 0 \
      -E 1 \
      -i 1 \
-     -c cc359ppmi128/CC359PPMI_v1-test.csv \
+     -c /fedpod/cc359ppmi128/CC359PPMI_v1-test.csv \
      -m /fedpod/cc359ppmi128/R00E000.pth && \
 
 mkdir -p /fedpod/states/R02r01/test0 && \
@@ -17,7 +17,7 @@ mkdir -p /fedpod/states/R02r01/test0 && \
 cp /fedpod/states/R02r00/test1/models/R02r00_last.pth \
     /fedpod/states/R02r01/test0/R02r01.pth && \
 
-bash run_train.sh \
+bash /fedpod/run_train.sh \
      -s 0 \
      -g 0 \
      -j test1 \
@@ -25,7 +25,7 @@ bash run_train.sh \
      -r 1 \
      -E 1 \
      -i 1 \
-     -c cc359ppmi128/CC359PPMI_v1-test.csv \
+     -c /fedpod/cc359ppmi128/CC359PPMI_v1-test.csv \
      -m /fedpod/states/R02r01/test0/R02r01.pth && \
 
 rm -rf /fedpod/states/R02r00/test1 \
