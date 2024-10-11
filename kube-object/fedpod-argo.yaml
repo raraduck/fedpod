@@ -4,8 +4,15 @@ metadata:
   generateName: parallel-jobs-
 spec:
   entrypoint: parallel-steps
+  arguments:
+    parameters:
+    - name: rounds
+      value: "05"
+    - name: job-prefix
+      value: "inst"
+    - name: split_csv
+      value: "cc359ppmi128/CC359PPMI_v1.csv"
   templates:
-
   # 메인 엔트리포인트: withItems를 사용하여 병렬 작업을 실행
   - name: parallel-steps
     steps:
@@ -13,14 +20,14 @@ spec:
         template: aggregation-job
         arguments:
           parameters:
-          - name: rounds
-            value: "5"
+          # - name: rounds
+          #   value: "{{workflow.parameters.total-rounds}}"
           - name: round
             value: "0"
           - name: algorithm
             value: "fedavg"
-          - name: job-prefix
-            value: "inst"
+          # - name: job-prefix
+          #   value: "{{workflow.parameters.job-prefix}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
@@ -31,16 +38,16 @@ spec:
         template: train-job
         arguments:
           parameters:
-          - name: job-prefix
-            value: "inst"
-          - name: inst-id
-            value: "{{item.inst}}"
-          - name: rounds
-            value: "5"
+          # - name: rounds
+          #   value: "{{workflow.parameters.total-rounds}}"
           - name: round
             value: "0"
+          # - name: job-prefix
+          #   value: "{{workflow.parameters.global-job-prefix}}"
+          - name: inst-id
+            value: "{{item.inst}}"
           - name: model_pth
-            value: "/fedpod/states/R05r00/inst0/R05r00.pth"
+            value: "/fedpod/states/R{{workflow.parameters.rounds}}r00/{{workflow.parameters.job-prefix}}0/R{{workflow.parameters.rounds}}r00.pth"
         withItems:
         - { inst: "1" }
         - { inst: "2" }
@@ -52,14 +59,14 @@ spec:
         template: aggregation-job
         arguments:
           parameters:
-          - name: rounds
-            value: "5"
+          # - name: rounds
+          #   value: "{{workflow.parameters.total-rounds}}"
           - name: round
             value: "1"
           - name: algorithm
             value: "fedavg"
-          - name: job-prefix
-            value: "inst"
+          # - name: job-prefix
+          #   value: "{{workflow.parameters.global-job-prefix}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
@@ -71,16 +78,16 @@ spec:
         template: train-job
         arguments:
           parameters:
-          - name: job-prefix
-            value: "inst"
-          - name: inst-id
-            value: "{{item.inst}}"
-          - name: rounds
-            value: "5"
+          # - name: rounds
+          #   value: "{{workflow.parameters.total-rounds}}"
           - name: round
             value: "1"
+          # - name: job-prefix
+            # value: "{{workflow.parameters.global-job-prefix}}"
+          - name: inst-id
+            value: "{{item.inst}}"
           - name: model_pth
-            value: "/fedpod/states/R05r01/inst0/R05r01.pth"
+            value: "/fedpod/states/R{{workflow.parameters.rounds}}r01/{{workflow.parameters.job-prefix}}0/R{{workflow.parameters.rounds}}r01.pth"
         withItems:
         - { inst: "1" }
         - { inst: "2" }
@@ -93,15 +100,15 @@ spec:
   - name: train-job
     inputs:
       parameters:
-      - name: job-prefix
-      - name: inst-id
-      - name: rounds
+      # - name: rounds
       - name: round
+      # - name: job-prefix
+      - name: inst-id
       - name: model_pth
     container:
       image: dwnusa/fedpod:v0.4.10
       command: ["/bin/sh", "-c"]
-      args: ["./run_train.sh -s 1 -g 0 -j {{inputs.parameters.job-prefix}}{{inputs.parameters.inst-id}} -R {{inputs.parameters.rounds}} -r {{inputs.parameters.round}} -E 1 -i {{inputs.parameters.inst-id}} -m {{inputs.parameters.model_pth}}"]
+      args: ["./run_train.sh -s 1 -g 0 -j {{workflow.parameters.job-prefix}}{{inputs.parameters.inst-id}} -R {{workflow.parameters.rounds}} -r {{inputs.parameters.round}} -E 1 -i {{inputs.parameters.inst-id}} -c {{workflow.parameters.split_csv}} -m {{inputs.parameters.model_pth}}"]
       resources:
         requests:
           cpu: "4"
@@ -133,16 +140,16 @@ spec:
   - name: aggregation-job
     inputs:
       parameters:
-      - name: rounds
+      # - name: rounds
       - name: round
       - name: algorithm
-      - name: job-prefix
+      # - name: job-prefix
       - name: inst-id
       - name: model_pth
     container:
       image: dwnusa/fedpod:v0.4.10
       command: ["/bin/sh", "-c"]
-      args: ["./run_aggregation.sh -R {{inputs.parameters.rounds}} -r {{inputs.parameters.round}} -a {{inputs.parameters.algorithm}} -j {{inputs.parameters.job-prefix}} -i {{inputs.parameters.inst-id}} -m {{inputs.parameters.model_pth}}"]
+      args: ["./run_aggregation.sh -R {{workflow.parameters.rounds}} -r {{inputs.parameters.round}} -a {{inputs.parameters.algorithm}} -j {{workflow.parameters.job-prefix}} -i {{inputs.parameters.inst-id}} -c {{workflow.parameters.split_csv}} -m {{inputs.parameters.model_pth}}"]
       # args: ["./run_aggregation.sh -r 0 -R 5 -a fedavg -j inst -i 0 -m /fedpod/cc359ppmi128/R00E000.pth"]
       resources:
         requests:
