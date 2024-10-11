@@ -60,7 +60,19 @@ if __name__ == '__main__':
             # averaged_loss = lossavg()
         else:
             raise NotImplementedError(f"{args.algorithm.upper()} is not implemented on Aggregator()")
-        state = {'model': aggregated_model}
+        state = {
+            'model': aggregated_model, 
+            'pre_metrics':{
+                'DSCL_AVG':0.11,
+                'DICE_AVG':0.12,
+                'HD95_AVG':0.13
+            }, 
+            'post_metrics':{
+                'DSCL_AVG':0.21,
+                'DICE_AVG':0.22,
+                'HD95_AVG':0.23
+            }, 
+        }
         curr_round_dir = os.path.join(base_dir, f"R{args.rounds:02}r{curr_round:02}")
         center_dir = os.path.join(curr_round_dir, f"{args.job_prefix}{args.inst_id}")
         os.makedirs(center_dir, exist_ok=True)
