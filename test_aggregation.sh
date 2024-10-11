@@ -1,26 +1,25 @@
 #!/bin/bash
-echo "initial aggregation requires initial_model"
-echo "initial_model is just copied to under states/job-step folder"
+echo "initial aggregation requires initial_model" && \
+echo "initial_model is just copied to under states/job-step folder" && \
 source run_aggregation.sh \
     -R 2 \
     -r 0 \
     -a fedavg \
     -j test \
     -i 0 \
-    -m /fedpod/cc359ppmi128/R00E000.pth \
-&& \
+    -m /fedpod/cc359ppmi128/R00E000.pth && \
 
-echo "second aggregation requires to not specify model_path" \
+echo "second aggregation requires to not specify model_path" && \
 
-echo "which is to collect them(local models) by round and job_prefix pattern" \
+echo "which is to collect them(local models) by round and job_prefix pattern" && \
 
 mkdir -p \
     /fedpod/states/R02r00/test1 \
-    /fedpod/states/R02r00/test2 \
+    /fedpod/states/R02r00/test2 && \
 
-cp /fedpod/states/R02r00/test0/R02r00.pth \
-    /fedpod/states/R02r00/test1/R02r00_last.pth \
-    /fedpod/states/R02r00/test1/R02r00_last.pth \
+cp /fedpod/states/R02r00/test0/R02r00.pth /fedpod/states/R02r00/test1/R02r00_last.pth && \
+
+cp /fedpod/states/R02r00/test0/R02r00.pth /fedpod/states/R02r00/test2/R02r00_last.pth && \
 
 source run_aggregation.sh \
     -R 2 \
@@ -28,7 +27,7 @@ source run_aggregation.sh \
     -a fedavg \
     -j test \
     -i 0 \
-    -m 
+    -m None && \
     
 rm -rf /fedpod/states/R02r00/test0 \
     /fedpod/states/R02r00/test1 \
