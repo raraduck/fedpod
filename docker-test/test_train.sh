@@ -12,32 +12,44 @@ bash /fedpod/run_train.sh \
      -c /fedpod/cc359ppmi128/CC359PPMI_v1-test.csv \
      -m /fedpod/cc359ppmi128/R00E000.pth && \
 
+bash /fedpod/run_train.sh \
+     -s 0 \
+     -g 0 \
+     -j test2 \
+     -R 2 \
+     -r 0 \
+     -E 1 \
+     -i 2 \
+     -c /fedpod/cc359ppmi128/CC359PPMI_v1-test.csv \
+     -m /fedpod/cc359ppmi128/R00E000.pth && \
+
 mkdir -p /fedpod/states/R02r01/test0 && \
 
-if [ -f /fedpod/states/R02r00/test1/models/R02r00_last.pth ]; then
-    cp /fedpod/states/R02r00/test1/models/R02r00_last.pth \
-    /fedpod/states/R02r01/test0/R02r01.pth
-# cp /fedpod/states/R02r00/test1/models/R02r00_last.pth \
-#     /fedpod/states/R02r01/test0/R02r01.pth && \
-else
-    cp /fedpod/states/R02r00/test1/models/R02r00.pth \
-    /fedpod/states/R02r01/test0/R02r01.pth
-fi && \
+# if [ -f /fedpod/states/R02r00/test1/models/R02r00_last.pth ]; then
+#     cp /fedpod/states/R02r00/test1/models/R02r00_last.pth \
+#     /fedpod/states/R02r01/test0/R02r01.pth
+# else
+#     cp /fedpod/states/R02r00/test1/models/R02r00.pth \
+#     /fedpod/states/R02r01/test0/R02r01.pth
+# fi && \
+cp /fedpod/states/R02r00/test2/models/R02r00_last.pth \
+    /fedpod/states/R02r01/test0/R02r01.pth && \
 
 bash /fedpod/run_train.sh \
      -s 0 \
      -g 0 \
-     -j test1 \
+     -j test2 \
      -R 2 \
      -r 1 \
      -E 1 \
-     -i 1 \
+     -i 2 \
      -c /fedpod/cc359ppmi128/CC359PPMI_v1-test.csv \
      -m /fedpod/states/R02r01/test0/R02r01.pth && \
 
 rm -rf /fedpod/states/R02r00/test1 \
+    /fedpod/states/R02r00/test2 \
     /fedpod/states/R02r01/test0 \
-    /fedpod/states/R02r01/test1 && \
+    /fedpod/states/R02r01/test2 && \
 
 rmdir /fedpod/states/R02r00 && \
 
