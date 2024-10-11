@@ -3,7 +3,10 @@ services:
   fedpod-test:
     image: dwnusa/fedpod:v0.4.8-test
     container_name: fedpod-test
-    command: ["/bin/bash", "-c", "python3 --version"]
+    # command: ["/bin/bash", "-c", "python3 --version"]
+    # command: ["/bin/bash", "-c", "ls"]
+    # command: ["/bin/bash", "-c", "pwd"]
+    command: ["/bin/bash", "-c", "source /fedpod/test_aggregation.sh"]
     stdin_open: true  # equivalent to Kubernetes 'stdin: true'
     tty: true  # equivalent to Kubernetes 'tty: true'
     volumes:
