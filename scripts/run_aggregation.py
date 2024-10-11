@@ -6,19 +6,23 @@ import sys
 import glob
 from utils.tools import *
 from Aggregator import *
+from utils.misc import *
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--rounds', type=int, default=5)
 parser.add_argument('--round', type=int, default=0)
 parser.add_argument('--algorithm', type=str, default="fedavg", 
     choices=['fedavg', 'fedpid', 'fedpod'], help='type of avg')
-parser.add_argument('--job_id', type=str, default="")
+parser.add_argument('--job_prefix', type=str, default="")
 parser.add_argument('--inst_id', type=int, default=0)
 parser.add_argument('--weight_path', type=str, default="None",
     help='path to pretrained encoder or decoder weight, None for train-from-scratch')
 
 if __name__ == '__main__':
     args = parser.parse_args(sys.argv[1:])
+    log_filename = f"R{args.rounds}r{args.round}_{args.job_prefix}"
+    logger = initialization_logger(args, log_filename)
     prev_round = args.round - 1
     curr_round = args.round
     base_dir = os.path.join('/','fedpod','states')
@@ -32,7 +36,7 @@ if __name__ == '__main__':
         else:
             # base_dir = os.path.join('.','states')
             prev_round_dir = os.path.join(base_dir, f"R{args.rounds:02}r{prev_round:02}")
-            inst_dir = os.path.join(prev_round_dir, f"{args.job_id}*")
+            inst_dir = os.path.join(prev_round_dir, f"{args.job_prefix}*")
             pattern = os.path.join(inst_dir, 'models', '*_last.pth')
             pth_path = glob.glob(pattern)
             # print(pattern)

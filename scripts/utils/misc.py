@@ -166,7 +166,7 @@ def setup_logger(log_dir, log_file):
     return root_logger  # 로거 인스턴스를 반환합니다.
 
 
-def initialization_logger(args, timestamp):
+def initialization_logger(args, filename):
     # set random seed
     # seed_everything(args.seed)
 
@@ -174,7 +174,7 @@ def initialization_logger(args, timestamp):
     # writer = SummaryWriter(os.path.join('runs', args.exp_name))
 
     # init logger & save args
-    logger = setup_logger(log_dir='logs', log_file=timestamp)
+    logger = setup_logger(log_dir='logs', log_file=filename)
     logger.info(f"{'-' * 20} New Experiment {'-' * 20}")
     # logger.info(' '.join(sys.argv))
     logger.info(args)

@@ -2,7 +2,7 @@
 rounds=""
 round=""
 algorithm=""
-job_name=""
+job_prefix=""
 inst_id=""
 model_pth=""
 
@@ -14,27 +14,27 @@ do
         R) rounds=${OPTARG};;
         r) round=${OPTARG};;
         a) algorithm=${OPTARG};;
-        j) job_name=${OPTARG};;
+        j) job_prefix=${OPTARG};;
         i) inst_id=${OPTARG};;
         m) model_pth=${OPTARG};;
     esac
 done
 
-echo "rounds: $rounds, round: $round, algorithm: $algorithm, job: $job_name, inst: $inst_id, model_pth: $model_pth"
+echo "rounds: $rounds, round: $round, algorithm: $algorithm, job: $job_prefix, inst: $inst_id, model_pth: $model_pth"
 
 # 필수 옵션 검사
-if [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$algorithm" ] || [ -z "$job_name" ] || [ -z "$inst_id" ]; then
+if [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$algorithm" ] || [ -z "$job_prefix" ] || [ -z "$inst_id" ]; then
     echo "Error: All parameters are required."
-    echo "Usage: $0 -R <rounds> -r <round> -a <algorithm> -j <job_name> -i <inst_id> -m <model_pth>"
+    echo "Usage: $0 -R <rounds> -r <round> -a <algorithm> -j <job_prefix> -i <inst_id> -m <model_pth>"
     exit 1
 fi
 
-echo "rounds: $rounds, round: $round, algorithm: $algorithm, job: $job_name, inst: $inst_id, model_pth: $model_pth"
+echo "rounds: $rounds, round: $round, algorithm: $algorithm, job: $job_prefix, inst: $inst_id, model_pth: $model_pth"
 
 python3 scripts/run_aggregation.py \
 	--rounds $rounds \
 	--round $round \
 	--algorithm $algorithm \
-	--job_id $job_name \
+	--job_prefix $job_prefix \
 	--inst_id $inst_id \
 	--weight_path $model_pth
