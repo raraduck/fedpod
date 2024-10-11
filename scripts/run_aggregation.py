@@ -16,7 +16,7 @@ parser.add_argument('--algorithm', type=str, default="fedavg",
     choices=['fedavg', 'fedwavg', 'fedpid', 'fedpod'], help='type of avg')
 parser.add_argument('--job_prefix', type=str, default="")
 parser.add_argument('--inst_id', type=int, default=0)
-parser.add_argument('--weight_path', type=str, default="None",
+parser.add_argument('--weight_path', type=str, required=True,
     help='path to pretrained encoder or decoder weight, None for train-from-scratch')
 
 if __name__ == '__main__':

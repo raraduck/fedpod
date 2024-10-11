@@ -7,7 +7,7 @@ round=""
 epochs=""
 inst_id=""
 split_csv="cc359ppmi128/CC359PPMI_v1.csv"
-model_pth="None"
+model_pth=""
 
 # 명령줄 옵션 처리
 while getopts s:g:j:R:r:E:i:c:m: option
@@ -28,7 +28,7 @@ done
 echo "save_infer: $save_infer, gpu: $use_gpu, job: $job_name, rounds: $rounds, round: $round, epochs: $epochs, inst: $inst_id, split_csv: $split_csv, model_pth: $model_pth"
 
 # 필수 옵션 검사
-if [ -z "$save_infer" ] || [ -z "$use_gpu" ] || [ -z "$job_name" ] || [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$epochs" ] || [ -z "$inst_id" ]; then
+if [ -z "$save_infer" ] || [ -z "$use_gpu" ] || [ -z "$job_name" ] || [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$epochs" ] || [ -z "$inst_id" ] || [ -z "$split_csv" ] || [ -z "$model_pth" ]; then
     echo "Error: All parameters are required."
     echo "Usage: $0 -s <save_infer> -g <use_gpu> -j <job_name> -R <rounds> -r <round> -e <epochs> -i <inst_id> -c <split_csv> -m <model_pth>"
     exit 1

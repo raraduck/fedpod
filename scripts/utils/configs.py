@@ -57,8 +57,7 @@ def parse_args(argv):
         choices=['constant', 'gaussian'], help='sliding window importance map mode')
     
     # model (u-net)
-    parser.add_argument('--weight_path', type=str, default="None",
-        help='path to pretrained encoder or decoder weight, None for train-from-scratch')
+    parser.add_argument('--weight_path', type=str, required=True, help='The model path must be provided.')
     parser.add_argument('--unet_arch', type=str, default='unet',
         choices=['unet3d', 'unet'], help='Architecuture of the U-Net')
     parser.add_argument('--channels_list', type=parse_1d_int_list, default=[64, 128, 256],

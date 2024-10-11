@@ -4,7 +4,7 @@ round=""
 algorithm=""
 job_prefix=""
 inst_id=""
-model_pth=""
+model_pth="None"
 
 # 명령줄 옵션 처리
 while getopts R:r:a:j:i:m: option
