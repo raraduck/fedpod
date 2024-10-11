@@ -99,7 +99,7 @@ spec:
       - name: round
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.9
+      image: dwnusa/fedpod:v0.4.10
       command: ["/bin/sh", "-c"]
       args: ["./run_train.sh -s 1 -g 0 -j {{inputs.parameters.job-prefix}}{{inputs.parameters.inst-id}} -R {{inputs.parameters.rounds}} -r {{inputs.parameters.round}} -E 1 -i {{inputs.parameters.inst-id}} -m {{inputs.parameters.model_pth}}"]
       resources:
@@ -140,7 +140,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.9
+      image: dwnusa/fedpod:v0.4.10
       command: ["/bin/sh", "-c"]
       args: ["./run_aggregation.sh -R {{inputs.parameters.rounds}} -r {{inputs.parameters.round}} -a {{inputs.parameters.algorithm}} -j {{inputs.parameters.job-prefix}} -i {{inputs.parameters.inst-id}} -m {{inputs.parameters.model_pth}}"]
       # args: ["./run_aggregation.sh -r 0 -R 5 -a fedavg -j inst -i 0 -m /fedpod/cc359ppmi128/R00E000.pth"]
