@@ -9,7 +9,7 @@
 #     -i 0 \
 #     -m /fedpod/cc359ppmi128/R00E000.pth \
 # && \
-# rm -rf /fedpod/states/R02r00/test00 \
+# rm -rf /fedpod/states/R02r00/test0 \
 
 echo "second aggregation requires to not specify model_path" \
 

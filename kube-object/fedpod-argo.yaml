@@ -40,7 +40,7 @@ spec:
           - name: round
             value: "0"
           - name: model_pth
-            value: "/fedpod/states/R05r00/inst00/R05r00.pth"
+            value: "/fedpod/states/R05r00/inst0/R05r00.pth"
         withItems:
         - { inst: "1" }
         - { inst: "2" }
@@ -80,7 +80,7 @@ spec:
           - name: round
             value: "1"
           - name: model_pth
-            value: "/fedpod/states/R05r01/inst00/R05r01.pth"
+            value: "/fedpod/states/R05r01/inst0/R05r01.pth"
         withItems:
         - { inst: "1" }
         - { inst: "2" }

@@ -32,7 +32,7 @@ if __name__ == '__main__':
             logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup from {args.weight_path}...")
             orig_file = args.weight_path
             curr_round_dir = os.path.join(base_dir, f"R{args.rounds:02}r{curr_round:02}")
-            center_dir = os.path.join(curr_round_dir, f"{args.job_prefix}{args.inst_id:02}")
+            center_dir = os.path.join(curr_round_dir, f"{args.job_prefix}{args.inst_id}")
             os.makedirs(center_dir, exist_ok=True)
             save_model_path = os.path.join(center_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
             shutil.copy2(orig_file, save_model_path)
@@ -40,8 +40,8 @@ if __name__ == '__main__':
         else:
             # base_dir = os.path.join('.','states')
             prev_round_dir = os.path.join(base_dir, f"R{args.rounds:02}r{prev_round:02}")
-            inst_dir = os.path.join(prev_round_dir, f"{args.job_prefix}*")
-            pattern = os.path.join(inst_dir, 'models', '*_last.pth')
+            inst_dir = os.path.join(prev_round_dir, f"{args.job_prefix}*") # inst0 also included 
+            pattern = os.path.join(inst_dir, 'models', '*_last.pth') # but, _last.pth removes inst0 because inst0 never has _last.pth file on it
             pth_path = glob.glob(pattern)
             for pth in pth_path:
                 logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] local models are from {pth}...")
@@ -54,7 +54,7 @@ if __name__ == '__main__':
             # save_model_path2 = f"round_{self.round:02d}"
             # save_model_path3 = f"epoch_{from_epoch:03d}"
             curr_round_dir = os.path.join(base_dir, f"R{args.rounds:02}r{curr_round:02}")
-            center_dir = os.path.join(curr_round_dir, f"{args.job_prefix}{args.inst_id:02}")
+            center_dir = os.path.join(curr_round_dir, f"{args.job_prefix}{args.inst_id}")
             os.makedirs(center_dir, exist_ok=True)
             save_model_path = os.path.join(center_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
             torch.save(state, save_model_path)
