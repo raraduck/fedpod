@@ -27,15 +27,16 @@ if __name__ == '__main__':
     curr_round = args.round
     base_dir = os.path.join('/','fedpod','states')
     if args.algorithm == "fedavg":
-        logger.info(f"[{args.job_prefix.upper()}][TEST] aggregation algorithm is {args.algorithm.upper()}...")
+        logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] aggregation algorithm is {args.algorithm.upper()}...")
         if prev_round < 0:
-            logger.info(f"[{args.job_prefix.upper()}][TEST] initial model setup from {args.weight_path}...")
+            logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup from {args.weight_path}...")
             orig_file = args.weight_path
             curr_round_dir = os.path.join(base_dir, f"R{args.rounds:02}r{curr_round:02}")
-            os.makedirs(curr_round_dir, exist_ok=True)
-            save_model_path = os.path.join(curr_round_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
+            center_dir = os.path.join(curr_round_dir, f"{args.job_prefix}{args.inst_id:02}")
+            os.makedirs(center_dir, exist_ok=True)
+            save_model_path = os.path.join(center_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
             shutil.copy2(orig_file, save_model_path)
-            logger.info(f"[{args.job_prefix.upper()}][TEST] initial model setup to {save_model_path}...")
+            logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup to {save_model_path}...")
         else:
             # base_dir = os.path.join('.','states')
             prev_round_dir = os.path.join(base_dir, f"R{args.rounds:02}r{prev_round:02}")
@@ -43,7 +44,7 @@ if __name__ == '__main__':
             pattern = os.path.join(inst_dir, 'models', '*_last.pth')
             pth_path = glob.glob(pattern)
             for pth in pth_path:
-                logger.info(f"[{args.job_prefix.upper()}][TEST] local models are from {pth}...")
+                logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] local models are from {pth}...")
             # print(pattern)
             # print(pth_path)
             global_state_dict = fedavg(pth_path)
@@ -53,10 +54,11 @@ if __name__ == '__main__':
             # save_model_path2 = f"round_{self.round:02d}"
             # save_model_path3 = f"epoch_{from_epoch:03d}"
             curr_round_dir = os.path.join(base_dir, f"R{args.rounds:02}r{curr_round:02}")
-            os.makedirs(curr_round_dir, exist_ok=True)
-            save_model_path = os.path.join(curr_round_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
+            center_dir = os.path.join(curr_round_dir, f"{args.job_prefix}{args.inst_id:02}")
+            os.makedirs(center_dir, exist_ok=True)
+            save_model_path = os.path.join(center_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
             torch.save(state, save_model_path)
-            logger.info(f"[{args.job_prefix.upper()}][TEST] models are aggregated to {save_model_path}...")
+            logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] models are aggregated to {save_model_path}...")
     else:
         raise NotImplementedError(f"{args.algorithm.upper()} is not implemented on Aggregator()")
     

@@ -23,6 +23,7 @@ do
 		m) model_pth=${OPTARG};;
     esac
 done
+echo "save_infer: $save_infer, gpu: $use_gpu, job: $job_name, round: $round, epochs: $epochs, inst: $inst_id, model_pth: $model_pth"
 
 # 필수 옵션 검사
 if [ -z "$save_infer" ] || [ -z "$use_gpu" ] || [ -z "$job_name" ] || [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$epochs" ] || [ -z "$inst_id" ]; then
@@ -31,7 +32,6 @@ if [ -z "$save_infer" ] || [ -z "$use_gpu" ] || [ -z "$job_name" ] || [ -z "$rou
     exit 1
 fi
 
-echo "save_infer: $save_infer, gpu: $use_gpu, job: $job_name, round: $round, epochs: $epochs, inst: $inst_id, model_pth: $model_pth"
 
 python3 scripts/run_infer.py \
 	--save_infer $save_infer \

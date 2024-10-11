@@ -29,7 +29,7 @@ if [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$algorithm" ] || [ -z "$job_pref
     exit 1
 fi
 
-echo "rounds: $rounds, round: $round, algorithm: $algorithm, job: $job_prefix, inst: $inst_id, model_pth: $model_pth"
+# echo "rounds: $rounds, round: $round, algorithm: $algorithm, job: $job_prefix, inst: $inst_id, model_pth: $model_pth"
 
 python3 scripts/run_aggregation.py \
 	--rounds $rounds \
