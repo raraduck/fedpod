@@ -30,8 +30,8 @@ spec:
             value: "/fedpod/cc359ppmi128/R00E000.pth"
         withItems:
         - { inst: "0" }
-        nodeSelector:
-          kubernetes.io/hostname: node02
+        # nodeSelector:
+        #   kubernetes.io/hostname: node02
     - - name: run-train-jobs-00
         template: train-job
         arguments:
@@ -41,7 +41,7 @@ spec:
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
-            value: "/fedpod/states/R{{workflow.parameters.rounds}}r00/{{workflow.parameters.job-prefix}}0/R{{workflow.parameters.rounds}}r00.pth"
+            value: "/fedpod/states/R{{workflow.parameters.rounds}}r00/{{workflow.parameters.job-prefix}}0/models/R{{workflow.parameters.rounds}}r00.pth"
         withItems:
         - { inst: "1" }
         - { inst: "2" }
@@ -64,8 +64,8 @@ spec:
             value: "None"
         withItems:
         - { inst: "0" }
-        nodeSelector:
-          kubernetes.io/hostname: node02
+        # nodeSelector:
+        #   kubernetes.io/hostname: node02
     - - name: run-train-jobs-01
         template: train-job
         arguments:
@@ -75,7 +75,7 @@ spec:
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
-            value: "/fedpod/states/R{{workflow.parameters.rounds}}r01/{{workflow.parameters.job-prefix}}0/R{{workflow.parameters.rounds}}r01.pth"
+            value: "/fedpod/states/R{{workflow.parameters.rounds}}r01/{{workflow.parameters.job-prefix}}0/models/R{{workflow.parameters.rounds}}r01.pth"
         withItems:
         - { inst: "1" }
         - { inst: "2" }
@@ -98,8 +98,8 @@ spec:
             value: "None"
         withItems:
         - { inst: "0" }
-        nodeSelector:
-          kubernetes.io/hostname: node02
+        # nodeSelector:
+        #   kubernetes.io/hostname: node02
     - - name: run-train-jobs-02
         template: train-job
         arguments:
@@ -109,7 +109,7 @@ spec:
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
-            value: "/fedpod/states/R{{workflow.parameters.rounds}}r02/{{workflow.parameters.job-prefix}}0/R{{workflow.parameters.rounds}}r02.pth"
+            value: "/fedpod/states/R{{workflow.parameters.rounds}}r02/{{workflow.parameters.job-prefix}}0/models/R{{workflow.parameters.rounds}}r02.pth"
         withItems:
         - { inst: "1" }
         - { inst: "2" }
@@ -132,8 +132,8 @@ spec:
             value: "None"
         withItems:
         - { inst: "0" }
-        nodeSelector:
-          kubernetes.io/hostname: node02
+        # nodeSelector:
+        #   kubernetes.io/hostname: node02
     - - name: run-train-jobs-03
         template: train-job
         arguments:
@@ -143,7 +143,7 @@ spec:
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
-            value: "/fedpod/states/R{{workflow.parameters.rounds}}r03/{{workflow.parameters.job-prefix}}0/R{{workflow.parameters.rounds}}r03.pth"
+            value: "/fedpod/states/R{{workflow.parameters.rounds}}r03/{{workflow.parameters.job-prefix}}0/models/R{{workflow.parameters.rounds}}r03.pth"
         withItems:
         - { inst: "1" }
         - { inst: "2" }
@@ -166,8 +166,8 @@ spec:
             value: "None"
         withItems:
         - { inst: "0" }
-        nodeSelector:
-          kubernetes.io/hostname: node02
+        # nodeSelector:
+        #   kubernetes.io/hostname: node02
     - - name: run-train-jobs-04
         template: train-job
         arguments:
@@ -177,7 +177,7 @@ spec:
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
-            value: "/fedpod/states/R{{workflow.parameters.rounds}}r04/{{workflow.parameters.job-prefix}}0/R{{workflow.parameters.rounds}}r04.pth"
+            value: "/fedpod/states/R{{workflow.parameters.rounds}}r04/{{workflow.parameters.job-prefix}}0/models/R{{workflow.parameters.rounds}}r04.pth"
         withItems:
         - { inst: "1" }
         - { inst: "2" }
@@ -201,8 +201,8 @@ spec:
             value: "None"
         withItems:
         - { inst: "0" }
-        nodeSelector:
-          kubernetes.io/hostname: node02
+        # nodeSelector:
+        #   kubernetes.io/hostname: node02
 
 
 

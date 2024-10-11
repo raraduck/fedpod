@@ -7,7 +7,7 @@ bash /fedpod/run_aggregation.sh \
     -a fedavg \
     -j test \
     -i 0 \
-    -m /fedpod/cc359ppmi128/R02r00.pth && \
+    -m /fedpod/cc359ppmi128/R00r00.pth && \
 
 echo "::::::::::second aggregation requires to not specify model_path" && \
 
@@ -17,9 +17,11 @@ mkdir -p \
     /fedpod/states/R02r00/test1/models \
     /fedpod/states/R02r00/test2/models && \
 
-cp /fedpod/states/R02r00/test0/R02r00.pth /fedpod/states/R02r00/test1/models/R02r00_last.pth && \
+cp  /fedpod/states/R02r00/test0/models/R02r00.pth \
+    /fedpod/states/R02r00/test1/models/R02r00_last.pth && \
 
-cp /fedpod/states/R02r00/test0/R02r00.pth /fedpod/states/R02r00/test2/models/R02r00_last.pth && \
+cp  /fedpod/states/R02r00/test0/models/R02r00.pth \
+    /fedpod/states/R02r00/test2/models/R02r00_last.pth && \
 
 bash /fedpod/run_aggregation.sh \
     -R 2 \

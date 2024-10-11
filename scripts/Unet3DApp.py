@@ -82,7 +82,7 @@ class Unet3DApp:
             # exp_folder = time.strftime("%Y%m%d_%H%M%S")
             save_model_path = os.path.join("states", f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", self.job_name, "models")
             os.makedirs(save_model_path, exist_ok=True)
-            init_model_path = os.path.join(save_model_path, f"R{0:02}E{0:03}.pth")
+            init_model_path = os.path.join(save_model_path, f"R{0:02}r{0:02}.pth")
             torch.save(state, init_model_path)
             self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode}] ==> Initialize random model at {init_model_path}...")
             self.logger.warning(f"[{self.cli_args.job_name.upper()}][{mode}] ==> Created random model at round {self.cli_args.round} not at round 0...")
