@@ -6,8 +6,8 @@ services:
     # command: ["/bin/bash", "-c", "python3 --version"]
     # command: ["/bin/bash", "-c", "ls"]
     # command: ["/bin/bash", "-c", "pwd"]
-    command: ["/bin/bash", "-c", "source /fedpod/docker-test/test_aggregation.sh"]
-    # command: ["/bin/bash", "-c", "source /fedpod/test_train.sh"]
+    # command: ["/bin/bash", "-c", "source /fedpod/docker-test/test_aggregation.sh"]
+    command: ["/bin/bash", "-c", "source /fedpod/docker-test/test_train.sh"]
     stdin_open: true  # equivalent to Kubernetes 'stdin: true'
     tty: true  # equivalent to Kubernetes 'tty: true'
     volumes:
