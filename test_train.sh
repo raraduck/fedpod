@@ -7,14 +7,34 @@ bash run_train.sh \
      -j test1 \
      -R 2 \
      -r 0 \
-     -E 2 \
+     -E 1 \
      -i 1 \
      -c cc359ppmi128/CC359PPMI_v1-test.csv \
      -m /fedpod/cc359ppmi128/R00E000.pth && \
 
-rm -rf /fedpod/states/R02r00/test1 && \
+mkdir -p /fedpod/states/R02r01/test0 && \
 
-rmdir /fedpod/states/R02r00
+cp /fedpod/states/R02r00/test1/models/R02r00_last.pth \
+    /fedpod/states/R02r01/test0/R02r01.pth && \
+
+bash run_train.sh \
+     -s 0 \
+     -g 0 \
+     -j test1 \
+     -R 2 \
+     -r 1 \
+     -E 1 \
+     -i 1 \
+     -c cc359ppmi128/CC359PPMI_v1-test.csv \
+     -m /fedpod/states/R02r01/test0/R02r01.pth && \
+
+rm -rf /fedpod/states/R02r00/test1 \
+    /fedpod/states/R02r01/test0 \
+    /fedpod/states/R02r01/test1 && \
+
+rmdir /fedpod/states/R02r00 && \
+
+rmdir /fedpod/states/R02r01
 
 # echo "::::::::::second aggregation requires to not specify model_path" && \
 
