@@ -30,8 +30,8 @@ bash /fedpod/run_aggregation.sh \
     -m None && \
     
 rm -rf /fedpod/logs/test0 \
-    /fedpod/logs/R02r00 \
-    /fedpod/logs/R02r01 \
+    /fedpod/logs/R02r00_test \
+    /fedpod/logs/R02r01_test \
     /fedpod/states/R02r00/test0 \
     /fedpod/states/R02r00/test1 \
     /fedpod/states/R02r00/test2 \
