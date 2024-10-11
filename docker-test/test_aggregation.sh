@@ -29,7 +29,10 @@ bash /fedpod/run_aggregation.sh \
     -i 0 \
     -m None && \
     
-rm -rf /fedpod/states/R02r00/test0 \
+rm -rf /fedpod/logs/test0 \
+    /fedpod/logs/R02r00 \
+    /fedpod/logs/R02r01 \
+    /fedpod/states/R02r00/test0 \
     /fedpod/states/R02r00/test1 \
     /fedpod/states/R02r00/test2 \
     /fedpod/states/R02r01/test0 && \
