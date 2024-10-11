@@ -11,23 +11,19 @@ spec:
     - name: job-prefix
       value: "inst"
     - name: split_csv
-      value: "cc359ppmi128/CC359PPMI_v1.csv"
+      value: "cc359ppmi128/CC359PPMI_v1-test.csv"
   templates:
-  # 메인 엔트리포인트: withItems를 사용하여 병렬 작업을 실행
   - name: parallel-steps
     steps:
+  # round 0
     - - name: run-aggregation-jobs-00
         template: aggregation-job
         arguments:
           parameters:
-          # - name: rounds
-          #   value: "{{workflow.parameters.total-rounds}}"
           - name: round
             value: "0"
           - name: algorithm
             value: "fedavg"
-          # - name: job-prefix
-          #   value: "{{workflow.parameters.job-prefix}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
@@ -38,12 +34,8 @@ spec:
         template: train-job
         arguments:
           parameters:
-          # - name: rounds
-          #   value: "{{workflow.parameters.total-rounds}}"
           - name: round
             value: "0"
-          # - name: job-prefix
-          #   value: "{{workflow.parameters.global-job-prefix}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
@@ -55,35 +47,27 @@ spec:
         - { inst: "4" }
         - { inst: "5" }
         - { inst: "6" }
+  # round 1
     - - name: run-aggregation-jobs-01
         template: aggregation-job
         arguments:
           parameters:
-          # - name: rounds
-          #   value: "{{workflow.parameters.total-rounds}}"
           - name: round
             value: "1"
           - name: algorithm
             value: "fedavg"
-          # - name: job-prefix
-          #   value: "{{workflow.parameters.global-job-prefix}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
             value: "None"
         withItems:
         - { inst: "0" }
-   # 두 번째 스텝: 첫 번째 스텝이 완료된 후 실행되는 병렬 작업
     - - name: run-train-jobs-01
         template: train-job
         arguments:
           parameters:
-          # - name: rounds
-          #   value: "{{workflow.parameters.total-rounds}}"
           - name: round
             value: "1"
-          # - name: job-prefix
-            # value: "{{workflow.parameters.global-job-prefix}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
@@ -95,14 +79,111 @@ spec:
         - { inst: "4" }
         - { inst: "5" }
         - { inst: "6" }
+  # round 2
+    - - name: run-aggregation-jobs-02
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: round
+            value: "2"
+          - name: algorithm
+            value: "fedavg"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "None"
+        withItems:
+        - { inst: "0" }
+    - - name: run-train-jobs-02
+        template: train-job
+        arguments:
+          parameters:
+          - name: round
+            value: "2"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/R{{workflow.parameters.rounds}}r02/{{workflow.parameters.job-prefix}}0/R{{workflow.parameters.rounds}}r02.pth"
+        withItems:
+        - { inst: "1" }
+        - { inst: "2" }
+        - { inst: "3" }
+        - { inst: "4" }
+        - { inst: "5" }
+        - { inst: "6" }
+  # round 3
+    - - name: run-aggregation-jobs-03
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: round
+            value: "3"
+          - name: algorithm
+            value: "fedavg"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "None"
+        withItems:
+        - { inst: "0" }
+    - - name: run-train-jobs-03
+        template: train-job
+        arguments:
+          parameters:
+          - name: round
+            value: "3"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/R{{workflow.parameters.rounds}}r03/{{workflow.parameters.job-prefix}}0/R{{workflow.parameters.rounds}}r03.pth"
+        withItems:
+        - { inst: "1" }
+        - { inst: "2" }
+        - { inst: "3" }
+        - { inst: "4" }
+        - { inst: "5" }
+        - { inst: "6" }
+  # round 4
+    - - name: run-aggregation-jobs-04
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: round
+            value: "4"
+          - name: algorithm
+            value: "fedavg"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "None"
+        withItems:
+        - { inst: "0" }
+    - - name: run-train-jobs-04
+        template: train-job
+        arguments:
+          parameters:
+          - name: round
+            value: "4"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/R{{workflow.parameters.rounds}}r04/{{workflow.parameters.job-prefix}}0/R{{workflow.parameters.rounds}}r04.pth"
+        withItems:
+        - { inst: "1" }
+        - { inst: "2" }
+        - { inst: "3" }
+        - { inst: "4" }
+        - { inst: "5" }
+        - { inst: "6" }
 
-  # 실제로 병렬로 실행될 간단한 작업 정의
+
+
+
+
   - name: train-job
     inputs:
       parameters:
-      # - name: rounds
       - name: round
-      # - name: job-prefix
       - name: inst-id
       - name: model_pth
     container:
@@ -140,10 +221,8 @@ spec:
   - name: aggregation-job
     inputs:
       parameters:
-      # - name: rounds
       - name: round
       - name: algorithm
-      # - name: job-prefix
       - name: inst-id
       - name: model_pth
     container:
