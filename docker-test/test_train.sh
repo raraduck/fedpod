@@ -14,8 +14,15 @@ bash /fedpod/run_train.sh \
 
 mkdir -p /fedpod/states/R02r01/test0 && \
 
-cp /fedpod/states/R02r00/test1/models/R02r00_last.pth \
-    /fedpod/states/R02r01/test0/R02r01.pth && \
+if [ -f /fedpod/states/R02r00/test1/models/R02r00_last.pth ]; then
+    cp /fedpod/states/R02r00/test1/models/R02r00_last.pth \
+    /fedpod/states/R02r01/test0/R02r01.pth
+# cp /fedpod/states/R02r00/test1/models/R02r00_last.pth \
+#     /fedpod/states/R02r01/test0/R02r01.pth && \
+else
+    cp /fedpod/states/R02r00/test1/models/R02r00.pth \
+    /fedpod/states/R02r01/test0/R02r01.pth
+fi && \
 
 bash /fedpod/run_train.sh \
      -s 0 \
