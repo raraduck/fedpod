@@ -31,6 +31,9 @@ bash run_aggregation.sh \
     
 rm -rf /fedpod/states/R02r00/test0 \
     /fedpod/states/R02r00/test1 \
-    /fedpod/states/R02r00/test2 
+    /fedpod/states/R02r00/test2 \
+    /fedpod/states/R02r01/test0 && \
 
-rmdir /fedpod/states/R02r00
+rmdir /fedpod/states/R02r00 && \
+
+rmdir /fedpod/states/R02r01
