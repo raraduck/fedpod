@@ -15,7 +15,6 @@ import matplotlib.pyplot as plt
 import natsort
 import monai.transforms as transforms
 from monai.inferers import sliding_window_inference
-from tqdm import tqdm
 
 import torch
 import torch.nn as nn
