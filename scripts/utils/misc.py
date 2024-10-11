@@ -175,7 +175,7 @@ def initialization_logger(args, filename):
 
     # init logger & save args
     logger = setup_logger(log_dir='logs', log_file=filename)
-    logger.info(f"{'-' * 20} New Experiment {'-' * 20}")
+    logger.info(f"\n{'-' * 20} New Experiment {'-' * 20}\n")
     # logger.info(' '.join(sys.argv))
     logger.info(args)
 

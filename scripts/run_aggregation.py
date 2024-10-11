@@ -21,24 +21,29 @@ parser.add_argument('--weight_path', type=str, default="None",
 
 if __name__ == '__main__':
     args = parser.parse_args(sys.argv[1:])
-    log_filename = f"R{args.rounds}r{args.round}_{args.job_prefix}"
+    log_filename = f"R{args.rounds:02}r{args.round:02}_{args.job_prefix}"
     logger = initialization_logger(args, log_filename)
     prev_round = args.round - 1
     curr_round = args.round
     base_dir = os.path.join('/','fedpod','states')
     if args.algorithm == "fedavg":
+        logger.info(f"[{args.job_prefix.upper()}][TEST] aggregation algorithm is {args.algorithm.upper()}...")
         if prev_round < 0:
+            logger.info(f"[{args.job_prefix.upper()}][TEST] initial model setup from {args.weight_path}...")
             orig_file = args.weight_path
             curr_round_dir = os.path.join(base_dir, f"R{args.rounds:02}r{curr_round:02}")
             os.makedirs(curr_round_dir, exist_ok=True)
             save_model_path = os.path.join(curr_round_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
             shutil.copy2(orig_file, save_model_path)
+            logger.info(f"[{args.job_prefix.upper()}][TEST] initial model setup to {save_model_path}...")
         else:
             # base_dir = os.path.join('.','states')
             prev_round_dir = os.path.join(base_dir, f"R{args.rounds:02}r{prev_round:02}")
             inst_dir = os.path.join(prev_round_dir, f"{args.job_prefix}*")
             pattern = os.path.join(inst_dir, 'models', '*_last.pth')
             pth_path = glob.glob(pattern)
+            for pth in pth_path:
+                logger.info(f"[{args.job_prefix.upper()}][TEST] local models are from {pth}...")
             # print(pattern)
             # print(pth_path)
             global_state_dict = fedavg(pth_path)
@@ -51,6 +56,7 @@ if __name__ == '__main__':
             os.makedirs(curr_round_dir, exist_ok=True)
             save_model_path = os.path.join(curr_round_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
             torch.save(state, save_model_path)
+            logger.info(f"[{args.job_prefix.upper()}][TEST] models are aggregated to {save_model_path}...")
     else:
         raise NotImplementedError(f"{args.algorithm.upper()} is not implemented on Aggregator()")
     
