@@ -11,9 +11,9 @@ RUN pip3 install --no-cache-dir SimpleITK==2.2.1 medpy matplotlib natsort nibabe
 
 # Final stage: copy only the necessary artifacts from the builder stage
 FROM ubuntu:20.04
-# COPY --from=builder /usr/local /usr/local
-# COPY --from=builder /usr/bin /usr/bin
-# COPY --from=builder /usr/lib /usr/lib
+COPY --from=builder /usr/local /usr/local
+COPY --from=builder /usr/bin /usr/bin
+COPY --from=builder /usr/lib /usr/lib
 
 WORKDIR /fedpod
 # COPY ./scripts /fedpod/scripts
