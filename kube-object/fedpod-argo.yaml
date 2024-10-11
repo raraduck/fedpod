@@ -30,6 +30,8 @@ spec:
             value: "/fedpod/cc359ppmi128/R00E000.pth"
         withItems:
         - { inst: "0" }
+        nodeSelector:
+          kubernetes.io/hostname: node02
     - - name: run-train-jobs-00
         template: train-job
         arguments:
@@ -62,6 +64,8 @@ spec:
             value: "None"
         withItems:
         - { inst: "0" }
+        nodeSelector:
+          kubernetes.io/hostname: node02
     - - name: run-train-jobs-01
         template: train-job
         arguments:
@@ -94,6 +98,8 @@ spec:
             value: "None"
         withItems:
         - { inst: "0" }
+        nodeSelector:
+          kubernetes.io/hostname: node02
     - - name: run-train-jobs-02
         template: train-job
         arguments:
@@ -126,6 +132,8 @@ spec:
             value: "None"
         withItems:
         - { inst: "0" }
+        nodeSelector:
+          kubernetes.io/hostname: node02
     - - name: run-train-jobs-03
         template: train-job
         arguments:
@@ -158,6 +166,8 @@ spec:
             value: "None"
         withItems:
         - { inst: "0" }
+        nodeSelector:
+          kubernetes.io/hostname: node02
     - - name: run-train-jobs-04
         template: train-job
         arguments:
@@ -191,6 +201,8 @@ spec:
             value: "None"
         withItems:
         - { inst: "0" }
+        nodeSelector:
+          kubernetes.io/hostname: node02
 
 
 
@@ -217,6 +229,8 @@ spec:
         mountPath: /fedpod/cc359ppmi128
       - name: states-volume
         mountPath: /fedpod/states
+      - name: logs-volume
+        mountPath: /fedpod/logs
       stdin: true
       tty: true
     volumes:
