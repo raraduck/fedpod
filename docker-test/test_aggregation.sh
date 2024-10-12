@@ -31,9 +31,8 @@ bash /fedpod/run_aggregation.sh \
     -i 0 \
     -m None && \
     
-rm -rf /fedpod/logs/agg0 \
-    /fedpod/logs/R02r00_agg \
-    /fedpod/logs/R02r01_agg \
+rm -rf /fedpod/logs/R02r00_agg.log \
+    /fedpod/logs/R02r01_agg.log \
     /fedpod/states/R02r00/agg0 \
     /fedpod/states/R02r00/agg1 \
     /fedpod/states/R02r00/agg2 \

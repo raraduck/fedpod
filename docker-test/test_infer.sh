@@ -9,3 +9,9 @@ bash /fedpod/run_infer.sh \
      -i 1 \
      -c /fedpod/cc359ppmi128/CC359PPMI_v1-test.csv \
      -m /fedpod/cc359ppmi128/R00r00.pth
+
+rm -rf /fedpod/states/R02r00/infer1 && \
+
+rm -rf /fedpod/logs/R02r00_infer1.log && \
+
+rmdir /fedpod/states/R02r00
