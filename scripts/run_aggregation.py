@@ -21,7 +21,7 @@ parser.add_argument('--weight_path', type=str, required=True,
 
 if __name__ == '__main__':
     args = parser.parse_args(sys.argv[1:])
-    log_filename = f"R{args.rounds:02}r{args.round:02}_{args.job_prefix}"
+    log_filename = f"R{args.rounds:02}r{args.round:02}_{args.job_prefix}.log"
     logger = initialization_logger(args, log_filename)
     prev_round = args.round - 1
     curr_round = args.round
