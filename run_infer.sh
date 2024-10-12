@@ -16,7 +16,7 @@ do
     in
         s) save_infer=${OPTARG};;
         g) use_gpu=${OPTARG};;
-        j) job_name=${OPTARG};;
+        J) job_name=${OPTARG};;
         R) rounds=${OPTARG};;
         r) round=${OPTARG};;
         E) epochs=${OPTARG};;
@@ -30,7 +30,7 @@ echo "save_infer: $save_infer, gpu: $use_gpu, job: $job_name, round: $round, epo
 # 필수 옵션 검사
 if [ -z "$save_infer" ] || [ -z "$use_gpu" ] || [ -z "$job_name" ] || [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$epochs" ] || [ -z "$inst_id" ] || [ -z "$split_csv" ] || [ -z "$inst_id" ]; then
     echo "Error: All parameters are required."
-    echo "Usage: $0 -s <save_infer> -g <use_gpu> -j <job_name> -R <rounds> -r <round> -E <epochs> -i <inst_id> -c <split_csv> -m <model_pth>"
+    echo "Usage: $0 -s <save_infer> -g <use_gpu> -J <job_name> -R <rounds> -r <round> -E <epochs> -i <inst_id> -c <split_csv> -m <model_pth>"
     exit 1
 fi
 

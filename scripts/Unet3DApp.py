@@ -137,16 +137,16 @@ class Unet3DApp:
         return infer_dataset, infer_loader
 
     def initializer(self, subjects_dict, mode='train'):
-        if mode == 'train':
-            self.logger.info(f"[{self.cli_args.job_name.upper()}][TRN] Processing with train_loader and val_loader...")
+        if mode in ['train', 'TRN']:
+            self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode.upper()}] Processing with train_loader and val_loader...")
             train_cases = natsort.natsorted(subjects_dict['train'])
             train_dataset, train_loader = self.initTrainDl(train_cases)
             val_cases = natsort.natsorted(subjects_dict['val'])
             val_dataset, val_loader = self.initValDl(val_cases, 'val')
 
-            self.logger.info(f"[{self.cli_args.job_name.upper()}][TRN] Processing with model...")
-            model, _ = self.initModel(self.cli_args.weight_path, mode='TRN')
-            model = self.setup_gpu(model, mode='TRN')
+            self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode.upper()}] Processing with model...")
+            model, _ = self.initModel(self.cli_args.weight_path, mode.upper())
+            model = self.setup_gpu(model, mode=mode.upper())
             optimizer = get_optimizer(self.cli_args, model)
             loss_fn = SoftDiceBCEWithLogitsLoss(channel_weights=None).to(self.device)
             scaler = GradScaler() if self.cli_args.amp else None
@@ -361,47 +361,6 @@ class Unet3DApp:
             **case_metrics_meter.mean(),
         }
 
-    def run_infer(self, infer_mode='val'):
-        time_in_total = time.time()
-        infer_dict = load_subjects_list(
-            self.cli_args.rounds, 
-            self.cli_args.round, 
-            self.cli_args.cases_split, 
-            self.cli_args.inst_ids, 
-            TrainOrVal=[infer_mode], 
-            partition_by_round=(self.cli_args.rounds > 0),
-            mode=infer_mode
-        )
-
-        assert self.cli_args.weight_path is not None, f"run_infer must have weight_path for model to infer."
-        # _, self.cli_args.weight_path = self.initModel(self.cli_args.weight_path)
-
-        infer_setup = self.initializer(infer_dict, mode=infer_mode)
-
-        val_epoch = self.cli_args.epochs * (self.cli_args.round)
-        
-        # from_epoch = self.cli_args.epochs * (self.cli_args.round)
-        # to_epoch = self.cli_args.epochs * (self.cli_args.round + 1)
-        # Validation
-        infer_metrics = self.infer(
-            val_epoch, 
-            infer_setup['model'], 
-            infer_setup['infer_loader'], 
-            infer_setup['loss_fn'], 
-            mode=infer_mode,
-            save_infer=self.cli_args.save_infer
-        )
-
-        state = {
-            'args': self.cli_args,
-            f'{infer_mode}_metrics': infer_metrics,
-            'time': time.time() - time_in_total,
-        }
-        save_model_path = os.path.join("states", f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", self.job_name, "models")
-        os.makedirs(save_model_path, exist_ok=True)
-        torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}.pth"))
-        return
-
     def run_train(self):
         time_in_total = time.time()
         train_val_dict = load_subjects_list(
@@ -416,7 +375,7 @@ class Unet3DApp:
         
         _, self.cli_args.weight_path = self.initModel(self.cli_args.weight_path, mode='INIT')
 
-        train_setup = self.initializer(train_val_dict, mode='train')
+        train_setup = self.initializer(train_val_dict, mode='TRN')
 
         from_epoch = self.cli_args.epochs * (self.cli_args.round)
         to_epoch = self.cli_args.epochs * (self.cli_args.round + 1)
@@ -499,4 +458,45 @@ class Unet3DApp:
         save_model_path = os.path.join("states", f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", self.job_name, "models")
         os.makedirs(save_model_path, exist_ok=True)
         torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}_last.pth"))
+        return
+
+    def run_infer(self, infer_mode='test'):
+        time_in_total = time.time()
+        infer_dict = load_subjects_list(
+            self.cli_args.rounds, 
+            self.cli_args.round, 
+            self.cli_args.cases_split, 
+            self.cli_args.inst_ids, 
+            TrainOrVal=[infer_mode], 
+            partition_by_round=(self.cli_args.rounds > 0),
+            mode=infer_mode
+        )
+
+        assert self.cli_args.weight_path is not None, f"run_infer must have weight_path for model to infer."
+        # _, self.cli_args.weight_path = self.initModel(self.cli_args.weight_path)
+
+        infer_setup = self.initializer(infer_dict, mode=infer_mode)
+
+        val_epoch = self.cli_args.epochs * (self.cli_args.round)
+        
+        # from_epoch = self.cli_args.epochs * (self.cli_args.round)
+        # to_epoch = self.cli_args.epochs * (self.cli_args.round + 1)
+        # Validation
+        infer_metrics = self.infer(
+            val_epoch, 
+            infer_setup['model'], 
+            infer_setup['infer_loader'], 
+            infer_setup['loss_fn'], 
+            mode=infer_mode,
+            save_infer=self.cli_args.save_infer
+        )
+
+        state = {
+            'args': self.cli_args,
+            f'{infer_mode}_metrics': infer_metrics,
+            'time': time.time() - time_in_total,
+        }
+        save_model_path = os.path.join("states", f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", self.job_name, "models")
+        os.makedirs(save_model_path, exist_ok=True)
+        torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}.pth"))
         return

@@ -5,7 +5,7 @@ bash /fedpod/run_aggregation.sh \
     -R 2 \
     -r 0 \
     -a fedavg \
-    -j test \
+    -j agg \
     -i 0 \
     -m /fedpod/cc359ppmi128/R00r00.pth && \
 
@@ -14,30 +14,30 @@ echo "::::::::::second aggregation requires to not specify model_path" && \
 echo "::::::::::which is to collect them(local models) by round and job_prefix pattern" && \
 
 mkdir -p \
-    /fedpod/states/R02r00/test1/models \
-    /fedpod/states/R02r00/test2/models && \
+    /fedpod/states/R02r00/agg1/models \
+    /fedpod/states/R02r00/agg2/models && \
 
-cp  /fedpod/states/R02r00/test0/models/R02r00.pth \
-    /fedpod/states/R02r00/test1/models/R02r00_last.pth && \
+cp  /fedpod/states/R02r00/agg0/models/R02r00.pth \
+    /fedpod/states/R02r00/agg1/models/R02r00_last.pth && \
 
-cp  /fedpod/states/R02r00/test0/models/R02r00.pth \
-    /fedpod/states/R02r00/test2/models/R02r00_last.pth && \
+cp  /fedpod/states/R02r00/agg0/models/R02r00.pth \
+    /fedpod/states/R02r00/agg2/models/R02r00_last.pth && \
 
 bash /fedpod/run_aggregation.sh \
     -R 2 \
     -r 1 \
     -a fedavg \
-    -j test \
+    -j agg \
     -i 0 \
     -m None && \
     
-rm -rf /fedpod/logs/test0 \
-    /fedpod/logs/R02r00_test \
-    /fedpod/logs/R02r01_test \
-    /fedpod/states/R02r00/test0 \
-    /fedpod/states/R02r00/test1 \
-    /fedpod/states/R02r00/test2 \
-    /fedpod/states/R02r01/test0 && \
+rm -rf /fedpod/logs/agg0 \
+    /fedpod/logs/R02r00_agg \
+    /fedpod/logs/R02r01_agg \
+    /fedpod/states/R02r00/agg0 \
+    /fedpod/states/R02r00/agg1 \
+    /fedpod/states/R02r00/agg2 \
+    /fedpod/states/R02r01/agg0 && \
 
 rmdir /fedpod/states/R02r00 && \
 
