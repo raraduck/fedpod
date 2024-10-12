@@ -430,7 +430,7 @@ class Unet3DApp:
             infer_metrics = self.infer(
                 from_epoch, 
                 train_setup['model'], 
-                train_setup['infer_loader'], 
+                train_setup['val_loader'], 
                 train_setup['loss_fn'], 
                 mode=infer_mode,
                 save_infer=self.cli_args.save_infer
