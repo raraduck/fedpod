@@ -35,8 +35,8 @@ if __name__ == '__main__':
         curr_round_dir = os.path.join(base_dir, f"R{args.rounds:02}r{curr_round:02}")
         center_dir = os.path.join(curr_round_dir, f"{args.job_prefix}{args.inst_id}")
         models_dir = os.path.join(center_dir, 'models')
-        os.makedirs(center_dir, exist_ok=True)
-        save_model_path = os.path.join(center_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
+        os.makedirs(models_dir, exist_ok=True)
+        save_model_path = os.path.join(models_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
         shutil.copy2(orig_file, save_model_path)
         logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup to {save_model_path}...")
     else:
