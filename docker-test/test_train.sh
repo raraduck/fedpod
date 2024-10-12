@@ -23,7 +23,7 @@ bash /fedpod/run_train.sh \
      -c /fedpod/cc359ppmi128/CC359PPMI_v1-test.csv \
      -m /fedpod/cc359ppmi128/R00r00.pth && \
 
-mkdir -p /fedpod/states/R02r01/test0 && \
+mkdir -p /fedpod/states/R02r01/test0/models && \
 
 # if [ -f /fedpod/states/R02r00/test1/models/R02r00_last.pth ]; then
 #     cp /fedpod/states/R02r00/test1/models/R02r00_last.pth \
