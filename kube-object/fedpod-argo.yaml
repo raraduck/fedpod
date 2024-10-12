@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
-  generateName: parallel-jobs-
+  generateName: fedpod-jobs-
 spec:
   entrypoint: parallel-steps
   arguments:
