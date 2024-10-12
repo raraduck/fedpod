@@ -14,6 +14,4 @@ rm -rf /fedpod/states/R02r00/trn1 && \
 
 rm -rf /fedpod/logs/R02r00_trn1.log && \
 
-rmdir /fedpod/states/R02r00 && \
-
-rmdir /fedpod/states/R02r01
+rmdir /fedpod/states/R02r00
