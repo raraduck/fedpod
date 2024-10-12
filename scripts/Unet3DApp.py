@@ -378,13 +378,13 @@ class Unet3DApp:
 
         infer_setup = self.initializer(infer_dict, mode=infer_mode)
 
-        val_epoch = self.cli_args.round * self.cli_args.epochs + 0
+        val_epoch = self.cli_args.epochs * (self.cli_args.round)
         
-        from_epoch = self.cli_args.epochs * (self.cli_args.round)
-        to_epoch = self.cli_args.epochs * (self.cli_args.round + 1)
+        # from_epoch = self.cli_args.epochs * (self.cli_args.round)
+        # to_epoch = self.cli_args.epochs * (self.cli_args.round + 1)
         # Validation
         infer_metrics = self.infer(
-            from_epoch, 
+            val_epoch, 
             infer_setup['model'], 
             infer_setup['infer_loader'], 
             infer_setup['loss_fn'], 
@@ -413,9 +413,6 @@ class Unet3DApp:
             partition_by_round=(self.cli_args.rounds > 0),
             mode='train'
         )
-        if train_val_dict['train'].__len__() == 0:
-            self.run_infer(infer_mode='val')
-            return
         
         _, self.cli_args.weight_path = self.initModel(self.cli_args.weight_path, mode='INIT')
 
@@ -423,6 +420,30 @@ class Unet3DApp:
 
         from_epoch = self.cli_args.epochs * (self.cli_args.round)
         to_epoch = self.cli_args.epochs * (self.cli_args.round + 1)
+
+        # TODO: val mode 체크 필요
+        # if train_val_dict['train'].__len__() == 0:
+        #     self.run_infer(infer_mode='val')
+        #     return
+        if train_val_dict['train'].__len__() == 0:
+            infer_mode = 'val'
+            infer_metrics = self.infer(
+                from_epoch, 
+                train_setup['model'], 
+                train_setup['infer_loader'], 
+                train_setup['loss_fn'], 
+                mode=infer_mode,
+                save_infer=self.cli_args.save_infer
+            )
+            state = {
+                'args': self.cli_args,
+                f'{infer_mode}_metrics': infer_metrics,
+                'time': time.time() - time_in_total,
+            }
+            save_model_path = os.path.join("states", f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", self.job_name, "models")
+            os.makedirs(save_model_path, exist_ok=True)
+            torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}.pth"))
+            return
 
         # Pre-Validation
         pre_metrics = self.infer(
