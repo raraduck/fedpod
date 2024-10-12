@@ -10,7 +10,7 @@ split_csv="cc359ppmi128/CC359PPMI_v1-test.csv"
 model_pth=""
 
 # 명령줄 옵션 처리
-while getopts s:g:J:R:r:E:i:m: option
+while getopts s:g:J:R:r:E:i:c:m: option
 do
     case "${option}"
     in
@@ -25,7 +25,7 @@ do
 		m) model_pth=${OPTARG};;
     esac
 done
-echo "save_infer: $save_infer, gpu: $use_gpu, job: $job_name, round: $round, epochs: $epochs, inst: $inst_id, split_csv: $split_csv, model_pth: $model_pth"
+echo "save_infer: $save_infer, gpu: $use_gpu, job: $job_name, rounds: $round, epochs: $epochs, inst: $inst_id, split_csv: $split_csv, model_pth: $model_pth"
 
 # 필수 옵션 검사
 if [ -z "$save_infer" ] || [ -z "$use_gpu" ] || [ -z "$job_name" ] || [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$epochs" ] || [ -z "$inst_id" ] || [ -z "$split_csv" ] || [ -z "$inst_id" ]; then
