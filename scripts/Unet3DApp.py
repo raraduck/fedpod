@@ -42,7 +42,7 @@ class Unet3DApp:
         self.cli_args.amp = True if self.cli_args.amp else False
         self.job_name = self.cli_args.job_name if self.cli_args.job_name else time.strftime("%Y%m%d_%H%M%S")
         self.device = torch.device("cpu")
-        log_filename = f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}_{self.cli_args.job_name}"
+        log_filename = f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}_{self.cli_args.job_name}.log"
         self.logger = initialization_logger(self.cli_args, log_filename)
         self.logger.info(f"[{self.cli_args.job_name.upper()}][INIT] created logger at job_name-{self.job_name}...")
         self.cli_args.multi_batch_size = self.cli_args.batch_size

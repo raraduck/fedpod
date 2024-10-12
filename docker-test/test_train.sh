@@ -51,6 +51,10 @@ rm -rf /fedpod/states/R02r00/test1 \
     /fedpod/states/R02r01/test0 \
     /fedpod/states/R02r01/test2 && \
 
+rm -rf /fedpod/logs/R02r00_test1.log \
+     /fedpod/logs/R02r00_test2.log \
+     /fedpod/logs/R02r01_test2.log \
+
 rmdir /fedpod/states/R02r00 && \
 
 rmdir /fedpod/states/R02r01
