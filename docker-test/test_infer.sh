@@ -8,4 +8,4 @@ bash /fedpod/run_infer.sh \
      -E 1 \
      -i 1 \
      -c /fedpod/cc359ppmi128/CC359PPMI_v1-test.csv \
-     -m /fedpod/cc359ppmi128/R00r00.pth && \
+     -m /fedpod/cc359ppmi128/R00r00.pth
