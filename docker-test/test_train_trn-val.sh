@@ -4,17 +4,6 @@
 bash /fedpod/run_train.sh \
      -s 0 \
      -g 0 \
-     -J trn1 \
-     -R 2 \
-     -r 0 \
-     -E 1 \
-     -i 1 \
-     -c /fedpod/cc359ppmi128/CC359PPMI_v1-test.csv \
-     -m /fedpod/cc359ppmi128/R00r00.pth && \
-
-bash /fedpod/run_train.sh \
-     -s 0 \
-     -g 0 \
      -J trn2 \
      -R 2 \
      -r 0 \
@@ -39,14 +28,12 @@ bash /fedpod/run_train.sh \
      -c /fedpod/cc359ppmi128/CC359PPMI_v1-test.csv \
      -m /fedpod/states/R02r01/trn0/models/R02r01.pth && \
 
-rm -rf /fedpod/states/R02r00/trn1 \
-    /fedpod/states/R02r00/trn2 \
+rm -rf /fedpod/states/R02r00/trn2 \
     /fedpod/states/R02r01/trn0 \
     /fedpod/states/R02r01/trn2 && \
 
-rm -rf /fedpod/logs/R02r00_trn1.log \
-     /fedpod/logs/R02r00_trn2.log \
-     /fedpod/logs/R02r01_trn2.log \
+rm -rf /fedpod/logs/R02r00_trn2.log \
+     /fedpod/logs/R02r01_trn2.log && \
 
 rmdir /fedpod/states/R02r00 && \
 
