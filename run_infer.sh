@@ -10,7 +10,7 @@ split_csv="cc359ppmi128/CC359PPMI_v1-test.csv"
 model_pth=""
 
 # 명령줄 옵션 처리
-while getopts s:g:j:R:r:E:i:m: option
+while getopts s:g:J:R:r:E:i:m: option
 do
     case "${option}"
     in
