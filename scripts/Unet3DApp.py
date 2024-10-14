@@ -29,6 +29,7 @@ from models import get_unet
 from dsets import get_dataset, get_base_transform, get_aug_transform, custom_collate
 from utils.optim import get_optimizer
 from utils.loss import SoftDiceBCEWithLogitsLoss, robust_sigmoid
+from utils.scheduler import get_scheduler
 # from PIL import Image
 # import torchvision.transforms as tf
 # ToPILImage 변환timestamp기 초기화
@@ -150,7 +151,7 @@ class Unet3DApp:
             optimizer = get_optimizer(self.cli_args, model)
             loss_fn = SoftDiceBCEWithLogitsLoss(channel_weights=None).to(self.device)
             scaler = GradScaler() if self.cli_args.amp else None
-            # scheduler = get_scheduler(self.cli_args, optimizer)
+            scheduler = get_scheduler(self.cli_args, optimizer)
 
             return {
                 'train_dataset': train_dataset,
@@ -159,6 +160,7 @@ class Unet3DApp:
                 'val_loader': val_loader,
                 'model': model,
                 'optimizer': optimizer,
+                'scheduler': scheduler,
                 'loss_fn': loss_fn,
                 'scaler': scaler,
             }
@@ -422,9 +424,12 @@ class Unet3DApp:
                 train_setup['train_loader'], 
                 train_setup['loss_fn'], 
                 train_setup['optimizer'], 
+                # train_setup['scheduler'],
                 train_setup['scaler'], 
                 mode='training'
             )
+            if train_setup['scheduler'] is not None:
+                train_setup['scheduler'].step()
 
         # Post-Validation (every 10 epoch recordings for central learning)
             if (epoch > 0) and ((epoch % 10 == 0) or epoch == (to_epoch - 1)): 
