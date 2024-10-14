@@ -16,27 +16,27 @@ def get_scheduler(args, optimizer: torch.optim):
     epochs = args.epochs
     try:
         scheduler = args.scheduler
-        milestones = args.milestones
-        lr_gamma = args.lr_gamma
+        milestones = milestones
+        lr_gamma = lr_gamma
     except:
         scheduler = 'step'
         milestones = [20]
         lr_gamma = 0.1
 
 
-    if args.scheduler == 'warmup_cosine':
+    if scheduler == 'warmup_cosine':
         warmup = args.warmup_epochs
         warmup_cosine_lr = (lambda epoch: epoch / warmup if epoch <= warmup else 0.5 * (math.cos((epoch - warmup) / (epochs - warmup) * math.pi) + 1))
         lr_scheduler = LambdaLR(optimizer, lr_lambda=warmup_cosine_lr)
-    elif args.scheduler == 'cosine':
+    elif scheduler == 'cosine':
         lr_scheduler = CosineAnnealingLR(optimizer, T_max=epochs)
-    elif args.scheduler == 'step':
-        lr_scheduler = MultiStepLR(optimizer, milestones=args.milestones, gamma=args.lr_gamma)
-    elif args.scheduler == 'poly':
+    elif scheduler == 'step':
+        lr_scheduler = MultiStepLR(optimizer, milestones=milestones, gamma=lr_gamma)
+    elif scheduler == 'poly':
         lr_scheduler = LambdaLR(optimizer, lambda epoch: (1 - epoch / epochs) ** 0.9)
-    elif args.scheduler == 'none':
+    elif scheduler == 'none':
         lr_scheduler = None
     else:
-        raise NotImplementedError(f"LR scheduler {args.scheduler} is not implemented.")
+        raise NotImplementedError(f"LR scheduler {scheduler} is not implemented.")
 
     return lr_scheduler
