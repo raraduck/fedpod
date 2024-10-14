@@ -7,7 +7,7 @@ spec:
   arguments:
     parameters:
     - name: rounds
-      value: "05"
+      value: "10"
     - name: job-prefix
       value: "inst"
     - name: split_csv
