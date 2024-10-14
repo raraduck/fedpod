@@ -432,15 +432,15 @@ class Unet3DApp:
                 train_setup['scheduler'].step()
 
         # Post-Validation (every 10 epoch recordings for central learning)
-            if (epoch > 0) and ((epoch % 10 == 0) or epoch == (to_epoch - 1)): 
-                post_metrics = self.infer(
-                    to_epoch-1, 
-                    train_setup['model'], 
-                    train_setup['val_loader'], 
-                    train_setup['loss_fn'], 
-                    mode='post',
-                    save_infer=self.cli_args.save_infer
-                )
+            # if (epoch > 0) and ((epoch % 10 == 0) or epoch == (to_epoch - 1)): 
+        post_metrics = self.infer(
+            to_epoch-1, 
+            train_setup['model'], 
+            train_setup['val_loader'], 
+            train_setup['loss_fn'], 
+            mode='post',
+            save_infer=self.cli_args.save_infer
+        )
 
         # 학습, 평가 및 테스트 후 모델을 CPU로 이동
         if isinstance(train_setup['model'], nn.DataParallel):

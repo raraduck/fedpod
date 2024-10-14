@@ -96,11 +96,14 @@ if __name__ == '__main__':
         mean_post_DICE_AVG = np.mean([el['post_metrics']['DICE_AVG'] for el in local_models_with_dlen])
         mean_post_HD95_AVG = np.mean([el['post_metrics']['HD95_AVG'] for el in local_models_with_dlen])
 
-        local_pre_DSCL = [el['pre_metrics']['DSCL_AVG'] for el in local_models_with_dlen]
+        # local_pre_DSCL = [el['pre_metrics']['DSCL_AVG'] for el in local_models_with_dlen]
 
 
-        mean_pre_metrics    = ', '.join(map(str, [mean_pre_DSCL_AVG,   mean_pre_DICE_AVG,  mean_pre_HD95_AVG   ]))
-        mean_post_metrics   = ', '.join(map(str, [mean_post_DSCL_AVG,  mean_post_DICE_AVG, mean_post_HD95_AVG  ]))
+        # mean_pre_metrics    = ', '.join(map(str, [mean_pre_DSCL_AVG,   mean_pre_DICE_AVG,  mean_pre_HD95_AVG   ]))
+        # mean_post_metrics   = ', '.join(map(str, [mean_post_DSCL_AVG,  mean_post_DICE_AVG, mean_post_HD95_AVG  ]))
+
+        mean_pre_metrics    = ', '.join([f"{num:.2f}" in [mean_pre_DSCL_AVG,   mean_pre_DICE_AVG,  mean_pre_HD95_AVG   ]])
+        mean_post_metrics   = ', '.join([f"{num:.2f}" in [mean_post_DSCL_AVG,  mean_post_DICE_AVG, mean_post_HD95_AVG  ]])
 
 
         logs_dir = os.path.join('/','fedpod','logs')
@@ -109,7 +112,7 @@ if __name__ == '__main__':
         os.makedirs(job_dir, exist_ok=True)
         
         # 컬럼 헤더 정의
-        columns = "mDSCL, mDICE, mHD95"  # 실제 컬럼명에 맞게 수정하세요.
+        columns = "round, epoch, mDSCL, mDICE, mHD95"  # 실제 컬럼명에 맞게 수정하세요.
 
         # Pre-metrics 파일 작성
         pre_metrics_file = os.path.join(job_dir, f'{args.job_prefix}_pre_metrics.csv')
