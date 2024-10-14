@@ -112,20 +112,20 @@ if __name__ == '__main__':
         os.makedirs(job_dir, exist_ok=True)
         
         # 컬럼 헤더 정의
-        columns = "round, epoch, mDSCL, mDICE, mHD95"  # 실제 컬럼명에 맞게 수정하세요.
+        header = "round, mDSCL, mDICE, mHD95"  # 실제 컬럼명에 맞게 수정하세요.
 
         # Pre-metrics 파일 작성
         pre_metrics_file = os.path.join(job_dir, f'{args.job_prefix}_pre_metrics.csv')
         if not os.path.exists(pre_metrics_file):
             with open(pre_metrics_file, 'a') as f:
-                f.write(columns + '\n')  # 파일이 없으면 헤더 추가
+                f.write(header + '\n')  # 파일이 없으면 헤더 추가
         with open(pre_metrics_file, 'a') as f:
-            f.write(mean_pre_metrics + '\n')
+            f.write(str(args.round) + mean_pre_metrics + '\n')
 
         # Post-metrics 파일 작성
         post_metrics_file = os.path.join(job_dir, f'{args.job_prefix}_post_metrics.csv')
         if not os.path.exists(post_metrics_file):
             with open(post_metrics_file, 'a') as f:
-                f.write(columns + '\n')  # 파일이 없으면 헤더 추가
+                f.write(header + '\n')  # 파일이 없으면 헤더 추가
         with open(post_metrics_file, 'a') as f:
-            f.write(mean_post_metrics + '\n')
+            f.write(str(args.round) + mean_post_metrics + '\n')
