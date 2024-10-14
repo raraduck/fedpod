@@ -215,24 +215,26 @@ spec:
         #   kubernetes.io/hostname: node02
 
 
-  - name: train-job
+
+  - name: aggregation-job
     inputs:
       parameters:
       - name: round
-      - name: epochs
+      - name: algorithm
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.13.2
+      image: dwnusa/fedpod:v0.4.13.6
       command: ["/bin/sh", "-c"]
-      args: ["./run_train.sh -s 0 -g 0 -j {{workflow.parameters.job-prefix}}{{inputs.parameters.inst-id}} -R {{workflow.parameters.rounds}} -r {{inputs.parameters.round}} -E {{inputs.parameters.epochs}} -i {{inputs.parameters.inst-id}} -c {{workflow.parameters.split_csv}} -m {{inputs.parameters.model_pth}}"]
+      args: ["./run_aggregation.sh -R {{workflow.parameters.rounds}} -r {{inputs.parameters.round}} -a {{inputs.parameters.algorithm}} -j {{workflow.parameters.job-prefix}} -i {{inputs.parameters.inst-id}} -m {{inputs.parameters.model_pth}}"]
+      # args: ["./run_aggregation.sh -r 0 -R 5 -a fedavg -j inst -i 0 -m /fedpod/cc359ppmi128/R00E000.pth"]
       resources:
         requests:
-          cpu: "4"
-          memory: "32G"
+          cpu: "2"
+          memory: "4G"
         limits:
-          cpu: "12"
-          memory: "64G"
+          cpu: "6"
+          memory: "8G"
       volumeMounts:
       - name: cc359ppmi128-volume
         mountPath: /fedpod/cc359ppmi128
@@ -257,26 +259,24 @@ spec:
         type: Directory
 
 
-
-  - name: aggregation-job
+  - name: train-job
     inputs:
       parameters:
       - name: round
-      - name: algorithm
+      - name: epochs
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.13.6
+      image: dwnusa/fedpod:v0.4.13.2
       command: ["/bin/sh", "-c"]
-      args: ["./run_aggregation.sh -R {{workflow.parameters.rounds}} -r {{inputs.parameters.round}} -a {{inputs.parameters.algorithm}} -j {{workflow.parameters.job-prefix}} -i {{inputs.parameters.inst-id}} -m {{inputs.parameters.model_pth}}"]
-      # args: ["./run_aggregation.sh -r 0 -R 5 -a fedavg -j inst -i 0 -m /fedpod/cc359ppmi128/R00E000.pth"]
+      args: ["./run_train.sh -s 0 -g 0 -J {{workflow.parameters.job-prefix}}{{inputs.parameters.inst-id}} -R {{workflow.parameters.rounds}} -r {{inputs.parameters.round}} -E {{inputs.parameters.epochs}} -i {{inputs.parameters.inst-id}} -c {{workflow.parameters.split_csv}} -m {{inputs.parameters.model_pth}}"]
       resources:
         requests:
-          cpu: "2"
-          memory: "4G"
+          cpu: "4"
+          memory: "32G"
         limits:
-          cpu: "6"
-          memory: "8G"
+          cpu: "12"
+          memory: "64G"
       volumeMounts:
       - name: cc359ppmi128-volume
         mountPath: /fedpod/cc359ppmi128
