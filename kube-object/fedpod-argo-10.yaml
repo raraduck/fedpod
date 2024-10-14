@@ -252,7 +252,7 @@ spec:
         - { round: "06", inst: "0" }
         # nodeSelector:
         #   kubernetes.io/hostname: node02
-    - - name: run-train-jobs-04
+    - - name: run-train-jobs-06
         template: train-job
         arguments:
           parameters:
