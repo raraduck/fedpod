@@ -15,75 +15,42 @@ spec:
   templates:
   - name: parallel-steps
     steps:
-    - - name: run-aggregation-jobs
+    - - name: run-jobs
+        template: round-jobs
+        arguments:
+          parameters:
+          - name: round
+            value: "{{item}}"
+        withParam: "[0, 1, 2, 3, 4]"
+
+  - name: round-jobs
+    inputs:
+      parameters:
+      - name: round
+    steps:
+    - - name: run-aggregation-job
         template: aggregation-job
         arguments:
           parameters:
           - name: round
-            value: "{{item.round}}"
+            value: "{{inputs.parameters.round}}"
           - name: algorithm
             value: "fedavg"
           - name: inst-id
             value: "0"
           - name: model_pth
-            value: "{{item.model_pth}}"
-        withSequence:
-          count: 5
-          start: 0
-        withItems:
-        - { round: "0", model_pth: "/fedpod/cc359ppmi128/R00E000.pth" }
-        - { round: "1", model_pth: "None" }
-        - { round: "2", model_pth: "None" }
-        - { round: "3", model_pth: "None" }
-        - { round: "4", model_pth: "None" }
-    - - name: run-train-jobs
+            value: "{{=workflow.parameters.rounds == inputs.parameters.round ? '/fedpod/cc359ppmi128/R00E000.pth' : 'None'}}"
+      - name: run-train-job
         template: train-job
         arguments:
           parameters:
           - name: round
-            value: "{{item.round}}"
+            value: "{{inputs.parameters.round}}"
           - name: inst-id
-            value: "{{item.inst}}"
+            value: "1"
           - name: model_pth
-            value: "/fedpod/states/R{{workflow.parameters.rounds}}r{{item.round}}/{{workflow.parameters.job-prefix}}0/models/R{{workflow.parameters.rounds}}r{{item.round}}.pth"
-        withSequence:
-          count: 5
-          start: 0
-        withItems:
-        - { round: "0", inst: "1" }
-        - { round: "0", inst: "2" }
-        - { round: "0", inst: "3" }
-        - { round: "0", inst: "4" }
-        - { round: "0", inst: "5" }
-        - { round: "0", inst: "6" }
+            value: "/fedpod/states/R{{workflow.parameters.rounds}}r{{inputs.parameters.round}}/{{workflow.parameters.job-prefix}}0/models/R{{workflow.parameters.rounds}}r{{inputs.parameters.round}}.pth"
 
-        - { round: "1", inst: "1" }
-        - { round: "1", inst: "2" }
-        - { round: "1", inst: "3" }
-        - { round: "1", inst: "4" }
-        - { round: "1", inst: "5" }
-        - { round: "1", inst: "6" }
-
-        - { round: "2", inst: "1" }
-        - { round: "2", inst: "2" }
-        - { round: "2", inst: "3" }
-        - { round: "2", inst: "4" }
-        - { round: "2", inst: "5" }
-        - { round: "2", inst: "6" }
-
-        - { round: "3", inst: "1" }
-        - { round: "3", inst: "2" }
-        - { round: "3", inst: "3" }
-        - { round: "3", inst: "4" }
-        - { round: "3", inst: "5" }
-        - { round: "3", inst: "6" }
-
-        - { round: "4", inst: "1" }
-        - { round: "4", inst: "2" }
-        - { round: "4", inst: "3" }
-        - { round: "4", inst: "4" }
-        - { round: "4", inst: "5" }
-        - { round: "4", inst: "6" }
 
 
 
