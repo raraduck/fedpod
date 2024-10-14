@@ -28,7 +28,7 @@ spec:
           - name: model_pth
             value: "{{item.model_pth}}"
         withSequence:
-          count: 6
+          count: 5
           start: 0
         withItems:
         - { round: "0", model_pth: "/fedpod/cc359ppmi128/R00E000.pth" }
@@ -36,7 +36,6 @@ spec:
         - { round: "2", model_pth: "None" }
         - { round: "3", model_pth: "None" }
         - { round: "4", model_pth: "None" }
-        - { round: "5", model_pth: "None" }
     - - name: run-train-jobs
         template: train-job
         arguments:
