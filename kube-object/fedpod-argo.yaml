@@ -272,11 +272,11 @@ spec:
       args: ["./run_train.sh -s 0 -g 0 -J {{workflow.parameters.job-prefix}}{{inputs.parameters.inst-id}} -R {{workflow.parameters.rounds}} -r {{inputs.parameters.round}} -E {{inputs.parameters.epochs}} -i {{inputs.parameters.inst-id}} -c {{workflow.parameters.split_csv}} -m {{inputs.parameters.model_pth}}"]
       resources:
         requests:
-          cpu: "6"
+          cpu: "2"
           memory: "64G"
-        limits:
-          cpu: "12"
-          memory: "86G"
+        # limits:
+        #   cpu: "12"
+        #   memory: "86G"
       volumeMounts:
       - name: cc359ppmi128-volume
         mountPath: /fedpod/cc359ppmi128
