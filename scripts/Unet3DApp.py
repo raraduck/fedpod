@@ -416,6 +416,8 @@ class Unet3DApp:
             save_infer=self.cli_args.save_infer
         )
 
+        for i in from_epoch:
+            train_setup['scheduler'].step()
         train_tb_dict = {}
         for epoch in range(from_epoch, to_epoch):
             train_tb_dict[epoch] = self.train(
