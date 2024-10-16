@@ -15,4 +15,4 @@ rm -rf /fedpod/states/infer_1/R02r00 && \
 
 rm -rf /fedpod/logs/infer_1_R02r00.log && \
 
-rmdir /fedpod/states/R02r00
+rmdir /fedpod/states/infer_1

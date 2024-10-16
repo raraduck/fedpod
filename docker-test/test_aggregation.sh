@@ -39,6 +39,6 @@ rm -rf /fedpod/logs/agg_0 \
     /fedpod/states/agg_2/R02r00 \
     /fedpod/states/agg_0/R02r01 && \
 
-rmdir /fedpod/states/R02r00 && \
-
-rmdir /fedpod/states/R02r01
+rmdir /fedpod/states/agg_0 && \
+rmdir /fedpod/states/agg_1 && \
+rmdir /fedpod/states/agg_2
