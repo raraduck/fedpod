@@ -33,7 +33,7 @@ if __name__ == '__main__':
         logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup from {args.weight_path}...")
         orig_file = args.weight_path
         curr_round_dir = os.path.join(base_dir, f"R{args.rounds:02}r{curr_round:02}")
-        center_dir = os.path.join(curr_round_dir, f"{args.job_prefix}{args.inst_id}")
+        center_dir = os.path.join(curr_round_dir, f"{args.job_prefix}_{args.inst_id}")
         models_dir = os.path.join(center_dir, 'models')
         os.makedirs(models_dir, exist_ok=True)
         save_model_path = os.path.join(models_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
@@ -41,7 +41,7 @@ if __name__ == '__main__':
         logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup to {save_model_path}...")
     else:
         prev_round_dir = os.path.join(base_dir, f"R{args.rounds:02}r{prev_round:02}")
-        inst_dir = os.path.join(prev_round_dir, f"{args.job_prefix}*") # inst0 also included 
+        inst_dir = os.path.join(prev_round_dir, f"{args.job_prefix}_*") # inst0 also included 
         pattern = os.path.join(inst_dir, 'models', '*_last.pth') # but, _last.pth removes inst0 because inst0 never has _last.pth file on it
         pth_path = glob.glob(pattern)
         for pth in pth_path:
@@ -75,7 +75,7 @@ if __name__ == '__main__':
             }, 
         }
         curr_round_dir = os.path.join(base_dir, f"R{args.rounds:02}r{curr_round:02}")
-        center_dir = os.path.join(curr_round_dir, f"{args.job_prefix}{args.inst_id}")
+        center_dir = os.path.join(curr_round_dir, f"{args.job_prefix}_{args.inst_id}")
         models_dir = os.path.join(center_dir, 'models')
         os.makedirs(models_dir, exist_ok=True)
         save_model_path = os.path.join(models_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
@@ -108,7 +108,7 @@ if __name__ == '__main__':
 
         logs_dir = os.path.join('/','fedpod','logs')
         # logs_dir = os.path.join('.','logs')
-        job_dir = os.path.join(logs_dir, f"{args.job_prefix}{args.inst_id}")
+        job_dir = os.path.join(logs_dir, f"{args.job_prefix}_{args.inst_id}")
         os.makedirs(job_dir, exist_ok=True)
         
         # 컬럼 헤더 정의
