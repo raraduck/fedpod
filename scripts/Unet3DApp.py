@@ -43,7 +43,7 @@ class Unet3DApp:
         self.cli_args.amp = True if self.cli_args.amp else False
         self.job_name = self.cli_args.job_name if self.cli_args.job_name else time.strftime("%Y%m%d_%H%M%S")
         self.device = torch.device("cpu")
-        log_filename = f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}_{self.cli_args.job_name}.log"
+        log_filename = f"{self.cli_args.job_name}_R{self.cli_args.rounds:02}r{self.cli_args.round:02}.log"
         self.logger = initialization_logger(self.cli_args, log_filename)
         self.logger.info(f"[{self.cli_args.job_name.upper()}][INIT] created logger at job_name-{self.job_name}...")
         self.cli_args.multi_batch_size = self.cli_args.batch_size
@@ -81,7 +81,7 @@ class Unet3DApp:
             state = {'model': model.state_dict(), 'epoch': 0, 'args': self.cli_args}
             # exp_folder = f"{self.cli_args.exp_name}"
             # exp_folder = time.strftime("%Y%m%d_%H%M%S")
-            save_model_path = os.path.join("states", f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", self.job_name, "models")
+            save_model_path = os.path.join("states", self.job_name, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", "models")
             os.makedirs(save_model_path, exist_ok=True)
             init_model_path = os.path.join(save_model_path, f"R{0:02}r{0:02}.pth")
             torch.save(state, init_model_path)
@@ -277,7 +277,7 @@ class Unet3DApp:
         batch_time = AverageMeter('Time', ':6.3f')
         case_metrics_meter = CaseSegMetricsMeter(seg_names)
 
-        save_val_path = os.path.join("states", f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", self.job_name, f"E{curr_epoch:03}")
+        save_val_path = os.path.join("states", self.job_name, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", f"E{curr_epoch:03}")
         os.makedirs(save_val_path, exist_ok=True)
         # folder_lv3 = f"{mode}_epoch_{epoch:03d}"
         # save_epoch_path = os.path.join("states", folder_dir1, folder_dir2, folder_dir3)
@@ -401,7 +401,7 @@ class Unet3DApp:
                 f'{infer_mode}_metrics': infer_metrics,
                 'time': time.time() - time_in_total,
             }
-            save_model_path = os.path.join("states", f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", self.job_name, "models")
+            save_model_path = os.path.join("states", self.job_name, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", "models")
             os.makedirs(save_model_path, exist_ok=True)
             torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}.pth"))
             return # Finish process because there is no training data
@@ -463,7 +463,7 @@ class Unet3DApp:
             'D': (Pre_DSCL - Post_DSCL),
             'time': time.time() - time_in_total,
         }
-        save_model_path = os.path.join("states", f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", self.job_name, "models")
+        save_model_path = os.path.join("states", self.job_name, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", "models")
         os.makedirs(save_model_path, exist_ok=True)
         torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}_last.pth"))
         return
@@ -504,7 +504,7 @@ class Unet3DApp:
             f'{infer_mode}_metrics': infer_metrics,
             'time': time.time() - time_in_total,
         }
-        save_model_path = os.path.join("states", f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", self.job_name, "models")
+        save_model_path = os.path.join("states", self.job_name, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", "models")
         os.makedirs(save_model_path, exist_ok=True)
         torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}.pth"))
         return
