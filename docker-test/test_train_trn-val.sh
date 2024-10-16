@@ -4,7 +4,7 @@
 bash /fedpod/run_train.sh \
      -s 0 \
      -g 0 \
-     -J trn2 \
+     -J trn_2 \
      -R 2 \
      -r 0 \
      -E 1 \
@@ -12,28 +12,28 @@ bash /fedpod/run_train.sh \
      -c /fedpod/cc359ppmi128/CC359PPMI_v1-test.csv \
      -m /fedpod/cc359ppmi128/R00r00.pth && \
 
-mkdir -p /fedpod/states/R02r01/trn0/models && \
+mkdir -p /fedpod/states/R02r01/trn_0/models && \
 
-cp /fedpod/states/R02r00/trn2/models/R02r00_last.pth \
-    /fedpod/states/R02r01/trn0/models/R02r01.pth && \
+cp /fedpod/states/R02r00/trn_2/models/R02r00_last.pth \
+    /fedpod/states/R02r01/trn_0/models/R02r01.pth && \
 
 bash /fedpod/run_train.sh \
      -s 0 \
      -g 0 \
-     -J trn2 \
+     -J trn_2 \
      -R 2 \
      -r 1 \
      -E 1 \
      -i 2 \
      -c /fedpod/cc359ppmi128/CC359PPMI_v1-test.csv \
-     -m /fedpod/states/R02r01/trn0/models/R02r01.pth && \
+     -m /fedpod/states/R02r01/trn_0/models/R02r01.pth && \
 
-rm -rf /fedpod/states/R02r00/trn2 \
-    /fedpod/states/R02r01/trn0 \
-    /fedpod/states/R02r01/trn2 && \
+rm -rf /fedpod/states/R02r00/trn_2 \
+    /fedpod/states/R02r01/trn_0 \
+    /fedpod/states/R02r01/trn_2 && \
 
-rm -rf /fedpod/logs/R02r00_trn2.log \
-     /fedpod/logs/R02r01_trn2.log && \
+rm -rf /fedpod/logs/R02r00_trn_2.log \
+     /fedpod/logs/R02r01_trn_2.log && \
 
 rmdir /fedpod/states/R02r00 && \
 
@@ -45,11 +45,11 @@ rmdir /fedpod/states/R02r01
 
 # mkdir -p \
 #     /fedpod/states/R02r00/trn1/models \
-#     /fedpod/states/R02r00/trn2/models && \
+#     /fedpod/states/R02r00/trn_2/models && \
 
-# cp /fedpod/states/R02r00/trn0/R02r00.pth /fedpod/states/R02r00/trn1/models/R02r00_last.pth && \
+# cp /fedpod/states/R02r00/trn_0/R02r00.pth /fedpod/states/R02r00/trn1/models/R02r00_last.pth && \
 
-# cp /fedpod/states/R02r00/trn0/R02r00.pth /fedpod/states/R02r00/trn2/models/R02r00_last.pth && \
+# cp /fedpod/states/R02r00/trn_0/R02r00.pth /fedpod/states/R02r00/trn_2/models/R02r00_last.pth && \
 
 # bash run_aggregation.sh \
 #     -R 2 \
@@ -59,10 +59,10 @@ rmdir /fedpod/states/R02r01
 #     -i 0 \
 #     -m None && \
     
-# rm -rf /fedpod/states/R02r00/trn0 \
+# rm -rf /fedpod/states/R02r00/trn_0 \
 #     /fedpod/states/R02r00/trn1 \
-#     /fedpod/states/R02r00/trn2 \
-#     /fedpod/states/R02r01/trn0 && \
+#     /fedpod/states/R02r00/trn_2 \
+#     /fedpod/states/R02r01/trn_0 && \
 
 # rmdir /fedpod/states/R02r00 && \
 
