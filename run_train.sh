@@ -47,7 +47,7 @@ python3 scripts/run_train.py \
 	--patch_size 128 \
 	--dataset CC359PPMI \
 	--data_root cc359ppmi128 \
-	--inst_root inst_0* \
+	--inst_root inst_* \
 	\
 	--cases_split $split_csv \
 	--inst_ids [$inst_id] \
