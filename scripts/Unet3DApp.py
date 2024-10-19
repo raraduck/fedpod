@@ -435,17 +435,24 @@ class Unet3DApp:
                 mode='training'
             )
             if i % 5 == 4:
+                infer_mode = 'val'
                 val_metrics = self.infer(
                     epoch, 
                     train_setup['model'], 
                     train_setup['val_loader'], 
                     train_setup['loss_fn'], 
-                    mode='val',
+                    mode=infer_mode,
                     save_infer=self.cli_args.save_infer
                 )
                 
                 MIN_DSCL_AVG, IS_UPDATED = (val_metrics['DSCL_AVG'], True) if val_metrics['DSCL_AVG'] < MIN_DSCL_AVG else (MIN_DSCL_AVG, False)
                 if IS_UPDATED:
+                    state = {
+                        'model': train_setup['model'].state_dict(),
+                        'args': self.cli_args,
+                        f'{infer_mode}_metrics': infer_metrics,
+                        'time': time.time() - time_in_total,
+                    }
                     save_model_path = os.path.join("states", self.job_name, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", "models")
                     os.makedirs(save_model_path, exist_ok=True)
                     torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}_best.pth"))
