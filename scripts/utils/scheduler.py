@@ -20,10 +20,10 @@ def get_scheduler(args, optimizer: torch.optim):
         lr_gamma = args.lr_gamma
     except Exception as e:
         # self.logger.error(msg)  # 로깅 시 스택 트레이스를 포함시킵니다
+        # scheduler = 'step'
+        # milestones = [3]
+        # lr_gamma = 0.1
         raise e
-        scheduler = 'step'
-        milestones = [3]
-        lr_gamma = 0.1
 
 
     if scheduler == 'warmup_cosine':

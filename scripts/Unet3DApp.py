@@ -340,7 +340,7 @@ class Unet3DApp:
 
                 # output seg map
                 if save_infer: # and (round == 0):
-                    if (curr_epoch == 0) and (mode in ['pre', 'val', 'test']):
+                    if (curr_epoch == 0) and (mode in ['pre', 'test']):
                         modality = self.cli_args.input_channel_names
                         scale = 255
                         save_img_nifti(image, scale, name, mode[:4], 'img',
@@ -416,10 +416,14 @@ class Unet3DApp:
             mode='pre',
             save_infer=self.cli_args.save_infer
         )
-
-        for i in range(self.cli_args.round):
-            train_setup['scheduler'].step()
+        
         train_tb_dict = {}
+        MIN_DSCL_AVG = pre_metrics['DSCL_AVG']
+
+        if train_setup['scheduler'] is not None:
+            for i in range(from_epoch):
+                train_setup['scheduler'].step()
+
         for epoch in range(from_epoch, to_epoch):
             train_tb_dict[epoch] = self.train(
                 self.cli_args.round, epoch, 
@@ -427,12 +431,27 @@ class Unet3DApp:
                 train_setup['train_loader'], 
                 train_setup['loss_fn'], 
                 train_setup['optimizer'], 
-                # train_setup['scheduler'],
                 train_setup['scaler'], 
                 mode='training'
             )
-            # if train_setup['scheduler'] is not None:
-            #     train_setup['scheduler'].step()
+            if epoch % 5 == 4:
+                val_metrics = self.infer(
+                    epoch, 
+                    train_setup['model'], 
+                    train_setup['val_loader'], 
+                    train_setup['loss_fn'], 
+                    mode='val',
+                    save_infer=self.cli_args.save_infer
+                )
+                
+                MIN_DSCL_AVG, IS_UPDATED = val_metrics['DSCL_AVG'], True if val_metrics['DSCL_AVG'] < MIN_DSCL_AVG else MIN_DSCL_AVG, False
+                if IS_UPDATED:
+                    save_model_path = os.path.join("states", self.job_name, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", "models")
+                    os.makedirs(save_model_path, exist_ok=True)
+                    torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}_best.pth"))
+
+            if train_setup['scheduler'] is not None:
+                train_setup['scheduler'].step()
 
         # Post-Validation (every 10 epoch recordings for central learning)
             # if (epoch > 0) and ((epoch % 10 == 0) or epoch == (to_epoch - 1)): 
