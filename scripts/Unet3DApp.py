@@ -424,7 +424,7 @@ class Unet3DApp:
             for i in range(from_epoch):
                 train_setup['scheduler'].step()
 
-        for epoch in range(from_epoch, to_epoch):
+        for epoch in enumerate(range(from_epoch, to_epoch)):
             train_tb_dict[epoch] = self.train(
                 self.cli_args.round, epoch, 
                 train_setup['model'], 
