@@ -148,7 +148,7 @@ def main(args):
     #     f.write(f"{args.round},\t{mean_post_metrics}\n")
     #     # f.write(str(args.round) + '\t' + mean_post_metrics + '\n')
 
-if __name__ == '__main__':
+if __name__ == '__main__': 
     args = parser.parse_args(sys.argv[1:])
     main(args)  # Call the main function with parsed arguments
     
