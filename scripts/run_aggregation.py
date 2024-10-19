@@ -106,8 +106,8 @@ def main(args):
     # mean_pre_metrics    = ', '.join(map(str, [mean_pre_DSCL_AVG,   mean_pre_DICE_AVG,  mean_pre_HD95_AVG   ]))
     # mean_post_metrics   = ', '.join(map(str, [mean_post_DSCL_AVG,  mean_post_DICE_AVG, mean_post_HD95_AVG  ]))
 
-    mean_pre_metrics    = ', '.join([f"{num:4.4f}" for num in [mean_pre_DSCL_AVG,   mean_pre_DICE_AVG,  mean_pre_HD95_AVG   ]])
-    mean_post_metrics   = ', '.join([f"{num:4.4f}" for num in [mean_post_DSCL_AVG,  mean_post_DICE_AVG, mean_post_HD95_AVG  ]])
+    mean_pre_metrics    = [mean_pre_DSCL_AVG,   mean_pre_DICE_AVG,  mean_pre_HD95_AVG   ]
+    mean_post_metrics   = [mean_post_DSCL_AVG,  mean_post_DICE_AVG, mean_post_HD95_AVG  ]
 
 
     logs_dir = os.path.join('/','fedpod','logs')
