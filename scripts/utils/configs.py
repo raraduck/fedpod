@@ -50,7 +50,7 @@ def parse_args(argv):
     parser.add_argument('--weight_decay', '--wd', default=1e-4, type=float, help='weight decay')
     parser.add_argument('--amp', type=int, choices=[0, 1], default=0, help='using mixed precision')
 
-    parser.add_argument('--scheduler', type=str, default='none', help='scheduler',
+    parser.add_argument('--scheduler', type=str, default='step', help='scheduler',
                         choices=['warmup_cosine', 'cosine', 'step', 'poly', 'none'])
     parser.add_argument('--milestones', type=int, nargs="+", default=[10],
         help='milestones for multistep decay')
