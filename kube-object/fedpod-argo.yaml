@@ -184,7 +184,7 @@ spec:
     outputs:
       artifacts:
       - name: log-file
-        path: "/fedpod/logs/{{workflow.parameters.job-prefix}}_{{inputs.parameters.inst-id}}/{{workflow.parameters.job-prefix}}_R{{workflow.parameters.rounds}}r{{item.round}}.log"
+        path: "/fedpod/logs/{{workflow.parameters.job-prefix}}_{{inputs.parameters.inst-id}}/{{workflow.parameters.job-prefix}}_R{{workflow.parameters.rounds}}r{{inputs.parameters.round}}.log"
 
 
   - name: train-job
