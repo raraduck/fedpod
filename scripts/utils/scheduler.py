@@ -16,9 +16,11 @@ def get_scheduler(args, optimizer: torch.optim):
     epochs = args.epochs
     try:
         scheduler = args.scheduler
-        milestones = milestones
-        lr_gamma = lr_gamma
-    except:
+        milestones = args.milestones
+        lr_gamma = args.lr_gamma
+    except Exception as e:
+        # self.logger.error(msg)  # 로깅 시 스택 트레이스를 포함시킵니다
+        raise e
         scheduler = 'step'
         milestones = [3]
         lr_gamma = 0.1

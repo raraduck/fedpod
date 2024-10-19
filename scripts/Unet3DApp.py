@@ -240,7 +240,7 @@ class Unet3DApp:
                 f"BCEL:{bce_loss.item():2.3f}",
                 f"DSCL:{avg_dsc_loss.item():2.3f}",
                 f"BCEL+DSCL:{loss.item():2.3f}",
-                f"lr:{optimizer.state_dict()['param_groups'][0]['lr']:0.5f}",
+                f"lr:{optimizer.state_dict()['param_groups'][0]['lr']:0.4f}",
                 f"{str(batch_time)}",
             ]))
             end = time.time()
@@ -417,7 +417,7 @@ class Unet3DApp:
             save_infer=self.cli_args.save_infer
         )
 
-        for i in range(from_epoch):
+        for i in range(self.cli_args.round):
             train_setup['scheduler'].step()
         train_tb_dict = {}
         for epoch in range(from_epoch, to_epoch):
@@ -431,8 +431,8 @@ class Unet3DApp:
                 train_setup['scaler'], 
                 mode='training'
             )
-            if train_setup['scheduler'] is not None:
-                train_setup['scheduler'].step()
+            # if train_setup['scheduler'] is not None:
+            #     train_setup['scheduler'].step()
 
         # Post-Validation (every 10 epoch recordings for central learning)
             # if (epoch > 0) and ((epoch % 10 == 0) or epoch == (to_epoch - 1)): 
