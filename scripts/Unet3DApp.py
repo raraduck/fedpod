@@ -444,7 +444,7 @@ class Unet3DApp:
                     save_infer=self.cli_args.save_infer
                 )
                 
-                MIN_DSCL_AVG, IS_UPDATED = val_metrics['DSCL_AVG'], True if val_metrics['DSCL_AVG'] < MIN_DSCL_AVG else MIN_DSCL_AVG, False
+                MIN_DSCL_AVG, IS_UPDATED = (val_metrics['DSCL_AVG'], True) if val_metrics['DSCL_AVG'] < MIN_DSCL_AVG else (MIN_DSCL_AVG, False)
                 if IS_UPDATED:
                     save_model_path = os.path.join("states", self.job_name, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", "models")
                     os.makedirs(save_model_path, exist_ok=True)
