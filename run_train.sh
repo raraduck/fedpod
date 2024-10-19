@@ -64,4 +64,7 @@ python3 scripts/run_train.py \
 	--optim adamw \
 	--ds_layer 1 \
 	--kernel_size 3 \
-	--norm instance
+	--norm instance \
+	--scheduler step \
+	--milestones [20] \
+	--lr_gamma 0.1
