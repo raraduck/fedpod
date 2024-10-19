@@ -50,14 +50,13 @@ def parse_args(argv):
     parser.add_argument('--weight_decay', '--wd', default=1e-4, type=float, help='weight decay')
     parser.add_argument('--amp', type=int, choices=[0, 1], default=0, help='using mixed precision')
 
-
     # parser.add_argument('--scheduler', type=str, default='none', help='scheduler',
     #                     choices=['warmup_cosine', 'cosine', 'step', 'poly', 'none'])
-    # parser.add_argument('--warmup_epochs', type=int, default=5, help='warm up epochs')
-    # parser.add_argument('--milestones', type=int, nargs="+", default=[60, 80],
+    # parser.add_argument('--milestones', type=int, nargs="+", default=[5],
     #     help='milestones for multistep decay')
     # parser.add_argument('--lr_gamma', type=float, default=0.1,
     #     help='decay factor for multistep decay')
+    # parser.add_argument('--warmup_epochs', type=int, default=5, help='warm up epochs')
 
     # infer
     parser.add_argument('--patch_overlap', type=float, default=0.5,

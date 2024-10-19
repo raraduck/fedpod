@@ -20,7 +20,7 @@ def get_scheduler(args, optimizer: torch.optim):
         lr_gamma = lr_gamma
     except:
         scheduler = 'step'
-        milestones = [20]
+        milestones = [3]
         lr_gamma = 0.1
 
 
