@@ -105,8 +105,8 @@ if __name__ == '__main__':
         # mean_pre_metrics    = ', '.join(map(str, [mean_pre_DSCL_AVG,   mean_pre_DICE_AVG,  mean_pre_HD95_AVG   ]))
         # mean_post_metrics   = ', '.join(map(str, [mean_post_DSCL_AVG,  mean_post_DICE_AVG, mean_post_HD95_AVG  ]))
 
-        mean_pre_metrics    = ', '.join([f"{num:.3f}" for num in [mean_pre_DSCL_AVG,   mean_pre_DICE_AVG,  mean_pre_HD95_AVG   ]])
-        mean_post_metrics   = ', '.join([f"{num:.3f}" for num in [mean_post_DSCL_AVG,  mean_post_DICE_AVG, mean_post_HD95_AVG  ]])
+        mean_pre_metrics    = ', '.join([f"{num:4.4f}" for num in [mean_pre_DSCL_AVG,   mean_pre_DICE_AVG,  mean_pre_HD95_AVG   ]])
+        mean_post_metrics   = ', '.join([f"{num:4.4f}" for num in [mean_post_DSCL_AVG,  mean_post_DICE_AVG, mean_post_HD95_AVG  ]])
 
 
         logs_dir = os.path.join('/','fedpod','logs')
@@ -115,23 +115,22 @@ if __name__ == '__main__':
         os.makedirs(job_dir, exist_ok=True)
         
         # 컬럼 헤더 정의
-        header = "round,\tmDSCL, mDICE, mHD95"  # 실제 컬럼명에 맞게 수정하세요.
+        header = "round, PREVmDSCL, PREVmDICE, PREVmHD95, POSTmDSCL, POSTmDICE, POSTmHD95"  # 실제 컬럼명에 맞게 수정하세요.
 
         # Pre-metrics 파일 작성
-        pre_metrics_file = os.path.join(job_dir, f'{args.job_prefix}_pre_metrics.csv')
+        pre_metrics_file = os.path.join(job_dir, f'{args.job_prefix}_metrics.csv')
         if not os.path.exists(pre_metrics_file):
             with open(pre_metrics_file, 'a') as f:
                 f.write(f"{header}\n")  # 파일이 없으면 헤더 추가
         with open(pre_metrics_file, 'a') as f:
-            f.write(f"{args.round},\t{mean_pre_metrics}\n")
-            # f.write(str(args.round) + '\t' + mean_pre_metrics + '\n')
+            f.write(f"{args.round:5d}, {mean_pre_metrics}, {mean_post_metrics}\n")
 
-        # Post-metrics 파일 작성
-        post_metrics_file = os.path.join(job_dir, f'{args.job_prefix}_post_metrics.csv')
-        if not os.path.exists(post_metrics_file):
-            with open(post_metrics_file, 'a') as f:
-                f.write(f"{header}\n")  # 파일이 없으면 헤더 추가
-                # f.write(header + '\n')  # 파일이 없으면 헤더 추가
-        with open(post_metrics_file, 'a') as f:
-            f.write(f"{args.round},\t{mean_post_metrics}\n")
-            # f.write(str(args.round) + '\t' + mean_post_metrics + '\n')
+        # # Post-metrics 파일 작성
+        # post_metrics_file = os.path.join(job_dir, f'{args.job_prefix}_post_metrics.csv')
+        # if not os.path.exists(post_metrics_file):
+        #     with open(post_metrics_file, 'a') as f:
+        #         f.write(f"{header}\n")  # 파일이 없으면 헤더 추가
+        #         # f.write(header + '\n')  # 파일이 없으면 헤더 추가
+        # with open(post_metrics_file, 'a') as f:
+        #     f.write(f"{args.round},\t{mean_post_metrics}\n")
+        #     # f.write(str(args.round) + '\t' + mean_post_metrics + '\n')
