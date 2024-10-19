@@ -7,7 +7,7 @@ bash /fedpod/run_train.sh \
      -J trn_2 \
      -R 2 \
      -r 0 \
-     -E 1 \
+     -E 3 \
      -i 2 \
      -c /fedpod/cc359ppmi128/CC359PPMI_v1-test.csv \
      -m /fedpod/cc359ppmi128/R00r00.pth && \
@@ -23,7 +23,7 @@ bash /fedpod/run_train.sh \
      -J trn_2 \
      -R 2 \
      -r 1 \
-     -E 1 \
+     -E 3 \
      -i 2 \
      -c /fedpod/cc359ppmi128/CC359PPMI_v1-test.csv \
      -m /fedpod/states/trn_0/R02r01/models/R02r01.pth && \
