@@ -181,10 +181,10 @@ spec:
       hostPath:
         path: /fedpod/logs  # 로컬 경로
         type: Directory
-    outputs:
-      artifacts:
-      - name: log-file
-        path: "/fedpod/logs/{{workflow.parameters.job-prefix}}_R{{workflow.parameters.rounds}}r{{inputs.parameters.round}}.log"
+    # outputs:
+    #   artifacts:
+    #   - name: log-file
+    #     path: "/fedpod/logs/{{workflow.parameters.job-prefix}}_R{{workflow.parameters.rounds}}r{{inputs.parameters.round}}.log"
 
 
   - name: train-job
