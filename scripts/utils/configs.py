@@ -52,7 +52,7 @@ def parse_args(argv):
 
     parser.add_argument('--scheduler', type=str, default='none', help='scheduler',
                         choices=['warmup_cosine', 'cosine', 'step', 'poly', 'none'])
-    parser.add_argument('--milestones', type=int, nargs="+", default=[20],
+    parser.add_argument('--milestones', type=parse_1d_int_list, default=[20],
         help='milestones for multistep decay')
     parser.add_argument('--lr_gamma', type=float, default=0.1,
         help='decay factor for multistep decay')
