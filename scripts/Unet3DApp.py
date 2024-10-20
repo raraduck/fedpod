@@ -450,7 +450,7 @@ class Unet3DApp:
                     state = {
                         'model': train_setup['model'].state_dict(),
                         'args': self.cli_args,
-                        f'{infer_mode}_metrics': infer_metrics,
+                        f'{infer_mode}_metrics': val_metrics,
                         'time': time.time() - time_in_total,
                     }
                     save_model_path = os.path.join("states", self.job_name, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", "models")
