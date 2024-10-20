@@ -35,8 +35,8 @@ bash /fedpod/run_aggregation.sh \
     -i 0 \
     -m None && \
 
-# cat /fedpod/logs/agg_0/agg_metrics.csv
-cat /fedpod/logs/agg_0/agg_metrics.csv | column -t -s ","
+cat /fedpod/logs/agg_0/agg_metrics.csv
+# cat /fedpod/logs/agg_0/agg_metrics.csv | column -t -s ","
 
 rm -rf /fedpod/logs/agg_0 \
     /fedpod/logs/agg_R02r00.log \
