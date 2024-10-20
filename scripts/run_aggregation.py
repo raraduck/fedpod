@@ -132,9 +132,9 @@ def main(args):
         f.write(
             ', '.join([
                 f"{args.round:5d}",
-                f"{mean_pre_metrics[0]:4.4f}", f"{mean_post_metrics[0]:4.4f}", 
-                f"{mean_pre_metrics[1]:4.4f}", f"{mean_post_metrics[1]:4.4f}", 
-                f"{mean_pre_metrics[2]:4.4f}", f"{mean_post_metrics[2]:4.4f}\n", 
+                f"{mean_pre_metrics[0]:9.4f}", f"{mean_post_metrics[0]:9.4f}", 
+                f"{mean_pre_metrics[1]:9.4f}", f"{mean_post_metrics[1]:9.4f}", 
+                f"{mean_pre_metrics[2]:9.4f}", f"{mean_post_metrics[2]:9.4f}\n", 
             ])
         )
 
