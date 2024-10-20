@@ -4,6 +4,7 @@ import time
 import argparse
 import sys
 import glob
+import natsort
 from utils.tools import *
 from Aggregator import *
 from utils.misc import *
@@ -44,7 +45,7 @@ def main(args):
     inst_dir = os.path.join(base_dir, f"{args.job_prefix}_*") # inst0 also included 
     prev_round_dir = os.path.join(inst_dir, f"R{args.rounds:02}r{prev_round:02}")
     pattern = os.path.join(prev_round_dir, 'models', '*_last.pth') # but, _last.pth removes inst0 because inst0 never has _last.pth file on it
-    pth_path = glob.glob(pattern)
+    pth_path = natsort.natsorted(glob.glob(pattern))
     for pth in pth_path:
         logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] local models are from {pth}...")
     local_models_with_dlen = [torch.load(m) for m in pth_path]
@@ -55,7 +56,7 @@ def main(args):
         M = [el['model'] for el in local_models_with_dlen]
         aggregated_model = fedavg(W, M)
     elif args.algorithm == "fedwavg":
-        P = [1 for el in local_models_with_dlen]
+        P = [el['P'] for el in local_models_with_dlen]
         W = [el/sum(P) for el in P]
         M = [el['model'] for el in local_models_with_dlen]
         aggregated_model = fedwavg(W, M)
@@ -92,22 +93,59 @@ def main(args):
 
         
     # averaged_loss = lossavg()
-    mean_pre_DSCL_AVG = np.mean([el['pre_metrics']['DSCL_AVG'] for el in local_models_with_dlen])
-    mean_pre_DICE_AVG = np.mean([el['pre_metrics']['DICE_AVG'] for el in local_models_with_dlen])
-    mean_pre_HD95_AVG = np.mean([el['pre_metrics']['HD95_AVG'] for el in local_models_with_dlen])
+    mean_prev_DSCL_AVG = np.mean([el['pre_metrics']['DSCL_AVG'] for el in local_models_with_dlen])
+    mean_prev_DICE_AVG = np.mean([el['pre_metrics']['DICE_AVG'] for el in local_models_with_dlen])
+    mean_prev_HD95_AVG = np.mean([el['pre_metrics']['HD95_AVG'] for el in local_models_with_dlen])
+    
+    local_prev_DSCL_AVG = [
+        {f"PREV_{el['args'].job_name}_DSCL": np.mean([
+                el['pre_metrics']['DSCL_LA'],
+                el['pre_metrics']['DSCL_LC'],
+                el['pre_metrics']['DSCL_LP'],
+                el['pre_metrics']['DSCL_RA'],
+                el['pre_metrics']['DSCL_RC'],
+                el['pre_metrics']['DSCL_RP'],
+            ])} for el in local_models_with_dlen
+    ]
+    # local_pre_DSCL_LA = np.mean([el['pre_metrics']['DSCL_LA'] for el in local_models_with_dlen])
+    # local_pre_DSCL_LC = np.mean([el['pre_metrics']['DSCL_LC'] for el in local_models_with_dlen])
+    # local_pre_DSCL_LP = np.mean([el['pre_metrics']['DSCL_LP'] for el in local_models_with_dlen])
+    # local_pre_DSCL_RA = np.mean([el['pre_metrics']['DSCL_RA'] for el in local_models_with_dlen])
+    # local_pre_DSCL_RC = np.mean([el['pre_metrics']['DSCL_RC'] for el in local_models_with_dlen])
+    # local_pre_DSCL_RP = np.mean([el['pre_metrics']['DSCL_RP'] for el in local_models_with_dlen])
 
     mean_post_DSCL_AVG = np.mean([el['post_metrics']['DSCL_AVG'] for el in local_models_with_dlen])
     mean_post_DICE_AVG = np.mean([el['post_metrics']['DICE_AVG'] for el in local_models_with_dlen])
     mean_post_HD95_AVG = np.mean([el['post_metrics']['HD95_AVG'] for el in local_models_with_dlen])
 
+    local_post_DSCL_AVG = [
+        {f"POST_{el['args'].job_name}_DSCL": np.mean([
+                el['post_metrics']['DSCL_LA'],
+                el['post_metrics']['DSCL_LC'],
+                el['post_metrics']['DSCL_LP'],
+                el['post_metrics']['DSCL_RA'],
+                el['post_metrics']['DSCL_RC'],
+                el['post_metrics']['DSCL_RP'],
+            ])} for el in local_models_with_dlen
+    ]
     # local_pre_DSCL = [el['pre_metrics']['DSCL_AVG'] for el in local_models_with_dlen]
 
 
     # mean_pre_metrics    = ', '.join(map(str, [mean_pre_DSCL_AVG,   mean_pre_DICE_AVG,  mean_pre_HD95_AVG   ]))
     # mean_post_metrics   = ', '.join(map(str, [mean_post_DSCL_AVG,  mean_post_DICE_AVG, mean_post_HD95_AVG  ]))
 
-    mean_pre_metrics    = [mean_pre_DSCL_AVG,   mean_pre_DICE_AVG,  mean_pre_HD95_AVG   ]
-    mean_post_metrics   = [mean_post_DSCL_AVG,  mean_post_DICE_AVG, mean_post_HD95_AVG  ]
+    prev_metrics    = {
+        "PREV_mean_DSCL": mean_prev_DSCL_AVG,  
+        # "PREVmDICE": mean_prev_DICE_AVG,  
+        # "PREVmHD95": mean_prev_HD95_AVG,  
+        **local_prev_DSCL_AVG,
+    }
+    post_metrics   = {
+        "POST_mean_DSCL": mean_post_DSCL_AVG,  
+        # "POSTmDICE": mean_post_DICE_AVG,  
+        # "POSTmHD95": mean_post_HD95_AVG, 
+        **local_post_DSCL_AVG,
+    }
 
 
     logs_dir = os.path.join('/','fedpod','logs')
@@ -118,9 +156,11 @@ def main(args):
     # 컬럼 헤더 정의
     header = ", ".join([
         "round", 
-        "PREVmDSCL", "POSTmDSCL", 
-        "PREVmDICE", "POSTmDICE", 
-        "PREVmHD95", "POSTmHD95\n"
+        *list(prev_metrics.keys()),
+        *list(post_metrics.keys()),
+        # "PREVmDSCL", "POSTmDSCL", 
+        # "PREVmDICE", "POSTmDICE", 
+        # "PREVmHD95", "POSTmHD95",
     ])  # 실제 컬럼명에 맞게 수정하세요.
 
     # Pre-metrics 파일 작성
@@ -130,11 +170,13 @@ def main(args):
             f.write(f"{header}")  # 파일이 없으면 헤더 추가
     with open(pre_metrics_file, 'a') as f:
         f.write(
-            ', '.join([
+            ',\t'.join([
                 f"{args.round:5d}",
-                f"{mean_pre_metrics[0]:9.4f}", f"{mean_post_metrics[0]:9.4f}", 
-                f"{mean_pre_metrics[1]:9.4f}", f"{mean_post_metrics[1]:9.4f}", 
-                f"{mean_pre_metrics[2]:9.4f}", f"{mean_post_metrics[2]:9.4f}\n", 
+                *list(prev_metrics.values()),
+                *list(post_metrics.values()),
+                # f"{mean_prev_metrics[0]:9.4f}", f"{mean_post_metrics[0]:9.4f}", 
+                # f"{mean_prev_metrics[1]:9.4f}", f"{mean_post_metrics[1]:9.4f}", 
+                # f"{mean_prev_metrics[2]:9.4f}", f"{mean_post_metrics[2]:9.4f}\n", 
             ])
         )
 
