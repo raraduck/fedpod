@@ -172,8 +172,8 @@ def main(args):
         f.write(
             ',\t'.join([
                 f"{args.round:5d}",
-                *list(prev_metrics.values()),
-                *list(post_metrics.values()),
+                *[f"{el:14.4f}" for el in list(prev_metrics.values())],
+                *[f"{el:14.4f}" for el in list(post_metrics.values())],
                 # f"{mean_prev_metrics[0]:9.4f}", f"{mean_post_metrics[0]:9.4f}", 
                 # f"{mean_prev_metrics[1]:9.4f}", f"{mean_post_metrics[1]:9.4f}", 
                 # f"{mean_prev_metrics[2]:9.4f}", f"{mean_post_metrics[2]:9.4f}\n", 
