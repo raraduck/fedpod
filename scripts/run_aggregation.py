@@ -161,6 +161,7 @@ def main(args):
         # "PREVmDSCL", "POSTmDSCL", 
         # "PREVmDICE", "POSTmDICE", 
         # "PREVmHD95", "POSTmHD95",
+        "\n",
     ])  # 실제 컬럼명에 맞게 수정하세요.
 
     # Pre-metrics 파일 작성
@@ -176,7 +177,8 @@ def main(args):
                 *[f"{el:14.4f}" for el in list(post_metrics.values())],
                 # f"{mean_prev_metrics[0]:9.4f}", f"{mean_post_metrics[0]:9.4f}", 
                 # f"{mean_prev_metrics[1]:9.4f}", f"{mean_post_metrics[1]:9.4f}", 
-                # f"{mean_prev_metrics[2]:9.4f}", f"{mean_post_metrics[2]:9.4f}\n", 
+                # f"{mean_prev_metrics[2]:9.4f}", f"{mean_post_metrics[2]:9.4f}\n",
+                "\n", 
             ])
         )
 
