@@ -9,7 +9,7 @@ spec:
     - name: rounds
       value: "01"
     - name: job-prefix
-      value: "cen1"
+      value: "cen"
     - name: split_csv
       value: "cc359ppmi128/CC359PPMI_v1.csv"
   templates:
@@ -43,7 +43,7 @@ spec:
           - name: model_pth
             value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{item.round}}/models/R{{workflow.parameters.rounds}}r{{item.round}}.pth"
         withItems:
-        - { round: "00", epochs: "025", inst: "1" }
+        - { round: "00", epochs: "020", inst: "1" }
         # - { round: "00", epochs: "020", inst: "2" }
         # - { round: "00", epochs: "020", inst: "3" }
         # - { round: "00", epochs: "020", inst: "4" }
@@ -75,7 +75,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.13.16
+      image: dwnusa/fedpod:v0.4.13.17
       command: ["/bin/sh", "-c"]
       args: ["./run_aggregation.sh -R {{workflow.parameters.rounds}} -r {{inputs.parameters.round}} -a {{inputs.parameters.algorithm}} -j {{workflow.parameters.job-prefix}} -i {{inputs.parameters.inst-id}} -m {{inputs.parameters.model_pth}}"]
       # args: ["./run_aggregation.sh -r 0 -R 5 -a fedavg -j inst -i 0 -m /fedpod/cc359ppmi128/R00E000.pth"]
@@ -119,9 +119,9 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.13.16
+      image: dwnusa/fedpod:v0.4.13.17
       command: ["/bin/sh", "-c"]
-      args: ["./run_train.sh -s 0 -g 0 -J {{workflow.parameters.job-prefix}}_{{inputs.parameters.inst-id}} -R {{workflow.parameters.rounds}} -r {{inputs.parameters.round}} -E {{inputs.parameters.epochs}} -i {{inputs.parameters.inst-id}} -c {{workflow.parameters.split_csv}} -m {{inputs.parameters.model_pth}}"]
+      args: ["./run_train.sh -s 1 -g 0 -J {{workflow.parameters.job-prefix}}_{{inputs.parameters.inst-id}} -R {{workflow.parameters.rounds}} -r {{inputs.parameters.round}} -E {{inputs.parameters.epochs}} -i {{inputs.parameters.inst-id}} -c {{workflow.parameters.split_csv}} -m {{inputs.parameters.model_pth}}"]
       resources:
         requests:
           cpu: "2"

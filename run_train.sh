@@ -66,5 +66,5 @@ python3 scripts/run_train.py \
 	--kernel_size 3 \
 	--norm instance \
 	--scheduler step \
-	--milestones [20] \
+	--milestones [16] \
 	--lr_gamma 0.1
