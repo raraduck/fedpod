@@ -108,6 +108,16 @@ def main(args):
                 # el['pre_metrics']['DSCL_RP'],
         ]) for el in local_models_with_dlen
     }
+    local_prev_DICE_AVG = {
+        f"PREV_{int(el['args'].job_name.split('_')[-1]):04d}_DICE": np.mean([
+                v for (k,v) in el['pre_metrics'].items() if 'DICE' in k
+        ]) for el in local_models_with_dlen
+    }
+    local_prev_HD95_AVG = {
+        f"PREV_{int(el['args'].job_name.split('_')[-1]):04d}_HD95": np.mean([
+                v for (k,v) in el['pre_metrics'].items() if 'HD95' in k
+        ]) for el in local_models_with_dlen
+    }
     # local_pre_DSCL_LA = np.mean([el['pre_metrics']['DSCL_LA'] for el in local_models_with_dlen])
     # local_pre_DSCL_LC = np.mean([el['pre_metrics']['DSCL_LC'] for el in local_models_with_dlen])
     # local_pre_DSCL_LP = np.mean([el['pre_metrics']['DSCL_LP'] for el in local_models_with_dlen])
@@ -130,6 +140,16 @@ def main(args):
                 # el['post_metrics']['DSCL_RP'],
         ]) for el in local_models_with_dlen
     }
+    local_post_DICE_AVG = {
+        f"POST_{int(el['args'].job_name.split('_')[-1]):04d}_DICE": np.mean([
+                v for (k,v) in el['post_metrics'].items() if 'DICE' in k
+        ]) for el in local_models_with_dlen
+    }
+    local_post_HD95_AVG = {
+        f"POST_{int(el['args'].job_name.split('_')[-1]):04d}_HD95": np.mean([
+                v for (k,v) in el['post_metrics'].items() if 'HD95' in k
+        ]) for el in local_models_with_dlen
+    }
     # local_pre_DSCL = [el['pre_metrics']['DSCL_AVG'] for el in local_models_with_dlen]
 
 
@@ -138,15 +158,19 @@ def main(args):
 
     prev_metrics    = {
         "PREV_mean_DSCL": mean_prev_DSCL_AVG,  
-        # "PREVmDICE": mean_prev_DICE_AVG,  
-        # "PREVmHD95": mean_prev_HD95_AVG,  
         **local_prev_DSCL_AVG,
+        "PREV_mean_DICE": mean_prev_DICE_AVG,  
+        **local_prev_DICE_AVG,
+        "PREV_mean_HD95": mean_prev_HD95_AVG,  
+        **local_prev_HD95_AVG,
     }
     post_metrics   = {
-        "POST_mean_DSCL": mean_post_DSCL_AVG,  
-        # "POSTmDICE": mean_post_DICE_AVG,  
-        # "POSTmHD95": mean_post_HD95_AVG, 
-        **local_post_DSCL_AVG,
+        "POST_mean_DSCL": mean_post_DSCL_AVG, 
+        **local_post_DSCL_AVG, 
+        "POST_mean_DICE": mean_post_DICE_AVG,  
+        **local_post_DICE_AVG,
+        "POST_mean_HD95": mean_post_HD95_AVG, 
+        **local_post_HD95_AVG,
     }
 
 
