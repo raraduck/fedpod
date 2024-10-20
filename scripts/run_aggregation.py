@@ -99,12 +99,13 @@ def main(args):
     
     local_prev_DSCL_AVG = {
         f"PREV_{int(el['args'].job_name.split('_')[-1]):04d}_DSCL": np.mean([
-                el['pre_metrics']['DSCL_LA'],
-                el['pre_metrics']['DSCL_LC'],
-                el['pre_metrics']['DSCL_LP'],
-                el['pre_metrics']['DSCL_RA'],
-                el['pre_metrics']['DSCL_RC'],
-                el['pre_metrics']['DSCL_RP'],
+                v for (k,v) in el['pre_metrics'].items() if 'DSCL' in k
+                # el['pre_metrics']['DSCL_LA'],
+                # el['pre_metrics']['DSCL_LC'],
+                # el['pre_metrics']['DSCL_LP'],
+                # el['pre_metrics']['DSCL_RA'],
+                # el['pre_metrics']['DSCL_RC'],
+                # el['pre_metrics']['DSCL_RP'],
         ]) for el in local_models_with_dlen
     }
     # local_pre_DSCL_LA = np.mean([el['pre_metrics']['DSCL_LA'] for el in local_models_with_dlen])
@@ -120,12 +121,13 @@ def main(args):
 
     local_post_DSCL_AVG = {
         f"POST_{int(el['args'].job_name.split('_')[-1]):04d}_DSCL": np.mean([
-                el['post_metrics']['DSCL_LA'],
-                el['post_metrics']['DSCL_LC'],
-                el['post_metrics']['DSCL_LP'],
-                el['post_metrics']['DSCL_RA'],
-                el['post_metrics']['DSCL_RC'],
-                el['post_metrics']['DSCL_RP'],
+                v for (k,v) in el['post_metrics'].items() if 'DSCL' in k
+                # el['post_metrics']['DSCL_LA'],
+                # el['post_metrics']['DSCL_LC'],
+                # el['post_metrics']['DSCL_LP'],
+                # el['post_metrics']['DSCL_RA'],
+                # el['post_metrics']['DSCL_RC'],
+                # el['post_metrics']['DSCL_RP'],
         ]) for el in local_models_with_dlen
     }
     # local_pre_DSCL = [el['pre_metrics']['DSCL_AVG'] for el in local_models_with_dlen]

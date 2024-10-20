@@ -380,6 +380,7 @@ class Unet3DApp:
 
         train_setup = self.initializer(train_val_dict, mode='TRN')
 
+        # TODO: epochs 값이 달라지면 round 간에 epoch 진행 일관성 깨짐
         from_epoch = self.cli_args.epochs * (self.cli_args.round)
         to_epoch = self.cli_args.epochs * (self.cli_args.round + 1)
 
