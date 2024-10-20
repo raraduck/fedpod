@@ -134,12 +134,12 @@ def main(args):
     # mean_pre_metrics    = ', '.join(map(str, [mean_pre_DSCL_AVG,   mean_pre_DICE_AVG,  mean_pre_HD95_AVG   ]))
     # mean_post_metrics   = ', '.join(map(str, [mean_post_DSCL_AVG,  mean_post_DICE_AVG, mean_post_HD95_AVG  ]))
 
-    prev_metrics    = [
+    prev_metrics    = {
         "PREV_mean_DSCL": mean_prev_DSCL_AVG,  
         # "PREVmDICE": mean_prev_DICE_AVG,  
         # "PREVmHD95": mean_prev_HD95_AVG,  
         **local_prev_DSCL_AVG,
-    ]
+    }
     post_metrics   = {
         "POST_mean_DSCL": mean_post_DSCL_AVG,  
         # "POSTmDICE": mean_post_DICE_AVG,  
