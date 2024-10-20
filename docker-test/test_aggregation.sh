@@ -7,7 +7,7 @@ bash /fedpod/run_aggregation.sh \
     -a fedavg \
     -j agg \
     -i 0 \
-    -m /fedpod/cc359ppmi128/R00r00.pth && \
+    -m /fedpod/cc359ppmi128/R12r09.pth && \
 
 echo "::::::::::second aggregation requires to not specify model_path" && \
 
