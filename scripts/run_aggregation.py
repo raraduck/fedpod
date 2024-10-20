@@ -154,21 +154,21 @@ def main(args):
     os.makedirs(job_dir, exist_ok=True)
     
     # 컬럼 헤더 정의
-    header = ", ".join([
+    header = ",\t".join([
         "round", 
         *list(prev_metrics.keys()),
         *list(post_metrics.keys()),
         # "PREVmDSCL", "POSTmDSCL", 
         # "PREVmDICE", "POSTmDICE", 
         # "PREVmHD95", "POSTmHD95",
-        "\n",
+        # "\n",
     ])  # 실제 컬럼명에 맞게 수정하세요.
 
     # Pre-metrics 파일 작성
     pre_metrics_file = os.path.join(job_dir, f'{args.job_prefix}_metrics.csv')
     if not os.path.exists(pre_metrics_file):
         with open(pre_metrics_file, 'a') as f:
-            f.write(f"{header}")  # 파일이 없으면 헤더 추가
+            f.write(f"{header}\n")  # 파일이 없으면 헤더 추가
     with open(pre_metrics_file, 'a') as f:
         f.write(
             ',\t'.join([
@@ -178,8 +178,7 @@ def main(args):
                 # f"{mean_prev_metrics[0]:9.4f}", f"{mean_post_metrics[0]:9.4f}", 
                 # f"{mean_prev_metrics[1]:9.4f}", f"{mean_post_metrics[1]:9.4f}", 
                 # f"{mean_prev_metrics[2]:9.4f}", f"{mean_post_metrics[2]:9.4f}\n",
-                "\n", 
-            ])
+            ])+"\n"
         )
 
     # # Post-metrics 파일 작성
