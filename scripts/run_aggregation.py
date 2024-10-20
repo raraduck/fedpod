@@ -154,7 +154,7 @@ def main(args):
     os.makedirs(job_dir, exist_ok=True)
     
     # 컬럼 헤더 정의
-    header = ",\t".join([
+    header = ", ".join([
         "round", 
         *list(prev_metrics.keys()),
         *list(post_metrics.keys()),
@@ -171,7 +171,7 @@ def main(args):
             f.write(f"{header}\n")  # 파일이 없으면 헤더 추가
     with open(pre_metrics_file, 'a') as f:
         f.write(
-            ',\t'.join([
+            ', '.join([
                 f"{args.round:5d}",
                 *[f"{el:14.4f}" for el in list(prev_metrics.values())],
                 *[f"{el:14.4f}" for el in list(post_metrics.values())],
