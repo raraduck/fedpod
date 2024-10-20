@@ -7,7 +7,7 @@ bash /fedpod/run_aggregation.sh \
     -a fedavg \
     -j agg \
     -i 0 \
-    -m /fedpod/cc359ppmi128/R12r09.pth && \
+    -m /fedpod/cc359ppmi128/Agg_5_R00r00.pth && \
 
 echo "::::::::::second aggregation requires to not specify model_path" && \
 
@@ -16,11 +16,15 @@ echo "::::::::::which is to collect them(local models) by round and job_prefix p
 mkdir -p \
     /fedpod/states/agg_1/R02r00/models \
     /fedpod/states/agg_2/R02r00/models && \
+# /fedpod/states/agg_1/R02r00/models \
+# /fedpod/states/agg_2/R02r00/models && \
 
-cp  /fedpod/states/agg_0/R02r00/models/R02r00.pth \
+# cp  /fedpod/states/agg_0/R02r00/models/R02r00.pth \
+cp  /fedpod/cc359ppmi128/Agg_5_R12r09.pth \
     /fedpod/states/agg_1/R02r00/models/R02r00_last.pth && \
 
-cp  /fedpod/states/agg_0/R02r00/models/R02r00.pth \
+# cp  /fedpod/states/agg_0/R02r00/models/R02r00.pth \
+cp  /fedpod/cc359ppmi128/Agg_6_R12r09.pth \
     /fedpod/states/agg_2/R02r00/models/R02r00_last.pth && \
 
 bash /fedpod/run_aggregation.sh \
