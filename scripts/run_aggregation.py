@@ -98,7 +98,7 @@ def main(args):
     mean_prev_HD95_AVG = np.mean([el['pre_metrics']['HD95_AVG'] for el in local_models_with_dlen])
     
     local_prev_DSCL_AVG = {
-        f"PREV_{el['args'].job_name}_DSCL": np.mean([
+        f"PREV_{int(el['args'].job_name.split('_')[-1]):4d}_DSCL": np.mean([
                 el['pre_metrics']['DSCL_LA'],
                 el['pre_metrics']['DSCL_LC'],
                 el['pre_metrics']['DSCL_LP'],
@@ -119,7 +119,7 @@ def main(args):
     mean_post_HD95_AVG = np.mean([el['post_metrics']['HD95_AVG'] for el in local_models_with_dlen])
 
     local_post_DSCL_AVG = {
-        f"POST_{el['args'].job_name}_DSCL": np.mean([
+        f"POST_{int(el['args'].job_name.split('_')[-1]):4d}_DSCL": np.mean([
                 el['post_metrics']['DSCL_LA'],
                 el['post_metrics']['DSCL_LC'],
                 el['post_metrics']['DSCL_LP'],
@@ -135,13 +135,13 @@ def main(args):
     # mean_post_metrics   = ', '.join(map(str, [mean_post_DSCL_AVG,  mean_post_DICE_AVG, mean_post_HD95_AVG  ]))
 
     prev_metrics    = {
-        "PREV_mean-_DSCL": mean_prev_DSCL_AVG,  
+        "PREV_mean_DSCL": mean_prev_DSCL_AVG,  
         # "PREVmDICE": mean_prev_DICE_AVG,  
         # "PREVmHD95": mean_prev_HD95_AVG,  
         **local_prev_DSCL_AVG,
     }
     post_metrics   = {
-        "POST_mean-_DSCL": mean_post_DSCL_AVG,  
+        "POST_mean_DSCL": mean_post_DSCL_AVG,  
         # "POSTmDICE": mean_post_DICE_AVG,  
         # "POSTmHD95": mean_post_HD95_AVG, 
         **local_post_DSCL_AVG,
