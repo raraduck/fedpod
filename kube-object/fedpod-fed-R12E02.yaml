@@ -386,12 +386,12 @@ spec:
           - name: model_pth
             value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{item.round}}/models/R{{workflow.parameters.rounds}}r{{item.round}}.pth"
         withItems:
-        - { round: "10", epochs: "001", inst: "1" }
-        - { round: "10", epochs: "001", inst: "2" }
-        - { round: "10", epochs: "001", inst: "3" }
-        - { round: "10", epochs: "001", inst: "4" }
-        - { round: "10", epochs: "001", inst: "5" }
-        - { round: "10", epochs: "001", inst: "6" }
+        - { round: "10", epochs: "002", inst: "1" }
+        - { round: "10", epochs: "002", inst: "2" }
+        - { round: "10", epochs: "002", inst: "3" }
+        - { round: "10", epochs: "002", inst: "4" }
+        - { round: "10", epochs: "002", inst: "5" }
+        - { round: "10", epochs: "002", inst: "6" }
   # round 11
     - - name: run-aggregation-jobs-11
         template: aggregation-job
@@ -420,12 +420,12 @@ spec:
           - name: model_pth
             value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{item.round}}/models/R{{workflow.parameters.rounds}}r{{item.round}}.pth"
         withItems:
-        - { round: "11", epochs: "001", inst: "1" }
-        - { round: "11", epochs: "001", inst: "2" }
-        - { round: "11", epochs: "001", inst: "3" }
-        - { round: "11", epochs: "001", inst: "4" }
-        - { round: "11", epochs: "001", inst: "5" }
-        - { round: "11", epochs: "001", inst: "6" }
+        - { round: "11", epochs: "002", inst: "1" }
+        - { round: "11", epochs: "002", inst: "2" }
+        - { round: "11", epochs: "002", inst: "3" }
+        - { round: "11", epochs: "002", inst: "4" }
+        - { round: "11", epochs: "002", inst: "5" }
+        - { round: "11", epochs: "002", inst: "6" }
 
 
   # round (end)
