@@ -225,10 +225,11 @@ def main(args):
         "POST_mean_DICE": mean_post_DICE_AVG,  
         "POST_mean_HD95": mean_post_HD95_AVG, 
     }
-    for key in prev_logger_metrics.keys():
-        prev_value = prev_logger_metrics[key]
-        post_value = post_logger_metrics["POST" + key[4:]]  # POST prefix 붙인 값 가져오기
-        logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] {key:>14}: {prev_value:8.4f} -> {post_value:8.4f}")
+    for key1 in prev_logger_metrics.keys():
+        prev_value = prev_logger_metrics[key1]
+        key2 = "POST" + key1[4:]
+        post_value = post_logger_metrics[key2]  # POST prefix 붙인 값 가져오기
+        logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] {key1:>14} -> {key2:>14}: {prev_value:8.4f} -> {post_value:8.4f}")
 
     # # Post-metrics 파일 작성
     # post_metrics_file = os.path.join(job_dir, f'{args.job_prefix}_post_metrics.csv')
