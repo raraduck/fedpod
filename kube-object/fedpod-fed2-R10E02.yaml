@@ -41,7 +41,7 @@ spec:
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{item.round}}/models/R{{workflow.parameters.rounds}}r{{item.round}}.pth"
+            value: "None"
         withItems:
         - { round: "00", epochs: "002", inst: "1" }
         - { round: "00", epochs: "002", inst: "2" }

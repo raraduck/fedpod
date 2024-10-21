@@ -30,6 +30,11 @@ def main(args):
     # base_dir = os.path.join('.','states')
     
     logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] aggregation algorithm is {args.algorithm.upper()}...")
+
+    args.weight_path = None if self.cli_args.weight_path == "None" else self.cli_args.weight_path
+    if args.weight_path == None:
+        logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup from {args.weight_path}...")
+        return
     if prev_round < 0:
         logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup from {args.weight_path}...")
         orig_file = args.weight_path
