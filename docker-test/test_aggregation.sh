@@ -35,7 +35,7 @@ bash /fedpod/run_aggregation.sh \
     -i 0 \
     -m None && \
 
-awk -F "\"*,\"*" '{print $1 $2 $3, ... $(NF-2), $(NF-1), $NF}}' /fedpod/logs/agg_0/agg_metrics.csv
+awk -F "\"*,\"*" '{print $1 $2 $3, $(NF-2), $(NF-1), $NF}' /fedpod/logs/agg_0/agg_metrics.csv
 # cat /fedpod/logs/agg_0/agg_metrics.csv
 # cat /fedpod/logs/agg_0/agg_metrics.csv | column -t -s ","
 
