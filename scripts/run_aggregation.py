@@ -32,14 +32,14 @@ def main(args):
     logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] aggregation algorithm is {args.algorithm.upper()}...")
 
     args.weight_path = None if args.weight_path == "None" else args.weight_path
-    if args.weight_path == None:
-        logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup from {args.weight_path}...")
-        center_dir = os.path.join(base_dir, f"{args.job_prefix}_{args.inst_id}")
-        curr_round_dir = os.path.join(center_dir, f"R{args.rounds:02}r{curr_round:02}")
-        models_dir = os.path.join(curr_round_dir, 'models')
-        os.makedirs(models_dir, exist_ok=True)
-        return
     if prev_round < 0:
+        if args.weight_path == None:
+            logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup from {args.weight_path}...")
+            center_dir = os.path.join(base_dir, f"{args.job_prefix}_{args.inst_id}")
+            curr_round_dir = os.path.join(center_dir, f"R{args.rounds:02}r{curr_round:02}")
+            models_dir = os.path.join(curr_round_dir, 'models')
+            os.makedirs(models_dir, exist_ok=True)
+            return
         logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup from {args.weight_path}...")
         orig_file = args.weight_path
         center_dir = os.path.join(base_dir, f"{args.job_prefix}_{args.inst_id}")
