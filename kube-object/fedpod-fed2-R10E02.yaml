@@ -27,7 +27,7 @@ spec:
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
-            value: "/fedpod/cc359ppmi128/R00E000.pth"
+            value: "None"
         withItems:
         - { round: "00", inst: "0" }
     - - name: run-train-jobs-00
