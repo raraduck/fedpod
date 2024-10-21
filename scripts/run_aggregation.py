@@ -31,7 +31,7 @@ def main(args):
     
     logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] aggregation algorithm is {args.algorithm.upper()}...")
 
-    args.weight_path = None if self.cli_args.weight_path == "None" else self.cli_args.weight_path
+    args.weight_path = None if args.weight_path == "None" else args.weight_path
     if args.weight_path == None:
         logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup from {args.weight_path}...")
         center_dir = os.path.join(base_dir, f"{args.job_prefix}_{args.inst_id}")
