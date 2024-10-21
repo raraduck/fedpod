@@ -27,7 +27,7 @@ def main(args):
     prev_round = args.round - 1
     curr_round = args.round
     base_dir = os.path.join('/','fedpod','states')
-    # base_dir = os.path.join('.','states')
+    # base_dir = os.path.join('.','states') 
     
     logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] aggregation algorithm is {args.algorithm.upper()}...")
 
