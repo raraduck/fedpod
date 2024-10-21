@@ -181,6 +181,14 @@ def main(args):
         "POST_mean_HD95": mean_post_HD95_AVG, 
         **local_post_HD95_AVG,
     }
+    logger_metrics = {
+        "PREV_mean_DSCL": mean_prev_DSCL_AVG, 
+        "PREV_mean_DICE": mean_prev_DICE_AVG, 
+        "PREV_mean_HD95": mean_prev_HD95_AVG,  
+        "POST_mean_DSCL": mean_post_DSCL_AVG, 
+        "POST_mean_DICE": mean_post_DICE_AVG,  
+        "POST_mean_HD95": mean_post_HD95_AVG, 
+    }
 
 
     logs_dir = os.path.join('/','fedpod','logs')
@@ -215,6 +223,8 @@ def main(args):
                 # f"{mean_prev_metrics[2]:9.4f}", f"{mean_post_metrics[2]:9.4f}\n",
             ])+"\n"
         )
+    for k, v in logger_metrics.items():
+        logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] {k:>14}: {v:8.4f}")
 
     # # Post-metrics 파일 작성
     # post_metrics_file = os.path.join(job_dir, f'{args.job_prefix}_post_metrics.csv')
