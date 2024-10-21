@@ -62,7 +62,7 @@ class CC359PPMIDataset(Dataset):
             # _mask = np.where(_mask != 0, 100, 0)
             channels_dict['striatum'] = _mask
 
-        mask = np.array(nib_load(join(base_dir, 'striatum_orig.nii.gz'))[0], dtype='uint16')  # ground truth
+        mask = np.array(nib_load(join(base_dir, 'striatum_sub.nii.gz'))[0], dtype='uint16')  # ground truth
         channels_dict['label'] = mask
         # _t2, _ = nib_load(join(base_dir, 'brain.nii.gz'))
         # t2 = np.array(_t2, dtype='float32')
