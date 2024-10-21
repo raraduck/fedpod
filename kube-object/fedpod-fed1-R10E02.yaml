@@ -9,7 +9,7 @@ spec:
     - name: rounds
       value: "10"
     - name: job-prefix
-      value: "fed"
+      value: "fed1"
     - name: split_csv
       value: "cc359ppmi128/CC359PPMI_v1.csv"
   templates:
