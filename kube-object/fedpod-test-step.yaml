@@ -37,6 +37,12 @@ spec:
         - { round: "00", epochs: "001", epoch: "000", inst: "4" }
         - { round: "00", epochs: "001", epoch: "000", inst: "5" }
         - { round: "00", epochs: "001", epoch: "000", inst: "6" }
+    - - name: save-next-round
+        template: increment-round
+        arguments:
+          parameters:
+          - name: current-round
+            value: "{{item.round}}"
     - - name: run-aggregation-jobs-00
         template: aggregation-job
         arguments:
@@ -57,7 +63,8 @@ spec:
         arguments:
           parameters:
           - name: round
-            value: "{{item.round}}"
+            # value: "{{item.round}}"
+            value: "{{steps.save-next-round.outputs.parameters.next-round}}"
           - name: epochs
             value: "{{item.epochs}}"
           - name: epoch
@@ -78,7 +85,8 @@ spec:
         arguments:
           parameters:
           - name: round
-            value: "{{item.round}}"
+            # value: "{{item.round}}"
+            value: "{{steps.save-next-round.outputs.parameters.next-round}}"
           - name: algorithm
             value: "fedavg"
           - name: inst-id
@@ -93,7 +101,8 @@ spec:
         arguments:
           parameters:
           - name: round
-            value: "{{item.round}}"
+            # value: "{{item.round}}"
+            value: "{{steps.save-next-round.outputs.parameters.next-round}}"
           - name: epochs
             value: "{{item.epochs}}"
           - name: epoch
@@ -114,7 +123,8 @@ spec:
         arguments:
           parameters:
           - name: round
-            value: "{{item.round}}"
+            # value: "{{item.round}}"
+            value: "{{steps.save-next-round.outputs.parameters.next-round}}"
           - name: algorithm
             value: "fedavg"
           - name: inst-id
@@ -167,7 +177,22 @@ spec:
         path: /fedpod/logs  # 로컬 경로
         type: Directory
 
-
+  # Template to increment the round as a string and return it as a parameter
+  - name: increment-round
+    inputs:
+      parameters:
+      - name: current-round
+    script:
+      image: busybox
+      command: [sh, -c]
+      source: |
+        next_round=$(printf "%02d" $(expr {{inputs.parameters.current-round}} + 1))
+        echo $next_round > /tmp/next_round.txt
+    outputs:
+      parameters:
+      - name: next-round
+        valueFrom:
+          path: /tmp/next_round.txt  # Return the value from the temp file
 
   - name: aggregation-job
     inputs:
