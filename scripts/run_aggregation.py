@@ -276,7 +276,7 @@ def main(args):
     # /tmp/next_round.txt 파일에 저장
     with open("/tmp/next_round.txt", "w") as f:
         f.write(next_round_formatted)
-    with open("/logs/{args.job_prefix}_R{args.rounds:02}r{args.round:02}_next_round.txt", "w") as f:
+    with open("/fedpod/logs/{args.job_prefix}_R{args.rounds:02}r{args.round:02}_next_round.txt", "w") as f:
         f.write(next_round_formatted)
 
 if __name__ == '__main__': 
