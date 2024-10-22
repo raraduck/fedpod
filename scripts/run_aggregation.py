@@ -270,6 +270,13 @@ def main(args):
         else:
             fed_processing(args, base_dir, curr_round, next_round, logger)
 
+    # 현재 라운드를 가져오고 1을 더한 후 두 자리 형식으로 변환
+    next_round_formatted = f"{next_round:02d}"
+
+    # /tmp/next_round.txt 파일에 저장
+    with open("/tmp/next_round.txt", "w") as f:
+        f.write(next_round_formatted)
+
 if __name__ == '__main__': 
     args = parser.parse_args(sys.argv[1:])
     main(args)  # Call the main function with parsed arguments

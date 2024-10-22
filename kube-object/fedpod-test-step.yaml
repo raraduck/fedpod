@@ -34,16 +34,16 @@ spec:
         - { round: "00", epochs: "001", epoch: "000", inst: "1" }
         # - { round: "00", epochs: "001", epoch: "000", inst: "2" }
         # - { round: "00", epochs: "001", epoch: "000", inst: "3" }
-        # - { round: "00", epochs: "001", epoch: "000", inst: "4" }
+        - { round: "00", epochs: "001", epoch: "000", inst: "4" }
         - { round: "00", epochs: "001", epoch: "000", inst: "5" }
         # - { round: "00", epochs: "001", epoch: "000", inst: "6" }
-    - - name: save-next-round-00
-        template: increment-round
-        arguments:
-          parameters:
-          - name: current-round
-            value: "{{item.round}}"
-      - name: run-aggregation-jobs-00
+    # - - name: save-next-round-00
+    #     template: increment-round
+    #     arguments:
+    #       parameters:
+    #       - name: current-round
+    #         value: "{{item.round}}"
+    - - name: run-aggregation-jobs-00
         template: aggregation-job
         arguments:
           parameters:
@@ -64,7 +64,7 @@ spec:
           parameters:
           - name: round
             # value: "{{item.round}}"
-            value: "{{steps.save-next-round-00.outputs.parameters.next-round}}"
+            value: "{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}"
           - name: epochs
             value: "{{item.epochs}}"
           - name: epoch
@@ -78,21 +78,21 @@ spec:
         # - { round: "01", epochs: "001", epoch: "001", inst: "2" }
         # - { round: "01", epochs: "001", epoch: "001", inst: "3" }
         # - { round: "01", epochs: "001", epoch: "001", inst: "4" }
-        # - { round: "01", epochs: "001", epoch: "001", inst: "5" }
+        - { round: "01", epochs: "001", epoch: "001", inst: "5" }
         - { round: "01", epochs: "001", epoch: "001", inst: "6" }
-    - - name: save-next-round-01
-        template: increment-round
-        arguments:
-          parameters:
-          - name: current-round
-            value: "{{steps.save-next-round-00.outputs.parameters.next-round}}"
-      - name: run-aggregation-jobs-01
+    # - - name: save-next-round-01
+    #     template: increment-round
+    #     arguments:
+    #       parameters:
+    #       - name: current-round
+    #         value: "{{steps.save-next-round-00.outputs.parameters.next-round}}"
+    - - name: run-aggregation-jobs-01
         template: aggregation-job
         arguments:
           parameters:
           - name: round
             # value: "{{item.round}}"
-            value: "{{steps.save-next-round-00.outputs.parameters.next-round}}"
+            value: "{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}"
           - name: algorithm
             value: "fedavg"
           - name: inst-id
@@ -108,7 +108,7 @@ spec:
           parameters:
           - name: round
             # value: "{{item.round}}"
-            value: "{{steps.save-next-round-01.outputs.parameters.next-round}}"
+            value: "{{steps.run-aggregation-jobs-01.outputs.parameters.next-round}}"
           - name: epochs
             value: "{{item.epochs}}"
           - name: epoch
@@ -120,23 +120,23 @@ spec:
         withItems:
         - { round: "02", epochs: "001", epoch: "002", inst: "1" }
         - { round: "02", epochs: "001", epoch: "002", inst: "2" }
-        # - { round: "02", epochs: "001", epoch: "002", inst: "3" }
+        - { round: "02", epochs: "001", epoch: "002", inst: "3" }
         # - { round: "02", epochs: "001", epoch: "002", inst: "4" }
         # - { round: "02", epochs: "001", epoch: "002", inst: "5" }
         # - { round: "02", epochs: "001", epoch: "002", inst: "6" }
-    - - name: save-next-round-02
-        template: increment-round
-        arguments:
-          parameters:
-          - name: current-round
-            value: "{{steps.save-next-round-01.outputs.parameters.next-round}}"
-      - name: run-aggregation-jobs-02
+    # - - name: save-next-round-02
+    #     template: increment-round
+    #     arguments:
+    #       parameters:
+    #       - name: current-round
+    #         value: "{{steps.save-next-round-01.outputs.parameters.next-round}}"
+    - - name: run-aggregation-jobs-02
         template: aggregation-job
         arguments:
           parameters:
           - name: round
             # value: "{{item.round}}"
-            value: "{{steps.save-next-round-01.outputs.parameters.next-round}}"
+            value: "{{steps.run-aggregation-jobs-01.outputs.parameters.next-round}}"
           - name: algorithm
             value: "fedavg"
           - name: inst-id
@@ -156,7 +156,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.14.11
+      image: dwnusa/fedpod:v0.4.14.12
       command: ["/bin/sh", "-c"]
       args: ["./run_train.sh -s 0 -g 0 -J {{workflow.parameters.job-prefix}}_{{inputs.parameters.inst-id}} -R {{workflow.parameters.rounds}} -r {{inputs.parameters.round}} -E {{inputs.parameters.epochs}} -e {{inputs.parameters.epoch}} -i {{inputs.parameters.inst-id}} -c {{workflow.parameters.split_csv}} -m {{inputs.parameters.model_pth}}"]
       resources:
@@ -190,22 +190,22 @@ spec:
         type: Directory
 
   # Template to increment the round as a string and return it as a parameter
-  - name: increment-round
-    inputs:
-      parameters:
-      - name: current-round
-    script:
-      image: busybox
-      command: [sh, -c]
-      source: |
-        chmod +x /argo/staging/script  # 스크립트 실행 권한 부여
-        next_round=$(printf "%02d" $(expr {{inputs.parameters.current-round}} + 1))
-        echo $next_round > /tmp/next_round.txt
-    outputs:
-      parameters:
-      - name: next-round
-        valueFrom:
-          path: /tmp/next_round.txt  # Return the value from the temp file
+  # - name: increment-round
+  #   inputs:
+  #     parameters:
+  #     - name: current-round
+  #   script:
+  #     image: busybox
+  #     command: [sh, -c]
+  #     source: |
+  #       chmod +x /argo/staging/script  # 스크립트 실행 권한 부여
+  #       next_round=$(printf "%02d" $(expr {{inputs.parameters.current-round}} + 1))
+  #       echo $next_round > /tmp/next_round.txt
+  #   outputs:
+  #     parameters:
+  #     - name: next-round
+  #       valueFrom:
+  #         path: /tmp/next_round.txt  # Return the value from the temp file
 
   - name: aggregation-job
     inputs:
@@ -215,7 +215,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.14.11
+      image: dwnusa/fedpod:v0.4.14.12
       command: ["/bin/sh", "-c"]
       args: ["./run_aggregation.sh -R {{workflow.parameters.rounds}} -r {{inputs.parameters.round}} -a {{inputs.parameters.algorithm}} -j {{workflow.parameters.job-prefix}} -i {{inputs.parameters.inst-id}} -m {{inputs.parameters.model_pth}}"]
       # args: ["./run_aggregation.sh -r 0 -R 5 -a fedavg -j inst -i 0 -m /fedpod/cc359ppmi128/R00E000.pth"]
@@ -232,6 +232,11 @@ spec:
         mountPath: /fedpod/logs
       stdin: true
       tty: true
+    outputs:
+      parameters:
+      - name: next-round
+        valueFrom:
+          path: /tmp/next_round.txt  # Return the value from the temp file
     volumes:
     - name: cc359ppmi128-volume
       hostPath:
