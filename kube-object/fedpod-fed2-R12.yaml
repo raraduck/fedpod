@@ -501,9 +501,9 @@ spec:
         requests:
           cpu: "2"
           memory: "12G"
-        limits:
-          cpu: "4"
-          memory: "86G"
+        # limits:
+        #   cpu: "4"
+        #   memory: "86G"
       volumeMounts:
       - name: cc359ppmi128-volume
         mountPath: /fedpod/cc359ppmi128
