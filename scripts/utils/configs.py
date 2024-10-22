@@ -41,6 +41,7 @@ def parse_args(argv):
     parser.add_argument('--rounds', type=int, default=5)
     parser.add_argument('--round', type=int, default=0)
     parser.add_argument('--epochs', type=int, default=10)
+    parser.add_argument('--epoch', type=int, default=0)
     parser.add_argument('--num_workers', type=int, default=0, help='number of workers to load data')
     parser.add_argument('--batch_size', type=int, default=2)
     parser.add_argument('--optim', type=str, default='adam', help='optimizer',

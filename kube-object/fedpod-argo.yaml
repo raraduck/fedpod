@@ -9,7 +9,7 @@ spec:
     - name: rounds
       value: "03"
     - name: job-prefix
-      value: "inst"
+      value: "step"
     - name: split_csv
       value: "cc359ppmi128/CC359PPMI_v1-test.csv"
   templates:
@@ -40,17 +40,19 @@ spec:
             value: "{{item.round}}"
           - name: epochs
             value: "{{item.epochs}}"
+          - name: epoch
+            value: "{{item.epoch}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
             value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{item.round}}/models/R{{workflow.parameters.rounds}}r{{item.round}}.pth"
         withItems:
-        - { round: "00", epochs: "001", inst: "1" }
-        - { round: "00", epochs: "001", inst: "2" }
-        - { round: "00", epochs: "001", inst: "3" }
-        - { round: "00", epochs: "001", inst: "4" }
-        - { round: "00", epochs: "001", inst: "5" }
-        - { round: "00", epochs: "001", inst: "6" }
+        - { round: "00", epochs: "001", epoch: "000", inst: "1" }
+        - { round: "00", epochs: "001", epoch: "000", inst: "2" }
+        - { round: "00", epochs: "001", epoch: "000", inst: "3" }
+        - { round: "00", epochs: "001", epoch: "000", inst: "4" }
+        - { round: "00", epochs: "001", epoch: "000", inst: "5" }
+        - { round: "00", epochs: "001", epoch: "000", inst: "6" }
   # round 1
     - - name: run-aggregation-jobs-01
         template: aggregation-job
@@ -76,17 +78,19 @@ spec:
             value: "{{item.round}}"
           - name: epochs
             value: "{{item.epochs}}"
+          - name: epoch
+            value: "{{item.epoch}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
             value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{item.round}}/models/R{{workflow.parameters.rounds}}r{{item.round}}.pth"
         withItems:
-        - { round: "01", epochs: "001", inst: "1" }
-        - { round: "01", epochs: "001", inst: "2" }
-        - { round: "01", epochs: "001", inst: "3" }
-        - { round: "01", epochs: "001", inst: "4" }
-        - { round: "01", epochs: "001", inst: "5" }
-        - { round: "01", epochs: "001", inst: "6" }
+        - { round: "01", epochs: "001", epoch: "001", inst: "1" }
+        - { round: "01", epochs: "001", epoch: "001", inst: "2" }
+        - { round: "01", epochs: "001", epoch: "001", inst: "3" }
+        - { round: "01", epochs: "001", epoch: "001", inst: "4" }
+        - { round: "01", epochs: "001", epoch: "001", inst: "5" }
+        - { round: "01", epochs: "001", epoch: "001", inst: "6" }
   # round 2
     - - name: run-aggregation-jobs-02
         template: aggregation-job
@@ -112,17 +116,19 @@ spec:
             value: "{{item.round}}"
           - name: epochs
             value: "{{item.epochs}}"
+          - name: epoch
+            value: "{{item.epoch}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
             value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{item.round}}/models/R{{workflow.parameters.rounds}}r{{item.round}}.pth"
         withItems:
-        - { round: "02", epochs: "001", inst: "1" }
-        - { round: "02", epochs: "001", inst: "2" }
-        - { round: "02", epochs: "001", inst: "3" }
-        - { round: "02", epochs: "001", inst: "4" }
-        - { round: "02", epochs: "001", inst: "5" }
-        - { round: "02", epochs: "001", inst: "6" }
+        - { round: "02", epochs: "001", epoch: "002", inst: "1" }
+        - { round: "02", epochs: "001", epoch: "002", inst: "2" }
+        - { round: "02", epochs: "001", epoch: "002", inst: "3" }
+        - { round: "02", epochs: "001", epoch: "002", inst: "4" }
+        - { round: "02", epochs: "001", epoch: "002", inst: "5" }
+        - { round: "02", epochs: "001", epoch: "002", inst: "6" }
   # round (end)
     - - name: run-aggregation-jobs-03
         template: aggregation-job
@@ -151,7 +157,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.13.16
+      image: dwnusa/fedpod:v0.4.14.4
       command: ["/bin/sh", "-c"]
       args: ["./run_aggregation.sh -R {{workflow.parameters.rounds}} -r {{inputs.parameters.round}} -a {{inputs.parameters.algorithm}} -j {{workflow.parameters.job-prefix}} -i {{inputs.parameters.inst-id}} -m {{inputs.parameters.model_pth}}"]
       # args: ["./run_aggregation.sh -r 0 -R 5 -a fedavg -j inst -i 0 -m /fedpod/cc359ppmi128/R00E000.pth"]
@@ -195,9 +201,9 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.13.16
+      image: dwnusa/fedpod:v0.4.14.4
       command: ["/bin/sh", "-c"]
-      args: ["./run_train.sh -s 0 -g 0 -J {{workflow.parameters.job-prefix}}_{{inputs.parameters.inst-id}} -R {{workflow.parameters.rounds}} -r {{inputs.parameters.round}} -E {{inputs.parameters.epochs}} -i {{inputs.parameters.inst-id}} -c {{workflow.parameters.split_csv}} -m {{inputs.parameters.model_pth}}"]
+      args: ["./run_train.sh -s 0 -g 0 -J {{workflow.parameters.job-prefix}}_{{inputs.parameters.inst-id}} -R {{workflow.parameters.rounds}} -r {{inputs.parameters.round}} -E {{inputs.parameters.epochs}} -e {{inputs.parameters.epoch}} -i {{inputs.parameters.inst-id}} -c {{workflow.parameters.split_csv}} -m {{inputs.parameters.model_pth}}"]
       resources:
         requests:
           cpu: "2"
