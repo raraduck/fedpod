@@ -6,6 +6,7 @@ bash /fedpod/run_train.sh \
      -R 2 \
      -r 0 \
      -E 10 \
+     -e 0 \
      -i 2 \
      -c /fedpod/cc359ppmi128/CC359PPMI_v1-test.csv \
      -m /fedpod/cc359ppmi128/R00r00.pth && \

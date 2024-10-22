@@ -515,8 +515,10 @@ class Unet3DApp:
 
         infer_setup = self.initializer(infer_dict, mode=infer_mode)
 
-        val_epoch = self.cli_args.epochs * (self.cli_args.round)
-        
+        # val_epoch = self.cli_args.epochs * (self.cli_args.round)
+        val_epoch = self.cli_args.epoch
+        # to_epoch    = self.cli_args.epoch + self.cli_args.epochs
+
         # from_epoch = self.cli_args.epochs * (self.cli_args.round)
         # to_epoch = self.cli_args.epochs * (self.cli_args.round + 1)
         # Validation

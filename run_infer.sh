@@ -4,13 +4,13 @@ use_gpu=""
 job_name=""
 rounds=""
 round=""
-epochs=""
+curr_epoch=""
 inst_id=""
 split_csv="cc359ppmi128/CC359PPMI_v1-test.csv"
 model_pth=""
 
 # 명령줄 옵션 처리
-while getopts s:g:J:j:R:r:E:i:c:m: option
+while getopts s:g:J:j:R:r:e:i:c:m: option
 do
     case "${option}"
     in
@@ -20,18 +20,18 @@ do
         j) job_prefix=${OPTARG};;
         R) rounds=${OPTARG};;
         r) round=${OPTARG};;
-        E) epochs=${OPTARG};;
+        e) curr_epoch=${OPTARG};;
         i) inst_id=${OPTARG};;
 		c) split_csv=${OPTARG};;
 		m) model_pth=${OPTARG};;
     esac
 done
-echo "save_infer: $save_infer, gpu: $use_gpu, job: $job_name, job-prefix: $job_prefix, rounds: $round, epochs: $epochs, inst: $inst_id, split_csv: $split_csv, model_pth: $model_pth"
+echo "save_infer: $save_infer, gpu: $use_gpu, job: $job_name, job-prefix: $job_prefix, rounds: $round, curr_epoch: $curr_epoch, inst: $inst_id, split_csv: $split_csv, model_pth: $model_pth"
 
 # 필수 옵션 검사
-if [ -z "$save_infer" ] || [ -z "$use_gpu" ] || [ -z "$job_name" ] || [ -z "$job_prefix" ] || [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$epochs" ] || [ -z "$inst_id" ] || [ -z "$split_csv" ] || [ -z "$inst_id" ]; then
+if [ -z "$save_infer" ] || [ -z "$use_gpu" ] || [ -z "$job_name" ] || [ -z "$job_prefix" ] || [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$curr_epoch" ] || [ -z "$inst_id" ] || [ -z "$split_csv" ] || [ -z "$inst_id" ]; then
     echo "Error: All parameters are required."
-    echo "Usage: $0 -s <save_infer> -g <use_gpu> -J <job_name> -j <job_prefix> -R <rounds> -r <round> -E <epochs> -i <inst_id> -c <split_csv> -m <model_pth>"
+    echo "Usage: $0 -s <save_infer> -g <use_gpu> -J <job_name> -j <job_prefix> -R <rounds> -r <round> -e <curr_epoch> -i <inst_id> -c <split_csv> -m <model_pth>"
     exit 1
 fi
 
@@ -42,7 +42,7 @@ python3 scripts/run_infer.py \
     --job_name $job_name \
 	--rounds $rounds \
 	--round $round \
-	--epochs $epochs \
+	--epoch $curr_epoch \
 	\
 	--resize 128 \
 	--patch_size 128 \
