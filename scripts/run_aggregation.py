@@ -21,86 +21,7 @@ parser.add_argument('--weight_path', type=str, required=True,
     help='path to pretrained encoder or decoder weight, None for train-from-scratch')
 
 
-def main(args):
-    log_filename = f"{args.job_prefix}_R{args.rounds:02}r{args.round:02}.log"
-    logger = initialization_logger(args, log_filename)
-    prev_round = args.round - 1
-    curr_round = args.round
-    base_dir = os.path.join('/','fedpod','states')
-    # base_dir = os.path.join('.','states') 
-    
-    logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] aggregation algorithm is {args.algorithm.upper()}...")
-
-    args.weight_path = None if args.weight_path == "None" else args.weight_path
-    if prev_round < 0:
-        if args.weight_path == None:
-            logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup from {args.weight_path}...")
-            center_dir = os.path.join(base_dir, f"{args.job_prefix}_{args.inst_id}")
-            curr_round_dir = os.path.join(center_dir, f"R{args.rounds:02}r{curr_round:02}")
-            models_dir = os.path.join(curr_round_dir, 'models')
-            os.makedirs(models_dir, exist_ok=True)
-            return
-        logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup from {args.weight_path}...")
-        orig_file = args.weight_path
-        center_dir = os.path.join(base_dir, f"{args.job_prefix}_{args.inst_id}")
-        curr_round_dir = os.path.join(center_dir, f"R{args.rounds:02}r{curr_round:02}")
-        models_dir = os.path.join(curr_round_dir, 'models')
-        os.makedirs(models_dir, exist_ok=True)
-        save_model_path = os.path.join(models_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
-        shutil.copy2(orig_file, save_model_path)
-        logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup to {save_model_path}...")
-        return
-    
-    inst_dir = os.path.join(base_dir, f"{args.job_prefix}_*") # inst0 also included 
-    prev_round_dir = os.path.join(inst_dir, f"R{args.rounds:02}r{prev_round:02}")
-    pattern = os.path.join(prev_round_dir, 'models', '*_last.pth') # but, _last.pth removes inst0 because inst0 never has _last.pth file on it
-    pth_path = natsort.natsorted(glob.glob(pattern))
-    for pth in pth_path:
-        logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] local models are from {pth}...")
-    local_models_with_dlen = [torch.load(m) for m in pth_path]
-
-    if args.algorithm == "fedavg":
-        P = [1 for el in local_models_with_dlen]
-        W = [el/sum(P) for el in P]
-        M = [el['model'] for el in local_models_with_dlen]
-        aggregated_model = fedavg(W, M)
-    elif args.algorithm == "fedwavg":
-        P = [el['P'] for el in local_models_with_dlen]
-        W = [el/sum(P) for el in P]
-        M = [el['model'] for el in local_models_with_dlen]
-        aggregated_model = fedwavg(W, M)
-        # averaged_loss = lossavg()
-    else:
-        raise NotImplementedError(f"{args.algorithm.upper()} is not implemented on Aggregator()")
-    state = {
-        'model': aggregated_model, 
-        'pre_metrics':{
-            'DSCL_AVG':0.11,
-            'DICE_AVG':0.12,
-            'HD95_AVG':0.13
-        }, 
-        'post_metrics':{
-            'DSCL_AVG':0.21,
-            'DICE_AVG':0.22,
-            'HD95_AVG':0.23
-        }, 
-    }
-    center_dir = os.path.join(base_dir, f"{args.job_prefix}_{args.inst_id}")
-    curr_round_dir = os.path.join(center_dir, f"R{args.rounds:02}r{curr_round:02}")
-    models_dir = os.path.join(curr_round_dir, 'models')
-    # curr_round_dir = os.path.join(base_dir, f"R{args.rounds:02}r{curr_round:02}")
-    # center_dir = os.path.join(curr_round_dir, f"{args.job_prefix}_{args.inst_id}")
-    # models_dir = os.path.join(center_dir, 'models')
-    os.makedirs(models_dir, exist_ok=True)
-    save_model_path = os.path.join(models_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
-    torch.save(state, save_model_path)
-    logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] models are aggregated to {save_model_path}...")
-
-
-
-
-
-        
+def print_to_csv(logger, local_models_with_dlen):
     # averaged_loss = lossavg()
     mean_prev_DSCL_AVG = np.mean([el['pre_metrics']['DSCL_AVG'] for el in local_models_with_dlen])
     mean_prev_DICE_AVG = np.mean([el['pre_metrics']['DICE_AVG'] for el in local_models_with_dlen])
@@ -240,6 +161,90 @@ def main(args):
     # with open(post_metrics_file, 'a') as f:
     #     f.write(f"{args.round},\t{mean_post_metrics}\n")
     #     # f.write(str(args.round) + '\t' + mean_post_metrics + '\n')
+
+def main(args):
+    log_filename = f"{args.job_prefix}_R{args.rounds:02}r{args.round:02}.log"
+    logger = initialization_logger(args, log_filename)
+    prev_round = args.round - 1
+    curr_round = args.round
+    base_dir = os.path.join('/','fedpod','states')
+    # base_dir = os.path.join('.','states') 
+    
+    logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] aggregation algorithm is {args.algorithm.upper()}...")
+
+    args.weight_path = None if args.weight_path == "None" else args.weight_path
+
+    # If round is 0, check the weight_path:
+    # - If weight_path is None, handle the case accordingly.
+    # - If a specific path is provided, handle it differently.
+    if prev_round < 0:
+        if args.weight_path == None:
+            logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup from {args.weight_path}...")
+            center_dir = os.path.join(base_dir, f"{args.job_prefix}_{args.inst_id}")
+            curr_round_dir = os.path.join(center_dir, f"R{args.rounds:02}r{curr_round:02}")
+            models_dir = os.path.join(curr_round_dir, 'models')
+            os.makedirs(models_dir, exist_ok=True)
+            return
+        logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup from {args.weight_path}...")
+        orig_file = args.weight_path
+        center_dir = os.path.join(base_dir, f"{args.job_prefix}_{args.inst_id}")
+        curr_round_dir = os.path.join(center_dir, f"R{args.rounds:02}r{curr_round:02}")
+        models_dir = os.path.join(curr_round_dir, 'models')
+        os.makedirs(models_dir, exist_ok=True)
+        save_model_path = os.path.join(models_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
+        shutil.copy2(orig_file, save_model_path)
+        logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup to {save_model_path}...")
+        return
+    
+    inst_dir = os.path.join(base_dir, f"{args.job_prefix}_*") # inst0 also included 
+    prev_round_dir = os.path.join(inst_dir, f"R{args.rounds:02}r{prev_round:02}")
+    pattern = os.path.join(prev_round_dir, 'models', '*_last.pth') # but, _last.pth removes inst0 because inst0 never has _last.pth file on it
+    pth_path = natsort.natsorted(glob.glob(pattern))
+    for pth in pth_path:
+        logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] local models are from {pth}...")
+
+    local_models_with_dlen = [torch.load(m) for m in pth_path]
+
+    print_to_csv(logger, local_models_with_dlen)
+
+    if args.algorithm == "fedavg":
+        P = [1 for el in local_models_with_dlen]
+        W = [el/sum(P) for el in P]
+        M = [el['model'] for el in local_models_with_dlen]
+        aggregated_model = fedavg(W, M)
+    elif args.algorithm == "fedwavg":
+        P = [el['P'] for el in local_models_with_dlen]
+        W = [el/sum(P) for el in P]
+        M = [el['model'] for el in local_models_with_dlen]
+        aggregated_model = fedwavg(W, M)
+        # averaged_loss = lossavg()
+    else:
+        raise NotImplementedError(f"{args.algorithm.upper()} is not implemented on Aggregator()")
+
+    # save aggregated model with metrics
+    state = {
+        'model': aggregated_model, 
+        'pre_metrics':{
+            'DSCL_AVG':0.11,
+            'DICE_AVG':0.12,
+            'HD95_AVG':0.13
+        }, 
+        'post_metrics':{
+            'DSCL_AVG':0.21,
+            'DICE_AVG':0.22,
+            'HD95_AVG':0.23
+        }, 
+    }
+    center_dir = os.path.join(base_dir, f"{args.job_prefix}_{args.inst_id}")
+    curr_round_dir = os.path.join(center_dir, f"R{args.rounds:02}r{curr_round:02}")
+    models_dir = os.path.join(curr_round_dir, 'models')
+    os.makedirs(models_dir, exist_ok=True)
+    save_model_path = os.path.join(models_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
+    torch.save(state, save_model_path)
+    logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] models are aggregated to {save_model_path}...")
+
+
+        
 
 if __name__ == '__main__': 
     args = parser.parse_args(sys.argv[1:])

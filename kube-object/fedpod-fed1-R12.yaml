@@ -16,20 +16,20 @@ spec:
   - name: parallel-steps
     steps:
   # round 0
-    - - name: run-aggregation-jobs-00
-        template: aggregation-job
-        arguments:
-          parameters:
-          - name: round
-            value: "{{item.round}}"
-          - name: algorithm
-            value: "fedavg"
-          - name: inst-id
-            value: "{{item.inst}}"
-          - name: model_pth
-            value: "/fedpod/cc359ppmi128/R00E000.pth"
-        withItems:
-        - { round: "00", inst: "0" }
+    # - - name: run-aggregation-jobs-00
+    #     template: aggregation-job
+    #     arguments:
+    #       parameters:
+    #       - name: round
+    #         value: "{{item.round}}"
+    #       - name: algorithm
+    #         value: "fedavg"
+    #       - name: inst-id
+    #         value: "{{item.inst}}"
+    #       - name: model_pth
+    #         value: "/fedpod/cc359ppmi128/R00E000.pth"
+    #     withItems:
+    #     - { round: "00", inst: "0" }
     - - name: run-train-jobs-00
         template: train-job
         arguments:
@@ -41,7 +41,7 @@ spec:
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{item.round}}/models/R{{workflow.parameters.rounds}}r{{item.round}}.pth"
+            value: "None"
         withItems:
         - { round: "00", epochs: "002", epoch: "000", inst: "1" }
         - { round: "00", epochs: "002", epoch: "000", inst: "2" }

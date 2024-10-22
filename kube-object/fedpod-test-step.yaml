@@ -16,22 +16,6 @@ spec:
   - name: parallel-steps
     steps:
   # round 0
-    - - name: run-aggregation-jobs-00
-        template: aggregation-job
-        arguments:
-          parameters:
-          - name: round
-            value: "{{item.round}}"
-          - name: algorithm
-            value: "fedavg"
-          - name: inst-id
-            value: "{{item.inst}}"
-          - name: model_pth
-            value: "/fedpod/cc359ppmi128/R00E000.pth"
-        withItems:
-        - { round: "00", inst: "0" }
-        # nodeSelector:
-        #   kubernetes.io/hostname: node02
     - - name: run-train-jobs-00
         template: train-job
         arguments:

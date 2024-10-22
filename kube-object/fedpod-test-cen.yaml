@@ -11,25 +11,11 @@ spec:
     - name: job-prefix
       value: "cen"
     - name: split_csv
-      value: "cc359ppmi128/CC359PPMI_v1.csv"
+      value: "cc359ppmi128/CC359PPMI_v1-test.csv"
   templates:
   - name: parallel-steps
     steps:
   # round 0
-    - - name: run-aggregation-jobs-00
-        template: aggregation-job
-        arguments:
-          parameters:
-          - name: round
-            value: "{{item.round}}"
-          - name: algorithm
-            value: "fedavg"
-          - name: inst-id
-            value: "{{item.inst}}"
-          - name: model_pth
-            value: "/fedpod/cc359ppmi128/R00E000.pth"
-        withItems:
-        - { round: "00", inst: "0" }
     - - name: run-train-jobs-00
         template: train-job
         arguments:
@@ -43,7 +29,7 @@ spec:
           - name: model_pth
             value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{item.round}}/models/R{{workflow.parameters.rounds}}r{{item.round}}.pth"
         withItems:
-        - { round: "00", epochs: "020", inst: "1" }
+        - { round: "00", epochs: "020", epoch: "000", inst: "2" }
         # - { round: "00", epochs: "020", inst: "2" }
         # - { round: "00", epochs: "020", inst: "3" }
         # - { round: "00", epochs: "020", inst: "4" }
@@ -63,7 +49,7 @@ spec:
           - name: model_pth
             value: "None"
         withItems:
-        - { round: "01", inst: "0" }
+        - { round: "00", inst: "2" }
 
 
 
