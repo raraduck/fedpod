@@ -164,14 +164,17 @@ def print_to_csv(args, logger, local_models_with_dlen):
 def solo_processing(args, base_dir, curr_round, next_round, logger):
     inst_dir = os.path.join(base_dir, f"{args.job_prefix}_{args.inst_id}") # inst0 also included 
     curr_round_dir = os.path.join(inst_dir, f"R{args.rounds:02}r{curr_round:02}")
-    best_path = os.path.join(curr_round_dir, 'models', f"R{args.rounds:02}r{args.round:02}_best.pth")
-    last_path = os.path.join(curr_round_dir, 'models', f"R{args.rounds:02}r{args.round:02}_last.pth")
+    models_dir = os.path.join(curr_round_dir, 'models')
+    best_path = os.path.join(models_dir, f"R{args.rounds:02}r{args.round:02}_best.pth")
+    last_path = os.path.join(models_dir, f"R{args.rounds:02}r{args.round:02}_last.pth")
     assert os.path.exists(best_path), f"File not found: {best_path}"
     assert os.path.exists(last_path), f"File not found: {last_path}"
     assert args.rounds == next_round, f"solo post processing requires the end of rounds at the moment. Currently, next round is specified as {next_round} in case when total rounds is {args.rounds}"
     next_round_dir = os.path.join(inst_dir, f"R{args.rounds:02}r{next_round:02}")
-    save_best_path = os.path.join(next_round_dir, 'models', f"R{args.rounds:02}r{next_round:02}_best.pth")
-    save_last_path = os.path.join(next_round_dir, 'models', f"R{args.rounds:02}r{next_round:02}_last.pth")
+    models_dir = os.path.join(next_round_dir, 'models')
+    os.makedirs(models_dir, exist_ok=True)
+    save_best_path = os.path.join(models_dir, f"R{args.rounds:02}r{next_round:02}_best.pth")
+    save_last_path = os.path.join(models_dir, f"R{args.rounds:02}r{next_round:02}_last.pth")
     # save_model_path = os.path.join(models_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
     shutil.copy2(best_path, save_best_path)
     shutil.copy2(last_path, save_last_path)
