@@ -48,15 +48,17 @@ spec:
         arguments:
           parameters:
           - name: round
-            value: "{{item.round}}"
+            # value: "{{item.round}}"
+            value: "00"
           - name: algorithm
             value: "fedavg"
           - name: inst-id
-            value: "{{item.inst}}"
+            # value: "{{item.inst}}"
+            value: "0"
           - name: model_pth
             value: "None"
-        withItems:
-        - { round: "00", inst: "0" }
+        # withItems:
+        # - { round: "00", inst: "0" }
   # round 1
     - - name: run-train-jobs-01
         template: train-job
@@ -156,7 +158,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.14.14
+      image: dwnusa/fedpod:v0.4.14.15
       command: ["/bin/sh", "-c"]
       args: ["./run_train.sh -s 0 -g 0 -J {{workflow.parameters.job-prefix}}_{{inputs.parameters.inst-id}} -R {{workflow.parameters.rounds}} -r {{inputs.parameters.round}} -E {{inputs.parameters.epochs}} -e {{inputs.parameters.epoch}} -i {{inputs.parameters.inst-id}} -c {{workflow.parameters.split_csv}} -m {{inputs.parameters.model_pth}}"]
       resources:
@@ -215,7 +217,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.14.14
+      image: dwnusa/fedpod:v0.4.14.15
       command: ["/bin/sh", "-c"]
       args: ["./run_aggregation.sh -R {{workflow.parameters.rounds}} -r {{inputs.parameters.round}} -a {{inputs.parameters.algorithm}} -j {{workflow.parameters.job-prefix}} -i {{inputs.parameters.inst-id}} -m {{inputs.parameters.model_pth}}"]
       # args: ["./run_aggregation.sh -r 0 -R 5 -a fedavg -j inst -i 0 -m /fedpod/cc359ppmi128/R00E000.pth"]
