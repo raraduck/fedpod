@@ -37,13 +37,13 @@ spec:
         - { round: "00", epochs: "001", epoch: "000", inst: "4" }
         - { round: "00", epochs: "001", epoch: "000", inst: "5" }
         - { round: "00", epochs: "001", epoch: "000", inst: "6" }
-    - - name: save-next-round
+    - - name: save-next-round-00
         template: increment-round
         arguments:
           parameters:
           - name: current-round
             value: "{{item.round}}"
-    - - name: run-aggregation-jobs-00
+      - name: run-aggregation-jobs-00
         template: aggregation-job
         arguments:
           parameters:
@@ -80,7 +80,13 @@ spec:
         - { round: "01", epochs: "001", epoch: "001", inst: "4" }
         - { round: "01", epochs: "001", epoch: "001", inst: "5" }
         - { round: "01", epochs: "001", epoch: "001", inst: "6" }
-    - - name: run-aggregation-jobs-01
+    - - name: save-next-round-01
+        template: increment-round
+        arguments:
+          parameters:
+          - name: current-round
+            value: "{{steps.save-next-round.outputs.parameters.next-round}}"
+      - name: run-aggregation-jobs-01
         template: aggregation-job
         arguments:
           parameters:
@@ -118,7 +124,13 @@ spec:
         - { round: "02", epochs: "001", epoch: "002", inst: "4" }
         - { round: "02", epochs: "001", epoch: "002", inst: "5" }
         - { round: "02", epochs: "001", epoch: "002", inst: "6" }
-    - - name: run-aggregation-jobs-02
+    - - name: save-next-round-02
+        template: increment-round
+        arguments:
+          parameters:
+          - name: current-round
+            value: "{{steps.save-next-round.outputs.parameters.next-round}}"
+      - name: run-aggregation-jobs-02
         template: aggregation-job
         arguments:
           parameters:
