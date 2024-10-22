@@ -232,7 +232,7 @@ class Unet3DApp:
             loss_meter.update(loss.item(), bsz)
             batch_time.update(time.time() - end)
             # print(f"train: bloss-{bce_loss.item():.3f}, dloss-{avg_dsc_loss.item():.3f}, bdloss-{loss.item():.3f}")
-            curr_data = len(train_loader) * epoch + (i+1)
+            curr_data = len(train_loader) * (epoch - from_epoch) + (i+1)
             total_data = (to_epoch - from_epoch) * len(train_loader)
             self.logger.info(" ".join([
                 f"[{self.cli_args.job_name.upper()}][TRN]({(curr_data/total_data*100):3.0f}%)",
