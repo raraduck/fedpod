@@ -48,17 +48,17 @@ spec:
         arguments:
           parameters:
           - name: round
-            # value: "{{item.round}}"
-            value: "00"
+            value: "{{item.round}}"
+            # value: "00"
           - name: algorithm
             value: "fedavg"
           - name: inst-id
-            # value: "{{item.inst}}"
-            value: "0"
+            value: "{{item.inst}}"
+            # value: "0"
           - name: model_pth
             value: "None"
-        # withItems:
-        # - { round: "00", inst: "0" }
+        withItems:
+        - { round: "00", inst: "0" }
   # round 1
     - - name: run-train-jobs-01
         template: train-job
@@ -66,7 +66,7 @@ spec:
           parameters:
           - name: round
             # value: "{{item.round}}"
-            value: "{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}"
+            value: "{{steps.run-aggregation-jobs-00.outputs.parameters.next-round[0]}}"
           - name: epochs
             value: "{{item.epochs}}"
           - name: epoch
@@ -94,7 +94,7 @@ spec:
           parameters:
           - name: round
             # value: "{{item.round}}"
-            value: "{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}"
+            value: "{{steps.run-aggregation-jobs-00.outputs.parameters.next-round[0]}}"
           - name: algorithm
             value: "fedavg"
           - name: inst-id
@@ -110,7 +110,7 @@ spec:
           parameters:
           - name: round
             # value: "{{item.round}}"
-            value: "{{steps.run-aggregation-jobs-01.outputs.parameters.next-round}}"
+            value: "{{steps.run-aggregation-jobs-01.outputs.parameters.next-round[0]}}"
           - name: epochs
             value: "{{item.epochs}}"
           - name: epoch
@@ -138,7 +138,7 @@ spec:
           parameters:
           - name: round
             # value: "{{item.round}}"
-            value: "{{steps.run-aggregation-jobs-01.outputs.parameters.next-round}}"
+            value: "{{steps.run-aggregation-jobs-01.outputs.parameters.next-round[0]}}"
           - name: algorithm
             value: "fedavg"
           - name: inst-id
