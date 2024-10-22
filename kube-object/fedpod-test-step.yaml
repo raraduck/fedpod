@@ -32,11 +32,11 @@ spec:
             value: "None"
         withItems:
         - { round: "00", epochs: "001", epoch: "000", inst: "1" }
-        - { round: "00", epochs: "001", epoch: "000", inst: "2" }
-        - { round: "00", epochs: "001", epoch: "000", inst: "3" }
-        - { round: "00", epochs: "001", epoch: "000", inst: "4" }
+        # - { round: "00", epochs: "001", epoch: "000", inst: "2" }
+        # - { round: "00", epochs: "001", epoch: "000", inst: "3" }
+        # - { round: "00", epochs: "001", epoch: "000", inst: "4" }
         - { round: "00", epochs: "001", epoch: "000", inst: "5" }
-        - { round: "00", epochs: "001", epoch: "000", inst: "6" }
+        # - { round: "00", epochs: "001", epoch: "000", inst: "6" }
     - - name: save-next-round-00
         template: increment-round
         arguments:
@@ -75,10 +75,10 @@ spec:
             value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{item.round}}/models/R{{workflow.parameters.rounds}}r{{item.round}}.pth"
         withItems:
         - { round: "01", epochs: "001", epoch: "001", inst: "1" }
-        - { round: "01", epochs: "001", epoch: "001", inst: "2" }
-        - { round: "01", epochs: "001", epoch: "001", inst: "3" }
-        - { round: "01", epochs: "001", epoch: "001", inst: "4" }
-        - { round: "01", epochs: "001", epoch: "001", inst: "5" }
+        # - { round: "01", epochs: "001", epoch: "001", inst: "2" }
+        # - { round: "01", epochs: "001", epoch: "001", inst: "3" }
+        # - { round: "01", epochs: "001", epoch: "001", inst: "4" }
+        # - { round: "01", epochs: "001", epoch: "001", inst: "5" }
         - { round: "01", epochs: "001", epoch: "001", inst: "6" }
     - - name: save-next-round-01
         template: increment-round
@@ -120,10 +120,10 @@ spec:
         withItems:
         - { round: "02", epochs: "001", epoch: "002", inst: "1" }
         - { round: "02", epochs: "001", epoch: "002", inst: "2" }
-        - { round: "02", epochs: "001", epoch: "002", inst: "3" }
-        - { round: "02", epochs: "001", epoch: "002", inst: "4" }
-        - { round: "02", epochs: "001", epoch: "002", inst: "5" }
-        - { round: "02", epochs: "001", epoch: "002", inst: "6" }
+        # - { round: "02", epochs: "001", epoch: "002", inst: "3" }
+        # - { round: "02", epochs: "001", epoch: "002", inst: "4" }
+        # - { round: "02", epochs: "001", epoch: "002", inst: "5" }
+        # - { round: "02", epochs: "001", epoch: "002", inst: "6" }
     - - name: save-next-round-02
         template: increment-round
         arguments:
