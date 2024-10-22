@@ -3,144 +3,145 @@ kind: Workflow
 metadata:
   generateName: fedpod-jobs-
 spec:
-  entrypoint: parallel-steps-dag
+  entrypoint: parallel-steps
   arguments:
     parameters:
     - name: rounds
       value: "03"
     - name: job-prefix
-      value: "tst"
+      value: "inst"
     - name: split_csv
       value: "cc359ppmi128/CC359PPMI_v1-test.csv"
-
   templates:
-  - name: parallel-steps-dag
-    dag:
-      tasks:
-      # Round 0 - Aggregation
-      - name: run-aggregation-jobs-00
+  - name: parallel-steps
+    steps:
+  # round 0
+    - - name: run-aggregation-jobs-00
         template: aggregation-job
         arguments:
           parameters:
           - name: round
-            value: "00"
+            value: "{{item.round}}"
           - name: algorithm
             value: "fedavg"
           - name: inst-id
-            value: "0"
+            value: "{{item.inst}}"
           - name: model_pth
-            value: "None"
-
-      # Round 0 - Training
-      - name: run-train-jobs-00
-        dependencies: [run-aggregation-jobs-00]
+            value: "/fedpod/cc359ppmi128/R00E000.pth"
+        withItems:
+        - { round: "00", inst: "0" }
+        # nodeSelector:
+        #   kubernetes.io/hostname: node02
+    - - name: run-train-jobs-00
         template: train-job
         arguments:
           parameters:
           - name: round
-            value: "00"
+            value: "{{item.round}}"
           - name: epochs
-            value: "001"
+            value: "{{item.epochs}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{item.round}}/models/R{{workflow.parameters.rounds}}r{{item.round}}.pth"
+        withItems:
+        - { round: "00", epochs: "001", inst: "1" }
+        - { round: "00", epochs: "001", inst: "2" }
+        - { round: "00", epochs: "001", inst: "3" }
+        - { round: "00", epochs: "001", inst: "4" }
+        - { round: "00", epochs: "001", inst: "5" }
+        - { round: "00", epochs: "001", inst: "6" }
+  # round 1
+    - - name: run-aggregation-jobs-01
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: round
+            value: "{{item.round}}"
+          - name: algorithm
+            value: "fedavg"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
             value: "None"
         withItems:
-        - { inst: "1" }
-        - { inst: "2" }
-        - { inst: "3" }
-        - { inst: "4" }
-        - { inst: "5" }
-        - { inst: "6" }
-
-      # Round 1 - Aggregation
-      - name: run-aggregation-jobs-01
-        dependencies: [run-train-jobs-00]
-        template: aggregation-job
-        arguments:
-          parameters:
-          - name: round
-            value: "01"
-          - name: algorithm
-            value: "fedavg"
-          - name: inst-id
-            value: "0"
-          - name: model_pth
-            value: "None"
-
-      # Round 1 - Training
-      - name: run-train-jobs-01
-        dependencies: [run-aggregation-jobs-01]
+        - { round: "01", inst: "0" }
+        # nodeSelector:
+        #   kubernetes.io/hostname: node02
+    - - name: run-train-jobs-01
         template: train-job
         arguments:
           parameters:
           - name: round
-            value: "01"
+            value: "{{item.round}}"
           - name: epochs
-            value: "001"
+            value: "{{item.epochs}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r01/models/R{{workflow.parameters.rounds}}r01.pth"
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{item.round}}/models/R{{workflow.parameters.rounds}}r{{item.round}}.pth"
         withItems:
-        - { inst: "1" }
-        - { inst: "2" }
-        - { inst: "3" }
-        - { inst: "4" }
-        - { inst: "5" }
-        - { inst: "6" }
-
-      # Round 2 - Aggregation
-      - name: run-aggregation-jobs-02
-        dependencies: [run-train-jobs-01]
+        - { round: "01", epochs: "001", inst: "1" }
+        - { round: "01", epochs: "001", inst: "2" }
+        - { round: "01", epochs: "001", inst: "3" }
+        - { round: "01", epochs: "001", inst: "4" }
+        - { round: "01", epochs: "001", inst: "5" }
+        - { round: "01", epochs: "001", inst: "6" }
+  # round 2
+    - - name: run-aggregation-jobs-02
         template: aggregation-job
         arguments:
           parameters:
           - name: round
-            value: "02"
+            value: "{{item.round}}"
           - name: algorithm
             value: "fedavg"
           - name: inst-id
-            value: "0"
+            value: "{{item.inst}}"
           - name: model_pth
             value: "None"
-
-      # Round 2 - Training
-      - name: run-train-jobs-02
-        dependencies: [run-aggregation-jobs-02]
+        withItems:
+        - { round: "02", inst: "0" }
+        # nodeSelector:
+        #   kubernetes.io/hostname: node02
+    - - name: run-train-jobs-02
         template: train-job
         arguments:
           parameters:
           - name: round
-            value: "02"
+            value: "{{item.round}}"
           - name: epochs
-            value: "001"
+            value: "{{item.epochs}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r02/models/R{{workflow.parameters.rounds}}r02.pth"
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{item.round}}/models/R{{workflow.parameters.rounds}}r{{item.round}}.pth"
         withItems:
-        - { inst: "1" }
-        - { inst: "2" }
-        - { inst: "3" }
-        - { inst: "4" }
-        - { inst: "5" }
-        - { inst: "6" }
-
-      # Round 3 (End) - Aggregation
-      - name: run-aggregation-jobs-03
-        dependencies: [run-train-jobs-02]
+        - { round: "02", epochs: "001", inst: "1" }
+        - { round: "02", epochs: "001", inst: "2" }
+        - { round: "02", epochs: "001", inst: "3" }
+        - { round: "02", epochs: "001", inst: "4" }
+        - { round: "02", epochs: "001", inst: "5" }
+        - { round: "02", epochs: "001", inst: "6" }
+  # round (end)
+    - - name: run-aggregation-jobs-03
         template: aggregation-job
         arguments:
           parameters:
           - name: round
-            value: "03"
+            value: "{{item.round}}"
           - name: algorithm
             value: "fedavg"
           - name: inst-id
-            value: "0"
+            value: "{{item.inst}}"
           - name: model_pth
             value: "None"
+        withItems:
+        - { round: "03", inst: "0" }
+        # nodeSelector:
+        #   kubernetes.io/hostname: node02
+
+
 
   - name: aggregation-job
     inputs:
@@ -153,6 +154,7 @@ spec:
       image: dwnusa/fedpod:v0.4.14.3
       command: ["/bin/sh", "-c"]
       args: ["./run_aggregation.sh -R {{workflow.parameters.rounds}} -r {{inputs.parameters.round}} -a {{inputs.parameters.algorithm}} -j {{workflow.parameters.job-prefix}} -i {{inputs.parameters.inst-id}} -m {{inputs.parameters.model_pth}}"]
+      # args: ["./run_aggregation.sh -r 0 -R 5 -a fedavg -j inst -i 0 -m /fedpod/cc359ppmi128/R00E000.pth"]
       resources:
         requests:
           cpu: "2"
@@ -164,19 +166,26 @@ spec:
         mountPath: /fedpod/states
       - name: logs-volume
         mountPath: /fedpod/logs
+      stdin: true
+      tty: true
     volumes:
     - name: cc359ppmi128-volume
       hostPath:
-        path: /fedpod/cc359ppmi128
+        path: /fedpod/cc359ppmi128  # 로컬 경로
         type: Directory
     - name: states-volume
       hostPath:
-        path: /fedpod/states
+        path: /fedpod/states  # 로컬 경로
         type: Directory
     - name: logs-volume
       hostPath:
-        path: /fedpod/logs
+        path: /fedpod/logs  # 로컬 경로
         type: Directory
+    # outputs:
+    #   artifacts:
+    #   - name: log-file
+    #     path: "/fedpod/logs/{{workflow.parameters.job-prefix}}_R{{workflow.parameters.rounds}}r{{inputs.parameters.round}}.log"
+
 
   - name: train-job
     inputs:
@@ -193,6 +202,9 @@ spec:
         requests:
           cpu: "2"
           memory: "64G"
+        # limits:
+        #   cpu: "12"
+        #   memory: "86G"
       volumeMounts:
       - name: cc359ppmi128-volume
         mountPath: /fedpod/cc359ppmi128
@@ -200,16 +212,19 @@ spec:
         mountPath: /fedpod/states
       - name: logs-volume
         mountPath: /fedpod/logs
+      stdin: true
+      tty: true
     volumes:
     - name: cc359ppmi128-volume
       hostPath:
-        path: /fedpod/cc359ppmi128
+        path: /fedpod/cc359ppmi128  # 로컬 경로
         type: Directory
     - name: states-volume
       hostPath:
-        path: /fedpod/states
+        path: /fedpod/states  # 로컬 경로
         type: Directory
     - name: logs-volume
       hostPath:
-        path: /fedpod/logs
+        path: /fedpod/logs  # 로컬 경로
         type: Directory
+
