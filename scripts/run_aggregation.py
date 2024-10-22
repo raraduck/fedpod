@@ -264,36 +264,11 @@ def main(args):
     if args.weight_path is not None:
         assert curr_round == 0, f"init_processing must be called at round 0, currently it is {curr_round}"
         init_processing(args, base_dir, curr_round, logger)
-
-    if args.inst_id != 0:
-        solo_processing(args, base_dir, curr_round, next_round, logger)
     else:
-        fed_processing(args, base_dir, curr_round, next_round, logger)
-
-    # If round is 0, check the weight_path:
-    # - If weight_path is None, handle the case accordingly.
-    # - If a specific path is provided, handle it differently.
-    # if prev_round < 0:
-    #     if args.weight_path == None:
-    #         logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup from {args.weight_path}...")
-    #         center_dir = os.path.join(base_dir, f"{args.job_prefix}_{args.inst_id}")
-    #         curr_round_dir = os.path.join(center_dir, f"R{args.rounds:02}r{curr_round:02}")
-    #         models_dir = os.path.join(curr_round_dir, 'models')
-    #         os.makedirs(models_dir, exist_ok=True)
-    #         return
-    #     logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup from {args.weight_path}...")
-    #     orig_file = args.weight_path
-    #     center_dir = os.path.join(base_dir, f"{args.job_prefix}_{args.inst_id}")
-    #     curr_round_dir = os.path.join(center_dir, f"R{args.rounds:02}r{curr_round:02}")
-    #     models_dir = os.path.join(curr_round_dir, 'models')
-    #     os.makedirs(models_dir, exist_ok=True)
-    #     save_model_path = os.path.join(models_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
-    #     shutil.copy2(orig_file, save_model_path)
-    #     logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup to {save_model_path}...")
-    #     return
-    # if curr_round == 0:
-
-        
+        if args.inst_id != 0:
+            solo_processing(args, base_dir, curr_round, next_round, logger)
+        else:
+            fed_processing(args, base_dir, curr_round, next_round, logger)
 
 if __name__ == '__main__': 
     args = parser.parse_args(sys.argv[1:])
