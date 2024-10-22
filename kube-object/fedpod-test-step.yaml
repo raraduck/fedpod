@@ -48,18 +48,18 @@ spec:
           - name: algorithm
             value: "fedavg"
           - name: inst-id
-            value: "{{item.inst}}"
+            value: "0"
           - name: model_pth
             value: "None"
-        withItems:
-        - { inst: "0" }
+        # withItems:
+        # - { inst: "0" }
   # round 1
     - - name: run-train-jobs-01
         template: train-job
         arguments:
           parameters:
           - name: round
-            value: "{{steps.run-aggregation-jobs-00.outputs.parameters.next-round[0]}}"
+            value: "{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}"
           - name: epochs
             value: "{{item.epochs}}"
           - name: epoch
@@ -67,7 +67,7 @@ spec:
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-00.outputs.parameters.next-round[0]}}/models/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-00.outputs.parameters.next-round[0]}}.pth"
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}.pth"
         withItems:
         - { epochs: "001", epoch: "001", inst: "1" }
         # - { epochs: "001", epoch: "001", inst: "2" }
@@ -80,22 +80,22 @@ spec:
         arguments:
           parameters:
           - name: round
-            value: "{{steps.run-aggregation-jobs-00.outputs.parameters.next-round[0]}}"
+            value: "{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}"
           - name: algorithm
             value: "fedavg"
           - name: inst-id
-            value: "{{item.inst}}"
+            value: "0"
           - name: model_pth
             value: "None"
-        withItems:
-        - { round: "01", inst: "0" }
+        # withItems:
+        # - { inst: "0" }
   # round 2
     - - name: run-train-jobs-02
         template: train-job
         arguments:
           parameters:
           - name: round
-            value: "{{steps.run-aggregation-jobs-01.outputs.parameters.next-round[0]}}"
+            value: "{{steps.run-aggregation-jobs-01.outputs.parameters.next-round}}"
           - name: epochs
             value: "{{item.epochs}}"
           - name: epoch
@@ -103,7 +103,7 @@ spec:
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-01.outputs.parameters.next-round[0]}}/models/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-01.outputs.parameters.next-round[0]}}.pth"
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-01.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-01.outputs.parameters.next-round}}.pth"
         withItems:
         - { epochs: "001", epoch: "002", inst: "1" }
         - { epochs: "001", epoch: "002", inst: "2" }
@@ -116,15 +116,15 @@ spec:
         arguments:
           parameters:
           - name: round
-            value: "{{steps.run-aggregation-jobs-01.outputs.parameters.next-round[0]}}"
+            value: "{{steps.run-aggregation-jobs-01.outputs.parameters.next-round}}"
           - name: algorithm
             value: "fedavg"
           - name: inst-id
-            value: "{{item.inst}}"
+            value: "0"
           - name: model_pth
             value: "None"
-        withItems:
-        - { round: "02", inst: "0" }
+        # withItems:
+        # - { inst: "0" }
 
   - name: train-job
     inputs:
