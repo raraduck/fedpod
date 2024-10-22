@@ -12,11 +12,13 @@ spec:
       value: "cen"
     - name: split_csv
       value: "cc359ppmi128/CC359PPMI_v1-test.csv"
+  
   templates:
   - name: parallel-steps
-    steps:
-    # inst 1
-    - - name: run-train-job-1
+    dag:  # steps 대신 dag 템플릿 사용
+      tasks:
+      # inst 1
+      - name: run-train-job-1
         template: train-job
         arguments:
           parameters:
@@ -30,7 +32,8 @@ spec:
             value: "3"
           - name: model_pth
             value: "None"
-    - - name: run-aggregation-job-1
+      
+      - name: run-aggregation-job-1
         dependencies: [run-train-job-1]  # inst-id 1에 대한 의존성 설정
         template: aggregation-job
         arguments:
@@ -44,8 +47,8 @@ spec:
           - name: model_pth
             value: "None"
 
-    # inst 1
-    - - name: run-train-job-2
+      # inst 2
+      - name: run-train-job-2
         template: train-job
         arguments:
           parameters:
@@ -59,7 +62,8 @@ spec:
             value: "2"
           - name: model_pth
             value: "None"
-    - - name: run-aggregation-job-2
+
+      - name: run-aggregation-job-2
         dependencies: [run-train-job-2]  # inst-id 2에 대한 의존성 설정
         template: aggregation-job
         arguments:
