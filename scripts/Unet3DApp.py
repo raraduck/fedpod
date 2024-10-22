@@ -183,7 +183,7 @@ class Unet3DApp:
         else:
             raise NotImplementedError(f"[{self.cli_args.job_name.upper()}][MODE:{mode}] is not implemented on initializer()")
     
-    def train(self, round, epoch, model, train_loader, loss_fn, optimizer, scaler, mode='training'):
+    def train(self, round, from_epoch, epoch, to_epoch, model, train_loader, loss_fn, optimizer, scaler, mode='training'):
         model.train()
         data_time = AverageMeter('Data', ':6.3f')
         batch_time = AverageMeter('Time', ':6.3f')
@@ -232,10 +232,12 @@ class Unet3DApp:
             loss_meter.update(loss.item(), bsz)
             batch_time.update(time.time() - end)
             # print(f"train: bloss-{bce_loss.item():.3f}, dloss-{avg_dsc_loss.item():.3f}, bdloss-{loss.item():.3f}")
+            curr_data = len(train_loader) * epoch + (i+1)
+            total_data = (to_epoch - from_epoch) * len(train_loader)
             self.logger.info(" ".join([
-                f"[{self.cli_args.job_name.upper()}][TRN]({((i+1)/len(train_loader)*100):3.0f}%)",
+                f"[{self.cli_args.job_name.upper()}][TRN]({(curr_data/total_data*100):3.0f}%)",
                 f"R:{round:02}",
-                f"E:{epoch:03}",
+                f"E:{epoch:03}/{to_epoch:03}",
                 f"D:{i:03}/{len(train_loader):03}",
                 f"BCEL:{bce_loss.item():2.3f}",
                 f"DSCL:{avg_dsc_loss.item():2.3f}",
@@ -429,7 +431,8 @@ class Unet3DApp:
 
         for i, epoch in enumerate(range(from_epoch, to_epoch)):
             train_tb_dict[epoch] = self.train(
-                self.cli_args.round, epoch, 
+                self.cli_args.round, 
+                from_epoch, epoch, to_epoch,
                 train_setup['model'], 
                 train_setup['train_loader'], 
                 train_setup['loss_fn'], 
