@@ -8,9 +8,11 @@ bash /fedpod/run_aggregation.sh \
     -j agg \
     -i 0 \
     -m /fedpod/cc359ppmi128/R00r00.pth && \
-
+echo ""
+echo ""
+echo ""
+echo ""
 echo "::::::::::second aggregation requires to not specify model_path" && \
-
 echo "::::::::::which is to collect them(local models) by round and job_prefix pattern" && \
 
 mkdir -p \
