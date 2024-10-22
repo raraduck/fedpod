@@ -21,7 +21,7 @@ do
         R) rounds=${OPTARG};;
         r) round=${OPTARG};;
         E) epochs=${OPTARG};;
-		e) epoch==${OPTARG};;
+		e) epoch=${OPTARG};;
         i) inst_id=${OPTARG};;
 		c) split_csv=${OPTARG};;
 		m) model_pth=${OPTARG};;
