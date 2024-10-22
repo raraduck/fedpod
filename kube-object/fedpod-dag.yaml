@@ -9,7 +9,7 @@ spec:
     - name: rounds
       value: "03"
     - name: job-prefix
-      value: "tst"
+      value: "dag"
     - name: split_csv
       value: "cc359ppmi128/CC359PPMI_v1-test.csv"
 
