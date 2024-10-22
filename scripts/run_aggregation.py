@@ -21,7 +21,7 @@ parser.add_argument('--weight_path', type=str, required=True,
     help='path to pretrained encoder or decoder weight, None for train-from-scratch')
 
 
-def print_to_csv(logger, local_models_with_dlen):
+def print_to_csv(args, logger, local_models_with_dlen):
     # averaged_loss = lossavg()
     mean_prev_DSCL_AVG = np.mean([el['pre_metrics']['DSCL_AVG'] for el in local_models_with_dlen])
     mean_prev_DICE_AVG = np.mean([el['pre_metrics']['DICE_AVG'] for el in local_models_with_dlen])
@@ -161,51 +161,36 @@ def print_to_csv(logger, local_models_with_dlen):
     # with open(post_metrics_file, 'a') as f:
     #     f.write(f"{args.round},\t{mean_post_metrics}\n")
     #     # f.write(str(args.round) + '\t' + mean_post_metrics + '\n')
+def solo_processing(args, base_dir, curr_round, next_round, logger):
+    inst_dir = os.path.join(base_dir, f"{args.job_prefix}_{args.inst_id}") # inst0 also included 
+    curr_round_dir = os.path.join(inst_dir, f"R{args.rounds:02}r{curr_round:02}")
+    best_path = os.path.join(curr_round_dir, 'models', f"R{args.rounds:02}r{args.round:02}_best.pth")
+    last_path = os.path.join(curr_round_dir, 'models', f"R{args.rounds:02}r{args.round:02}_last.pth")
+    assert os.path.exists(best_path), f"File not found: {best_path}"
+    assert os.path.exists(last_path), f"File not found: {last_path}"
+    assert args.rounds == next_round, f"solo post processing requires the end of rounds at the moment. Currently, next round is specified as {next_round} in case when total rounds is {args.rounds}"
+    next_round_dir = os.path.join(inst_dir, f"R{args.rounds:02}r{next_round:02}")
+    save_best_path = os.path.join(next_round_dir, 'models', f"R{args.rounds:02}r{next_round:02}_best.pth")
+    save_last_path = os.path.join(next_round_dir, 'models', f"R{args.rounds:02}r{next_round:02}_last.pth")
+    # save_model_path = os.path.join(models_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
+    shutil.copy2(best_path, save_best_path)
+    shutil.copy2(last_path, save_last_path)
+    logger.info(f"[{args.job_prefix.upper()}][SOLO] saved best model to {save_best_path}...")
+    logger.info(f"[{args.job_prefix.upper()}][SOLO] saved last model to {save_last_path}...")
+    return
 
-def main(args):
-    log_filename = f"{args.job_prefix}_R{args.rounds:02}r{args.round:02}.log"
-    logger = initialization_logger(args, log_filename)
-    prev_round = args.round - 1
-    curr_round = args.round
-    base_dir = os.path.join('/','fedpod','states')
-    # base_dir = os.path.join('.','states') 
-    
-    logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] aggregation algorithm is {args.algorithm.upper()}...")
 
-    args.weight_path = None if args.weight_path == "None" else args.weight_path
-
-    # If round is 0, check the weight_path:
-    # - If weight_path is None, handle the case accordingly.
-    # - If a specific path is provided, handle it differently.
-    if prev_round < 0:
-        if args.weight_path == None:
-            logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup from {args.weight_path}...")
-            center_dir = os.path.join(base_dir, f"{args.job_prefix}_{args.inst_id}")
-            curr_round_dir = os.path.join(center_dir, f"R{args.rounds:02}r{curr_round:02}")
-            models_dir = os.path.join(curr_round_dir, 'models')
-            os.makedirs(models_dir, exist_ok=True)
-            return
-        logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup from {args.weight_path}...")
-        orig_file = args.weight_path
-        center_dir = os.path.join(base_dir, f"{args.job_prefix}_{args.inst_id}")
-        curr_round_dir = os.path.join(center_dir, f"R{args.rounds:02}r{curr_round:02}")
-        models_dir = os.path.join(curr_round_dir, 'models')
-        os.makedirs(models_dir, exist_ok=True)
-        save_model_path = os.path.join(models_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
-        shutil.copy2(orig_file, save_model_path)
-        logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup to {save_model_path}...")
-        return
-    
+def fed_processing(args, base_dir, curr_round, next_round, logger):
     inst_dir = os.path.join(base_dir, f"{args.job_prefix}_*") # inst0 also included 
-    prev_round_dir = os.path.join(inst_dir, f"R{args.rounds:02}r{prev_round:02}")
-    pattern = os.path.join(prev_round_dir, 'models', '*_last.pth') # but, _last.pth removes inst0 because inst0 never has _last.pth file on it
+    curr_round_dir = os.path.join(inst_dir, f"R{args.rounds:02}r{curr_round:02}")
+    pattern = os.path.join(curr_round_dir, 'models', '*_last.pth') # but, _last.pth removes inst0 because inst0 never has _last.pth file on it
     pth_path = natsort.natsorted(glob.glob(pattern))
     for pth in pth_path:
         logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] local models are from {pth}...")
 
     local_models_with_dlen = [torch.load(m) for m in pth_path]
 
-    print_to_csv(logger, local_models_with_dlen)
+    print_to_csv(args, logger, local_models_with_dlen)
 
     if args.algorithm == "fedavg":
         P = [1 for el in local_models_with_dlen]
@@ -236,13 +221,57 @@ def main(args):
         }, 
     }
     center_dir = os.path.join(base_dir, f"{args.job_prefix}_{args.inst_id}")
-    curr_round_dir = os.path.join(center_dir, f"R{args.rounds:02}r{curr_round:02}")
-    models_dir = os.path.join(curr_round_dir, 'models')
+    next_round_dir = os.path.join(center_dir, f"R{args.rounds:02}r{next_round:02}")
+    models_dir = os.path.join(next_round_dir, 'models')
     os.makedirs(models_dir, exist_ok=True)
-    save_model_path = os.path.join(models_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
+    save_model_path = os.path.join(models_dir, f"R{args.rounds:02}r{next_round:02}.pth")
     torch.save(state, save_model_path)
     logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] models are aggregated to {save_model_path}...")
+    return
 
+    #     save_model_path = os.path.join(models_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
+    #     shutil.copy2(orig_file, save_model_path)
+    #     logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup to {save_model_path}...")
+    #     return
+
+def main(args):
+    log_filename = f"{args.job_prefix}_R{args.rounds:02}r{args.round:02}.log"
+    logger = initialization_logger(args, log_filename)
+    logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] aggregation algorithm is {args.algorithm.upper()}...")
+    
+    # prev_round = args.round - 1
+    curr_round = args.round
+    next_round = args.round + 1
+    base_dir = os.path.join('/','fedpod','states')
+    args.weight_path = None if args.weight_path == "None" else args.weight_path
+
+    if args.inst_id != 0:
+        solo_processing(args, base_dir, curr_round, next_round, logger)
+    else:
+        fed_processing(args, base_dir, curr_round, next_round, logger)
+
+    # If round is 0, check the weight_path:
+    # - If weight_path is None, handle the case accordingly.
+    # - If a specific path is provided, handle it differently.
+    # if prev_round < 0:
+    #     if args.weight_path == None:
+    #         logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup from {args.weight_path}...")
+    #         center_dir = os.path.join(base_dir, f"{args.job_prefix}_{args.inst_id}")
+    #         curr_round_dir = os.path.join(center_dir, f"R{args.rounds:02}r{curr_round:02}")
+    #         models_dir = os.path.join(curr_round_dir, 'models')
+    #         os.makedirs(models_dir, exist_ok=True)
+    #         return
+    #     logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup from {args.weight_path}...")
+    #     orig_file = args.weight_path
+    #     center_dir = os.path.join(base_dir, f"{args.job_prefix}_{args.inst_id}")
+    #     curr_round_dir = os.path.join(center_dir, f"R{args.rounds:02}r{curr_round:02}")
+    #     models_dir = os.path.join(curr_round_dir, 'models')
+    #     os.makedirs(models_dir, exist_ok=True)
+    #     save_model_path = os.path.join(models_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
+    #     shutil.copy2(orig_file, save_model_path)
+    #     logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup to {save_model_path}...")
+    #     return
+    # if curr_round == 0:
 
         
 

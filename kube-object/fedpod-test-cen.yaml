@@ -29,14 +29,13 @@ spec:
           - name: model_pth
             value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{item.round}}/models/R{{workflow.parameters.rounds}}r{{item.round}}.pth"
         withItems:
-        - { round: "00", epochs: "020", epoch: "000", inst: "2" }
+        - { round: "00", epochs: "002", epoch: "000", inst: "2" }
         # - { round: "00", epochs: "020", inst: "2" }
         # - { round: "00", epochs: "020", inst: "3" }
         # - { round: "00", epochs: "020", inst: "4" }
         # - { round: "00", epochs: "020", inst: "5" }
         # - { round: "00", epochs: "020", inst: "6" }
-  # round (end)
-    - - name: run-aggregation-jobs-01
+    - - name: run-aggregation-jobs-00
         template: aggregation-job
         arguments:
           parameters:
@@ -53,49 +52,6 @@ spec:
 
 
 
-  - name: aggregation-job
-    inputs:
-      parameters:
-      - name: round
-      - name: algorithm
-      - name: inst-id
-      - name: model_pth
-    container:
-      image: dwnusa/fedpod:v0.4.13.17
-      command: ["/bin/sh", "-c"]
-      args: ["./run_aggregation.sh -R {{workflow.parameters.rounds}} -r {{inputs.parameters.round}} -a {{inputs.parameters.algorithm}} -j {{workflow.parameters.job-prefix}} -i {{inputs.parameters.inst-id}} -m {{inputs.parameters.model_pth}}"]
-      # args: ["./run_aggregation.sh -r 0 -R 5 -a fedavg -j inst -i 0 -m /fedpod/cc359ppmi128/R00E000.pth"]
-      resources:
-        requests:
-          cpu: "2"
-          memory: "4G"
-      volumeMounts:
-      - name: cc359ppmi128-volume
-        mountPath: /fedpod/cc359ppmi128
-      - name: states-volume
-        mountPath: /fedpod/states
-      - name: logs-volume
-        mountPath: /fedpod/logs
-      stdin: true
-      tty: true
-    volumes:
-    - name: cc359ppmi128-volume
-      hostPath:
-        path: /fedpod/cc359ppmi128  # 로컬 경로
-        type: Directory
-    - name: states-volume
-      hostPath:
-        path: /fedpod/states  # 로컬 경로
-        type: Directory
-    - name: logs-volume
-      hostPath:
-        path: /fedpod/logs  # 로컬 경로
-        type: Directory
-    # outputs:
-    #   artifacts:
-    #   - name: log-file
-    #     path: "/fedpod/logs/{{workflow.parameters.job-prefix}}_R{{workflow.parameters.rounds}}r{{inputs.parameters.round}}.log"
-
 
   - name: train-job
     inputs:
@@ -105,7 +61,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.13.17
+      image: dwnusa/fedpod:v0.4.14.7
       command: ["/bin/sh", "-c"]
       args: ["./run_train.sh -s 1 -g 0 -J {{workflow.parameters.job-prefix}}_{{inputs.parameters.inst-id}} -R {{workflow.parameters.rounds}} -r {{inputs.parameters.round}} -E {{inputs.parameters.epochs}} -i {{inputs.parameters.inst-id}} -c {{workflow.parameters.split_csv}} -m {{inputs.parameters.model_pth}}"]
       resources:
@@ -138,3 +94,42 @@ spec:
         path: /fedpod/logs  # 로컬 경로
         type: Directory
 
+
+  - name: aggregation-job
+    inputs:
+      parameters:
+      - name: round
+      - name: algorithm
+      - name: inst-id
+      - name: model_pth
+    container:
+      image: dwnusa/fedpod:v0.4.14.7
+      command: ["/bin/sh", "-c"]
+      args: ["./run_aggregation.sh -R {{workflow.parameters.rounds}} -r {{inputs.parameters.round}} -a {{inputs.parameters.algorithm}} -j {{workflow.parameters.job-prefix}} -i {{inputs.parameters.inst-id}} -m {{inputs.parameters.model_pth}}"]
+      # args: ["./run_aggregation.sh -r 0 -R 5 -a fedavg -j inst -i 0 -m /fedpod/cc359ppmi128/R00E000.pth"]
+      resources:
+        requests:
+          cpu: "2"
+          memory: "4G"
+      volumeMounts:
+      - name: cc359ppmi128-volume
+        mountPath: /fedpod/cc359ppmi128
+      - name: states-volume
+        mountPath: /fedpod/states
+      - name: logs-volume
+        mountPath: /fedpod/logs
+      stdin: true
+      tty: true
+    volumes:
+    - name: cc359ppmi128-volume
+      hostPath:
+        path: /fedpod/cc359ppmi128  # 로컬 경로
+        type: Directory
+    - name: states-volume
+      hostPath:
+        path: /fedpod/states  # 로컬 경로
+        type: Directory
+    - name: logs-volume
+      hostPath:
+        path: /fedpod/logs  # 로컬 경로
+        type: Directory
