@@ -64,7 +64,7 @@ spec:
           parameters:
           - name: round
             # value: "{{item.round}}"
-            value: "{{steps.save-next-round.outputs.parameters.next-round}}"
+            value: "{{steps.save-next-round-00.outputs.parameters.next-round}}"
           - name: epochs
             value: "{{item.epochs}}"
           - name: epoch
@@ -85,14 +85,14 @@ spec:
         arguments:
           parameters:
           - name: current-round
-            value: "{{steps.save-next-round.outputs.parameters.next-round}}"
+            value: "{{steps.save-next-round-00.outputs.parameters.next-round}}"
       - name: run-aggregation-jobs-01
         template: aggregation-job
         arguments:
           parameters:
           - name: round
             # value: "{{item.round}}"
-            value: "{{steps.save-next-round.outputs.parameters.next-round}}"
+            value: "{{steps.save-next-round-00.outputs.parameters.next-round}}"
           - name: algorithm
             value: "fedavg"
           - name: inst-id
@@ -108,7 +108,7 @@ spec:
           parameters:
           - name: round
             # value: "{{item.round}}"
-            value: "{{steps.save-next-round.outputs.parameters.next-round}}"
+            value: "{{steps.save-next-round-01.outputs.parameters.next-round}}"
           - name: epochs
             value: "{{item.epochs}}"
           - name: epoch
@@ -129,14 +129,14 @@ spec:
         arguments:
           parameters:
           - name: current-round
-            value: "{{steps.save-next-round.outputs.parameters.next-round}}"
+            value: "{{steps.save-next-round-01.outputs.parameters.next-round}}"
       - name: run-aggregation-jobs-02
         template: aggregation-job
         arguments:
           parameters:
           - name: round
             # value: "{{item.round}}"
-            value: "{{steps.save-next-round.outputs.parameters.next-round}}"
+            value: "{{steps.save-next-round-01.outputs.parameters.next-round}}"
           - name: algorithm
             value: "fedavg"
           - name: inst-id
