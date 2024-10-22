@@ -198,6 +198,7 @@ spec:
       image: busybox
       command: [sh, -c]
       source: |
+        chmod +x /argo/staging/script  # 스크립트 실행 권한 부여
         next_round=$(printf "%02d" $(expr {{inputs.parameters.current-round}} + 1))
         echo $next_round > /tmp/next_round.txt
     outputs:
