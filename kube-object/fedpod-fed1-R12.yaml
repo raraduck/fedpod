@@ -24,6 +24,8 @@ spec:
             value: "{{item.round}}"
           - name: epochs
             value: "{{item.epochs}}"
+          - name: epoch
+            value: "{{item.epoch}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
@@ -58,6 +60,8 @@ spec:
             value: "{{item.round}}"
           - name: epochs
             value: "{{item.epochs}}"
+          - name: epoch
+            value: "{{item.epoch}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
@@ -92,6 +96,8 @@ spec:
             value: "{{item.round}}"
           - name: epochs
             value: "{{item.epochs}}"
+          - name: epoch
+            value: "{{item.epoch}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
@@ -126,6 +132,8 @@ spec:
             value: "{{item.round}}"
           - name: epochs
             value: "{{item.epochs}}"
+          - name: epoch
+            value: "{{item.epoch}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
@@ -160,6 +168,8 @@ spec:
             value: "{{item.round}}"
           - name: epochs
             value: "{{item.epochs}}"
+          - name: epoch
+            value: "{{item.epoch}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
@@ -194,6 +204,8 @@ spec:
             value: "{{item.round}}"
           - name: epochs
             value: "{{item.epochs}}"
+          - name: epoch
+            value: "{{item.epoch}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
@@ -228,6 +240,8 @@ spec:
             value: "{{item.round}}"
           - name: epochs
             value: "{{item.epochs}}"
+          - name: epoch
+            value: "{{item.epoch}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
@@ -262,6 +276,8 @@ spec:
             value: "{{item.round}}"
           - name: epochs
             value: "{{item.epochs}}"
+          - name: epoch
+            value: "{{item.epoch}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
@@ -296,6 +312,8 @@ spec:
             value: "{{item.round}}"
           - name: epochs
             value: "{{item.epochs}}"
+          - name: epoch
+            value: "{{item.epoch}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
@@ -330,6 +348,8 @@ spec:
             value: "{{item.round}}"
           - name: epochs
             value: "{{item.epochs}}"
+          - name: epoch
+            value: "{{item.epoch}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
@@ -365,6 +385,8 @@ spec:
             value: "{{item.round}}"
           - name: epochs
             value: "{{item.epochs}}"
+          - name: epoch
+            value: "{{item.epoch}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
@@ -399,6 +421,8 @@ spec:
             value: "{{item.round}}"
           - name: epochs
             value: "{{item.epochs}}"
+          - name: epoch
+            value: "{{item.epoch}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
