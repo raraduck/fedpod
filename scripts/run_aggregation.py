@@ -261,7 +261,7 @@ def main(args):
     base_dir = os.path.join('/','fedpod','states')
     args.weight_path = None if args.weight_path == "None" else args.weight_path
 
-    if args.weight_path is not None:
+    if args.weight_path:
         assert curr_round == 0, f"init_processing must be called at round 0, currently it is {curr_round}"
         init_processing(args, base_dir, curr_round, logger)
     else:

@@ -31,7 +31,7 @@ cp  /fedpod/cc359ppmi128/Agg_6_R12r09.pth \
 
 bash /fedpod/run_aggregation.sh \
     -R 2 \
-    -r 1 \
+    -r 0 \
     -a fedavg \
     -j agg \
     -i 0 \
