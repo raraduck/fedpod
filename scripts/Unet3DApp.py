@@ -509,7 +509,8 @@ class Unet3DApp:
             self.cli_args.cases_split, 
             self.cli_args.inst_ids, 
             TrainOrVal=[infer_mode], 
-            partition_by_round=True if self.cli_args.rounds > 0 else False,
+            partition_by_round=False,
+            # partition_by_round=True if self.cli_args.rounds > 0 else False,
             mode=infer_mode
         )
 
