@@ -1,5 +1,5 @@
 #!/bin/bash
-bash /fedpod/run_infer.sh \
+bash /fedpod/run_infer1.sh \
      -s 1 \
      -g 0 \
      -J infer_1 \
