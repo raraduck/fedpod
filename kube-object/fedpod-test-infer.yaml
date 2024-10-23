@@ -38,7 +38,7 @@ spec:
         - { job-name: "", rounds: "01", round: "01", epoch: "100", job-prefix: "cen1", inst: "5", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
         - { job-name: "", rounds: "01", round: "01", epoch: "100", job-prefix: "cen1", inst: "6", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
 
-    - - name: run-infer-jobs-02
+    - - name: run-infer-jobs-01
         template: infer-job
         arguments:
           parameters:
