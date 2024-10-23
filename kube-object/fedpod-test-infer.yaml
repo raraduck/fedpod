@@ -4,16 +4,10 @@ metadata:
   generateName: fedpod-jobs-
 spec:
   entrypoint: parallel-steps
-  arguments:
-    parameters:
-    # - name: rounds
-    #   value: "03"
-    # - name: initial-round
-    #   value: "00"
-    # - name: job-prefix
-    #   value: "step"
-    - name: split_csv
-      value: "cc359ppmi128/CC359PPMI_v1-test.csv"
+  # arguments:
+    # parameters:
+    # - name: split_csv
+    #   value: "cc359ppmi128/CC359PPMI_v1-test.csv"
   templates:
   - name: parallel-steps
     steps:
@@ -34,15 +28,17 @@ spec:
             value: "{{item.job-prefix}}"
           - name: inst-id
             value: "{{item.inst}}"
+          - name: split_csv
+            value: "{{item.split_csv}}"
           - name: model_pth
             value: "/fedpod/states/{{item.job-prefix}}_{{item.inst}}/R{{item.rounds}}r{{item.round}}/models/R{{item.rounds}}r{{item.round}}_last.pth"
         withItems:
-        - { rounds: "03", round: "02", epochs: "001", epoch: "000", job-prefix: "step", inst: "1" }
-        - { rounds: "03", round: "02", epochs: "001", epoch: "000", job-prefix: "step", inst: "2" }
-        - { rounds: "03", round: "02", epochs: "001", epoch: "000", job-prefix: "step", inst: "3" }
-        - { rounds: "03", round: "02", epochs: "001", epoch: "000", job-prefix: "step", inst: "4" }
-        - { rounds: "03", round: "02", epochs: "001", epoch: "000", job-prefix: "step", inst: "5" }
-        - { rounds: "03", round: "02", epochs: "001", epoch: "000", job-prefix: "step", inst: "6" }
+        - { rounds: "03", round: "02", epochs: "001", epoch: "000", job-prefix: "step", inst: "1", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
+        - { rounds: "03", round: "02", epochs: "001", epoch: "000", job-prefix: "step", inst: "2", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
+        - { rounds: "03", round: "02", epochs: "001", epoch: "000", job-prefix: "step", inst: "3", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
+        - { rounds: "03", round: "02", epochs: "001", epoch: "000", job-prefix: "step", inst: "4", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
+        - { rounds: "03", round: "02", epochs: "001", epoch: "000", job-prefix: "step", inst: "5", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
+        - { rounds: "03", round: "02", epochs: "001", epoch: "000", job-prefix: "step", inst: "6", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
 
   # infer using fed models
     - - name: run-infer-jobs-01
@@ -57,16 +53,20 @@ spec:
             value: "{{item.epochs}}"
           - name: epoch
             value: "{{item.epoch}}"
+          - name: job-name
+            value: "{{item.job-prefix}}_{{item.inst}}"
           - name: job-prefix
             value: "{{item.job-prefix}}"
           - name: inst-id
             value: "{{item.inst}}"
+          - name: split_csv
+            value: "{{item.split_csv}}"
           - name: model_pth
             value: "/fedpod/states/{{item.job-prefix}}_{{item.inst}}/R{{item.rounds}}r{{item.round}}/models/R{{item.rounds}}r{{item.round}}.pth"
         withItems:
-        - { rounds: "03", round: "01", epochs: "001", epoch: "000", job-prefix: "step", inst: "0" }
-        - { rounds: "03", round: "02", epochs: "001", epoch: "000", job-prefix: "step", inst: "0" }
-        - { rounds: "03", round: "03", epochs: "001", epoch: "000", job-prefix: "step", inst: "0" }
+        - { rounds: "03", round: "01", epochs: "001", epoch: "000", job-prefix: "step", inst: "0", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
+        - { rounds: "03", round: "02", epochs: "001", epoch: "000", job-prefix: "step", inst: "0", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
+        - { rounds: "03", round: "03", epochs: "001", epoch: "000", job-prefix: "step", inst: "0", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
         # - { rounds: "03", round: "03", epochs: "001", epoch: "000", job-prefix: "step", inst: "2" }
         # - { rounds: "03", round: "03", epochs: "001", epoch: "000", job-prefix: "step", inst: "3" }
         # - { rounds: "03", round: "03", epochs: "001", epoch: "000", job-prefix: "step", inst: "4" }
@@ -79,15 +79,16 @@ spec:
       parameters:
       - name: rounds
       - name: round
-      - name: epochs
       - name: epoch
+      - name: job-name
       - name: job-prefix
       - name: inst-id
+      - name: split_csv
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.14.15
+      image: dwnusa/fedpod:v0.4.14.16
       command: ["/bin/sh", "-c"]
-      args: ["./run_infer.sh -s 0 -g 0 -J {{inputs.parameters.job-prefix}}_{{inputs.parameters.inst-id}} -R {{inputs.parameters.rounds}} -r {{inputs.parameters.round}} -E {{inputs.parameters.epochs}} -e {{inputs.parameters.epoch}} -i {{inputs.parameters.inst-id}} -c {{workflow.parameters.split_csv}} -m {{inputs.parameters.model_pth}}"]
+      args: ["./run_infer1.sh -s 1 -g 0 -J {{inputs.parameters.job-name}} -R {{inputs.parameters.rounds}} -r {{inputs.parameters.round}} -e {{inputs.parameters.epoch}} -i {{inputs.parameters.inst-id}} -c {{inputs.parameters.split_csv}} -m {{inputs.parameters.model_pth}}"]
       resources:
         requests:
           cpu: "2"

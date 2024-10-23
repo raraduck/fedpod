@@ -183,7 +183,7 @@ class Unet3DApp:
         else:
             raise NotImplementedError(f"[{self.cli_args.job_name.upper()}][MODE:{mode}] is not implemented on initializer()")
     
-    def train(self, round, from_epoch, epoch, to_epoch, model, train_loader, loss_fn, optimizer, scaler, mode='training'):
+    def train(self, round, rounds, from_epoch, epoch, to_epoch, model, train_loader, loss_fn, optimizer, scaler, mode='training'):
         model.train()
         data_time = AverageMeter('Data', ':6.3f')
         batch_time = AverageMeter('Time', ':6.3f')
@@ -236,7 +236,7 @@ class Unet3DApp:
             total_data = (to_epoch - from_epoch) * len(train_loader)
             self.logger.info(" ".join([
                 f"[{self.cli_args.job_name.upper()}][TRN]({(curr_data/total_data*100):3.0f}%)",
-                f"R:{round:02}",
+                f"R:{round:02}/{rounds:02}",
                 f"E:{epoch:03}/{to_epoch:03}",
                 f"D:{i:03}/{len(train_loader):03}",
                 f"BCEL:{bce_loss.item():2.3f}",
@@ -431,7 +431,7 @@ class Unet3DApp:
 
         for i, epoch in enumerate(range(from_epoch, to_epoch)):
             train_tb_dict[epoch] = self.train(
-                self.cli_args.round, 
+                self.cli_args.round, self.cli_args.rounds, 
                 from_epoch, epoch, to_epoch,
                 train_setup['model'], 
                 train_setup['train_loader'], 
@@ -509,7 +509,7 @@ class Unet3DApp:
             self.cli_args.cases_split, 
             self.cli_args.inst_ids, 
             TrainOrVal=[infer_mode], 
-            partition_by_round=(self.cli_args.rounds > 0),
+            partition_by_round=True if self.cli_args.rounds > 0 else False,
             mode=infer_mode
         )
 

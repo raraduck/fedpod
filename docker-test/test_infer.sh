@@ -3,7 +3,6 @@ bash /fedpod/run_infer.sh \
      -s 1 \
      -g 0 \
      -J infer_1 \
-     -j infer \
      -R 2 \
      -r 0 \
      -e 7 \

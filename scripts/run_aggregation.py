@@ -21,7 +21,7 @@ parser.add_argument('--weight_path', type=str, required=True,
     help='path to pretrained encoder or decoder weight, None for train-from-scratch')
 
 
-def print_to_csv(args, logger, local_models_with_dlen):
+def fed_print_to_csv(args, logger, local_models_with_dlen):
     # averaged_loss = lossavg()
     mean_prev_DSCL_AVG = np.mean([el['pre_metrics']['DSCL_AVG'] for el in local_models_with_dlen])
     mean_prev_DICE_AVG = np.mean([el['pre_metrics']['DICE_AVG'] for el in local_models_with_dlen])
@@ -161,6 +161,10 @@ def print_to_csv(args, logger, local_models_with_dlen):
     # with open(post_metrics_file, 'a') as f:
     #     f.write(f"{args.round},\t{mean_post_metrics}\n")
     #     # f.write(str(args.round) + '\t' + mean_post_metrics + '\n')
+
+def solo_print_to_csv():
+    pass
+
 def solo_processing(args, base_dir, curr_round, next_round, logger):
     inst_dir = os.path.join(base_dir, f"{args.job_prefix}_{args.inst_id}") # inst0 also included 
     curr_round_dir = os.path.join(inst_dir, f"R{args.rounds:02}r{curr_round:02}")
@@ -175,7 +179,8 @@ def solo_processing(args, base_dir, curr_round, next_round, logger):
     os.makedirs(models_dir, exist_ok=True)
     save_best_path = os.path.join(models_dir, f"R{args.rounds:02}r{next_round:02}_best.pth")
     save_last_path = os.path.join(models_dir, f"R{args.rounds:02}r{next_round:02}_last.pth")
-    # save_model_path = os.path.join(models_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
+    # solo_print_to_csv(args, logger, local_models_with_dlen)
+    # solo_print_to_csv(args, logger, local_models_with_dlen)
     shutil.copy2(best_path, save_best_path)
     shutil.copy2(last_path, save_last_path)
     logger.info(f"[{args.job_prefix.upper()}][SOLO] saved best model to {save_best_path}...")
@@ -193,7 +198,7 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
 
     local_models_with_dlen = [torch.load(m) for m in pth_path]
 
-    print_to_csv(args, logger, local_models_with_dlen)
+    fed_print_to_csv(args, logger, local_models_with_dlen)
 
     if args.algorithm == "fedavg":
         P = [1 for el in local_models_with_dlen]
