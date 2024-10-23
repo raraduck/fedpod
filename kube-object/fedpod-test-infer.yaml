@@ -84,9 +84,9 @@ spec:
           - name: model_pth
             value: "/fedpod/states/{{item.job-prefix}}_{{item.inst}}/R{{item.rounds}}r{{item.round}}/models/R{{item.rounds}}r{{item.round}}.pth"
         withItems:
-        - { job-name: "", rounds: "03", round: "01", epoch: "100", job-prefix: "step", inst: "0", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
-        - { job-name: "", rounds: "03", round: "02", epoch: "100", job-prefix: "step", inst: "0", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
-        - { job-name: "", rounds: "03", round: "03", epoch: "100", job-prefix: "step", inst: "0", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
+        - { job-name: "", rounds: "03", round: "01", epoch: "100", job-prefix: "step", inst: "1", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
+        - { job-name: "", rounds: "03", round: "02", epoch: "100", job-prefix: "step", inst: "1", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
+        - { job-name: "", rounds: "03", round: "03", epoch: "100", job-prefix: "step", inst: "1", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
         # - { rounds: "03", round: "03", epochs: "001", epoch: "000", job-prefix: "step", inst: "2" }
         # - { rounds: "03", round: "03", epochs: "001", epoch: "000", job-prefix: "step", inst: "3" }
         # - { rounds: "03", round: "03", epochs: "001", epoch: "000", job-prefix: "step", inst: "4" }
