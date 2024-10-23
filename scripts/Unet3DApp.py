@@ -534,12 +534,12 @@ class Unet3DApp:
             save_infer=self.cli_args.save_infer
         )
 
-        state = {
-            'args': self.cli_args,
-            f'{infer_mode}_metrics': infer_metrics,
-            'time': time.time() - time_in_total,
-        }
-        save_model_path = os.path.join("states", self.job_name, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", "models")
-        os.makedirs(save_model_path, exist_ok=True)
-        torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}.pth"))
+        # state = {
+        #     'args': self.cli_args,
+        #     f'{infer_mode}_metrics': infer_metrics,
+        #     'time': time.time() - time_in_total,
+        # }
+        # save_model_path = os.path.join("states", self.job_name, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", "models")
+        # os.makedirs(save_model_path, exist_ok=True)
+        # torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}.pth"))
         return

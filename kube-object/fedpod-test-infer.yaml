@@ -1,0 +1,116 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: fedpod-jobs-
+spec:
+  entrypoint: parallel-steps
+  arguments:
+    parameters:
+    # - name: rounds
+    #   value: "03"
+    # - name: initial-round
+    #   value: "00"
+    # - name: job-prefix
+    #   value: "step"
+    - name: split_csv
+      value: "cc359ppmi128/CC359PPMI_v1-test.csv"
+  templates:
+  - name: parallel-steps
+    steps:
+  # infer using local models
+    - - name: run-infer-jobs-00
+        template: infer-job
+        arguments:
+          parameters:
+          - name: rounds
+            value: "{{item.rounds}}"
+          - name: round
+            value: "{{item.round}}"
+          - name: epochs
+            value: "{{item.epochs}}"
+          - name: epoch
+            value: "{{item.epoch}}"
+          - name: job-prefix
+            value: "{{item.job-prefix}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{item.job-prefix}}_{{item.inst}}/R{{item.rounds}}r{{item.round}}/models/R{{item.rounds}}r{{item.round}}_last.pth"
+        withItems:
+        - { rounds: "03", round: "02", epochs: "001", epoch: "000", job-prefix: "step", inst: "1" }
+        - { rounds: "03", round: "02", epochs: "001", epoch: "000", job-prefix: "step", inst: "2" }
+        - { rounds: "03", round: "02", epochs: "001", epoch: "000", job-prefix: "step", inst: "3" }
+        - { rounds: "03", round: "02", epochs: "001", epoch: "000", job-prefix: "step", inst: "4" }
+        - { rounds: "03", round: "02", epochs: "001", epoch: "000", job-prefix: "step", inst: "5" }
+        - { rounds: "03", round: "02", epochs: "001", epoch: "000", job-prefix: "step", inst: "6" }
+
+  # infer using fed models
+    - - name: run-infer-jobs-01
+        template: infer-job
+        arguments:
+          parameters:
+          - name: rounds
+            value: "{{item.rounds}}"
+          - name: round
+            value: "{{item.round}}"
+          - name: epochs
+            value: "{{item.epochs}}"
+          - name: epoch
+            value: "{{item.epoch}}"
+          - name: job-prefix
+            value: "{{item.job-prefix}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{item.job-prefix}}_{{item.inst}}/R{{item.rounds}}r{{item.round}}/models/R{{item.rounds}}r{{item.round}}.pth"
+        withItems:
+        - { rounds: "03", round: "01", epochs: "001", epoch: "000", job-prefix: "step", inst: "0" }
+        - { rounds: "03", round: "02", epochs: "001", epoch: "000", job-prefix: "step", inst: "0" }
+        - { rounds: "03", round: "03", epochs: "001", epoch: "000", job-prefix: "step", inst: "0" }
+        # - { rounds: "03", round: "03", epochs: "001", epoch: "000", job-prefix: "step", inst: "2" }
+        # - { rounds: "03", round: "03", epochs: "001", epoch: "000", job-prefix: "step", inst: "3" }
+        # - { rounds: "03", round: "03", epochs: "001", epoch: "000", job-prefix: "step", inst: "4" }
+        # - { rounds: "03", round: "03", epochs: "001", epoch: "000", job-prefix: "step", inst: "5" }
+        # - { rounds: "03", round: "03", epochs: "001", epoch: "000", job-prefix: "step", inst: "6" }
+
+
+  - name: infer-job
+    inputs:
+      parameters:
+      - name: rounds
+      - name: round
+      - name: epochs
+      - name: epoch
+      - name: job-prefix
+      - name: inst-id
+      - name: model_pth
+    container:
+      image: dwnusa/fedpod:v0.4.14.15
+      command: ["/bin/sh", "-c"]
+      args: ["./run_infer.sh -s 0 -g 0 -J {{inputs.parameters.job-prefix}}_{{inputs.parameters.inst-id}} -R {{inputs.parameters.rounds}} -r {{inputs.parameters.round}} -E {{inputs.parameters.epochs}} -e {{inputs.parameters.epoch}} -i {{inputs.parameters.inst-id}} -c {{workflow.parameters.split_csv}} -m {{inputs.parameters.model_pth}}"]
+      resources:
+        requests:
+          cpu: "2"
+          memory: "16G"
+      volumeMounts:
+      - name: cc359ppmi128-volume
+        mountPath: /fedpod/cc359ppmi128
+      - name: states-volume
+        mountPath: /fedpod/states
+      - name: logs-volume
+        mountPath: /fedpod/logs
+      stdin: true
+      tty: true
+    volumes:
+    - name: cc359ppmi128-volume
+      hostPath:
+        path: /fedpod/cc359ppmi128  # 로컬 경로
+        type: Directory
+    - name: states-volume
+      hostPath:
+        path: /fedpod/states  # 로컬 경로
+        type: Directory
+    - name: logs-volume
+      hostPath:
+        path: /fedpod/logs  # 로컬 경로
+        type: Directory
