@@ -1,0 +1,286 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: fedpod-jobs-
+spec:
+  entrypoint: parallel-steps
+  arguments:
+    parameters:
+    - name: rounds
+      value: "01"
+    - name: job-prefix
+      value: "solo2"
+    - name: split_csv
+      value: "cc359ppmi128/CC359PPMI_v1.csv"
+  
+  templates:
+  - name: parallel-steps
+    dag:  # steps 대신 dag 템플릿 사용
+      tasks:
+      # inst 1
+      - name: run-train-job-1
+        template: train-job
+        arguments:
+          parameters:
+          - name: round
+            value: "00"
+          - name: epochs
+            value: "020"
+          - name: epoch
+            value: "000"
+          - name: inst-id
+            value: "1"
+          - name: model_pth
+            value: "None"
+      
+      - name: run-aggregation-job-1
+        dependencies: [run-train-job-1]  # inst-id 1에 대한 의존성 설정
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: round
+            value: "00"
+          - name: algorithm
+            value: "fedavg"
+          - name: inst-id
+            value: "1"
+          - name: model_pth
+            value: "None"
+
+      # inst 2
+      - name: run-train-job-2
+        template: train-job
+        arguments:
+          parameters:
+          - name: round
+            value: "00"
+          - name: epochs
+            value: "020"
+          - name: epoch
+            value: "000"
+          - name: inst-id
+            value: "2"
+          - name: model_pth
+            value: "None"
+
+      - name: run-aggregation-job-2
+        dependencies: [run-train-job-2]  # inst-id 2에 대한 의존성 설정
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: round
+            value: "00"
+          - name: algorithm
+            value: "fedavg"
+          - name: inst-id
+            value: "2"
+          - name: model_pth
+            value: "None"
+            
+      # inst 3
+      - name: run-train-job-3
+        template: train-job
+        arguments:
+          parameters:
+          - name: round
+            value: "00"
+          - name: epochs
+            value: "020"
+          - name: epoch
+            value: "000"
+          - name: inst-id
+            value: "3"
+          - name: model_pth
+            value: "None"
+
+      - name: run-aggregation-job-3
+        dependencies: [run-train-job-3]  # inst-id 2에 대한 의존성 설정
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: round
+            value: "00"
+          - name: algorithm
+            value: "fedavg"
+          - name: inst-id
+            value: "3"
+          - name: model_pth
+            value: "None"
+
+      # inst 4
+      - name: run-train-job-4
+        template: train-job
+        arguments:
+          parameters:
+          - name: round
+            value: "00"
+          - name: epochs
+            value: "020"
+          - name: epoch
+            value: "000"
+          - name: inst-id
+            value: "4"
+          - name: model_pth
+            value: "None"
+
+      - name: run-aggregation-job-4
+        dependencies: [run-train-job-4]  # inst-id 2에 대한 의존성 설정
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: round
+            value: "00"
+          - name: algorithm
+            value: "fedavg"
+          - name: inst-id
+            value: "4"
+          - name: model_pth
+            value: "None"
+
+      # inst 5
+      - name: run-train-job-5
+        template: train-job
+        arguments:
+          parameters:
+          - name: round
+            value: "00"
+          - name: epochs
+            value: "020"
+          - name: epoch
+            value: "000"
+          - name: inst-id
+            value: "5"
+          - name: model_pth
+            value: "None"
+
+      - name: run-aggregation-job-5
+        dependencies: [run-train-job-5]  # inst-id 2에 대한 의존성 설정
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: round
+            value: "00"
+          - name: algorithm
+            value: "fedavg"
+          - name: inst-id
+            value: "5"
+          - name: model_pth
+            value: "None"
+
+      # inst 6
+      - name: run-train-job-6
+        template: train-job
+        arguments:
+          parameters:
+          - name: round
+            value: "00"
+          - name: epochs
+            value: "020"
+          - name: epoch
+            value: "000"
+          - name: inst-id
+            value: "6"
+          - name: model_pth
+            value: "None"
+
+      - name: run-aggregation-job-6
+        dependencies: [run-train-job-6]  # inst-id 2에 대한 의존성 설정
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: round
+            value: "00"
+          - name: algorithm
+            value: "fedavg"
+          - name: inst-id
+            value: "6"
+          - name: model_pth
+            value: "None"
+
+
+  - name: train-job
+    inputs:
+      parameters:
+      - name: round
+      - name: epochs
+      - name: epoch
+      - name: inst-id
+      - name: model_pth
+    container:
+      image: dwnusa/fedpod:v0.4.14.16
+      command: ["/bin/sh", "-c"]
+      args: ["./run_train2.sh -s 1 -g 0 -J {{workflow.parameters.job-prefix}}_{{inputs.parameters.inst-id}} -R {{workflow.parameters.rounds}} -r {{inputs.parameters.round}} -E {{inputs.parameters.epochs}} -e {{inputs.parameters.epoch}} -i {{inputs.parameters.inst-id}} -c {{workflow.parameters.split_csv}} -m {{inputs.parameters.model_pth}}"]
+      resources:
+        requests:
+          cpu: "2"
+          memory: "16G"
+        # limits:
+        #   cpu: "4"
+        #   memory: "86G"
+      volumeMounts:
+      - name: cc359ppmi128-volume
+        mountPath: /fedpod/cc359ppmi128
+      - name: states-volume
+        mountPath: /fedpod/states
+      - name: logs-volume
+        mountPath: /fedpod/logs
+      stdin: true
+      tty: true
+    volumes:
+    - name: cc359ppmi128-volume
+      hostPath:
+        path: /fedpod/cc359ppmi128  # 로컬 경로
+        type: Directory
+    - name: states-volume
+      hostPath:
+        path: /fedpod/states  # 로컬 경로
+        type: Directory
+    - name: logs-volume
+      hostPath:
+        path: /fedpod/logs  # 로컬 경로
+        type: Directory
+
+
+  - name: aggregation-job
+    inputs:
+      parameters:
+      - name: round
+      - name: algorithm
+      - name: inst-id
+      - name: model_pth
+    container:
+      image: dwnusa/fedpod:v0.4.14.16
+      command: ["/bin/sh", "-c"]
+      args: ["./run_aggregation.sh -R {{workflow.parameters.rounds}} -r {{inputs.parameters.round}} -a {{inputs.parameters.algorithm}} -j {{workflow.parameters.job-prefix}} -i {{inputs.parameters.inst-id}} -m {{inputs.parameters.model_pth}}"]
+      # args: ["./run_aggregation.sh -r 0 -R 5 -a fedavg -j inst -i 0 -m /fedpod/cc359ppmi128/R00E000.pth"]
+      resources:
+        requests:
+          cpu: "2"
+          memory: "4G"
+      volumeMounts:
+      - name: cc359ppmi128-volume
+        mountPath: /fedpod/cc359ppmi128
+      - name: states-volume
+        mountPath: /fedpod/states
+      - name: logs-volume
+        mountPath: /fedpod/logs
+      stdin: true
+      tty: true
+    outputs:
+      parameters:
+      - name: next-round
+        valueFrom:
+          path: /tmp/next_round.txt
+    volumes:
+    - name: cc359ppmi128-volume
+      hostPath:
+        path: /fedpod/cc359ppmi128  # 로컬 경로
+        type: Directory
+    - name: states-volume
+      hostPath:
+        path: /fedpod/states  # 로컬 경로
+        type: Directory
+    - name: logs-volume
+      hostPath:
+        path: /fedpod/logs  # 로컬 경로
+        type: Directory

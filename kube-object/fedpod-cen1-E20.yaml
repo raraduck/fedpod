@@ -7,7 +7,7 @@ spec:
   arguments:
     parameters:
     - name: rounds
-      value: "01"
+      value: "00"
     - name: job-prefix
       value: "cen1"
     - name: split_csv
@@ -17,24 +17,24 @@ spec:
   - name: parallel-steps
     dag:  # steps 대신 dag 템플릿 사용
       tasks:
-      # inst 1
-      - name: run-train-job-1
+      # inst 1,2,3,4,5,6 represented as 0
+      - name: run-train-job-0
         template: train-job
         arguments:
           parameters:
           - name: round
             value: "00"
           - name: epochs
-            value: "020"
+            value: "005"
           - name: epoch
             value: "000"
           - name: inst-id
-            value: "1"
+            value: "0"
           - name: model_pth
             value: "None"
       
-      - name: run-aggregation-job-1
-        dependencies: [run-train-job-1]  # inst-id 1에 대한 의존성 설정
+      - name: run-aggregation-job-0
+        dependencies: [run-train-job-0]  # inst-id 1에 대한 의존성 설정
         template: aggregation-job
         arguments:
           parameters:
@@ -43,157 +43,7 @@ spec:
           - name: algorithm
             value: "fedavg"
           - name: inst-id
-            value: "1"
-          - name: model_pth
-            value: "None"
-
-      # inst 2
-      - name: run-train-job-2
-        template: train-job
-        arguments:
-          parameters:
-          - name: round
-            value: "00"
-          - name: epochs
-            value: "020"
-          - name: epoch
-            value: "000"
-          - name: inst-id
-            value: "2"
-          - name: model_pth
-            value: "None"
-
-      - name: run-aggregation-job-2
-        dependencies: [run-train-job-2]  # inst-id 2에 대한 의존성 설정
-        template: aggregation-job
-        arguments:
-          parameters:
-          - name: round
-            value: "00"
-          - name: algorithm
-            value: "fedavg"
-          - name: inst-id
-            value: "2"
-          - name: model_pth
-            value: "None"
-            
-      # inst 3
-      - name: run-train-job-3
-        template: train-job
-        arguments:
-          parameters:
-          - name: round
-            value: "00"
-          - name: epochs
-            value: "020"
-          - name: epoch
-            value: "000"
-          - name: inst-id
-            value: "3"
-          - name: model_pth
-            value: "None"
-
-      - name: run-aggregation-job-3
-        dependencies: [run-train-job-3]  # inst-id 2에 대한 의존성 설정
-        template: aggregation-job
-        arguments:
-          parameters:
-          - name: round
-            value: "00"
-          - name: algorithm
-            value: "fedavg"
-          - name: inst-id
-            value: "3"
-          - name: model_pth
-            value: "None"
-
-      # inst 4
-      - name: run-train-job-4
-        template: train-job
-        arguments:
-          parameters:
-          - name: round
-            value: "00"
-          - name: epochs
-            value: "020"
-          - name: epoch
-            value: "000"
-          - name: inst-id
-            value: "4"
-          - name: model_pth
-            value: "None"
-
-      - name: run-aggregation-job-4
-        dependencies: [run-train-job-4]  # inst-id 2에 대한 의존성 설정
-        template: aggregation-job
-        arguments:
-          parameters:
-          - name: round
-            value: "00"
-          - name: algorithm
-            value: "fedavg"
-          - name: inst-id
-            value: "4"
-          - name: model_pth
-            value: "None"
-
-      # inst 5
-      - name: run-train-job-5
-        template: train-job
-        arguments:
-          parameters:
-          - name: round
-            value: "00"
-          - name: epochs
-            value: "020"
-          - name: epoch
-            value: "000"
-          - name: inst-id
-            value: "5"
-          - name: model_pth
-            value: "None"
-
-      - name: run-aggregation-job-5
-        dependencies: [run-train-job-5]  # inst-id 2에 대한 의존성 설정
-        template: aggregation-job
-        arguments:
-          parameters:
-          - name: round
-            value: "00"
-          - name: algorithm
-            value: "fedavg"
-          - name: inst-id
-            value: "5"
-          - name: model_pth
-            value: "None"
-
-      # inst 6
-      - name: run-train-job-6
-        template: train-job
-        arguments:
-          parameters:
-          - name: round
-            value: "00"
-          - name: epochs
-            value: "020"
-          - name: epoch
-            value: "000"
-          - name: inst-id
-            value: "6"
-          - name: model_pth
-            value: "None"
-
-      - name: run-aggregation-job-6
-        dependencies: [run-train-job-6]  # inst-id 2에 대한 의존성 설정
-        template: aggregation-job
-        arguments:
-          parameters:
-          - name: round
-            value: "00"
-          - name: algorithm
-            value: "fedavg"
-          - name: inst-id
-            value: "6"
+            value: "0"
           - name: model_pth
             value: "None"
 
