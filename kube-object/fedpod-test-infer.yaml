@@ -38,31 +38,31 @@ spec:
         - { job-name: "infer_cen1", rounds: "03", round: "00", epoch: "000", inst: "5", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen1_1/R01r01/models/R01r01_best.pth"}
         - { job-name: "infer_cen1", rounds: "03", round: "00", epoch: "000", inst: "6", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen1_1/R01r01/models/R01r01_best.pth"}
 
-  #   - - name: run-infer-jobs-01
-  #       template: infer-job
-  #       arguments:
-  #         parameters:
-  #         - name: job-name
-  #           value: "{{item.job-prefix}}_{{item.inst}}"
-  #         - name: rounds
-  #           value: "{{item.rounds}}"
-  #         - name: round
-  #           value: "{{item.round}}"
-  #         - name: epoch
-  #           value: "{{item.epoch}}"
-  #         - name: inst-id
-  #           value: "{{item.inst}}"
-  #         - name: split_csv
-  #           value: "{{item.split_csv}}"
-  #         - name: model_pth
-  #           value: "/fedpod/states/{{item.job-prefix}}_{{item.inst}}/R{{item.rounds}}r{{item.round}}/models/R{{item.rounds}}r{{item.round}}_best.pth"
-  #       withItems:
-  #       - { job-name: "", rounds: "01", round: "00", epoch: "100", job-prefix: "cen1", inst: "1", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
-  #       - { job-name: "", rounds: "01", round: "00", epoch: "100", job-prefix: "cen1", inst: "2", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
-  #       - { job-name: "", rounds: "01", round: "00", epoch: "100", job-prefix: "cen1", inst: "3", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
-  #       # - { job-name: "", rounds: "01", round: "01", epoch: "000", job-prefix: "cen1", inst: "4", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
-  #       # - { job-name: "", rounds: "01", round: "01", epoch: "000", job-prefix: "cen1", inst: "5", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
-  #       # - { job-name: "", rounds: "01", round: "01", epoch: "000", job-prefix: "cen1", inst: "6", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
+    - - name: run-infer-jobs-01
+        template: infer-job
+        arguments:
+          parameters:
+          - name: job-name
+            value: "{{item.job-name}}"
+          - name: rounds
+            value: "{{item.rounds}}"
+          - name: round
+            value: "{{item.round}}"
+          - name: epoch
+            value: "{{item.epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: split_csv
+            value: "{{item.split_csv}}"
+          - name: model_pth
+            value: "{{item.model_pth}}"
+        withItems:
+        - { job-name: "infer_cen2_6", rounds: "04", round: "01", epoch: "000", inst: "1", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen2_6/R01r01/models/R01r01_best.pth"}
+        - { job-name: "infer_cen2_6", rounds: "04", round: "02", epoch: "000", inst: "2", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen2_6/R01r01/models/R01r01_best.pth"}
+        - { job-name: "infer_cen2_6", rounds: "04", round: "03", epoch: "000", inst: "3", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen2_6/R01r01/models/R01r01_best.pth"}
+        # - { job-name: "", rounds: "01", round: "01", epoch: "000", job-prefix: "cen1", inst: "4", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
+        # - { job-name: "", rounds: "01", round: "01", epoch: "000", job-prefix: "cen1", inst: "5", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
+        # - { job-name: "", rounds: "01", round: "01", epoch: "000", job-prefix: "cen1", inst: "6", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
 
   # # infer using fed models
   #   - - name: run-infer-jobs-02
