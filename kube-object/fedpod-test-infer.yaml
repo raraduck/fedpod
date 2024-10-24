@@ -105,7 +105,7 @@ spec:
       - name: split_csv
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.14.16
+      image: dwnusa/fedpod:v0.4.14.18
       command: ["/bin/sh", "-c"]
       args: ["./run_infer1.sh -s 1 -g 0 -J {{inputs.parameters.job-name}} -R {{inputs.parameters.rounds}} -r {{inputs.parameters.round}} -e {{inputs.parameters.epoch}} -i {{inputs.parameters.inst-id}} -c {{inputs.parameters.split_csv}} -m {{inputs.parameters.model_pth}}"]
       resources:
