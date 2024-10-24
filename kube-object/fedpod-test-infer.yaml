@@ -17,7 +17,7 @@ spec:
         arguments:
           parameters:
           - name: job-name
-            value: "{{item.job-prefix}}_{{item.inst}}"
+            value: "{{item.job-name}}"
           - name: rounds
             value: "{{item.rounds}}"
           - name: round
