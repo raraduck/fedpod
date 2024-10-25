@@ -216,6 +216,8 @@ spec:
           ./{{inputs.parameters.script-name}} 
           -R {{workflow.parameters.rounds}} 
           -r {{inputs.parameters.round}} 
+          -E {{inputs.parameters.epochs}} 
+          -e {{inputs.parameters.epoch}} 
           -a {{inputs.parameters.algorithm}} 
           -j {{workflow.parameters.job-prefix}} 
           -i {{inputs.parameters.inst-id}} 
