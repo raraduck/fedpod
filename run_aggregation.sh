@@ -35,7 +35,7 @@ fi
 
 # echo "rounds: $rounds, round: $round, algorithm: $algorithm, job: $job_prefix, inst: $inst_id, model_pth: $model_pth"
 
-python3 scripts/run_aggregation.py \ 
+python3 scripts/run_aggregation.py \
 	--rounds $rounds \
 	--round $round \
 	--epochs $epochs \
