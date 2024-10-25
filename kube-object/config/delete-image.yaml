@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: delete-image
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      name: delete-image
+  template:
+    metadata:
+      labels:
+        name: delete-image
+    spec:
+      containers:
+      - name: delete-image
+        image: busybox
+        command: ["sh", "-c", "crictl rmi dwnusa/fedpod:v0.4.14.19 || true"]
+        volumeMounts:
+        - mountPath: /var/run/cri.sock
+          name: cri-socket
+      hostNetwork: true
+      hostPID: true
+      tolerations:
+      - operator: "Exists"
+      securityContext:
+        runAsUser: 0
+      volumes:
+      - name: cri-socket
+        hostPath:
+          path: /var/run/containerd/containerd.sock # Containerd 사용 시
+          # path: /var/run/crio/crio.sock # CRI-O 사용 시
