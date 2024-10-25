@@ -11,7 +11,7 @@ spec:
     - name: initial-round
       value: "00" # mode selection role: (cen: 00, sol: 01, fed: >= 02)
     - name: job-prefix
-      value: "step"
+      value: "steptest"
     - name: split_csv
       value: "cc359ppmi128/CC359PPMI_v1-test.csv"
   templates:
@@ -136,7 +136,7 @@ spec:
           - name: epochs
             value: "001" # "{{item.epochs}}"
           - name: epoch
-            value: "002" # "{{item.epoch}}"
+            value: "{{steps.run-aggregation-jobs-01.outputs.parameters.next-round}}" # "002" # "{{item.epoch}}"
           - name: algorithm
             value: "fedavg"
           - name: inst-id
