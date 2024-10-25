@@ -7,7 +7,7 @@ spec:
   arguments:
     parameters:
     - name: rounds
-      value: "12"
+      value: "15"
     - name: initial-round
       value: "00"
     - name: job-prefix
