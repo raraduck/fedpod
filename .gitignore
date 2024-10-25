@@ -4,6 +4,7 @@ states
 test
 logs
 temp
+*.tar
 
 # pycharm
 .idea
