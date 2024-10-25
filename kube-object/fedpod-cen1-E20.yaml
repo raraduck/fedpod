@@ -55,6 +55,7 @@ spec:
   - name: train-job
     inputs:
       parameters:
+      - name: script-name
       - name: round
       - name: epochs
       - name: epoch
@@ -96,6 +97,7 @@ spec:
   - name: aggregation-job
     inputs:
       parameters:
+      - name: script-name
       - name: round
       - name: algorithm
       - name: inst-id
