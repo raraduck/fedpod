@@ -155,7 +155,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.14.18
+      image: dwnusa/fedpod:v0.4.14.19
       command: ["/bin/sh", "-c"]
       args:
         - >
@@ -209,7 +209,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.14.18
+      image: dwnusa/fedpod:v0.4.14.19
       command: ["/bin/sh", "-c"]
       args: 
         - >
