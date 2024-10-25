@@ -18,14 +18,12 @@ COPY --from=builder /usr/lib /usr/lib
 
 WORKDIR /fedpod
 COPY ./scripts /fedpod/scripts
-COPY ./run_train.sh /fedpod
 COPY ./run_train1.sh /fedpod
 COPY ./run_train2.sh /fedpod
 COPY ./run_infer1.sh /fedpod
 COPY ./run_infer2.sh /fedpod
 COPY ./run_aggregation.sh /fedpod
 
-RUN chmod +x /fedpod/run_train.sh
 RUN chmod +x /fedpod/run_train1.sh
 RUN chmod +x /fedpod/run_train2.sh
 RUN chmod +x /fedpod/run_infer1.sh
