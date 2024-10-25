@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
       - name: delete-image
-        image: busybox
-        command: ["sh", "-c", "crictl rmi dwnusa/fedpod:v0.4.14.19 || true"]
+        image: docker.io/rancher/klipper-lb # crictl 명령 포함된 이미지 사용 예시
+        command: ["sh", "-c", "crictl rmi dwnusa:v0.4.14.20 || true"]
         volumeMounts:
         - mountPath: /var/run/cri.sock
           name: cri-socket
@@ -28,5 +28,4 @@ spec:
       volumes:
       - name: cri-socket
         hostPath:
-          path: /var/run/containerd/containerd.sock # Containerd 사용 시
-          # path: /var/run/crio/crio.sock # CRI-O 사용 시
+          path: /var/run/containerd/containerd.sock # Containerd 사용 시 경로 설정
