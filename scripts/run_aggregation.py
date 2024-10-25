@@ -13,6 +13,8 @@ from utils.misc import *
 parser = argparse.ArgumentParser()
 parser.add_argument('--rounds', type=int, default=5)
 parser.add_argument('--round', type=int, default=0)
+parser.add_argument('--epochs', type=int, default=0)
+parser.add_argument('--epoch', type=int, default=0)
 parser.add_argument('--algorithm', type=str, default="fedavg", 
     choices=['fedavg', 'fedwavg', 'fedpid', 'fedpod'], help='type of avg')
 parser.add_argument('--job_prefix', type=str, default="")
@@ -277,10 +279,14 @@ def main(args):
 
     # 현재 라운드를 가져오고 1을 더한 후 두 자리 형식으로 변환
     next_round_formatted = f"{next_round:02d}"
-
     # /tmp/next_round.txt 파일에 저장
     with open("/tmp/next_round.txt", "w") as f:
         f.write(next_round_formatted)
+
+    to_epoch = args.epoch + args.epochs
+    next_epoch_formatted = f"{to_epoch:03d}"
+    with open("/tmp/next_epoch.txt", "w") as f:
+        f.write(next_epoch_formatted)
 
 if __name__ == '__main__': 
     args = parser.parse_args(sys.argv[1:])

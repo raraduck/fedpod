@@ -602,6 +602,9 @@ spec:
       - name: next-round
         valueFrom:
           path: /tmp/next_round.txt
+      - name: next-epoch
+        valueFrom:
+          path: /tmp/next_epoch.txt
     volumes:
     - name: cc359ppmi128-volume
       hostPath:
