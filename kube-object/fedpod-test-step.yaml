@@ -9,7 +9,7 @@ spec:
     - name: rounds
       value: "03"
     - name: initial-round
-      value: "00"
+      value: "00" # mode selection role: (cen: 00, sol: 01, fed: >= 02)
     - name: job-prefix
       value: "step"
     - name: split_csv

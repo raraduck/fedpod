@@ -7,7 +7,7 @@ spec:
   arguments:
     parameters:
     - name: rounds
-      value: "00"
+      value: "00" # mode selection role: (cen: 00, sol: 01, fed: >= 02)
     - name: job-prefix
       value: "cen2"
     - name: split_csv
@@ -57,16 +57,13 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.14.16
+      image: dwnusa/fedpod:v0.4.14.18
       command: ["/bin/sh", "-c"]
-      args: ["./run_train1.sh -s 1 -g 0 -J {{workflow.parameters.job-prefix}}_{{inputs.parameters.inst-id}} -R {{workflow.parameters.rounds}} -r {{inputs.parameters.round}} -E {{inputs.parameters.epochs}} -e {{inputs.parameters.epoch}} -i {{inputs.parameters.inst-id}} -c {{workflow.parameters.split_csv}} -m {{inputs.parameters.model_pth}}"]
+      args: ["./run_train2.sh -s 1 -g 0 -J {{workflow.parameters.job-prefix}}_{{inputs.parameters.inst-id}} -R {{workflow.parameters.rounds}} -r {{inputs.parameters.round}} -E {{inputs.parameters.epochs}} -e {{inputs.parameters.epoch}} -i {{inputs.parameters.inst-id}} -c {{workflow.parameters.split_csv}} -m {{inputs.parameters.model_pth}}"]
       resources:
         requests:
           cpu: "2"
           memory: "16G"
-        # limits:
-        #   cpu: "4"
-        #   memory: "86G"
       volumeMounts:
       - name: cc359ppmi128-volume
         mountPath: /fedpod/cc359ppmi128
@@ -99,10 +96,9 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.14.16
+      image: dwnusa/fedpod:v0.4.14.18
       command: ["/bin/sh", "-c"]
       args: ["./run_aggregation.sh -R {{workflow.parameters.rounds}} -r {{inputs.parameters.round}} -a {{inputs.parameters.algorithm}} -j {{workflow.parameters.job-prefix}} -i {{inputs.parameters.inst-id}} -m {{inputs.parameters.model_pth}}"]
-      # args: ["./run_aggregation.sh -r 0 -R 5 -a fedavg -j inst -i 0 -m /fedpod/cc359ppmi128/R00E000.pth"]
       resources:
         requests:
           cpu: "2"

@@ -7,7 +7,7 @@ spec:
   arguments:
     parameters:
     - name: rounds
-      value: "01"
+      value: "01" # mode selection role: (cen: 00, sol: 01, fed: >= 02)
     - name: job-prefix
       value: "solo2"
     - name: split_csv
