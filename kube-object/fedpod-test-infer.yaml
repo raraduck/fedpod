@@ -33,12 +33,12 @@ spec:
           - name: model_pth
             value: "{{item.model_pth}}"
         withItems:
-        - { job-name: "best_cen1_1", rounds: "04", round: "01", epoch: "000", inst: "1", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/solo_2/R01r01/models/R01r01_best.pth"}
-        - { job-name: "best_cen1_2", rounds: "04", round: "01", epoch: "000", inst: "2", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/solo_2/R01r01/models/R01r01_best.pth"}
-        - { job-name: "best_cen1_3", rounds: "04", round: "01", epoch: "000", inst: "3", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/solo_2/R01r01/models/R01r01_best.pth"}
-        - { job-name: "best_cen1_4", rounds: "04", round: "01", epoch: "000", inst: "4", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/solo_2/R01r01/models/R01r01_best.pth"}
-        - { job-name: "best_cen1_5", rounds: "04", round: "01", epoch: "000", inst: "5", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/solo_2/R01r01/models/R01r01_best.pth"}
-        - { job-name: "best_cen1_6", rounds: "04", round: "01", epoch: "000", inst: "6", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/solo_2/R01r01/models/R01r01_best.pth"}
+        - { job-name: "best_solo_1", rounds: "04", round: "01", epoch: "000", inst: "1", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/solo_2/R01r01/models/R01r01_best.pth"}
+        - { job-name: "best_solo_2", rounds: "04", round: "01", epoch: "000", inst: "2", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/solo_2/R01r01/models/R01r01_best.pth"}
+        - { job-name: "best_solo_3", rounds: "04", round: "01", epoch: "000", inst: "3", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/solo_2/R01r01/models/R01r01_best.pth"}
+        - { job-name: "best_solo_4", rounds: "04", round: "01", epoch: "000", inst: "4", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/solo_2/R01r01/models/R01r01_best.pth"}
+        - { job-name: "best_solo_5", rounds: "04", round: "01", epoch: "000", inst: "5", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/solo_2/R01r01/models/R01r01_best.pth"}
+        - { job-name: "best_solo_6", rounds: "04", round: "01", epoch: "000", inst: "6", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/solo_2/R01r01/models/R01r01_best.pth"}
 
     - - name: run-infer-jobs-01
         template: infer-job
@@ -61,12 +61,12 @@ spec:
           - name: model_pth
             value: "{{item.model_pth}}"
         withItems:
-        - { job-name: "test_cen_0", rounds: "04", round: "01", epoch: "000", inst: "1", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen_0/R00r01/models/R00r01.pth"}
-        - { job-name: "test_cen_0", rounds: "04", round: "01", epoch: "000", inst: "2", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen_0/R00r01/models/R00r01.pth"}
-        - { job-name: "test_cen_0", rounds: "04", round: "01", epoch: "000", inst: "3", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen_0/R00r01/models/R00r01.pth"}
-        - { job-name: "test_cen_0", rounds: "04", round: "01", epoch: "000", inst: "4", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen_0/R00r01/models/R00r01.pth"}
-        - { job-name: "test_cen_0", rounds: "04", round: "01", epoch: "000", inst: "5", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen_0/R00r01/models/R00r01.pth"}
-        - { job-name: "test_cen_0", rounds: "04", round: "01", epoch: "000", inst: "6", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen_0/R00r01/models/R00r01.pth"}
+        - { job-name: "test_cen_1", rounds: "04", round: "01", epoch: "000", inst: "1", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen_0/R00r01/models/R00r01.pth"}
+        - { job-name: "test_cen_2", rounds: "04", round: "01", epoch: "000", inst: "2", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen_0/R00r01/models/R00r01.pth"}
+        - { job-name: "test_cen_3", rounds: "04", round: "01", epoch: "000", inst: "3", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen_0/R00r01/models/R00r01.pth"}
+        - { job-name: "test_cen_4", rounds: "04", round: "01", epoch: "000", inst: "4", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen_0/R00r01/models/R00r01.pth"}
+        - { job-name: "test_cen_5", rounds: "04", round: "01", epoch: "000", inst: "5", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen_0/R00r01/models/R00r01.pth"}
+        - { job-name: "test_cen_6", rounds: "04", round: "01", epoch: "000", inst: "6", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen_0/R00r01/models/R00r01.pth"}
 
   - name: infer-job
     inputs:
