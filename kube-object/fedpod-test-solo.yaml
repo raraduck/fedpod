@@ -114,6 +114,7 @@ spec:
         - >
           ./{{inputs.parameters.script-name}} 
           -s 1 
+          -f 3
           -g 0 
           -J {{workflow.parameters.job-prefix}}_{{inputs.parameters.inst-id}} 
           -R {{workflow.parameters.rounds}} 
