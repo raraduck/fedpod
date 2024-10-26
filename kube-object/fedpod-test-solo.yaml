@@ -100,9 +100,11 @@ spec:
   - name: train-job
     inputs:
       parameters:
+      - name: script-name
       - name: round
       - name: epochs
       - name: epoch
+
       - name: inst-id
       - name: model_pth
     container:
@@ -154,7 +156,10 @@ spec:
   - name: aggregation-job
     inputs:
       parameters:
+      - name: script-name
       - name: round
+      - name: epochs
+      - name: epoch
       - name: algorithm
       - name: inst-id
       - name: model_pth
