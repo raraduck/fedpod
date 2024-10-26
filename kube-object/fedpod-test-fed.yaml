@@ -35,11 +35,11 @@ spec:
           - name: model_pth
             value: "None"
         withItems:
-        # - { inst: "1" } # epochs: "001", epoch: "000", 
-        # - { inst: "2" } # epochs: "001", epoch: "000", 
-        # - { inst: "3" } # epochs: "001", epoch: "000", 
-        # - { inst: "4" } # epochs: "001", epoch: "000", 
-        # - { inst: "5" } # epochs: "001", epoch: "000", 
+        - { inst: "1" } # epochs: "001", epoch: "000", 
+        - { inst: "2" } # epochs: "001", epoch: "000", 
+        - { inst: "3" } # epochs: "001", epoch: "000", 
+        - { inst: "4" } # epochs: "001", epoch: "000", 
+        - { inst: "5" } # epochs: "001", epoch: "000", 
         - { inst: "6" } # epochs: "001", epoch: "000", 
     - - name: run-aggregation-jobs-00
         template: aggregation-job
@@ -79,8 +79,8 @@ spec:
         withItems:
         # - { inst: "1" } # epochs: "001", epoch: "001", 
         # - { inst: "2" } # epochs: "001", epoch: "001", 
-        # - { inst: "3" } # epochs: "001", epoch: "001", 
-        # - { inst: "4" } # epochs: "001", epoch: "001", 
+        - { inst: "3" } # epochs: "001", epoch: "001", 
+        - { inst: "4" } # epochs: "001", epoch: "001", 
         - { inst: "5" } # epochs: "001", epoch: "001", 
         - { inst: "6" } # epochs: "001", epoch: "001", 
     - - name: run-aggregation-jobs-01
@@ -122,7 +122,7 @@ spec:
         # - { epochs: "001", epoch: "002", inst: "1" }
         # - { epochs: "001", epoch: "002", inst: "2" }
         # - { epochs: "001", epoch: "002", inst: "3" }
-        - { inst: "4" } # epochs: "001", epoch: "002", 
+        # - { inst: "4" } # epochs: "001", epoch: "002", 
         - { inst: "5" } # epochs: "001", epoch: "002", 
         - { inst: "6" } # epochs: "001", epoch: "002", 
     - - name: run-aggregation-jobs-02

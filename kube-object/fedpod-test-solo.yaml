@@ -164,6 +164,7 @@ spec:
       - name: model_pth
     container:
       image: dwnusa/fedpod:v0.4.14.21
+      imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args:
         - >
