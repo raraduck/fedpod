@@ -423,7 +423,7 @@ class Unet3DApp:
         )
         
         train_tb_dict = {}
-        MIN_DSCL_AVG = pre_metrics['DSCL_AVG']
+        MIN_DSCL_AVG = 1 # pre_metrics['DSCL_AVG']
 
         if train_setup['scheduler'] is not None:
             for i in range(from_epoch):

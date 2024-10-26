@@ -45,17 +45,17 @@ spec:
           - name: script-name
             value: "run_aggregation.sh"
           - name: round
-            value: "00"
+            value: "{{workflow.parameters.initial-round}}"
           - name: epochs
             value: "020"
           - name: epoch
             value: "000"
-          - name: algorithm
-            value: "fedavg"
           - name: inst-id
             value: "3"
           - name: model_pth
             value: "None"
+          - name: algorithm
+            value: "fedavg"
 
       # inst 2
       - name: run-train-job-2
@@ -65,7 +65,7 @@ spec:
           - name: script-name
             value: "run_train1.sh"
           - name: round
-            value: "00"
+            value: "{{workflow.parameters.initial-round}}"
           - name: epochs
             value: "020"
           - name: epoch
@@ -83,7 +83,7 @@ spec:
           - name: script-name
             value: "run_aggregation.sh"
           - name: round
-            value: "00"
+            value: "{{workflow.parameters.initial-round}}"
           - name: epochs
             value: "020"
           - name: epoch
@@ -109,6 +109,7 @@ spec:
       - name: model_pth
     container:
       image: dwnusa/fedpod:v0.4.14.21
+      imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args:
         - >
