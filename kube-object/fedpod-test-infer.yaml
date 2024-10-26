@@ -68,36 +68,6 @@ spec:
         - { job-name: "test_cen_0", rounds: "04", round: "01", epoch: "000", inst: "5", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen_0/R00r01/models/R00r01.pth"}
         - { job-name: "test_cen_0", rounds: "04", round: "01", epoch: "000", inst: "6", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen_0/R00r01/models/R00r01.pth"}
 
-  # # infer using fed models
-  #   - - name: run-infer-jobs-02
-  #       template: infer-job
-  #       arguments:
-  #         parameters:
-  #         - name: job-name
-  #           value: "{{item.job-name}}"
-  #         - name: rounds
-  #           value: "{{item.rounds}}"
-  #         - name: round
-  #           value: "{{item.round}}"
-  #         - name: epoch
-  #           value: "{{item.epoch}}"
-  #         - name: inst-id
-  #           value: "{{item.inst}}"
-  #         - name: split_csv
-  #           value: "{{item.split_csv}}"
-  #         - name: model_pth
-  #           value: "{{item.model_pth}}"
-  #       withItems:
-  #       - { job-name: "fed1_1", rounds: "03", round: "01", epoch: "100", job-prefix: "step", inst: "1", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
-  #       - { job-name: "", rounds: "03", round: "02", epoch: "100", job-prefix: "step", inst: "1", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
-  #       - { job-name: "", rounds: "03", round: "03", epoch: "100", job-prefix: "step", inst: "1", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv" }
-  #       # - { rounds: "03", round: "03", epochs: "001", epoch: "000", job-prefix: "step", inst: "2" }
-  #       # - { rounds: "03", round: "03", epochs: "001", epoch: "000", job-prefix: "step", inst: "3" }
-  #       # - { rounds: "03", round: "03", epochs: "001", epoch: "000", job-prefix: "step", inst: "4" }
-  #       # - { rounds: "03", round: "03", epochs: "001", epoch: "000", job-prefix: "step", inst: "5" }
-  #       # - { rounds: "03", round: "03", epochs: "001", epoch: "000", job-prefix: "step", inst: "6" }
-
-
   - name: infer-job
     inputs:
       parameters:
@@ -113,17 +83,18 @@ spec:
       image: dwnusa/fedpod:v0.4.14.21
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
-      args: >
-        ./{{inputs.parameters.script-name}}
-        -s 1
-        -g 0
-        -J {{inputs.parameters.job-name}}
-        -i {{inputs.parameters.inst-id}}
-        -R {{inputs.parameters.rounds}}
-        -r {{inputs.parameters.round}}
-        -e {{inputs.parameters.epoch}}
-        -c {{inputs.parameters.split_csv}}
-        -m {{inputs.parameters.model_pth}}
+      args: 
+        - >
+          ./{{inputs.parameters.script-name}}
+          -s 1
+          -g 0
+          -J {{inputs.parameters.job-name}}
+          -i {{inputs.parameters.inst-id}}
+          -R {{inputs.parameters.rounds}}
+          -r {{inputs.parameters.round}}
+          -e {{inputs.parameters.epoch}}
+          -c {{inputs.parameters.split_csv}}
+          -m {{inputs.parameters.model_pth}}
       resources:
         requests:
           cpu: "2"
