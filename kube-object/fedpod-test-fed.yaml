@@ -35,7 +35,7 @@ spec:
           - name: model_pth
             value: "None"
         withItems:
-        - { inst: "1" } # epochs: "001", epoch: "000", 
+        # - { inst: "1" } # epochs: "001", epoch: "000", 
         - { inst: "2" } # epochs: "001", epoch: "000", 
         - { inst: "3" } # epochs: "001", epoch: "000", 
         - { inst: "4" } # epochs: "001", epoch: "000", 
