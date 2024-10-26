@@ -104,7 +104,6 @@ spec:
       - name: round
       - name: epochs
       - name: epoch
-
       - name: inst-id
       - name: model_pth
     container:

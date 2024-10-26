@@ -16,6 +16,8 @@ spec:
         template: infer-job
         arguments:
           parameters:
+          - name: script-name
+            value: "run_infer1.sh"
           - name: job-name
             value: "{{item.job-name}}"
           - name: rounds
@@ -31,17 +33,19 @@ spec:
           - name: model_pth
             value: "{{item.model_pth}}"
         withItems:
-        - { job-name: "best_cen1_1", rounds: "04", round: "01", epoch: "000", inst: "1", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen1_1/R01r01/models/R01r01_best.pth"}
-        - { job-name: "best_cen1_2", rounds: "04", round: "01", epoch: "000", inst: "2", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen1_1/R01r01/models/R01r01_best.pth"}
-        - { job-name: "best_cen1_3", rounds: "04", round: "01", epoch: "000", inst: "3", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen1_1/R01r01/models/R01r01_best.pth"}
-        - { job-name: "best_cen1_4", rounds: "04", round: "01", epoch: "000", inst: "4", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen1_1/R01r01/models/R01r01_best.pth"}
-        - { job-name: "best_cen1_5", rounds: "04", round: "01", epoch: "000", inst: "5", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen1_1/R01r01/models/R01r01_best.pth"}
-        - { job-name: "best_cen1_6", rounds: "04", round: "01", epoch: "000", inst: "6", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen1_1/R01r01/models/R01r01_best.pth"}
+        - { job-name: "best_cen1_1", rounds: "04", round: "01", epoch: "000", inst: "1", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen_2/R01r01/models/R01r01_best.pth"}
+        - { job-name: "best_cen1_2", rounds: "04", round: "01", epoch: "000", inst: "2", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen_2/R01r01/models/R01r01_best.pth"}
+        - { job-name: "best_cen1_3", rounds: "04", round: "01", epoch: "000", inst: "3", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen_2/R01r01/models/R01r01_best.pth"}
+        - { job-name: "best_cen1_4", rounds: "04", round: "01", epoch: "000", inst: "4", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen_2/R01r01/models/R01r01_best.pth"}
+        - { job-name: "best_cen1_5", rounds: "04", round: "01", epoch: "000", inst: "5", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen_2/R01r01/models/R01r01_best.pth"}
+        - { job-name: "best_cen1_6", rounds: "04", round: "01", epoch: "000", inst: "6", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen_2/R01r01/models/R01r01_best.pth"}
 
     - - name: run-infer-jobs-01
         template: infer-job
         arguments:
           parameters:
+          - name: script-name
+            value: "run_infer1.sh"
           - name: job-name
             value: "{{item.job-name}}"
           - name: rounds
@@ -57,12 +61,12 @@ spec:
           - name: model_pth
             value: "{{item.model_pth}}"
         withItems:
-        - { job-name: "last_cen1_1", rounds: "04", round: "01", epoch: "000", inst: "1", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen1_1/R01r01/models/R01r01_last.pth"}
-        - { job-name: "last_cen1_2", rounds: "04", round: "01", epoch: "000", inst: "2", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen1_1/R01r01/models/R01r01_last.pth"}
-        - { job-name: "last_cen1_3", rounds: "04", round: "01", epoch: "000", inst: "3", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen1_1/R01r01/models/R01r01_last.pth"}
-        - { job-name: "last_cen1_4", rounds: "04", round: "01", epoch: "000", inst: "4", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen1_1/R01r01/models/R01r01_last.pth"}
-        - { job-name: "last_cen1_5", rounds: "04", round: "01", epoch: "000", inst: "5", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen1_1/R01r01/models/R01r01_last.pth"}
-        - { job-name: "last_cen1_6", rounds: "04", round: "01", epoch: "000", inst: "6", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen1_1/R01r01/models/R01r01_last.pth"}
+        - { job-name: "last_cen1_1", rounds: "04", round: "01", epoch: "000", inst: "1", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen_2/R01r01/models/R01r01_last.pth"}
+        - { job-name: "last_cen1_2", rounds: "04", round: "01", epoch: "000", inst: "2", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen_2/R01r01/models/R01r01_last.pth"}
+        - { job-name: "last_cen1_3", rounds: "04", round: "01", epoch: "000", inst: "3", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen_2/R01r01/models/R01r01_last.pth"}
+        - { job-name: "last_cen1_4", rounds: "04", round: "01", epoch: "000", inst: "4", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen_2/R01r01/models/R01r01_last.pth"}
+        - { job-name: "last_cen1_5", rounds: "04", round: "01", epoch: "000", inst: "5", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen_2/R01r01/models/R01r01_last.pth"}
+        - { job-name: "last_cen1_6", rounds: "04", round: "01", epoch: "000", inst: "6", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen_2/R01r01/models/R01r01_last.pth"}
 
   # # infer using fed models
   #   - - name: run-infer-jobs-02
@@ -97,6 +101,7 @@ spec:
   - name: infer-job
     inputs:
       parameters:
+      - name: script-name
       - name: job-name
       - name: rounds
       - name: round
@@ -108,7 +113,17 @@ spec:
       image: dwnusa/fedpod:v0.4.14.21
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
-      args: ["./run_infer1.sh -s 1 -g 0 -J {{inputs.parameters.job-name}} -R {{inputs.parameters.rounds}} -r {{inputs.parameters.round}} -e {{inputs.parameters.epoch}} -i {{inputs.parameters.inst-id}} -c {{inputs.parameters.split_csv}} -m {{inputs.parameters.model_pth}}"]
+      args: >
+        ./{{inputs.parameters.script-name}}
+        -s 1
+        -g 0
+        -J {{inputs.parameters.job-name}}
+        -i {{inputs.parameters.inst-id}}
+        -R {{inputs.parameters.rounds}}
+        -r {{inputs.parameters.round}}
+        -e {{inputs.parameters.epoch}}
+        -c {{inputs.parameters.split_csv}}
+        -m {{inputs.parameters.model_pth}}
       resources:
         requests:
           cpu: "2"

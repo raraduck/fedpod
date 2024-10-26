@@ -152,7 +152,6 @@ spec:
       - name: round
       - name: epochs
       - name: epoch
-
       - name: inst-id
       - name: model_pth
     container:
@@ -221,9 +220,9 @@ spec:
           -r {{inputs.parameters.round}} 
           -E {{inputs.parameters.epochs}} 
           -e {{inputs.parameters.epoch}} 
-          -a {{inputs.parameters.algorithm}} 
           -j {{workflow.parameters.job-prefix}} 
           -i {{inputs.parameters.inst-id}} 
+          -a {{inputs.parameters.algorithm}} 
           -m {{inputs.parameters.model_pth}}
       resources:
         requests:
