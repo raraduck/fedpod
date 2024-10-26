@@ -7,11 +7,11 @@ spec:
   arguments:
     parameters:
     - name: rounds
-      value: "03"
+      value: "03" # mode selection role: (cen: 00, sol: 01, fed: >= 02)
     - name: initial-round
-      value: "00" # mode selection role: (cen: 00, sol: 01, fed: >= 02)
+      value: "00"
     - name: job-prefix
-      value: "steptest"
+      value: "fed"
     - name: split_csv
       value: "cc359ppmi128/CC359PPMI_v1-test.csv"
   templates:
@@ -53,12 +53,12 @@ spec:
             value: "001" # "{{item.epochs}}"
           - name: epoch
             value: "000" # "{{item.epoch}}"
-          - name: algorithm
-            value: "fedavg"
           - name: inst-id
             value: "0"
           - name: model_pth
             value: "None"
+          - name: algorithm
+            value: "fedavg"
   # round 1
     - - name: run-train-jobs-01
         template: train-job
@@ -95,12 +95,12 @@ spec:
             value: "001" # "{{item.epochs}}"
           - name: epoch
             value: "{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}" # "001" # "{{item.epoch}}"
-          - name: algorithm
-            value: "fedavg"
           - name: inst-id
             value: "0"
           - name: model_pth
             value: "None"
+          - name: algorithm
+            value: "fedavg"
   # round 2
     - - name: run-train-jobs-02
         template: train-job
@@ -137,12 +137,12 @@ spec:
             value: "001" # "{{item.epochs}}"
           - name: epoch
             value: "{{steps.run-aggregation-jobs-01.outputs.parameters.next-round}}" # "002" # "{{item.epoch}}"
-          - name: algorithm
-            value: "fedavg"
           - name: inst-id
             value: "0"
           - name: model_pth
             value: "None"
+          - name: algorithm
+            value: "fedavg"
 
 
   - name: train-job
@@ -152,6 +152,7 @@ spec:
       - name: round
       - name: epochs
       - name: epoch
+
       - name: inst-id
       - name: model_pth
     container:
@@ -163,11 +164,13 @@ spec:
           ./{{inputs.parameters.script-name}} 
           -s 0 
           -g 0 
+
           -J {{workflow.parameters.job-prefix}}_{{inputs.parameters.inst-id}} 
           -R {{workflow.parameters.rounds}} 
           -r {{inputs.parameters.round}} 
           -E {{inputs.parameters.epochs}} 
           -e {{inputs.parameters.epoch}} 
+
           -i {{inputs.parameters.inst-id}} 
           -c {{workflow.parameters.split_csv}} 
           -m {{inputs.parameters.model_pth}}
@@ -220,6 +223,7 @@ spec:
           -r {{inputs.parameters.round}} 
           -E {{inputs.parameters.epochs}} 
           -e {{inputs.parameters.epoch}} 
+          
           -a {{inputs.parameters.algorithm}} 
           -j {{workflow.parameters.job-prefix}} 
           -i {{inputs.parameters.inst-id}} 
