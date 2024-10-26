@@ -374,7 +374,7 @@ class Unet3DApp:
             self.cli_args.cases_split, 
             self.cli_args.inst_ids, 
             TrainOrVal=['train','val'], 
-            partition_by_round=(self.cli_args.rounds > 0),
+            partition_by_round=(self.cli_args.rounds > 1),
             mode='train'
         )
         
@@ -440,7 +440,7 @@ class Unet3DApp:
                 train_setup['scaler'], 
                 mode='training'
             )
-            if (i % 5 == 0) and (self.cli_args.rounds <= 1):
+            if (i % self.cli_args.eval_freq == 0) and (self.cli_args.rounds <= 1):
                 infer_mode = 'val'
                 val_metrics = self.infer(
                     epoch, 
