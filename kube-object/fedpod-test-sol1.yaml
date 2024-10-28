@@ -13,7 +13,7 @@ spec:
     - name: job-prefix
       value: "sol1"
     - name: split_csv
-      value: "cc359ppmi128/CC359PPMI_sol1-test.csv"
+      value: "cc359ppmi128/CC359PPMI128_sol1-test.csv"
   templates:
   - name: parallel-steps
     steps:
