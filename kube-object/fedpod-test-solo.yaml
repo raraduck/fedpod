@@ -7,7 +7,7 @@ spec:
   arguments:
     parameters:
     - name: rounds
-      value: "01" # mode selection role: (cen: 00, solo: 01, fed: >= 02)
+      value: "01" # mode selection role: (cen: 00, else solo or fed)
     - name: initial-round
       value: "00"
     - name: job-prefix
