@@ -38,7 +38,7 @@ def fed_print_to_json(args, logger, local_models_with_dlen):
     logs_dir = os.path.join('/','fedpod','logs')
     job_dir = os.path.join(logs_dir, f"{args.job_prefix}_{args.inst_id}")
     os.makedirs(job_dir, exist_ok=True)
-    
+
     # last-metrics 파일 작성
     last_metrics_file = os.path.join(job_dir, f'{args.job_prefix}_last.json')
 
@@ -51,8 +51,8 @@ def fed_print_to_json(args, logger, local_models_with_dlen):
 
     # 데이터를 업데이트하거나 추가
     for el in local_models_with_dlen:
-        job_name = el['args']['job_name']
-        round_num = el['args']['round']
+        job_name = el['args'].job_name
+        round_num = el['args'].round
         
         # job_name 키가 없을 경우 새로 생성
         if job_name not in last_metrics_dict:
