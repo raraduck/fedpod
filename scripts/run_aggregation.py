@@ -245,7 +245,10 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
     prev_pth_path = natsort.natsorted(glob.glob(prev_pattern))
     local_dict = {
         state['args'].job_name: {
-            'prev_metrics': state['pre_metrics']['DSCL_AVG']
+            'prev': state['pre_metrics'],
+            # 'prev_DSCL_AVG': state['pre_metrics']['DSCL_AVG'],
+            # 'prev_DICE_AVG': state['pre_metrics']['DICE_AVG'],
+            # 'prev_HD95_AVG': state['pre_metrics']['HD95_AVG']
         }
         for el in prev_pth_path for state in [torch.load(el)]
     }
@@ -258,7 +261,12 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
     for el in last_pth_path:
         state = torch.load(el)
         job_name = state['args'].job_name
-        local_dict[job_name].update({'post_metrics': state['post_metrics']['DSCL_AVG']})
+        local_dict[job_name].update({
+            'post': state['post_metrics'],
+            # 'post_DSCL_AVG': state['post_metrics']['DSCL_AVG'],
+            # 'post_DICE_AVG': state['post_metrics']['DICE_AVG'],
+            # 'post_HD95_AVG': state['post_metrics']['HD95_AVG']
+        })
 
     fed_round_to_json(args, logger, local_dict, f'{args.job_prefix}.json')
 
