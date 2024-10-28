@@ -20,7 +20,7 @@ def load_subjects_list(rounds: int, round: int, split_path: str, inst_ids: list,
     rounds_list = [el for el in df.columns.to_list() if 'R' in el]
     assert rounds > 0, f"Rounds must be bigger than 1 otherwise raise exception"
     assert rounds_list.__len__() >= rounds, f"{split_path} has not enough columns of {rounds_list} to run {rounds} rounds."
-    assert round < rounds, f"Round must be smaller than rounds."
+    assert round <= rounds, f"Round must be smaller than rounds."
     assert f"R{round}" in rounds_list, f"{split_path} does not have R{round} column."
 
     if mode == 'train': # set(mode) == set(['train', 'val']):
