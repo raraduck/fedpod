@@ -86,7 +86,7 @@ spec:
       args: 
         - >
           ./{{inputs.parameters.script-name}}
-          -s 1 
+          -s 1
           -f 10
           -g 0
           -J {{inputs.parameters.job-name}}
