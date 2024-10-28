@@ -35,28 +35,25 @@ def fed_round_to_json(args, logger, local_dict, filename):
     # 기존 데이터 로드 또는 초기화
     if os.path.exists(metrics_file):
         with open(metrics_file, 'r', encoding='utf-8') as file:
-            last_metrics_dict = json.load(file)
+            json_metrics_dict = json.load(file)
     else:
-        last_metrics_dict = {}
+        json_metrics_dict = {}
 
     # local_last_dict의 각 job_name과 round_dict 순회
     for job_name, round_dict in local_dict.items():
-        # job_name이 없으면 새로 추가
-        if job_name not in last_metrics_dict:
-            last_metrics_dict[job_name] = {}
+        # job_name과 round_num 키가 없으면 자동으로 초기화
+        job_dict = json_metrics_dict.setdefault(job_name, {})
 
-        # round_dict를 그대로 병합 (덮어쓰지 않고 추가)
+        # round_dict 병합
         for round_num, metrics in round_dict.items():
-            # 해당 job_name의 round_num이 없으면 새로 추가
-            if round_num not in last_metrics_dict[job_name]:
-                last_metrics_dict[job_name][round_num] = {}
+            round_metrics = job_dict.setdefault(round_num, {})
 
-            # 기존 round_num 데이터와 새로운 metrics를 병합
-            last_metrics_dict[job_name][round_num].update(metrics)
+            # 기존 데이터와 새로운 metrics 병합
+            round_metrics.update(metrics)
 
     # 업데이트된 데이터를 JSON 파일에 저장
     with open(metrics_file, 'w', encoding='utf-8') as file:
-        json.dump(last_metrics_dict, file, ensure_ascii=False, indent=4)
+        json.dump(json_metrics_dict, file, ensure_ascii=False, indent=4)
 
     # 로깅 정보 출력
     logger.info(f"Updated metrics saved to {metrics_file}")
