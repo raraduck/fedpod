@@ -18,6 +18,7 @@ def load_subjects_list(rounds: int, round: int, split_path: str, inst_ids: list,
     df = pd.read_csv(split_path)
     Partition_round = f"R{round}"
     rounds_list = [el for el in df.columns.to_list() if 'R' in el]
+    assert rounds > 0, f"Rounds must be bigger than 1 otherwise raise exception"
     assert rounds_list.__len__() >= rounds, f"{split_path} has not enough columns of {rounds_list} to run {rounds} rounds."
     assert round < rounds, f"Round must be smaller than rounds."
     assert f"R{round}" in rounds_list, f"{split_path} does not have R{round} column."
@@ -26,10 +27,7 @@ def load_subjects_list(rounds: int, round: int, split_path: str, inst_ids: list,
         TrainOrVal_in_partition = df[df['TrainOrVal'].isin(TrainOrVal)][Partition_round].dropna()
         assert TrainOrVal_in_partition.__len__() > 0, f"Not found train or val from current round {Partition_round}, please check csv file {split_path}"
         unique_inst_ids = [int(el) for el in set(TrainOrVal_in_partition)]
-        # TODO: 예전에는 inst_ids를 [] 리스트로 받아서 선택적으로 기관별 데이터를 처리하기를 의도했으나,
-        # 코드개발을 진행하면서 inst_ids에 단일 id 만 할당받도록 작업이 많이 진행되었음 (yaml 에서 inst-id를 변수로 사용중)
-        # inst_ids 변수를 추가해서 반영해야할지 or load_subjects_list 함수에 변수를 추가해야할지 고민중
-        # rounds = 0 일 경우에는 모든 기관데이터를 사용하도록 하는데, 이 경우에 처리하면 어떨지? 판단 필요
+
         assert len(inst_ids) == 1, f"[TRAIN] inst_ids parameters are not allowed to be multiply selected."
         assert inst_ids[0] > 0, f"inst_ids 0 is not optional (legacy was for all selection)"
         unique_inst_ids = [el for el in unique_inst_ids if el in inst_ids]

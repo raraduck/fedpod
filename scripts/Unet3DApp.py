@@ -426,7 +426,10 @@ class Unet3DApp:
                 train_setup['scaler'], 
                 mode='training'
             )
-            if (i % self.cli_args.eval_freq == 0) and (self.cli_args.rounds <= 1):
+            if train_setup['scheduler'] is not None:
+                train_setup['scheduler'].step()
+                
+            if (i % self.cli_args.eval_freq == 0) and (self.cli_args.rounds < 5):
                 infer_mode = 'val'
                 val_metrics = self.infer(
                     epoch, 
@@ -448,9 +451,6 @@ class Unet3DApp:
                     save_model_path = os.path.join("states", self.job_name, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", "models")
                     os.makedirs(save_model_path, exist_ok=True)
                     torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}_best.pth"))
-
-            if train_setup['scheduler'] is not None:
-                train_setup['scheduler'].step()
 
         # Post-Validation (every 10 epoch recordings for central learning)
             # if (epoch > 0) and ((epoch % 10 == 0) or epoch == (to_epoch - 1)): 
