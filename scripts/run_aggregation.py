@@ -41,6 +41,7 @@ def fed_round_to_json(args, logger, local_dict, filename):
     else:
         json_metrics_dict = {}
 
+    # for round_num, job_dict in local_dict.items():
     json_metrics_dict[str(args.round)] = local_dict
 
     # local_last_dict의 각 job_name과 round_dict 순회
@@ -242,27 +243,24 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
     # prev to json
     prev_pattern = os.path.join(curr_round_dir, 'models', '*_prev.pth') # but, _last.pth removes inst0 because inst0 never has _last.pth file on it
     prev_pth_path = natsort.natsorted(glob.glob(prev_pattern))
-    local_prev_dict = {
+    local_dict = {
         state['args'].job_name: {
             'prev_metrics': state['pre_metrics']['DSCL_AVG']
         }
         for el in prev_pth_path for state in [torch.load(el)]
     }
-    fed_round_to_json(args, logger, local_prev_dict, f'{args.job_prefix}.json')
-
+    # fed_round_to_json(args, logger, local_dict, f'{args.job_prefix}.json')
 
     # last to json
     last_pattern = os.path.join(curr_round_dir, 'models', '*_last.pth') # but, _last.pth removes inst0 because inst0 never has _last.pth file on it
     last_pth_path = natsort.natsorted(glob.glob(last_pattern))
 
-    # local_last_dict = {state['args'].job_name: state for el in last_pth_path for state in [torch.load(el)]}
-    local_last_dict = {
-        state['args'].job_name: {
-            'post_metrics': state['post_metrics']['DSCL_AVG']
-        }
-        for el in last_pth_path for state in [torch.load(el)]
-    }
-    fed_round_to_json(args, logger, local_last_dict, f'{args.job_prefix}.json')
+    for el in last_pth_path:
+        state = torch.load(el)
+        job_name = state['args'].job_name
+        local_dict[job_name].update({'post_metrics': state['post_metrics']['DSCL_AVG']})
+
+    fed_round_to_json(args, logger, local_dict, f'{args.job_prefix}.json')
 
 
     # TODO: 여기서는 pth last와 prev 를 읽어서 cli_args 내 정보를 바탕으로 pandas 형태로 저장한 뒤 csv에 저장하기
