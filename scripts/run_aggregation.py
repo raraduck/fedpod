@@ -45,7 +45,7 @@ def fed_round_to_json(args, logger, local_dict, filename):
         job_dict = json_metrics_dict.setdefault(job_name, {})
         # round_dict 병합
         for round_num, metrics in round_dict.items():
-            round_metrics = job_dict.setdefault(round_num, {})
+            round_metrics = job_dict.setdefault(str(round_num), {})
         
             # 기존 데이터와 새로운 metrics 병합
             round_metrics.update(metrics)
