@@ -42,17 +42,23 @@ def fed_round_to_json(args, logger, local_dict, filename):
         json_metrics_dict = {}
 
     # local_last_dict의 각 job_name과 round_dict 순회
-    for job_name, round_dict in local_dict.items():
-        # job_name과 round_num 키가 없으면 자동으로 초기화
-        job_dict = json_metrics_dict.setdefault(job_name, {})
-        # round_dict 병합
-        for round_num, metrics in round_dict.items():
-            round_metrics = job_dict.setdefault(str(round_num), {})
-        
-            # 기존 데이터와 새로운 metrics 병합
-            round_metrics.update(metrics)
+    for round_num, job_dict in local_dict.items():
+        round_dict = json_metrics_dict.setdefault(str(round_num), {})
+        for job_name, metrics in job_dict.items():
+            job_metrics = round_dict.setdefault(job_name, {})
+            job_metrics.update(metrics)
 
-    json_metrics_dict = OrderedDict(sorted(json_metrics_dict.items()))
+    # for job_name, round_dict in local_dict.items():
+    #     # job_name과 round_num 키가 없으면 자동으로 초기화
+    #     job_dict = json_metrics_dict.setdefault(job_name, {})
+    #     # round_dict 병합
+    #     for round_num, metrics in round_dict.items():
+    #         round_metrics = job_dict.setdefault(str(round_num), {})
+        
+    #         # 기존 데이터와 새로운 metrics 병합
+    #         round_metrics.update(metrics)
+
+    # json_metrics_dict = OrderedDict(sorted(json_metrics_dict.items()))
     # 업데이트된 데이터를 JSON 파일에 저장
     with open(metrics_file, 'w', encoding='utf-8') as file:
         json.dump(json_metrics_dict, file, ensure_ascii=False, indent=4)
@@ -235,8 +241,8 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
     prev_pattern = os.path.join(curr_round_dir, 'models', '*_prev.pth') # but, _last.pth removes inst0 because inst0 never has _last.pth file on it
     prev_pth_path = natsort.natsorted(glob.glob(prev_pattern))
     local_prev_dict = {
-        state['args'].job_name: {
-            state['args'].round: {
+        state['args'].round: {
+            state['args'].job_name: {
                 'prev_metrics': state['pre_metrics']['DSCL_AVG']
             }
         } for el in prev_pth_path for state in [torch.load(el)]
@@ -250,8 +256,8 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
 
     # local_last_dict = {state['args'].job_name: state for el in last_pth_path for state in [torch.load(el)]}
     local_last_dict = {
-        state['args'].job_name: {
-            state['args'].round: {
+        state['args'].round: {
+            state['args'].job_name: {
                 'post_metrics': state['post_metrics']['DSCL_AVG']
             }
         } for el in last_pth_path for state in [torch.load(el)]
