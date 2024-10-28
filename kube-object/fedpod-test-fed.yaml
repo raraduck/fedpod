@@ -161,7 +161,7 @@ spec:
           - name: model_pth
             value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-02.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-02.outputs.parameters.next-round}}.pth"
         withItems:
-        # - { inst: "1" } # epochs: "001", epoch: "002", 
+        - { inst: "1" } # epochs: "001", epoch: "002", 
         - { inst: "2" } # epochs: "001", epoch: "002", 
         - { inst: "3" } # epochs: "001", epoch: "002", 
         - { inst: "4" } # epochs: "001", epoch: "002", 
