@@ -36,22 +36,23 @@ def fed_round_to_json(args, logger, local_dict, filename):
     # 기존 데이터 로드 또는 초기화
     if os.path.exists(metrics_file):
         with open(metrics_file, 'r', encoding='utf-8') as file:
-            # json_metrics_dict = json.load(file)
-            json_metrics_dict = json.load(file, object_pairs_hook=OrderedDict)
+            json_metrics_dict = json.load(file)
+            # json_metrics_dict = json.load(file, object_pairs_hook=OrderedDict)
     else:
-        json_metrics_dict = OrderedDict()
+        json_metrics_dict = {}
 
     # local_last_dict의 각 job_name과 round_dict 순회
     for job_name, round_dict in local_dict.items():
         # job_name과 round_num 키가 없으면 자동으로 초기화
-        job_dict = json_metrics_dict.setdefault(job_name, OrderedDict())
+        job_dict = json_metrics_dict.setdefault(job_name, {})
         # round_dict 병합
         for round_num, metrics in round_dict.items():
-            round_metrics = job_dict.setdefault(str(round_num), OrderedDict())
+            round_metrics = job_dict.setdefault(str(round_num), {})
         
             # 기존 데이터와 새로운 metrics 병합
             round_metrics.update(metrics)
 
+    json_metrics_dict = OrderedDict(sorted(json_metrics_dict.items()))
     # 업데이트된 데이터를 JSON 파일에 저장
     with open(metrics_file, 'w', encoding='utf-8') as file:
         json.dump(json_metrics_dict, file, ensure_ascii=False, indent=4)
