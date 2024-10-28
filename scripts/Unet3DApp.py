@@ -392,25 +392,25 @@ class Unet3DApp:
         # if train_val_dict['train'].__len__() == 0:
         #     self.run_infer(infer_mode='val')
         #     return
-        if train_val_dict['train'].__len__() == 0:
-            infer_mode = 'val'
-            infer_metrics = self.infer(
-                from_epoch, 
-                train_setup['model'], 
-                train_setup['val_loader'], 
-                train_setup['loss_fn'], 
-                mode=infer_mode,
-                save_infer=self.cli_args.save_infer
-            )
-            state = {
-                'args': self.cli_args,
-                f'{infer_mode}_metrics': infer_metrics,
-                'time': time.time() - time_in_total,
-            }
-            save_model_path = os.path.join("states", self.job_name, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", "models")
-            os.makedirs(save_model_path, exist_ok=True)
-            torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}.pth"))
-            return # Finish process because there is no training data
+        # if train_val_dict['train'].__len__() == 0:
+        #     infer_mode = 'val'
+        #     infer_metrics = self.infer(
+        #         from_epoch, 
+        #         train_setup['model'], 
+        #         train_setup['val_loader'], 
+        #         train_setup['loss_fn'], 
+        #         mode=infer_mode,
+        #         save_infer=self.cli_args.save_infer
+        #     )
+        #     state = {
+        #         'args': self.cli_args,
+        #         f'{infer_mode}_metrics': infer_metrics,
+        #         'time': time.time() - time_in_total,
+        #     }
+        #     save_model_path = os.path.join("states", self.job_name, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", "models")
+        #     os.makedirs(save_model_path, exist_ok=True)
+        #     torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}.pth"))
+        #     return # Finish process because there is no training data
 
         # Pre-Validation
         pre_metrics = self.infer(
@@ -421,6 +421,17 @@ class Unet3DApp:
             mode='pre',
             save_infer=self.cli_args.save_infer
         )
+        state = {
+            'args': self.cli_args,
+            'pre_metrics': pre_metrics,
+            'time': time.time() - time_in_total,
+        }
+        save_model_path = os.path.join("states", self.job_name, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", "models")
+        os.makedirs(save_model_path, exist_ok=True)
+        torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}_prev.pth"))
+
+        if train_val_dict['train'].__len__() == 0:
+            return # Finish process because there is no training data
         
         train_tb_dict = {}
         MIN_DSCL_AVG = 10 # pre_metrics['DSCL_AVG']
