@@ -87,7 +87,6 @@ spec:
         - >
           ./{{inputs.parameters.script-name}}
           -s 1
-          -f 10
           -g 0
           -J {{inputs.parameters.job-name}}
           -i {{inputs.parameters.inst-id}}
