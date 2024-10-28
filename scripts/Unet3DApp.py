@@ -368,13 +368,14 @@ class Unet3DApp:
 
     def run_train(self):
         time_in_total = time.time()
+        # select_all_inst = True if (self.cli_args.rounds == 0) else False
+        # partition_ids = 'Partition_ID' if select_all_inst else f"R{self.cli_args.round}"
         train_val_dict = load_subjects_list(
             self.cli_args.rounds,
             self.cli_args.round, 
             self.cli_args.cases_split, 
             self.cli_args.inst_ids, 
             TrainOrVal=['train','val'], 
-            partition_by_round=(self.cli_args.rounds > 1),
             mode='train'
         )
         
@@ -382,35 +383,8 @@ class Unet3DApp:
 
         train_setup = self.initializer(train_val_dict, mode='TRN')
 
-        # TODO: epochs 값이 달라지면 round 간에 epoch 진행 일관성 깨짐
-        # from_epoch = self.cli_args.epochs * (self.cli_args.round)
-        # to_epoch = self.cli_args.epochs * (self.cli_args.round + 1)
         from_epoch  = self.cli_args.epoch
         to_epoch    = self.cli_args.epoch + self.cli_args.epochs
-
-        # TODO: val mode 체크 필요
-        # if train_val_dict['train'].__len__() == 0:
-        #     self.run_infer(infer_mode='val')
-        #     return
-        # if train_val_dict['train'].__len__() == 0:
-        #     infer_mode = 'val'
-        #     infer_metrics = self.infer(
-        #         from_epoch, 
-        #         train_setup['model'], 
-        #         train_setup['val_loader'], 
-        #         train_setup['loss_fn'], 
-        #         mode=infer_mode,
-        #         save_infer=self.cli_args.save_infer
-        #     )
-        #     state = {
-        #         'args': self.cli_args,
-        #         f'{infer_mode}_metrics': infer_metrics,
-        #         'time': time.time() - time_in_total,
-        #     }
-        #     save_model_path = os.path.join("states", self.job_name, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", "models")
-        #     os.makedirs(save_model_path, exist_ok=True)
-        #     torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}.pth"))
-        #     return # Finish process because there is no training data
 
         # Pre-Validation
         pre_metrics = self.infer(
@@ -521,8 +495,6 @@ class Unet3DApp:
             self.cli_args.cases_split, 
             self.cli_args.inst_ids, 
             TrainOrVal=[infer_mode], 
-            # partition_by_round=False,
-            partition_by_round=True if self.cli_args.rounds > 0 else False,
             mode=infer_mode
         )
 

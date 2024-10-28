@@ -14,26 +14,27 @@ import torch
 from torch import Tensor
 from torch import nn
 
-def load_subjects_list(rounds: int, round: int, split_path: str, inst_ids: list, TrainOrVal: list, partition_by_round=False, mode='train'):
+def load_subjects_list(rounds: int, round: int, split_path: str, inst_ids: list, TrainOrVal: list, mode='train'):
     df = pd.read_csv(split_path)
-    Partition_rule = f"R{round}" if partition_by_round else 'Partition_ID'
-    if partition_by_round:
-        rounds_list = [el for el in df.columns.to_list() if 'R' in el]
-        assert rounds_list.__len__() >= rounds, f"{split_path} has not enough columns of {rounds_list} to run {rounds} rounds."
-        assert round < rounds, f"Round must be smaller than rounds."
-        assert f"R{round}" in rounds_list, f"{split_path} does not have R{round} column."
+    Partition_round = f"R{round}"
+    rounds_list = [el for el in df.columns.to_list() if 'R' in el]
+    assert rounds_list.__len__() >= rounds, f"{split_path} has not enough columns of {rounds_list} to run {rounds} rounds."
+    assert round < rounds, f"Round must be smaller than rounds."
+    assert f"R{round}" in rounds_list, f"{split_path} does not have R{round} column."
+
     if mode == 'train': # set(mode) == set(['train', 'val']):
-        filtered_series = df[df['TrainOrVal'].isin(TrainOrVal)][Partition_rule].dropna()
-        assert filtered_series.__len__() > 0, f"Not found train or val from current round {Partition_rule}, please check csv file {split_path}"
-        unique_inst_ids = [int(el) for el in set(filtered_series)]
+        TrainOrVal_in_partition = df[df['TrainOrVal'].isin(TrainOrVal)][Partition_round].dropna()
+        assert TrainOrVal_in_partition.__len__() > 0, f"Not found train or val from current round {Partition_round}, please check csv file {split_path}"
+        unique_inst_ids = [int(el) for el in set(TrainOrVal_in_partition)]
         # TODO: 예전에는 inst_ids를 [] 리스트로 받아서 선택적으로 기관별 데이터를 처리하기를 의도했으나,
         # 코드개발을 진행하면서 inst_ids에 단일 id 만 할당받도록 작업이 많이 진행되었음 (yaml 에서 inst-id를 변수로 사용중)
         # inst_ids 변수를 추가해서 반영해야할지 or load_subjects_list 함수에 변수를 추가해야할지 고민중
         # rounds = 0 일 경우에는 모든 기관데이터를 사용하도록 하는데, 이 경우에 처리하면 어떨지? 판단 필요
         assert len(inst_ids) == 1, f"[TRAIN] inst_ids parameters are not allowed to be multiply selected."
-        unique_inst_ids = unique_inst_ids if inst_ids[0]==0 else [el for el in unique_inst_ids if el in inst_ids]
+        assert inst_ids[0] > 0, f"inst_ids 0 is not optional (legacy was for all selection)"
+        unique_inst_ids = [el for el in unique_inst_ids if el in inst_ids]
 
-        filtered_df = df[df[Partition_rule].isin(unique_inst_ids)]
+        filtered_df = df[df[Partition_round].isin(unique_inst_ids)]
         train_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['train'])]['Subject_ID'])
         val_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['val'])]['Subject_ID'])
         # assert train_list.__len__() > 0, 'train list empty'
@@ -46,13 +47,14 @@ def load_subjects_list(rounds: int, round: int, split_path: str, inst_ids: list,
         return train_val_dict
     elif mode in ['val', 'test']: # in mode:
         # assert inst_ids == [0], 'test must have 0 inst_id'
-        filtered_series = df[df['TrainOrVal'].isin(TrainOrVal)][Partition_rule].dropna()
-        assert filtered_series.__len__() > 0, f"Not found train or val from current round {Partition_rule}, please check csv file {split_path}"
-        unique_inst_ids = [int(el) for el in set(filtered_series)]
+        TrainOrVal_in_partition = df[df['TrainOrVal'].isin(TrainOrVal)][Partition_round].dropna()
+        assert TrainOrVal_in_partition.__len__() > 0, f"Not found train or val from current round {Partition_round}, please check csv file {split_path}"
+        unique_inst_ids = [int(el) for el in set(TrainOrVal_in_partition)]
         assert len(inst_ids) == 1, f"[VAL or TEST] inst_ids parameters are not allowed to be multiply selected."
-        unique_inst_ids = unique_inst_ids if inst_ids[0]==0 else [el for el in unique_inst_ids if el in inst_ids]
+        assert inst_ids[0] > 0, f"inst_ids 0 is not optional (legacy was for all selection)"
+        unique_inst_ids = [el for el in unique_inst_ids if el in inst_ids]
         # assert unique_inst_ids == [0], 'test must have 0 Partition_ID'
-        filtered_df = df[df[Partition_rule].isin(unique_inst_ids)]
+        filtered_df = df[df[Partition_round].isin(unique_inst_ids)]
         infer_list = list(filtered_df[filtered_df['TrainOrVal'].isin(TrainOrVal)]['Subject_ID'])
         infer_dict = {
             'inst_ids': unique_inst_ids,

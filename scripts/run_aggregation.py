@@ -210,30 +210,30 @@ def fed_print_to_csv(args, logger, local_models_with_dlen):
     #     f.write(f"{args.round},\t{mean_post_metrics}\n")
     #     # f.write(str(args.round) + '\t' + mean_post_metrics + '\n')
 
-def solo_print_to_csv():
-    pass
+# def solo_print_to_csv():
+#     pass
 
-def solo_processing(args, base_dir, curr_round, next_round, logger):
-    inst_dir = os.path.join(base_dir, f"{args.job_prefix}_{args.inst_id}") # inst0 also included 
-    curr_round_dir = os.path.join(inst_dir, f"R{args.rounds:02}r{curr_round:02}")
-    models_dir = os.path.join(curr_round_dir, 'models')
-    best_path = os.path.join(models_dir, f"R{args.rounds:02}r{args.round:02}_best.pth")
-    last_path = os.path.join(models_dir, f"R{args.rounds:02}r{args.round:02}_last.pth")
-    assert os.path.exists(best_path), f"File not found: {best_path}"
-    assert os.path.exists(last_path), f"File not found: {last_path}"
-    assert args.rounds == next_round, f"solo post processing requires the end of rounds at the moment. Currently, next round is specified as {next_round} in case when total rounds is {args.rounds}"
-    next_round_dir = os.path.join(inst_dir, f"R{args.rounds:02}r{next_round:02}")
-    models_dir = os.path.join(next_round_dir, 'models')
-    os.makedirs(models_dir, exist_ok=True)
-    save_best_path = os.path.join(models_dir, f"R{args.rounds:02}r{next_round:02}_best.pth")
-    save_last_path = os.path.join(models_dir, f"R{args.rounds:02}r{next_round:02}_last.pth")
-    # solo_print_to_csv(args, logger, local_models_with_dlen)
-    # solo_print_to_csv(args, logger, local_models_with_dlen)
-    shutil.copy2(best_path, save_best_path)
-    shutil.copy2(last_path, save_last_path)
-    logger.info(f"[{args.job_prefix.upper()}][SOLO] saved best model to {save_best_path}...")
-    logger.info(f"[{args.job_prefix.upper()}][SOLO] saved last model to {save_last_path}...")
-    return
+# def solo_processing(args, base_dir, curr_round, next_round, logger):
+#     inst_dir = os.path.join(base_dir, f"{args.job_prefix}_{args.inst_id}") # inst0 also included 
+#     curr_round_dir = os.path.join(inst_dir, f"R{args.rounds:02}r{curr_round:02}")
+#     models_dir = os.path.join(curr_round_dir, 'models')
+#     best_path = os.path.join(models_dir, f"R{args.rounds:02}r{args.round:02}_best.pth")
+#     last_path = os.path.join(models_dir, f"R{args.rounds:02}r{args.round:02}_last.pth")
+#     assert os.path.exists(best_path), f"File not found: {best_path}"
+#     assert os.path.exists(last_path), f"File not found: {last_path}"
+#     assert args.rounds == next_round, f"solo post processing requires the end of rounds at the moment. Currently, next round is specified as {next_round} in case when total rounds is {args.rounds}"
+#     next_round_dir = os.path.join(inst_dir, f"R{args.rounds:02}r{next_round:02}")
+#     models_dir = os.path.join(next_round_dir, 'models')
+#     os.makedirs(models_dir, exist_ok=True)
+#     save_best_path = os.path.join(models_dir, f"R{args.rounds:02}r{next_round:02}_best.pth")
+#     save_last_path = os.path.join(models_dir, f"R{args.rounds:02}r{next_round:02}_last.pth")
+#     # solo_print_to_csv(args, logger, local_models_with_dlen)
+#     # solo_print_to_csv(args, logger, local_models_with_dlen)
+#     shutil.copy2(best_path, save_best_path)
+#     shutil.copy2(last_path, save_last_path)
+#     logger.info(f"[{args.job_prefix.upper()}][SOLO] saved best model to {save_best_path}...")
+#     logger.info(f"[{args.job_prefix.upper()}][SOLO] saved last model to {save_last_path}...")
+#     return
 
 
 def fed_processing(args, base_dir, curr_round, next_round, logger):
@@ -280,7 +280,7 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
 
     local_models_with_dlen = [torch.load(m) for m in last_pth_path]
     # local_last_dict = {torch.load(el)['args'].job_name: torch.load(el) for el in pth_path}
-    fed_print_to_csv(args, logger, local_models_with_dlen)
+    # fed_print_to_csv(args, logger, local_models_with_dlen)
 
 
     if args.algorithm == "fedavg":
@@ -300,16 +300,16 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
     # save aggregated model with metrics
     state = {
         'model': aggregated_model, 
-        'pre_metrics':{
-            'DSCL_AVG':0.11,
-            'DICE_AVG':0.12,
-            'HD95_AVG':0.13
-        }, 
-        'post_metrics':{
-            'DSCL_AVG':0.21,
-            'DICE_AVG':0.22,
-            'HD95_AVG':0.23
-        }, 
+        # 'pre_metrics':{
+        #     'DSCL_AVG':0.11,
+        #     'DICE_AVG':0.12,
+        #     'HD95_AVG':0.13
+        # }, 
+        # 'post_metrics':{
+        #     'DSCL_AVG':0.21,
+        #     'DICE_AVG':0.22,
+        #     'HD95_AVG':0.23
+        # }, 
     }
     center_dir = os.path.join(base_dir, f"{args.job_prefix}_{args.inst_id}")
     next_round_dir = os.path.join(center_dir, f"R{args.rounds:02}r{next_round:02}")
@@ -353,10 +353,7 @@ def main(args):
         assert curr_round == 0, f"init_processing must be called at round 0, currently it is {curr_round}"
         init_processing(args, base_dir, curr_round, logger)
     else:
-        if args.inst_id != 0:
-            solo_processing(args, base_dir, curr_round, next_round, logger)
-        else:
-            fed_processing(args, base_dir, curr_round, next_round, logger)
+        fed_processing(args, base_dir, curr_round, next_round, logger)
 
     # 현재 라운드를 가져오고 1을 더한 후 두 자리 형식으로 변환
     next_round_formatted = f"{next_round:02d}"
