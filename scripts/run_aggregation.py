@@ -5,6 +5,7 @@ import argparse
 import sys
 import glob
 import natsort
+import json
 from utils.tools import *
 from Aggregator import *
 from utils.misc import *
@@ -22,6 +23,53 @@ parser.add_argument('--inst_id', type=int, default=0)
 parser.add_argument('--weight_path', type=str, required=True,
     help='path to pretrained encoder or decoder weight, None for train-from-scratch')
 
+def load_json_as_dict(file_path):
+    # 파일 존재 여부 확인
+    if os.path.exists(file_path):
+        # 파일 읽어와서 dict로 변환
+        with open(file_path, 'r', encoding='utf-8') as file:
+            data = json.load(file)
+        return data
+    else:
+        print("File does not exist.")
+        return None
+
+def fed_print_to_json(args, logger, local_models_with_dlen):
+    logs_dir = os.path.join('/','fedpod','logs')
+    job_dir = os.path.join(logs_dir, f"{args.job_prefix}_{args.inst_id}")
+    os.makedirs(job_dir, exist_ok=True)
+    
+    # last-metrics 파일 작성
+    last_metrics_file = os.path.join(job_dir, f'{args.job_prefix}_last.json')
+
+    # 기존 데이터 로드 또는 초기화
+    if os.path.exists(last_metrics_file):
+        with open(last_metrics_file, 'r', encoding='utf-8') as file:
+            last_metrics_dict = json.load(file)
+    else:
+        last_metrics_dict = {}
+
+    # 데이터를 업데이트하거나 추가
+    for el in local_models_with_dlen:
+        job_name = el['args']['job_name']
+        round_num = el['args']['round']
+        
+        # job_name 키가 없을 경우 새로 생성
+        if job_name not in last_metrics_dict:
+            last_metrics_dict[job_name] = {}
+        
+        # 해당 round에 대한 메트릭 업데이트
+        last_metrics_dict[job_name][round_num] = {
+            'prev_metrics': el['pre_metrics']['DSCL_AVG'],
+            'post_metrics': el['post_metrics']['DSCL_AVG']
+        }
+
+    # 업데이트된 데이터를 JSON 파일에 저장
+    with open(last_metrics_file, 'w', encoding='utf-8') as file:
+        json.dump(last_metrics_dict, file, ensure_ascii=False, indent=4)
+
+    # 로깅 정보 출력
+    logger.info(f"Updated metrics saved to {last_metrics_file}")
 
 def fed_print_to_csv(args, logger, local_models_with_dlen):
     # averaged_loss = lossavg()
@@ -195,12 +243,18 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
     curr_round_dir = os.path.join(inst_dir, f"R{args.rounds:02}r{curr_round:02}")
     pattern = os.path.join(curr_round_dir, 'models', '*_last.pth') # but, _last.pth removes inst0 because inst0 never has _last.pth file on it
     pth_path = natsort.natsorted(glob.glob(pattern))
+
+    # TODO: 여기서는 pth last와 prev 를 읽어서 cli_args 내 정보를 바탕으로 pandas 형태로 저장한 뒤 csv에 저장하기
+    # 이후 round 에서도 csv를 읽을 때 pandas로 읽어들여서 column과 row를 관리해야함 (json으로 저장해서 dict 로 호환해도 됨)
+    # pandas는 sql 형식이고, json은 nosql 형식임
+
     for pth in pth_path:
         logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] local models are from {pth}...")
 
     local_models_with_dlen = [torch.load(m) for m in pth_path]
 
     fed_print_to_csv(args, logger, local_models_with_dlen)
+    fed_print_to_json(args, logger, local_models_with_dlen)
 
     if args.algorithm == "fedavg":
         P = [1 for el in local_models_with_dlen]
