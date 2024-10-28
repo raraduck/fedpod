@@ -41,12 +41,14 @@ def fed_round_to_json(args, logger, local_dict, filename):
     else:
         json_metrics_dict = {}
 
+    json_metrics_dict[str(args.round)] = local_dict
+
     # local_last_dict의 각 job_name과 round_dict 순회
-    for round_num, job_dict in local_dict.items():
-        round_dict = json_metrics_dict.setdefault(str(round_num), {})
-        for job_name, metrics in job_dict.items():
-            job_metrics = round_dict.setdefault(job_name, {})
-            job_metrics.update(metrics)
+    # for round_num, job_dict in local_dict.items():
+    #     round_dict = json_metrics_dict.setdefault(str(round_num), {})
+    #     for job_name, metrics in job_dict.items():
+    #         job_metrics = round_dict.setdefault(job_name, {})
+    #         job_metrics.update(metrics)
 
     # for job_name, round_dict in local_dict.items():
     #     # job_name과 round_num 키가 없으면 자동으로 초기화
@@ -241,11 +243,10 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
     prev_pattern = os.path.join(curr_round_dir, 'models', '*_prev.pth') # but, _last.pth removes inst0 because inst0 never has _last.pth file on it
     prev_pth_path = natsort.natsorted(glob.glob(prev_pattern))
     local_prev_dict = {
-        state['args'].round: {
-            state['args'].job_name: {
-                'prev_metrics': state['pre_metrics']['DSCL_AVG']
-            }
-        } for el in prev_pth_path for state in [torch.load(el)]
+        state['args'].job_name: {
+            'prev_metrics': state['pre_metrics']['DSCL_AVG']
+        }
+        for el in prev_pth_path for state in [torch.load(el)]
     }
     fed_round_to_json(args, logger, local_prev_dict, f'{args.job_prefix}.json')
 
@@ -256,11 +257,10 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
 
     # local_last_dict = {state['args'].job_name: state for el in last_pth_path for state in [torch.load(el)]}
     local_last_dict = {
-        state['args'].round: {
-            state['args'].job_name: {
-                'post_metrics': state['post_metrics']['DSCL_AVG']
-            }
-        } for el in last_pth_path for state in [torch.load(el)]
+        state['args'].job_name: {
+            'post_metrics': state['post_metrics']['DSCL_AVG']
+        }
+        for el in last_pth_path for state in [torch.load(el)]
     }
     fed_round_to_json(args, logger, local_last_dict, f'{args.job_prefix}.json')
 
