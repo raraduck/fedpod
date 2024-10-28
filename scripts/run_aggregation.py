@@ -43,11 +43,10 @@ def fed_round_to_json(args, logger, local_dict, filename):
     for job_name, round_dict in local_dict.items():
         # job_name과 round_num 키가 없으면 자동으로 초기화
         job_dict = json_metrics_dict.setdefault(job_name, {})
-
         # round_dict 병합
         for round_num, metrics in round_dict.items():
             round_metrics = job_dict.setdefault(round_num, {})
-
+        
             # 기존 데이터와 새로운 metrics 병합
             round_metrics.update(metrics)
 
