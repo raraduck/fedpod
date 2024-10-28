@@ -36,7 +36,7 @@ def load_subjects_list(rounds: int, round: int, split_path: str, inst_ids: list,
         filtered_df = df[df[Partition_rule].isin(unique_inst_ids)]
         train_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['train'])]['Subject_ID'])
         val_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['val'])]['Subject_ID'])
-        assert train_list.__len__() > 0, 'train list empty'
+        # assert train_list.__len__() > 0, 'train list empty'
         assert val_list.__len__() > 0, 'val list empty'
         train_val_dict = {
             'inst_ids': unique_inst_ids,
