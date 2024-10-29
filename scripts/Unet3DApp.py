@@ -342,7 +342,7 @@ class Unet3DApp:
 
                 # output seg map
                 if save_infer: # and (round == 0):
-                    if (curr_epoch == 0) and (mode in ['pre', 'test']):
+                    if (curr_epoch <= 1) and (mode in ['pre', 'test']):
                         modality = self.cli_args.input_channel_names
                         scale = 255
                         save_img_nifti(image, scale, name, mode[:4], 'img',
@@ -359,6 +359,10 @@ class Unet3DApp:
                     label_map = self.cli_args.label_index
                     save_seg_nifti(seg_map_th, name, mode[:4], 'pred',
                                 affine, label_map, save_val_path)
+                                
+        # output case metric csv
+        save_epoch_path = os.path.join(save_val_path, 'case_metric.csv')
+        case_metrics_meter.output(save_epoch_path)
         return {
             'DSCL_AVG': np.mean([v for k, v in case_metrics_meter.mean().items() if 'DSCL' in k]),
             'DICE_AVG': np.mean([v for k, v in case_metrics_meter.mean().items() if 'DICE' in k]),
