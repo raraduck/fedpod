@@ -228,7 +228,8 @@ spec:
           - name: algorithm
             value: "fedavg"
 
-    - - name: run-infer-jobs-04
+  # round 5
+    - - name: run-infer-jobs-05
         template: infer-job
         arguments:
           parameters:
@@ -249,12 +250,12 @@ spec:
           - name: model_pth
             value: "{{item.model_pth}}"
         withItems:
-        - { job-name: "fed_1_val", rounds: "05", round: "05", epoch: "005", inst: "1", split_csv: "cc359ppmi128/CC359PPMI128_fed-test.csv", model_pth: "/fedpod/states/fed_0/R04r04/models/R04r04.pth"}
-        - { job-name: "fed_2_val", rounds: "05", round: "05", epoch: "005", inst: "2", split_csv: "cc359ppmi128/CC359PPMI128_fed-test.csv", model_pth: "/fedpod/states/fed_0/R04r04/models/R04r04.pth"}
-        - { job-name: "fed_3_val", rounds: "05", round: "05", epoch: "005", inst: "3", split_csv: "cc359ppmi128/CC359PPMI128_fed-test.csv", model_pth: "/fedpod/states/fed_0/R04r04/models/R04r04.pth"}
-        - { job-name: "fed_4_val", rounds: "05", round: "05", epoch: "005", inst: "4", split_csv: "cc359ppmi128/CC359PPMI128_fed-test.csv", model_pth: "/fedpod/states/fed_0/R04r04/models/R04r04.pth"}
-        - { job-name: "fed_5_val", rounds: "05", round: "05", epoch: "005", inst: "5", split_csv: "cc359ppmi128/CC359PPMI128_fed-test.csv", model_pth: "/fedpod/states/fed_0/R04r04/models/R04r04.pth"}
-        - { job-name: "fed_6_val", rounds: "05", round: "05", epoch: "005", inst: "6", split_csv: "cc359ppmi128/CC359PPMI128_fed-test.csv", model_pth: "/fedpod/states/fed_0/R04r04/models/R04r04.pth"}
+        - { job-name: "fed_1_val", rounds: "05", round: "04", epoch: "005", inst: "1", split_csv: "cc359ppmi128/CC359PPMI128_fed-test.csv", model_pth: "/fedpod/states/fed_0/R04r04/models/R04r04.pth"}
+        - { job-name: "fed_2_val", rounds: "05", round: "04", epoch: "005", inst: "2", split_csv: "cc359ppmi128/CC359PPMI128_fed-test.csv", model_pth: "/fedpod/states/fed_0/R04r04/models/R04r04.pth"}
+        - { job-name: "fed_3_val", rounds: "05", round: "04", epoch: "005", inst: "3", split_csv: "cc359ppmi128/CC359PPMI128_fed-test.csv", model_pth: "/fedpod/states/fed_0/R04r04/models/R04r04.pth"}
+        - { job-name: "fed_4_val", rounds: "05", round: "04", epoch: "005", inst: "4", split_csv: "cc359ppmi128/CC359PPMI128_fed-test.csv", model_pth: "/fedpod/states/fed_0/R04r04/models/R04r04.pth"}
+        - { job-name: "fed_5_val", rounds: "05", round: "04", epoch: "005", inst: "5", split_csv: "cc359ppmi128/CC359PPMI128_fed-test.csv", model_pth: "/fedpod/states/fed_0/R04r04/models/R04r04.pth"}
+        - { job-name: "fed_6_val", rounds: "05", round: "04", epoch: "005", inst: "6", split_csv: "cc359ppmi128/CC359PPMI128_fed-test.csv", model_pth: "/fedpod/states/fed_0/R04r04/models/R04r04.pth"}
 
 
   - name: train-job

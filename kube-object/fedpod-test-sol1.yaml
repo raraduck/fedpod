@@ -60,7 +60,32 @@ spec:
           - name: algorithm
             value: "fedavg"
 
-    - - name: run-infer-jobs-00
+  # round 1
+    - - name: run-train-jobs-01
+        template: train-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_train1.sh"
+          - name: round
+            value: "{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "010" # "{{item.epochs}}"
+          - name: epoch
+            value: "{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}" # "001" # "{{item.epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}_agg.pth"
+        withItems:
+        - { inst: "1" } # epochs: "001", epoch: "001", 
+        - { inst: "2" } # epochs: "001", epoch: "001", 
+        - { inst: "3" } # epochs: "001", epoch: "001", 
+        - { inst: "4" } # epochs: "001", epoch: "001", 
+        - { inst: "5" } # epochs: "001", epoch: "001", 
+        - { inst: "6" } # epochs: "001", epoch: "001", 
+        
+      - name: run-infer-jobs-01
         template: infer-job
         arguments:
           parameters:
@@ -88,30 +113,6 @@ spec:
         - { job-name: "sol1_last_val_5", rounds: "02", round: "01", epoch: "010", inst: "5", split_csv: "cc359ppmi128/CC359PPMI128_sol1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r01/models/R02r01_agg.pth"}
         - { job-name: "sol1_last_val_6", rounds: "02", round: "01", epoch: "010", inst: "6", split_csv: "cc359ppmi128/CC359PPMI128_sol1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r01/models/R02r01_agg.pth"}
 
-  # round 1
-    - - name: run-train-jobs-01
-        template: train-job
-        arguments:
-          parameters:
-          - name: script-name
-            value: "run_train1.sh"
-          - name: round
-            value: "{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}"
-          - name: epochs
-            value: "010" # "{{item.epochs}}"
-          - name: epoch
-            value: "{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}" # "001" # "{{item.epoch}}"
-          - name: inst-id
-            value: "{{item.inst}}"
-          - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}_agg.pth"
-        withItems:
-        - { inst: "1" } # epochs: "001", epoch: "001", 
-        - { inst: "2" } # epochs: "001", epoch: "001", 
-        - { inst: "3" } # epochs: "001", epoch: "001", 
-        - { inst: "4" } # epochs: "001", epoch: "001", 
-        - { inst: "5" } # epochs: "001", epoch: "001", 
-        - { inst: "6" } # epochs: "001", epoch: "001", 
     - - name: run-aggregation-jobs-01
         template: aggregation-job
         arguments:
@@ -131,7 +132,8 @@ spec:
           - name: algorithm
             value: "fedavg"
 
-    - - name: run-infer-jobs-01
+  # round 2
+    - - name: run-infer-jobs-02
         template: infer-job
         arguments:
           parameters:
@@ -152,12 +154,12 @@ spec:
           - name: model_pth
             value: "{{item.model_pth}}"
         withItems:
-        - { job-name: "sol1_last_val_1", rounds: "02", round: "02", epoch: "020", inst: "1", split_csv: "cc359ppmi128/CC359PPMI128_sol1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02_agg.pth"}
-        - { job-name: "sol1_last_val_2", rounds: "02", round: "02", epoch: "020", inst: "2", split_csv: "cc359ppmi128/CC359PPMI128_sol1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02_agg.pth"}
-        - { job-name: "sol1_last_val_3", rounds: "02", round: "02", epoch: "020", inst: "3", split_csv: "cc359ppmi128/CC359PPMI128_sol1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02_agg.pth"}
-        - { job-name: "sol1_last_val_4", rounds: "02", round: "02", epoch: "020", inst: "4", split_csv: "cc359ppmi128/CC359PPMI128_sol1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02_agg.pth"}
-        - { job-name: "sol1_last_val_5", rounds: "02", round: "02", epoch: "020", inst: "5", split_csv: "cc359ppmi128/CC359PPMI128_sol1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02_agg.pth"}
-        - { job-name: "sol1_last_val_6", rounds: "02", round: "02", epoch: "020", inst: "6", split_csv: "cc359ppmi128/CC359PPMI128_sol1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02_agg.pth"}
+        - { job-name: "sol1_last_val_1", rounds: "02", round: "01", epoch: "020", inst: "1", split_csv: "cc359ppmi128/CC359PPMI128_sol1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02_agg.pth"}
+        - { job-name: "sol1_last_val_2", rounds: "02", round: "01", epoch: "020", inst: "2", split_csv: "cc359ppmi128/CC359PPMI128_sol1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02_agg.pth"}
+        - { job-name: "sol1_last_val_3", rounds: "02", round: "01", epoch: "020", inst: "3", split_csv: "cc359ppmi128/CC359PPMI128_sol1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02_agg.pth"}
+        - { job-name: "sol1_last_val_4", rounds: "02", round: "01", epoch: "020", inst: "4", split_csv: "cc359ppmi128/CC359PPMI128_sol1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02_agg.pth"}
+        - { job-name: "sol1_last_val_5", rounds: "02", round: "01", epoch: "020", inst: "5", split_csv: "cc359ppmi128/CC359PPMI128_sol1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02_agg.pth"}
+        - { job-name: "sol1_last_val_6", rounds: "02", round: "01", epoch: "020", inst: "6", split_csv: "cc359ppmi128/CC359PPMI128_sol1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02_agg.pth"}
 
 
   - name: train-job
