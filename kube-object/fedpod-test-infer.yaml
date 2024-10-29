@@ -94,7 +94,8 @@ spec:
           -r {{inputs.parameters.round}}
           -e {{inputs.parameters.epoch}}
           -c {{inputs.parameters.split_csv}}
-          -m {{inputs.parameters.model_pth}}
+          -M {{inputs.parameters.model_pth}}
+          -t test
       resources:
         requests:
           cpu: "2"
