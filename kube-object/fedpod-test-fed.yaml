@@ -228,6 +228,34 @@ spec:
           - name: algorithm
             value: "fedavg"
 
+    - - name: run-infer-jobs-05
+        template: infer-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_infer1.sh"
+          - name: job-name
+            value: "{{item.job-name}}"
+          - name: rounds
+            value: "{{item.rounds}}"
+          - name: round
+            value: "{{item.round}}"
+          - name: epoch
+            value: "{{item.epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: split_csv
+            value: "{{item.split_csv}}"
+          - name: model_pth
+            value: "{{item.model_pth}}"
+        withItems:
+        - { job-name: "fed_1_val", rounds: "05", round: "05", epoch: "005", inst: "1", split_csv: "cc359ppmi128/CC359PPMI128_fed-test.csv", model_pth: "/fedpod/states/fed_0/R04r04/models/R04r04.pth"}
+        - { job-name: "fed_2_val", rounds: "05", round: "05", epoch: "005", inst: "2", split_csv: "cc359ppmi128/CC359PPMI128_fed-test.csv", model_pth: "/fedpod/states/fed_0/R04r04/models/R04r04.pth"}
+        - { job-name: "fed_3_val", rounds: "05", round: "05", epoch: "005", inst: "3", split_csv: "cc359ppmi128/CC359PPMI128_fed-test.csv", model_pth: "/fedpod/states/fed_0/R04r04/models/R04r04.pth"}
+        - { job-name: "fed_4_val", rounds: "05", round: "05", epoch: "005", inst: "4", split_csv: "cc359ppmi128/CC359PPMI128_fed-test.csv", model_pth: "/fedpod/states/fed_0/R04r04/models/R04r04.pth"}
+        - { job-name: "fed_5_val", rounds: "05", round: "05", epoch: "005", inst: "5", split_csv: "cc359ppmi128/CC359PPMI128_fed-test.csv", model_pth: "/fedpod/states/fed_0/R04r04/models/R04r04.pth"}
+        - { job-name: "fed_6_val", rounds: "05", round: "05", epoch: "005", inst: "6", split_csv: "cc359ppmi128/CC359PPMI128_fed-test.csv", model_pth: "/fedpod/states/fed_0/R04r04/models/R04r04.pth"}
+
 
   - name: train-job
     inputs:
@@ -239,7 +267,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.15.0
+      image: dwnusa/fedpod:v0.4.15.1
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args:
@@ -295,7 +323,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.15.0
+      image: dwnusa/fedpod:v0.4.15.1
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
@@ -330,6 +358,61 @@ spec:
       - name: next-epoch
         valueFrom:
           path: /tmp/next_epoch.txt
+    volumes:
+    - name: cc359ppmi128-volume
+      hostPath:
+        path: /fedpod/cc359ppmi128  # 로컬 경로
+        type: Directory
+    - name: states-volume
+      hostPath:
+        path: /fedpod/states  # 로컬 경로
+        type: Directory
+    - name: logs-volume
+      hostPath:
+        path: /fedpod/logs  # 로컬 경로
+        type: Directory
+
+        
+  - name: infer-job
+    inputs:
+      parameters:
+      - name: script-name
+      - name: job-name
+      - name: rounds
+      - name: round
+      - name: epoch
+      - name: inst-id
+      - name: split_csv
+      - name: model_pth
+    container:
+      image: dwnusa/fedpod:v0.4.15.1
+      imagePullPolicy: Always
+      command: ["/bin/sh", "-c"]
+      args: 
+        - >
+          ./{{inputs.parameters.script-name}}
+          -s 1
+          -g 0
+          -J {{inputs.parameters.job-name}}
+          -i {{inputs.parameters.inst-id}}
+          -R {{inputs.parameters.rounds}}
+          -r {{inputs.parameters.round}}
+          -e {{inputs.parameters.epoch}}
+          -c {{inputs.parameters.split_csv}}
+          -m {{inputs.parameters.model_pth}}
+      resources:
+        requests:
+          cpu: "2"
+          memory: "16G"
+      volumeMounts:
+      - name: cc359ppmi128-volume
+        mountPath: /fedpod/cc359ppmi128
+      - name: states-volume
+        mountPath: /fedpod/states
+      - name: logs-volume
+        mountPath: /fedpod/logs
+      stdin: true
+      tty: true
     volumes:
     - name: cc359ppmi128-volume
       hostPath:
