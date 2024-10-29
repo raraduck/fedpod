@@ -16,7 +16,7 @@ python3 scripts/run_infer.py \
      --inst_root inst_* \
      \
      --cases_split cc359ppmi128/CC359PPMI128_fed-test.csv \
-     --inst_ids [1] \
+     --inst_ids [0] \
      --batch_size 1 \
      \
      --weight_path /fedpod/states/fed_0/R05r05/models/R05r05_agg.pth \
