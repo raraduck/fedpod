@@ -5,8 +5,8 @@ python3 scripts/run_infer.py \
      --eval_freq 10 \
      --use_gpu 0 \
      --job_name testinfer \
-     --rounds 3 \
-     --round 1 \
+     --rounds 4 \
+     --round 3 \
      --epoch 0 \
      \
      --resize 128 \
