@@ -9,12 +9,12 @@ services:
       -f 10
       -m 15
       -g 0 
-      -J testfed_1
+      -J testfed_3
       -R 3
       -r 0
       -E 1
       -e 0
-      -i 1
+      -i 3
       -c cc359ppmi128/CC359PPMI128_fed-test.csv
       -M None"
     stdin_open: true  # equivalent to Kubernetes 'stdin: true'
