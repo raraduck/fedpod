@@ -28,7 +28,7 @@ spec:
           - name: round
             value: "{{workflow.parameters.initial-round}}"
           - name: epochs
-            value: "010"
+            value: "001"
           - name: epoch
             value: "000"
           - name: inst-id
@@ -37,11 +37,11 @@ spec:
             value: "None"
         withItems:
         - { inst: "1" }
-        - { inst: "2" }
-        - { inst: "3" }
-        - { inst: "4" }
-        - { inst: "5" }
-        - { inst: "6" }
+        # - { inst: "2" }
+        # - { inst: "3" }
+        # - { inst: "4" }
+        # - { inst: "5" }
+        # - { inst: "6" }
 
       - name: run-aggregation-jobs-00
         template: aggregation-job
@@ -52,7 +52,7 @@ spec:
           - name: round
             value: "{{workflow.parameters.initial-round}}"
           - name: epochs
-            value: "010"
+            value: "001"
           - name: epoch
             value: "000"
           - name: inst-id
@@ -84,7 +84,7 @@ spec:
           - name: model_pth
             value: "{{item.model_pth}}"
         withItems:
-        - { job-name: "sol1_test_0", rounds: "02", round: "01", epoch: "010", inst: "0", split_csv: "cc359ppmi128/CC359PPMI128_sol1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r01/models/R02r01_agg.pth" }
+        - { job-name: "sol1_test_0", rounds: "02", round: "01", epoch: "001", inst: "0", split_csv: "cc359ppmi128/CC359PPMI128_sol1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r01/models/R02r01_agg.pth" }
         dependencies: [run-aggregation-jobs-00]
 
       # Round 1
@@ -97,7 +97,7 @@ spec:
           - name: round
             value: "{{tasks.run-aggregation-jobs-00.outputs.parameters.next-round}}"
           - name: epochs
-            value: "010"
+            value: "019"
           - name: epoch
             value: "{{tasks.run-aggregation-jobs-00.outputs.parameters.next-epoch}}"
           - name: inst-id
@@ -122,7 +122,7 @@ spec:
           - name: round
             value: "{{tasks.run-aggregation-jobs-00.outputs.parameters.next-round}}"
           - name: epochs
-            value: "010"
+            value: "019"
           - name: epoch
             value: "{{tasks.run-aggregation-jobs-00.outputs.parameters.next-epoch}}"
           - name: inst-id
@@ -154,7 +154,7 @@ spec:
           - name: model_pth
             value: "{{item.model_pth}}"
         withItems:
-        - { job-name: "sol1_test_0", rounds: "02", round: "01", epoch: "020", inst: "0", split_csv: "cc359ppmi128/CC359PPMI128_sol1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02_agg.pth" }
+        - { job-name: "sol1_test_0", rounds: "02", round: "02", epoch: "020", inst: "0", split_csv: "cc359ppmi128/CC359PPMI128_sol1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02_agg.pth" }
         dependencies: [run-aggregation-jobs-01]
 
   - name: train-job
