@@ -29,7 +29,7 @@ def load_subjects_list(rounds: int, round: int, split_path: str, inst_ids: list,
         unique_inst_ids = [int(el) for el in set(TrainOrVal_in_partition)]
 
         assert len(inst_ids) == 1, f"[TRAIN] inst_ids parameters are not allowed to be multiply selected."
-        assert inst_ids[0] > 0, f"inst_ids 0 is not optional (legacy was for all selection)"
+        # assert inst_ids[0] > 0, f"inst_ids 0 is not optional (legacy was for all selection)"
         unique_inst_ids = [el for el in unique_inst_ids if el in inst_ids]
 
         filtered_df = df[df[Partition_round].isin(unique_inst_ids)]
@@ -49,7 +49,7 @@ def load_subjects_list(rounds: int, round: int, split_path: str, inst_ids: list,
         assert TrainOrVal_in_partition.__len__() > 0, f"Not found train or val from current round {Partition_round}, please check csv file {split_path}"
         unique_inst_ids = [int(el) for el in set(TrainOrVal_in_partition)]
         assert len(inst_ids) == 1, f"[VAL or TEST] inst_ids parameters are not allowed to be multiply selected."
-        assert inst_ids[0] > 0, f"inst_ids 0 is not optional (legacy was for all selection)"
+        # assert inst_ids[0] > 0, f"inst_ids 0 is not optional (legacy was for all selection)"
         unique_inst_ids = [el for el in unique_inst_ids if el in inst_ids]
         # assert unique_inst_ids == [0], 'test must have 0 Partition_ID'
         filtered_df = df[df[Partition_round].isin(unique_inst_ids)]
