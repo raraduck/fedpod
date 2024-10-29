@@ -1,5 +1,6 @@
 #!/bin/bash
 python3 scripts/run_train.py \
+     \
      --save_infer 0 \
      --eval_freq 10 \
      --use_gpu 0 \
