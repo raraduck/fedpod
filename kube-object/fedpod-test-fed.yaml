@@ -273,7 +273,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.15.3
+      image: dwnusa/fedpod:v0.4.15.4
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args:
@@ -281,6 +281,7 @@ spec:
           ./{{inputs.parameters.script-name}} 
           -s 0 
           -f 10
+          -m 15
           -g 0 
           -J {{workflow.parameters.job-prefix}}_{{inputs.parameters.inst-id}} 
           -R {{workflow.parameters.rounds}} 
@@ -289,7 +290,7 @@ spec:
           -e {{inputs.parameters.epoch}} 
           -i {{inputs.parameters.inst-id}} 
           -c {{workflow.parameters.split_csv}} 
-          -m {{inputs.parameters.model_pth}}
+          -M {{inputs.parameters.model_pth}}
       resources:
         requests:
           cpu: "2"
@@ -329,7 +330,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.15.3
+      image: dwnusa/fedpod:v0.4.15.4
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
@@ -342,7 +343,7 @@ spec:
           -j {{workflow.parameters.job-prefix}} 
           -i {{inputs.parameters.inst-id}} 
           -a {{inputs.parameters.algorithm}} 
-          -m {{inputs.parameters.model_pth}}
+          -M {{inputs.parameters.model_pth}}
       resources:
         requests:
           cpu: "2"
@@ -391,7 +392,7 @@ spec:
       - name: split_csv
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.15.3
+      image: dwnusa/fedpod:v0.4.15.4
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
@@ -405,7 +406,7 @@ spec:
           -r {{inputs.parameters.round}}
           -e {{inputs.parameters.epoch}}
           -c {{inputs.parameters.split_csv}}
-          -m {{inputs.parameters.model_pth}}
+          -M {{inputs.parameters.model_pth}}
           -t test
       resources:
         requests:

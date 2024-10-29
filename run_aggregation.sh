@@ -9,7 +9,7 @@ inst_id=""
 model_pth="None"
 
 # 명령줄 옵션 처리
-while getopts R:r:E:e:a:j:i:m: option
+while getopts R:r:E:e:a:j:i:M: option
 do
     case "${option}"
     in
@@ -20,7 +20,7 @@ do
         a) algorithm=${OPTARG};;
         j) job_prefix=${OPTARG};;
         i) inst_id=${OPTARG};;
-        m) model_pth=${OPTARG};;
+        M) model_pth=${OPTARG};;
     esac
 done
 
@@ -29,7 +29,7 @@ echo "rounds: $rounds, round: $round, epochs: $epochs, epoch: $epoch, algorithm:
 # 필수 옵션 검사
 if [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$epochs" ] || [ -z "$epoch" ] ||[ -z "$algorithm" ] || [ -z "$job_prefix" ] || [ -z "$inst_id" ]; then
     echo "Error: All parameters are required."
-    echo "Usage: $0 -R <rounds> -r <round> -E <epochs> -e <epoch> -a <algorithm> -j <job_prefix> -i <inst_id> -m <model_pth>"
+    echo "Usage: $0 -R <rounds> -r <round> -E <epochs> -e <epoch> -a <algorithm> -j <job_prefix> -i <inst_id> -M <model_pth>"
     exit 1
 fi
 

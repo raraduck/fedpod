@@ -11,7 +11,7 @@ model_pth=""
 test_mode=""
 
 # 명령줄 옵션 처리
-while getopts s:g:J:R:r:e:i:c:m:t: option
+while getopts s:g:J:R:r:e:i:c:M:t: option
 do
     case "${option}"
     in
@@ -23,7 +23,7 @@ do
         e) curr_epoch=${OPTARG};;
         i) inst_id=${OPTARG};;
 		c) split_csv=${OPTARG};;
-		m) model_pth=${OPTARG};;
+		M) model_pth=${OPTARG};;
 		t) test_mode=${OPTARG};;
     esac
 done
@@ -32,7 +32,7 @@ echo "save_infer: $save_infer, gpu: $use_gpu, job: $job_name, rounds: $round, cu
 # 필수 옵션 검사
 if [ -z "$save_infer" ] || [ -z "$use_gpu" ] || [ -z "$job_name" ] ||  [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$curr_epoch" ] || [ -z "$inst_id" ] || [ -z "$split_csv" ] || [ -z "$inst_id" ] || [ -z "$test_mode" ]; then
     echo "Error: All parameters are required."
-    echo "Usage: $0 -s <save_infer> -g <use_gpu> -J <job_name> -R <rounds> -r <round> -e <curr_epoch> -i <inst_id> -c <split_csv> -m <model_pth> -t <test_mode>"
+    echo "Usage: $0 -s <save_infer> -g <use_gpu> -J <job_name> -R <rounds> -r <round> -e <curr_epoch> -i <inst_id> -c <split_csv> -M <model_pth> -t <test_mode>"
     exit 1
 fi
 
