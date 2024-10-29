@@ -260,7 +260,7 @@ spec:
           - name: model_pth
             value: "{{item.model_pth}}"
         withItems:
-        - { job-name: "fed_0_test", rounds: "05", round: "05", epoch: "005", inst: "0", split_csv: "cc359ppmi128/CC359PPMI128_fed-test.csv", model_pth: "/fedpod/states/fed_0/R05r05/models/R05r05_agg.pth"}
+        - { job-name: "fed_0_test", rounds: "05", round: "04", epoch: "005", inst: "0", split_csv: "cc359ppmi128/CC359PPMI128_fed-test.csv", model_pth: "/fedpod/states/fed_0/R05r05/models/R05r05_agg.pth"}
         dependencies: [run-aggregation-jobs-04]
 
   - name: train-job
