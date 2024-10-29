@@ -84,7 +84,7 @@ spec:
           - name: model_pth
             value: "{{item.model_pth}}"
         withItems:
-        - { job-name: "cen1_test_0", rounds: "02", round: "01", epoch: "010", inst: "0", split_csv: "cc359ppmi128/CC359PPMI128_cen1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r01/models/R02r01_agg.pth" }
+        - { job-name: "cen1_test_0", rounds: "02", round: "01", epoch: "010", inst: "0", split_csv: "cc359ppmi128/CC359PPMI128_cen-test.csv", model_pth: "/fedpod/states/cen1_0/R02r01/models/R02r01_agg.pth" }
         dependencies: [run-aggregation-jobs-00]
 
       # Round 1
@@ -154,7 +154,7 @@ spec:
           - name: model_pth
             value: "{{item.model_pth}}"
         withItems:
-        - { job-name: "cen1_test_0", rounds: "02", round: "01", epoch: "020", inst: "0", split_csv: "cc359ppmi128/CC359PPMI128_cen1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r02/models/R02r02_agg.pth" }
+        - { job-name: "cen1_test_0", rounds: "02", round: "01", epoch: "020", inst: "0", split_csv: "cc359ppmi128/CC359PPMI128_cen-test.csv", model_pth: "/fedpod/states/cen1_0/R02r02/models/R02r02_agg.pth" }
         dependencies: [run-aggregation-jobs-01]
 
   - name: train-job
