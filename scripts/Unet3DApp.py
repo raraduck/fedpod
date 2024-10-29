@@ -487,21 +487,21 @@ class Unet3DApp:
         torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}_last.pth"))
         return
 
-    def run_infer(self, infer_mode='test'):
+    def run_infer(self, test_mode='test'):
         time_in_total = time.time()
         infer_dict = load_subjects_list(
             self.cli_args.rounds, 
             self.cli_args.round, 
             self.cli_args.cases_split, 
             self.cli_args.inst_ids, 
-            TrainOrVal=[infer_mode], 
-            mode=infer_mode
+            TrainOrVal=[test_mode], 
+            mode=test_mode
         )
 
         assert self.cli_args.weight_path is not None, f"run_infer must have weight_path for model to infer."
         # _, self.cli_args.weight_path = self.initModel(self.cli_args.weight_path)
 
-        infer_setup = self.initializer(infer_dict, mode=infer_mode)
+        infer_setup = self.initializer(infer_dict, mode=test_mode)
 
         # val_epoch = self.cli_args.epochs * (self.cli_args.round)
         val_epoch = self.cli_args.epoch
@@ -515,7 +515,7 @@ class Unet3DApp:
             infer_setup['model'], 
             infer_setup['infer_loader'], 
             infer_setup['loss_fn'], 
-            mode=infer_mode,
+            mode=test_mode,
             save_infer=self.cli_args.save_infer
         )
 
