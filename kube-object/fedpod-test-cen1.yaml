@@ -3,11 +3,11 @@ kind: Workflow
 metadata:
   generateName: fedpod-jobs-
 spec:
-  entrypoint: parallel-steps
+  entrypoint: parallel-dag
   arguments:
     parameters:
     - name: rounds
-      value: "02" # mode selection role: (cen: 00, sol: 01, fed: >= 02)
+      value: "02" 
     - name: initial-round
       value: "00"
     - name: job-prefix
@@ -15,10 +15,11 @@ spec:
     - name: split_csv
       value: "cc359ppmi128/CC359PPMI128_cen-test.csv"
   templates:
-  - name: parallel-steps
-    steps:
-  # round 0
-    - - name: run-train-jobs-00
+  - name: parallel-dag
+    dag:
+      tasks:
+      # Round 0
+      - name: run-train-jobs-00
         template: train-job
         arguments:
           parameters:
@@ -27,21 +28,22 @@ spec:
           - name: round
             value: "{{workflow.parameters.initial-round}}"
           - name: epochs
-            value: "010" # "{{item.epochs}}"
+            value: "010"
           - name: epoch
-            value: "000" # "{{item.epoch}}"
+            value: "000"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
             value: "None"
         withItems:
-        - { inst: "1" } # epochs: "001", epoch: "000", 
-        - { inst: "2" } # epochs: "001", epoch: "000", 
-        - { inst: "3" } # epochs: "001", epoch: "000", 
-        - { inst: "4" } # epochs: "001", epoch: "000", 
-        - { inst: "5" } # epochs: "001", epoch: "000", 
-        - { inst: "6" } # epochs: "001", epoch: "000", 
-    - - name: run-aggregation-jobs-00
+        - { inst: "1" }
+        - { inst: "2" }
+        - { inst: "3" }
+        - { inst: "4" }
+        - { inst: "5" }
+        - { inst: "6" }
+
+      - name: run-aggregation-jobs-00
         template: aggregation-job
         arguments:
           parameters:
@@ -50,15 +52,16 @@ spec:
           - name: round
             value: "{{workflow.parameters.initial-round}}"
           - name: epochs
-            value: "010" # "{{item.epochs}}"
+            value: "010"
           - name: epoch
-            value: "000" # "{{item.epoch}}"
+            value: "000"
           - name: inst-id
             value: "0"
           - name: model_pth
             value: "None"
           - name: algorithm
             value: "fedavg"
+        dependencies: [run-train-jobs-00]
 
       - name: run-infer-jobs-00
         template: infer-job
@@ -81,58 +84,56 @@ spec:
           - name: model_pth
             value: "{{item.model_pth}}"
         withItems:
-        - { job-name: "cen1_test_0", rounds: "02", round: "01", epoch: "010", inst: "0", split_csv: "cc359ppmi128/CC359PPMI128_cen1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r01/models/R02r01_agg.pth"}
-        # - { job-name: "cen1_test_2", rounds: "02", round: "01", epoch: "010", inst: "2", split_csv: "cc359ppmi128/CC359PPMI128_cen1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r01/models/R02r01_agg.pth"}
-        # - { job-name: "cen1_test_3", rounds: "02", round: "01", epoch: "010", inst: "3", split_csv: "cc359ppmi128/CC359PPMI128_cen1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r01/models/R02r01_agg.pth"}
-        # - { job-name: "cen1_test_4", rounds: "02", round: "01", epoch: "010", inst: "4", split_csv: "cc359ppmi128/CC359PPMI128_cen1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r01/models/R02r01_agg.pth"}
-        # - { job-name: "cen1_test_5", rounds: "02", round: "01", epoch: "010", inst: "5", split_csv: "cc359ppmi128/CC359PPMI128_cen1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r01/models/R02r01_agg.pth"}
-        # - { job-name: "cen1_test_6", rounds: "02", round: "01", epoch: "010", inst: "6", split_csv: "cc359ppmi128/CC359PPMI128_cen1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r01/models/R02r01_agg.pth"}
+        - { job-name: "cen1_test_0", rounds: "02", round: "01", epoch: "010", inst: "0", split_csv: "cc359ppmi128/CC359PPMI128_cen1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r01/models/R02r01_agg.pth" }
+        dependencies: [run-aggregation-jobs-00]
 
-  # round 1
-    - - name: run-train-jobs-01
+      # Round 1
+      - name: run-train-jobs-01
         template: train-job
         arguments:
           parameters:
           - name: script-name
             value: "run_train1.sh"
           - name: round
-            value: "{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}"
+            value: "{{tasks.run-aggregation-jobs-00.outputs.parameters.next-round}}"
           - name: epochs
-            value: "010" # "{{item.epochs}}"
+            value: "010"
           - name: epoch
-            value: "{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}" # "001" # "{{item.epoch}}"
+            value: "{{tasks.run-aggregation-jobs-00.outputs.parameters.next-round}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}_agg.pth"
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.run-aggregation-jobs-00.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.run-aggregation-jobs-00.outputs.parameters.next-round}}_agg.pth"
         withItems:
-        - { inst: "1" } # epochs: "001", epoch: "001", 
-        - { inst: "2" } # epochs: "001", epoch: "001", 
-        - { inst: "3" } # epochs: "001", epoch: "001", 
-        - { inst: "4" } # epochs: "001", epoch: "001", 
-        - { inst: "5" } # epochs: "001", epoch: "001", 
-        - { inst: "6" } # epochs: "001", epoch: "001", 
+        - { inst: "1" }
+        - { inst: "2" }
+        - { inst: "3" }
+        - { inst: "4" }
+        - { inst: "5" }
+        - { inst: "6" }
+        dependencies: [run-aggregation-jobs-00]
 
-    - - name: run-aggregation-jobs-01
+      - name: run-aggregation-jobs-01
         template: aggregation-job
         arguments:
           parameters:
           - name: script-name
             value: "run_aggregation.sh"
           - name: round
-            value: "{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}"
+            value: "{{tasks.run-aggregation-jobs-00.outputs.parameters.next-round}}"
           - name: epochs
-            value: "010" # "{{item.epochs}}"
+            value: "010"
           - name: epoch
-            value: "{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}" # "001" # "{{item.epoch}}"
+            value: "{{tasks.run-aggregation-jobs-00.outputs.parameters.next-round}}"
           - name: inst-id
             value: "0"
           - name: model_pth
             value: "None"
           - name: algorithm
             value: "fedavg"
+        dependencies: [run-train-jobs-01]
 
-    - - name: run-infer-jobs-01
+      - name: run-infer-jobs-01
         template: infer-job
         arguments:
           parameters:
@@ -153,13 +154,8 @@ spec:
           - name: model_pth
             value: "{{item.model_pth}}"
         withItems:
-        - { job-name: "cen1_test_0", rounds: "02", round: "01", epoch: "020", inst: "0", split_csv: "cc359ppmi128/CC359PPMI128_cen1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r02/models/R02r02_agg.pth"}
-        # - { job-name: "cen1_test_2", rounds: "02", round: "01", epoch: "020", inst: "2", split_csv: "cc359ppmi128/CC359PPMI128_cen1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r02/models/R02r02_agg.pth"}
-        # - { job-name: "cen1_test_3", rounds: "02", round: "01", epoch: "020", inst: "3", split_csv: "cc359ppmi128/CC359PPMI128_cen1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r02/models/R02r02_agg.pth"}
-        # - { job-name: "cen1_test_4", rounds: "02", round: "01", epoch: "020", inst: "4", split_csv: "cc359ppmi128/CC359PPMI128_cen1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r02/models/R02r02_agg.pth"}
-        # - { job-name: "cen1_test_5", rounds: "02", round: "01", epoch: "020", inst: "5", split_csv: "cc359ppmi128/CC359PPMI128_cen1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r02/models/R02r02_agg.pth"}
-        # - { job-name: "cen1_test_6", rounds: "02", round: "01", epoch: "020", inst: "6", split_csv: "cc359ppmi128/CC359PPMI128_cen1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r02/models/R02r02_agg.pth"}
-
+        - { job-name: "cen1_test_0", rounds: "02", round: "01", epoch: "020", inst: "0", split_csv: "cc359ppmi128/CC359PPMI128_cen1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r02/models/R02r02_agg.pth" }
+        dependencies: [run-aggregation-jobs-01]
 
   - name: train-job
     inputs:
