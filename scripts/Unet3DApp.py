@@ -361,8 +361,8 @@ class Unet3DApp:
                                 affine, label_map, save_val_path)
                                 
         # output case metric csv
-        save_epoch_path = os.path.join(save_val_path, 'case_metric.csv')
-        case_metrics_meter.output(save_epoch_path)
+        # save_epoch_path = os.path.join(save_val_path, 'case_metric.csv')
+        case_metrics_meter.output(save_val_path)
         return {
             'DSCL_AVG': np.mean([v for k, v in case_metrics_meter.mean().items() if 'DSCL' in k]),
             'DICE_AVG': np.mean([v for k, v in case_metrics_meter.mean().items() if 'DICE' in k]),
