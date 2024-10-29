@@ -4,7 +4,7 @@ services:
     image: dwnusa/fedpod:v0.4.8-test
     container_name: fedpod-test
     command: >
-      /bin/bash -c "/fedpod/docker-test/run_train1.sh 
+      /bin/bash -c "/fedpod/run_train1.sh 
       -s 0 
       -f 10
       -m 15
