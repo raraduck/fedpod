@@ -3,7 +3,18 @@ services:
   fedpod-test:
     image: dwnusa/fedpod:v0.4.8-test
     container_name: fedpod-test
-    command: ["/bin/bash", "-c", "source /fedpod/docker-test/test_infer1.sh"]
+    command: >
+      /bin/bash -c "/fedpod/run_infer1.sh 
+      -s 1
+      -g 0
+      -J testinfer
+      -i 0
+      -R 3
+      -r 0
+      -e 0
+      -c cc359ppmi128/CC359PPMI128_fed-test.csv
+      -M /fedpod/states/fed_0/R05r05/models/R05r05_agg.pth
+      -t test"
     stdin_open: true  # equivalent to Kubernetes 'stdin: true'
     tty: true  # equivalent to Kubernetes 'tty: true'
     volumes:
