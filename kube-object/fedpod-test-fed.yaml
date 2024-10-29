@@ -70,7 +70,7 @@ spec:
           - name: epochs
             value: "001"
           - name: epoch
-            value: "{{tasks.run-aggregation-jobs-00.outputs.parameters.next-round}}"
+            value: "{{tasks.run-aggregation-jobs-00.outputs.parameters.next-epoch}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
@@ -93,7 +93,7 @@ spec:
           - name: epochs
             value: "001"
           - name: epoch
-            value: "{{tasks.run-aggregation-jobs-00.outputs.parameters.next-round}}"
+            value: "{{tasks.run-aggregation-jobs-00.outputs.parameters.next-epoch}}"
           - name: inst-id
             value: "0"
           - name: model_pth
@@ -114,7 +114,7 @@ spec:
           - name: epochs
             value: "001"
           - name: epoch
-            value: "{{tasks.run-aggregation-jobs-01.outputs.parameters.next-round}}"
+            value: "{{tasks.run-aggregation-jobs-01.outputs.parameters.next-epoch}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
@@ -138,7 +138,7 @@ spec:
           - name: epochs
             value: "001"
           - name: epoch
-            value: "{{tasks.run-aggregation-jobs-01.outputs.parameters.next-round}}"
+            value: "{{tasks.run-aggregation-jobs-01.outputs.parameters.next-epoch}}"
           - name: inst-id
             value: "0"
           - name: model_pth
@@ -146,6 +146,97 @@ spec:
           - name: algorithm
             value: "fedavg"
         dependencies: [run-train-jobs-02]
+
+        
+      # Round 3
+      - name: run-train-jobs-03
+        template: train-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_train1.sh"
+          - name: round
+            value: "{{tasks.run-aggregation-jobs-02.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "001"
+          - name: epoch
+            value: "{{tasks.run-aggregation-jobs-02.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.run-aggregation-jobs-02.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.run-aggregation-jobs-02.outputs.parameters.next-round}}_agg.pth"
+        withItems:
+        - { inst: "2" }
+        - { inst: "3" }
+        - { inst: "4" }
+        - { inst: "5" }
+        - { inst: "6" }
+        dependencies: [run-aggregation-jobs-02]
+
+      - name: run-aggregation-jobs-03
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_aggregation.sh"
+          - name: round
+            value: "{{tasks.run-aggregation-jobs-02.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "001"
+          - name: epoch
+            value: "{{tasks.run-aggregation-jobs-02.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "0"
+          - name: model_pth
+            value: "None"
+          - name: algorithm
+            value: "fedavg"
+        dependencies: [run-train-jobs-03]
+
+      # Round 4
+      - name: run-train-jobs-04
+        template: train-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_train1.sh"
+          - name: round
+            value: "{{tasks.run-aggregation-jobs-03.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "001"
+          - name: epoch
+            value: "{{tasks.run-aggregation-jobs-03.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.run-aggregation-jobs-03.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.run-aggregation-jobs-03.outputs.parameters.next-round}}_agg.pth"
+        withItems:
+        - { inst: "2" }
+        - { inst: "3" }
+        - { inst: "4" }
+        - { inst: "5" }
+        - { inst: "6" }
+        dependencies: [run-aggregation-jobs-03]
+
+      - name: run-aggregation-jobs-04
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_aggregation.sh"
+          - name: round
+            value: "{{tasks.run-aggregation-jobs-03.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "001"
+          - name: epoch
+            value: "{{tasks.run-aggregation-jobs-03.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "0"
+          - name: model_pth
+            value: "None"
+          - name: algorithm
+            value: "fedavg"
+        dependencies: [run-train-jobs-04]
 
       # Round 5 (Inference)
       - name: run-infer-jobs-05

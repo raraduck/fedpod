@@ -99,7 +99,7 @@ spec:
           - name: epochs
             value: "010"
           - name: epoch
-            value: "{{tasks.run-aggregation-jobs-00.outputs.parameters.next-round}}"
+            value: "{{tasks.run-aggregation-jobs-00.outputs.parameters.next-epoch}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
@@ -124,7 +124,7 @@ spec:
           - name: epochs
             value: "010"
           - name: epoch
-            value: "{{tasks.run-aggregation-jobs-00.outputs.parameters.next-round}}"
+            value: "{{tasks.run-aggregation-jobs-00.outputs.parameters.next-epoch}}"
           - name: inst-id
             value: "0"
           - name: model_pth
