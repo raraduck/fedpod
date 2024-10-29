@@ -75,7 +75,7 @@ spec:
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}.pth"
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-00.outputs.parameters.next-round}}_agg.pth"
         withItems:
         # - { inst: "1" } # epochs: "001", epoch: "001", 
         # - { inst: "2" } # epochs: "001", epoch: "001", 
@@ -117,7 +117,7 @@ spec:
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-01.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-01.outputs.parameters.next-round}}.pth"
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-01.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-01.outputs.parameters.next-round}}_agg.pth"
         withItems:
         # - { inst: "1" } # epochs: "001", epoch: "002", 
         - { inst: "2" } # epochs: "001", epoch: "002", 
@@ -159,7 +159,7 @@ spec:
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-02.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-02.outputs.parameters.next-round}}.pth"
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-02.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-02.outputs.parameters.next-round}}_agg.pth"
         withItems:
         - { inst: "1" } # epochs: "001", epoch: "002", 
         - { inst: "2" } # epochs: "001", epoch: "002", 
@@ -201,7 +201,7 @@ spec:
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-03.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-03.outputs.parameters.next-round}}.pth"
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-03.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{steps.run-aggregation-jobs-03.outputs.parameters.next-round}}_agg.pth"
         withItems:
         - { inst: "1" } # epochs: "001", epoch: "002", 
         - { inst: "2" } # epochs: "001", epoch: "002", 
@@ -228,7 +228,7 @@ spec:
           - name: algorithm
             value: "fedavg"
 
-    - - name: run-infer-jobs-05
+    - - name: run-infer-jobs-04
         template: infer-job
         arguments:
           parameters:

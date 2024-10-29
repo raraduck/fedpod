@@ -315,7 +315,7 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
     next_round_dir = os.path.join(center_dir, f"R{args.rounds:02}r{next_round:02}")
     models_dir = os.path.join(next_round_dir, 'models')
     os.makedirs(models_dir, exist_ok=True)
-    save_model_path = os.path.join(models_dir, f"R{args.rounds:02}r{next_round:02}.pth")
+    save_model_path = os.path.join(models_dir, f"R{args.rounds:02}r{next_round:02}_agg.pth")
     torch.save(state, save_model_path)
     logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] models are aggregated to {save_model_path}...")
     return
@@ -332,7 +332,7 @@ def init_processing(args, base_dir, curr_round, logger):
     curr_round_dir = os.path.join(inst_dir, f"R{args.rounds:02}r{curr_round:02}")
     models_dir = os.path.join(curr_round_dir, 'models')
     os.makedirs(models_dir, exist_ok=True)
-    save_model_path = os.path.join(models_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
+    save_model_path = os.path.join(models_dir, f"R{args.rounds:02}r{curr_round:02}_agg.pth")
     shutil.copy2(orig_file, save_model_path)
     logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup to {save_model_path}...")
     return
