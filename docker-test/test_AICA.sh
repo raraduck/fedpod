@@ -25,8 +25,8 @@ export JOBPREFIX=testfed INSTID=0
 docker compose -f compose-AICA.yaml up fedpod-aggregation && \
 docker compose -f compose-AICA.yaml down
 
-ROUNDS=3 ROUND=1 \
-MODEL=/fedpod/states/testfed_0/R03r02/models/R03r02_agg.pth \
-JOBNAME=testfed_test INSTID=0 \
+export ROUNDS=3 ROUND=1 
+export MODEL=/fedpod/states/testfed_0/R03r02/models/R03r02_agg.pth 
+export JOBNAME=testfed_test INSTID=0 
 docker compose -f compose-infer1.yaml up fedpod-infer && \
 docker compose -f compose-infer1.yaml down
