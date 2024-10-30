@@ -270,7 +270,6 @@ def fed_processing(args, base_dir, curr_round, next_round, logger, writer):
 
     fed_round_to_json(args, logger, local_dict, f'{args.job_prefix}.json')
     
-    print(local_dict)
     jobname, tmp_metrics = list(local_dict.items())[0]
     train_tb = {
         'DSCL_AVG': tmp_metrics['prev']['DSCL_AVG'],
@@ -279,9 +278,7 @@ def fed_processing(args, base_dir, curr_round, next_round, logger, writer):
         # 'lr': optimizer.state_dict()['param_groups'][0]['lr'],
     }
     if writer is not None:
-        print('writing tensorboard')
         for key, value in train_tb.items():
-            print(f'writing {key}')
             writer.add_scalar(f"train/{key}", value, args.round)
     writer.flush()
     writer.close()
@@ -359,16 +356,6 @@ def main(args):
     tb_name = f"{args.job_prefix}"
     writer = SummaryWriter(os.path.join('runs', tb_name))
     
-        # train_tb = {
-        #     'bce_loss': bce_meter.avg,
-        #     'dsc_loss': dsc_meter.avg,
-        #     'total_loss': loss_meter.avg,
-        #     'lr': optimizer.state_dict()['param_groups'][0]['lr'],
-        # }
-        # if writer is not None:
-        #     for key, value in train_tb.items():
-        #         writer.add_scalar(f"train/{key}", value, epoch)
-
     # prev_round = args.round - 1
     curr_round = args.round
     next_round = args.round + 1
