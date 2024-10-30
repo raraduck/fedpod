@@ -20,7 +20,7 @@ services:
     stdin_open: true
     tty: true
     volumes:
-      - ${HOSTPATH}:/fedpod
+      - /home2/jennyk0321/MASTER01/fedpod:/fedpod
     deploy:
       resources:
         reservations:
@@ -49,7 +49,7 @@ services:
     stdin_open: true
     tty: true
     volumes:
-      - ${HOSTPATH}:/fedpod
+      - /home2/jennyk0321/MASTER01/fedpod:/fedpod
       
   fedpod-aggregation:
     image: dwnusa/fedpod:v0.4.16-test
@@ -67,7 +67,7 @@ services:
     stdin_open: true  # equivalent to Kubernetes 'stdin: true'
     tty: true  # equivalent to Kubernetes 'tty: true'
     volumes:
-      - ${HOSTPATH}:/fedpod
+      - /home2/jennyk0321/MASTER01/fedpod:/fedpod
       
   fedpod-infer:
     image: dwnusa/fedpod:v0.4.16-test
@@ -87,4 +87,4 @@ services:
     stdin_open: true  # equivalent to Kubernetes 'stdin: true'
     tty: true  # equivalent to Kubernetes 'tty: true'
     volumes:
-      - ${HOSTPATH}:/fedpod
+      - /home2/jennyk0321/MASTER01/fedpod:/fedpod

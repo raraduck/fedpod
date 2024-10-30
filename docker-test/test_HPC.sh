@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e  # 명령어 실패 시 스크립트 종료
-HOSTPATH=/fedpod
 
 ROUNDS=3 ROUND=0 \
 MODEL=None \
