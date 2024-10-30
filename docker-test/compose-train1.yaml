@@ -2,7 +2,7 @@ version: '3'
 services:
   fedpod-test1:
     image: dwnusa/fedpod:v0.4.16-test
-    container_name: fedpod-test
+    container_name: fedpod-test1
     command: >
       /bin/bash -c "/fedpod/run_train1.sh 
       -s 0 
@@ -28,7 +28,7 @@ services:
 
   fedpod-test2:
     image: dwnusa/fedpod:v0.4.16-test
-    container_name: fedpod-test
+    container_name: fedpod-test2
     command: >
       /bin/bash -c "/fedpod/run_train1.sh 
       -s 0 
