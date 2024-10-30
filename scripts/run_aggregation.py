@@ -353,7 +353,7 @@ def main(args):
     logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] aggregation algorithm is {args.algorithm.upper()}...")
 
     tb_name = f"{args.job_prefix}"
-    writer = SummaryWriter(os.path.join('runs', tb_name)),
+    writer = SummaryWriter(os.path.join('runs', tb_name))
     
         # train_tb = {
         #     'bce_loss': bce_meter.avg,
