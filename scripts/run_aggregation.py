@@ -281,7 +281,8 @@ def fed_processing(args, base_dir, curr_round, next_round, logger, writer):
     if writer is not None:
         for key, value in train_tb.items():
             writer.add_scalar(f"train/{key}", value, args.round)
-
+    writer.flush()
+    writer.close()
     # TODO: 여기서는 pth last와 prev 를 읽어서 cli_args 내 정보를 바탕으로 pandas 형태로 저장한 뒤 csv에 저장하기
     # 이후 round 에서도 csv를 읽을 때 pandas로 읽어들여서 column과 row를 관리해야함 (json으로 저장해서 dict 로 호환해도 됨)
     # pandas는 sql 형식이고, json은 nosql 형식임
