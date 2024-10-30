@@ -1,6 +1,6 @@
 version: '3'
 services:
-  fedpod-test:
+  fedpod-test1:
     image: dwnusa/fedpod:v0.4.16-test
     container_name: fedpod-test
     command: >
@@ -9,12 +9,38 @@ services:
       -f 10
       -m 15
       -g 0 
-      -J ${JOBNAME}
+      -J ${JOBNAME1}
       -R ${ROUNDS}
       -r ${ROUND}
       -E 1
       -e 0
-      -i ${INSTID}
+      -i ${INSTID1}
+      -c cc359ppmi128/CC359PPMI128_fed-test.csv
+      -M None"
+    stdin_open: true
+    tty: true
+    volumes:
+      - /home2/jennyk0321/MASTER01/fedpod:/fedpod
+      - /fedpod/cc359ppmi128:/fedpod/cc359ppmi128
+      - /fedpod/states:/fedpod/states
+      - /fedpod/logs:/fedpod/logs
+      - /fedpod/runs:/fedpod/runs  # Absolute path on host mapped to /fedpod in container
+
+  fedpod-test2:
+    image: dwnusa/fedpod:v0.4.16-test
+    container_name: fedpod-test
+    command: >
+      /bin/bash -c "/fedpod/run_train1.sh 
+      -s 0 
+      -f 10
+      -m 15
+      -g 0 
+      -J ${JOBNAME2}
+      -R ${ROUNDS}
+      -r ${ROUND}
+      -E 1
+      -e 0
+      -i ${INSTID2}
       -c cc359ppmi128/CC359PPMI128_fed-test.csv
       -M None"
     stdin_open: true

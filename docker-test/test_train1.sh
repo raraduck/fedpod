@@ -1,13 +1,11 @@
 #!/bin/bash
 
 # round 값을 환경 변수로 전달하여 docker-compose 실행
-ROUNDS=3 ROUND=0 JOBNAME=testfed_2 INSTID=2 \
+ROUNDS=3 ROUND=0 \
+JOBNAME1=testfed_2 INSTID1=2 \
+JOBNAME2=testfed_3 INSTID2=3 \
 docker-compose -f compose-train1.yaml up
 docker-compose -f compose-train1.yaml down
-
-# ROUNDS=3 ROUND=0 JOBNAME=testfed_3 INSTID=3 \
-# docker-compose -f compose-train1.yaml up
-# docker-compose -f compose-train1.yaml down
 
 ROUNDS=3 ROUND=0 JOBPREFIX=testfed INSTID=0 \
 docker-compose -f compose-aggregation.yaml up
