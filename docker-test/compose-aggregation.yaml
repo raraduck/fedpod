@@ -1,7 +1,7 @@
 version: '3'
 services:
   fedpod-test:
-    image: dwnusa/fedpod:v0.4.15.6-test
+    image: dwnusa/fedpod:v0.4.16-test
     container_name: fedpod-test
     command: >
       /bin/bash -c "/fedpod/run_aggregation.sh 
@@ -20,3 +20,4 @@ services:
       - /fedpod/cc359ppmi128:/fedpod/cc359ppmi128  # Absolute path on host mapped to /fedpod in container
       - /fedpod/states:/fedpod/states  # Absolute path on host mapped to /fedpod in container
       - /fedpod/logs:/fedpod/logs  # Absolute path on host mapped to /fedpod in container
+      - /fedpod/runs:/fedpod/runs  # Absolute path on host mapped to /fedpod in container
