@@ -9,12 +9,12 @@ services:
       -f 10
       -m 15
       -g 0 
-      -J testfed_3
+      -J ${JOBNAME}
       -R 3
       -r ${ROUND}
       -E 1
       -e 0
-      -i 3
+      -i ${INSTID}
       -c cc359ppmi128/CC359PPMI128_fed-test.csv
       -M None"
     stdin_open: true

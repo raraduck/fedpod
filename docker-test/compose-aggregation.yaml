@@ -5,12 +5,12 @@ services:
     container_name: fedpod-test
     command: >
       /bin/bash -c "/fedpod/run_aggregation.sh 
-      -R 5
-      -r 0
+      -R ${ROUNDS}
+      -r ${ROUND}
       -E 1
       -e 0
-      -j fed
-      -i 0
+      -j ${JOBPREFIX}
+      -i ${INSTID}
       -a fedavg
       -M None"
     stdin_open: true  # equivalent to Kubernetes 'stdin: true'
