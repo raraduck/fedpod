@@ -16,7 +16,7 @@ services:
     stdin_open: true  # equivalent to Kubernetes 'stdin: true'
     tty: true  # equivalent to Kubernetes 'tty: true'
     volumes:
-      - /fedpod:/fedpod  # Absolute path on host mapped to /fedpod in container
+      - /home2/jennyk0321/MASTER01/fedpod:/fedpod  # Absolute path on host mapped to /fedpod in container
       # - /fedpod/cc359ppmi128:/fedpod/cc359ppmi128  # Absolute path on host mapped to /fedpod in container
       # - /fedpod/states:/fedpod/states  # Absolute path on host mapped to /fedpod in container
       # - /fedpod/logs:/fedpod/logs  # Absolute path on host mapped to /fedpod in container
