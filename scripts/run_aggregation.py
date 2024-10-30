@@ -37,31 +37,11 @@ def fed_round_to_json(args, logger, local_dict, filename):
     if os.path.exists(metrics_file):
         with open(metrics_file, 'r', encoding='utf-8') as file:
             json_metrics_dict = json.load(file)
-            # json_metrics_dict = json.load(file, object_pairs_hook=OrderedDict)
     else:
         json_metrics_dict = {}
 
-    # for round_num, job_dict in local_dict.items():
     json_metrics_dict[str(args.round)] = local_dict
 
-    # local_last_dict의 각 job_name과 round_dict 순회
-    # for round_num, job_dict in local_dict.items():
-    #     round_dict = json_metrics_dict.setdefault(str(round_num), {})
-    #     for job_name, metrics in job_dict.items():
-    #         job_metrics = round_dict.setdefault(job_name, {})
-    #         job_metrics.update(metrics)
-
-    # for job_name, round_dict in local_dict.items():
-    #     # job_name과 round_num 키가 없으면 자동으로 초기화
-    #     job_dict = json_metrics_dict.setdefault(job_name, {})
-    #     # round_dict 병합
-    #     for round_num, metrics in round_dict.items():
-    #         round_metrics = job_dict.setdefault(str(round_num), {})
-        
-    #         # 기존 데이터와 새로운 metrics 병합
-    #         round_metrics.update(metrics)
-
-    # json_metrics_dict = OrderedDict(sorted(json_metrics_dict.items()))
     # 업데이트된 데이터를 JSON 파일에 저장
     with open(metrics_file, 'w', encoding='utf-8') as file:
         json.dump(json_metrics_dict, file, ensure_ascii=False, indent=4)
@@ -69,7 +49,7 @@ def fed_round_to_json(args, logger, local_dict, filename):
     # 로깅 정보 출력
     logger.info(f"Updated metrics saved to {metrics_file}")
 
-def fed_print_to_csv(args, logger, local_models_with_dlen):
+# def fed_print_to_csv(args, logger, local_models_with_dlen):
     # averaged_loss = lossavg()
     mean_prev_DSCL_AVG = np.mean([el['pre_metrics']['DSCL_AVG'] for el in local_models_with_dlen])
     mean_prev_DICE_AVG = np.mean([el['pre_metrics']['DICE_AVG'] for el in local_models_with_dlen])
@@ -200,42 +180,6 @@ def fed_print_to_csv(args, logger, local_models_with_dlen):
         post_value = post_logger_metrics[key2]  # POST prefix 붙인 값 가져오기
         logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] {key1:>14} -> {key2:>14}: {prev_value:8.4f} -> {post_value:8.4f}")
 
-    # # Post-metrics 파일 작성
-    # post_metrics_file = os.path.join(job_dir, f'{args.job_prefix}_post_metrics.csv')
-    # if not os.path.exists(post_metrics_file):
-    #     with open(post_metrics_file, 'a') as f:
-    #         f.write(f"{header}\n")  # 파일이 없으면 헤더 추가
-    #         # f.write(header + '\n')  # 파일이 없으면 헤더 추가
-    # with open(post_metrics_file, 'a') as f:
-    #     f.write(f"{args.round},\t{mean_post_metrics}\n")
-    #     # f.write(str(args.round) + '\t' + mean_post_metrics + '\n')
-
-# def solo_print_to_csv():
-#     pass
-
-# def solo_processing(args, base_dir, curr_round, next_round, logger):
-#     inst_dir = os.path.join(base_dir, f"{args.job_prefix}_{args.inst_id}") # inst0 also included 
-#     curr_round_dir = os.path.join(inst_dir, f"R{args.rounds:02}r{curr_round:02}")
-#     models_dir = os.path.join(curr_round_dir, 'models')
-#     best_path = os.path.join(models_dir, f"R{args.rounds:02}r{args.round:02}_best.pth")
-#     last_path = os.path.join(models_dir, f"R{args.rounds:02}r{args.round:02}_last.pth")
-#     assert os.path.exists(best_path), f"File not found: {best_path}"
-#     assert os.path.exists(last_path), f"File not found: {last_path}"
-#     assert args.rounds == next_round, f"solo post processing requires the end of rounds at the moment. Currently, next round is specified as {next_round} in case when total rounds is {args.rounds}"
-#     next_round_dir = os.path.join(inst_dir, f"R{args.rounds:02}r{next_round:02}")
-#     models_dir = os.path.join(next_round_dir, 'models')
-#     os.makedirs(models_dir, exist_ok=True)
-#     save_best_path = os.path.join(models_dir, f"R{args.rounds:02}r{next_round:02}_best.pth")
-#     save_last_path = os.path.join(models_dir, f"R{args.rounds:02}r{next_round:02}_last.pth")
-#     # solo_print_to_csv(args, logger, local_models_with_dlen)
-#     # solo_print_to_csv(args, logger, local_models_with_dlen)
-#     shutil.copy2(best_path, save_best_path)
-#     shutil.copy2(last_path, save_last_path)
-#     logger.info(f"[{args.job_prefix.upper()}][SOLO] saved best model to {save_best_path}...")
-#     logger.info(f"[{args.job_prefix.upper()}][SOLO] saved last model to {save_last_path}...")
-#     return
-
-
 def fed_processing(args, base_dir, curr_round, next_round, logger):
     inst_dir = os.path.join(base_dir, f"{args.job_prefix}_*") # inst0 also included 
     curr_round_dir = os.path.join(inst_dir, f"R{args.rounds:02}r{curr_round:02}")
@@ -252,7 +196,6 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
         }
         for el in prev_pth_path for state in [torch.load(el)]
     }
-    # fed_round_to_json(args, logger, local_dict, f'{args.job_prefix}.json')
 
     # last to json
     last_pattern = os.path.join(curr_round_dir, 'models', '*_last.pth') # but, _last.pth removes inst0 because inst0 never has _last.pth file on it
@@ -270,14 +213,6 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
 
     fed_round_to_json(args, logger, local_dict, f'{args.job_prefix}.json')
     
-    # jobname_and_metrics = list(local_dict.items())
-    # train_tb = {
-    #     'DSCL_AVG': tmp_metrics['prev']['DSCL_AVG'],
-    #     # 'dsc_loss': state['pre_metrics']['DSCL_AVG'],
-    #     # 'total_loss': state['pre_metrics']['DSCL_AVG'],
-    #     # 'lr': optimizer.state_dict()['param_groups'][0]['lr'],
-    # }
-    # if writer is not None:
     for jobname, job_dict in local_dict.items():
         writer = SummaryWriter(os.path.join('runs', args.job_prefix, jobname))
         for prev_post, metric_dict in job_dict.items():
@@ -285,16 +220,11 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
                 writer.add_scalar(f"{prev_post}/{metric_name}", value, args.round)
         writer.flush()
         writer.close()
-    # TODO: 여기서는 pth last와 prev 를 읽어서 cli_args 내 정보를 바탕으로 pandas 형태로 저장한 뒤 csv에 저장하기
-    # 이후 round 에서도 csv를 읽을 때 pandas로 읽어들여서 column과 row를 관리해야함 (json으로 저장해서 dict 로 호환해도 됨)
-    # pandas는 sql 형식이고, json은 nosql 형식임
 
     for pth in last_pth_path:
         logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] local models are from {pth}...")
 
     local_models_with_dlen = [torch.load(m) for m in last_pth_path]
-    # local_last_dict = {torch.load(el)['args'].job_name: torch.load(el) for el in pth_path}
-    # fed_print_to_csv(args, logger, local_models_with_dlen)
 
     if args.algorithm == "fedavg":
         P = [1 for el in local_models_with_dlen]
@@ -306,23 +236,12 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
         W = [el/sum(P) for el in P]
         M = [el['model'] for el in local_models_with_dlen]
         aggregated_model = fedwavg(W, M)
-        # averaged_loss = lossavg()
     else:
         raise NotImplementedError(f"{args.algorithm.upper()} is not implemented on Aggregator()")
 
     # save aggregated model with metrics
     state = {
         'model': aggregated_model, 
-        # 'pre_metrics':{
-        #     'DSCL_AVG':0.11,
-        #     'DICE_AVG':0.12,
-        #     'HD95_AVG':0.13
-        # }, 
-        # 'post_metrics':{
-        #     'DSCL_AVG':0.21,
-        #     'DICE_AVG':0.22,
-        #     'HD95_AVG':0.23
-        # }, 
     }
     center_dir = os.path.join(base_dir, f"{args.job_prefix}_{args.inst_id}")
     next_round_dir = os.path.join(center_dir, f"R{args.rounds:02}r{next_round:02}")
@@ -332,11 +251,6 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
     torch.save(state, save_model_path)
     logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] models are aggregated to {save_model_path}...")
     return
-
-    #     save_model_path = os.path.join(models_dir, f"R{args.rounds:02}r{curr_round:02}.pth")
-    #     shutil.copy2(orig_file, save_model_path)
-    #     logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup to {save_model_path}...")
-    #     return
 
 def init_processing(args, base_dir, curr_round, logger):
     logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] initial model setup from {args.weight_path}...")
@@ -356,8 +270,6 @@ def main(args):
     logger = initialization_logger(args, log_filename)
     logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] aggregation algorithm is {args.algorithm.upper()}...")
 
-    # tb_name = f"{args.job_prefix}"
-    # prev_round = args.round - 1
     curr_round = args.round
     next_round = args.round + 1
     base_dir = os.path.join('/','fedpod','states')
@@ -371,7 +283,6 @@ def main(args):
 
     # 현재 라운드를 가져오고 1을 더한 후 두 자리 형식으로 변환
     next_round_formatted = f"{next_round:02d}"
-    # /tmp/next_round.txt 파일에 저장
     with open("/tmp/next_round.txt", "w") as f:
         f.write(next_round_formatted)
 
@@ -382,5 +293,5 @@ def main(args):
 
 if __name__ == '__main__': 
     args = parser.parse_args(sys.argv[1:])
-    main(args)  # Call the main function with parsed arguments
+    main(args)
     

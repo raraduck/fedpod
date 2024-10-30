@@ -1,24 +1,24 @@
 version: '3'
 services:
   fedpod-test:
-    image: dwnusa/fedpod:v0.4.8-test
+    image: dwnusa/fedpod:v0.4.16-test
     container_name: fedpod-test
     command: >
       /bin/bash -c "/fedpod/run_infer1.sh 
       -s 1
       -g 0
-      -J testinfer
-      -i 0
-      -R 3
-      -r 0
+      -J ${JOBNAME}
+      -i ${INSTID}
+      -R ${ROUNDS}
+      -r ${ROUND}
       -e 0
-      -c cc359ppmi128/CC359PPMI128_fed-test.csv
-      -M /fedpod/states/fed_0/R05r05/models/R05r05_agg.pth
+      -c experiments/CC359PPMI128_fed-test.csv
+      -M ${MODEL} 
       -t test"
     stdin_open: true  # equivalent to Kubernetes 'stdin: true'
     tty: true  # equivalent to Kubernetes 'tty: true'
     volumes:
-      - /home2/jennyk0321/MASTER01/fedpod:/fedpod  # Absolute path on host mapped to /fedpod in container
-      - /fedpod/cc359ppmi128:/fedpod/cc359ppmi128  # Absolute path on host mapped to /fedpod in container
-      - /fedpod/states:/fedpod/states  # Absolute path on host mapped to /fedpod in container
-      - /fedpod/logs:/fedpod/logs  # Absolute path on host mapped to /fedpod in container
+      - /fedpod:/fedpod  # Absolute path on host mapped to /fedpod in container
+      # - /fedpod/cc359ppmi128:/fedpod/cc359ppmi128  # Absolute path on host mapped to /fedpod in container
+      # - /fedpod/states:/fedpod/states  # Absolute path on host mapped to /fedpod in container
+      # - /fedpod/logs:/fedpod/logs  # Absolute path on host mapped to /fedpod in container
