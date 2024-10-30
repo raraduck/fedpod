@@ -270,16 +270,17 @@ def fed_processing(args, base_dir, curr_round, next_round, logger, writer):
 
     fed_round_to_json(args, logger, local_dict, f'{args.job_prefix}.json')
     
-    jobname, tmp_metrics = list(local_dict.items())[0]
-    train_tb = {
-        'DSCL_AVG': tmp_metrics['prev']['DSCL_AVG'],
-        # 'dsc_loss': state['pre_metrics']['DSCL_AVG'],
-        # 'total_loss': state['pre_metrics']['DSCL_AVG'],
-        # 'lr': optimizer.state_dict()['param_groups'][0]['lr'],
-    }
+    jobname_and_metrics = list(local_dict.items())
+    # train_tb = {
+    #     'DSCL_AVG': tmp_metrics['prev']['DSCL_AVG'],
+    #     # 'dsc_loss': state['pre_metrics']['DSCL_AVG'],
+    #     # 'total_loss': state['pre_metrics']['DSCL_AVG'],
+    #     # 'lr': optimizer.state_dict()['param_groups'][0]['lr'],
+    # }
     if writer is not None:
-        for key, value in train_tb.items():
-            writer.add_scalar(f"train/{key}", value, args.round)
+        for jobname, metrics in jobname_and_metrics:
+            for key,value in metrics.items():
+                writer.add_scalar(f"{jobname}/{key}", value, args.round)
     writer.flush()
     writer.close()
     # TODO: 여기서는 pth last와 prev 를 읽어서 cli_args 내 정보를 바탕으로 pandas 형태로 저장한 뒤 csv에 저장하기
