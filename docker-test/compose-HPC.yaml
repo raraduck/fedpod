@@ -1,4 +1,4 @@
-version: '3'${HOSTPATH}
+version: '3'
 services:
   fedpod-train1:
     image: dwnusa/fedpod:v0.4.16.0-test-cuda
