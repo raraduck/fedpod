@@ -1,0 +1,90 @@
+version: '3'
+services:
+  fedpod-train1:
+    image: dwnusa/fedpod:v0.4.16.0-test-cuda
+    container_name: fedpod-train1
+    command: >
+      /bin/bash -c "/fedpod/run_train1.sh 
+      -s 0 
+      -f 10
+      -m 15
+      -g 1 
+      -J ${JOBNAME1}
+      -R ${ROUNDS}
+      -r ${ROUND}
+      -E 1
+      -e 0
+      -i ${INSTID1}
+      -c experiments/CC359PPMI128_fed-test.csv
+      -M ${MODEL}"
+    stdin_open: true
+    tty: true
+    volumes:
+      - ${HOSTPATH}:/fedpod
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  fedpod-train2:
+    image: dwnusa/fedpod:v0.4.16-test
+    container_name: fedpod-train2
+    command: >
+      /bin/bash -c "/fedpod/run_train1.sh 
+      -s 0 
+      -f 10
+      -m 15
+      -g 0 
+      -J ${JOBNAME2}
+      -R ${ROUNDS}
+      -r ${ROUND}
+      -E 1
+      -e 0
+      -i ${INSTID2}
+      -c experiments/CC359PPMI128_fed-test.csv
+      -M ${MODEL}"
+    stdin_open: true
+    tty: true
+    volumes:
+      - ${HOSTPATH}:/fedpod
+      
+  fedpod-aggregation:
+    image: dwnusa/fedpod:v0.4.16-test
+    container_name: fedpod-aggregation
+    command: >
+      /bin/bash -c "/fedpod/run_aggregation.sh 
+      -R ${ROUNDS}
+      -r ${ROUND}
+      -E 1
+      -e 0
+      -j ${JOBPREFIX}
+      -i ${INSTID}
+      -a fedavg
+      -M None"
+    stdin_open: true  # equivalent to Kubernetes 'stdin: true'
+    tty: true  # equivalent to Kubernetes 'tty: true'
+    volumes:
+      - ${HOSTPATH}:/fedpod
+      
+  fedpod-infer:
+    image: dwnusa/fedpod:v0.4.16-test
+    container_name: fedpod-infer
+    command: >
+      /bin/bash -c "/fedpod/run_infer1.sh 
+      -s 1
+      -g 0
+      -J ${JOBNAME}
+      -i ${INSTID}
+      -R ${ROUNDS}
+      -r ${ROUND}
+      -e 0
+      -c experiments/CC359PPMI128_fed-test.csv
+      -M ${MODEL} 
+      -t test"
+    stdin_open: true  # equivalent to Kubernetes 'stdin: true'
+    tty: true  # equivalent to Kubernetes 'tty: true'
+    volumes:
+      - ${HOSTPATH}:/fedpod
