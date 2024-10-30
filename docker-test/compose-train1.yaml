@@ -15,7 +15,7 @@ services:
       -E 1
       -e 0
       -i ${INSTID1}
-      -c experiment/CC359PPMI128_fed-test.csv
+      -c experiments/CC359PPMI128_fed-test.csv
       -M ${MODEL}"
     stdin_open: true
     tty: true
@@ -41,7 +41,7 @@ services:
       -E 1
       -e 0
       -i ${INSTID2}
-      -c experiment/CC359PPMI128_fed-test.csv
+      -c experiments/CC359PPMI128_fed-test.csv
       -M ${MODEL}"
     stdin_open: true
     tty: true
