@@ -6,7 +6,7 @@ import sys
 import glob
 import natsort
 import json
-from collections import OrderedDict
+from torch.utils.tensorboard import SummaryWriter
 from utils.tools import *
 from Aggregator import *
 from utils.misc import *
@@ -270,7 +270,6 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
 
     fed_round_to_json(args, logger, local_dict, f'{args.job_prefix}.json')
 
-
     # TODO: 여기서는 pth last와 prev 를 읽어서 cli_args 내 정보를 바탕으로 pandas 형태로 저장한 뒤 csv에 저장하기
     # 이후 round 에서도 csv를 읽을 때 pandas로 읽어들여서 column과 row를 관리해야함 (json으로 저장해서 dict 로 호환해도 됨)
     # pandas는 sql 형식이고, json은 nosql 형식임
@@ -281,7 +280,6 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
     local_models_with_dlen = [torch.load(m) for m in last_pth_path]
     # local_last_dict = {torch.load(el)['args'].job_name: torch.load(el) for el in pth_path}
     # fed_print_to_csv(args, logger, local_models_with_dlen)
-
 
     if args.algorithm == "fedavg":
         P = [1 for el in local_models_with_dlen]
@@ -342,6 +340,9 @@ def main(args):
     log_filename = f"{args.job_prefix}_R{args.rounds:02}r{args.round:02}.log"
     logger = initialization_logger(args, log_filename)
     logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] aggregation algorithm is {args.algorithm.upper()}...")
+
+    tb_name = f"{args.job_prefix}"
+    writer = SummaryWriter(os.path.join('runs', tb_name)),
     
     # prev_round = args.round - 1
     curr_round = args.round

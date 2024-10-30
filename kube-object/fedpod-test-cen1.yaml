@@ -196,6 +196,8 @@ spec:
         mountPath: /fedpod/states
       - name: logs-volume
         mountPath: /fedpod/logs
+      - name: runs-volume
+        mountPath: /fedpod/runs
       stdin: true
       tty: true
     volumes:
@@ -210,6 +212,10 @@ spec:
     - name: logs-volume
       hostPath:
         path: /fedpod/logs  # 로컬 경로
+        type: Directory
+    - name: runs-volume
+      hostPath:
+        path: /fedpod/runs  # 로컬 경로
         type: Directory
 
 
@@ -249,16 +255,10 @@ spec:
         mountPath: /fedpod/states
       - name: logs-volume
         mountPath: /fedpod/logs
+      - name: runs-volume
+        mountPath: /fedpod/runs
       stdin: true
       tty: true
-    outputs:
-      parameters:
-      - name: next-round
-        valueFrom:
-          path: /tmp/next_round.txt  # Return the value from the temp file
-      - name: next-epoch
-        valueFrom:
-          path: /tmp/next_epoch.txt
     volumes:
     - name: cc359ppmi128-volume
       hostPath:
@@ -271,6 +271,10 @@ spec:
     - name: logs-volume
       hostPath:
         path: /fedpod/logs  # 로컬 경로
+        type: Directory
+    - name: runs-volume
+      hostPath:
+        path: /fedpod/runs  # 로컬 경로
         type: Directory
         
   - name: infer-job
@@ -312,6 +316,8 @@ spec:
         mountPath: /fedpod/states
       - name: logs-volume
         mountPath: /fedpod/logs
+      - name: runs-volume
+        mountPath: /fedpod/runs
       stdin: true
       tty: true
     volumes:
@@ -326,4 +332,8 @@ spec:
     - name: logs-volume
       hostPath:
         path: /fedpod/logs  # 로컬 경로
+        type: Directory
+    - name: runs-volume
+      hostPath:
+        path: /fedpod/runs  # 로컬 경로
         type: Directory
