@@ -270,7 +270,7 @@ def fed_processing(args, base_dir, curr_round, next_round, logger, writer):
 
     fed_round_to_json(args, logger, local_dict, f'{args.job_prefix}.json')
     
-    jobname_and_metrics = list(local_dict.items())
+    # jobname_and_metrics = list(local_dict.items())
     # train_tb = {
     #     'DSCL_AVG': tmp_metrics['prev']['DSCL_AVG'],
     #     # 'dsc_loss': state['pre_metrics']['DSCL_AVG'],
@@ -278,9 +278,10 @@ def fed_processing(args, base_dir, curr_round, next_round, logger, writer):
     #     # 'lr': optimizer.state_dict()['param_groups'][0]['lr'],
     # }
     if writer is not None:
-        for jobname, metrics in jobname_and_metrics:
-            for key,value in metrics.items():
-                writer.add_scalar(f"{jobname}/{key}", value['DSCL_AVG'], args.round)
+        for jobname, job_dict in local_dict.items():
+            for prev_post, metric_dict in job_dict.items():
+                for metric_name, value in metric_dict.items():
+                    writer.add_scalar(f"{jobname}_{prev_post}/{metric_name}", value, args.round)
     writer.flush()
     writer.close()
     # TODO: 여기서는 pth last와 prev 를 읽어서 cli_args 내 정보를 바탕으로 pandas 형태로 저장한 뒤 csv에 저장하기
