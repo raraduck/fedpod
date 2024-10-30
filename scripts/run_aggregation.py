@@ -272,7 +272,7 @@ def fed_processing(args, base_dir, curr_round, next_round, logger, writer):
     
     jobname, tmp_metrics = list(local_dict.items())[0]
     train_tb = {
-        'DSCL_AVG': tmp_metrics['pre_metrics']['DSCL_AVG'],
+        'DSCL_AVG': tmp_metrics['prev']['DSCL_AVG'],
         # 'dsc_loss': state['pre_metrics']['DSCL_AVG'],
         # 'total_loss': state['pre_metrics']['DSCL_AVG'],
         # 'lr': optimizer.state_dict()['param_groups'][0]['lr'],
