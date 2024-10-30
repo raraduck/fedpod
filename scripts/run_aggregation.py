@@ -270,6 +270,7 @@ def fed_processing(args, base_dir, curr_round, next_round, logger, writer):
 
     fed_round_to_json(args, logger, local_dict, f'{args.job_prefix}.json')
     
+    print(local_dict)
     jobname, tmp_metrics = list(local_dict.items())[0]
     train_tb = {
         'DSCL_AVG': tmp_metrics['prev']['DSCL_AVG'],
