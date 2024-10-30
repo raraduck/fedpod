@@ -236,7 +236,7 @@ def fed_print_to_csv(args, logger, local_models_with_dlen):
 #     return
 
 
-def fed_processing(args, base_dir, curr_round, next_round, logger, writer):
+def fed_processing(args, base_dir, curr_round, next_round, logger):
     inst_dir = os.path.join(base_dir, f"{args.job_prefix}_*") # inst0 also included 
     curr_round_dir = os.path.join(inst_dir, f"R{args.rounds:02}r{curr_round:02}")
     
@@ -367,7 +367,7 @@ def main(args):
         assert curr_round == 0, f"init_processing must be called at round 0, currently it is {curr_round}"
         init_processing(args, base_dir, curr_round, logger)
     else:
-        fed_processing(args, base_dir, curr_round, next_round, logger, writer)
+        fed_processing(args, base_dir, curr_round, next_round, logger)
 
     # 현재 라운드를 가져오고 1을 더한 후 두 자리 형식으로 변환
     next_round_formatted = f"{next_round:02d}"
