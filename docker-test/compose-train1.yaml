@@ -21,10 +21,10 @@ services:
     tty: true
     volumes:
       - /fedpod:/fedpod
-      - /fedpod/cc359ppmi128:/fedpod/cc359ppmi128
-      - /fedpod/states:/fedpod/states
-      - /fedpod/logs:/fedpod/logs
-      - /fedpod/runs:/fedpod/runs  # Absolute path on host mapped to /fedpod in container
+      # - /fedpod/cc359ppmi128:/fedpod/cc359ppmi128
+      # - /fedpod/states:/fedpod/states
+      # - /fedpod/logs:/fedpod/logs
+      # - /fedpod/runs:/fedpod/runs  # Absolute path on host mapped to /fedpod in container
 
   fedpod-test2:
     image: dwnusa/fedpod:v0.4.16-test
@@ -47,7 +47,7 @@ services:
     tty: true
     volumes:
       - /fedpod:/fedpod
-      - /fedpod/cc359ppmi128:/fedpod/cc359ppmi128
-      - /fedpod/states:/fedpod/states
-      - /fedpod/logs:/fedpod/logs
-      - /fedpod/runs:/fedpod/runs  # Absolute path on host mapped to /fedpod in container
+      # - /fedpod/cc359ppmi128:/fedpod/cc359ppmi128
+      # - /fedpod/states:/fedpod/states
+      # - /fedpod/logs:/fedpod/logs
+      # - /fedpod/runs:/fedpod/runs  # Absolute path on host mapped to /fedpod in container
