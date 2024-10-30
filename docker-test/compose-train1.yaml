@@ -1,7 +1,7 @@
 version: '3'
 services:
   fedpod-test1:
-    image: dwnusa/fedpod:v0.4.16-test
+    image: dwnusa/fedpod:v0.4.16.0-test-cuda
     container_name: fedpod-test1
     command: >
       /bin/bash -c "/fedpod/run_train1.sh 
@@ -25,6 +25,13 @@ services:
       # - /fedpod/states:/fedpod/states
       # - /fedpod/logs:/fedpod/logs
       # - /fedpod/runs:/fedpod/runs  # Absolute path on host mapped to /fedpod in container
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
 
   fedpod-test2:
     image: dwnusa/fedpod:v0.4.16-test
