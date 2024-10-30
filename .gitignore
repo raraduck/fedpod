@@ -1,8 +1,9 @@
 venv
 cc359ppmi_first
 states
-test
 logs
+runs
+test
 temp
 *.tar
 
