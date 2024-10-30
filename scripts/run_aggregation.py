@@ -279,7 +279,9 @@ def fed_processing(args, base_dir, curr_round, next_round, logger, writer):
         # 'lr': optimizer.state_dict()['param_groups'][0]['lr'],
     }
     if writer is not None:
+        print('writing tensorboard')
         for key, value in train_tb.items():
+            print(f'writing {key}')
             writer.add_scalar(f"train/{key}", value, args.round)
     writer.flush()
     writer.close()
