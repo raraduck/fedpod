@@ -7,11 +7,11 @@ spec:
   arguments:
     parameters:
     - name: rounds
-      value: "20"
+      value: "12"
     - name: initial-round
       value: "00"
     - name: job-prefix
-      value: "fed1R20"
+      value: "fed1R12"
     - name: split_csv
       value: "cc359ppmi128/CC359PPMI_v1.csv"
   templates:
