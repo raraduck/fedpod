@@ -10,7 +10,7 @@ services:
       -m 15
       -g 0 
       -J ${JOBNAME}
-      -R 3
+      -R ${ROUNDS}
       -r ${ROUND}
       -E 1
       -e 0
