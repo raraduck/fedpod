@@ -26,6 +26,6 @@ docker compose -f compose-aggregation.yaml down
 
 ROUNDS=3 ROUND=1 \
 MODEL=/fedpod/states/testfed_0/R03r02/models/R03r02_agg.pth \
-JOBNAME=testfed INSTID=0 \
+JOBNAME=testfed_test INSTID=0 \
 docker compose -f compose-aggregation.yaml up && \
 docker compose -f compose-aggregation.yaml down
