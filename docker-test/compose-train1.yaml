@@ -11,7 +11,7 @@ services:
       -g 0 
       -J testfed_3
       -R 3
-      -r ${ROUND}  # 환경 변수를 사용하여 round 값 설정
+      -r ${ROUND}
       -E 1
       -e 0
       -i 3
