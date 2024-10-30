@@ -1,7 +1,7 @@
 version: '3'
 services:
   fedpod-test:
-    image: dwnusa/fedpod:v0.4.8-test
+    image: dwnusa/fedpod:v0.4.16-test
     container_name: fedpod-test
     command: >
       /bin/bash -c "/fedpod/run_train1.sh 
@@ -11,16 +11,17 @@ services:
       -g 0 
       -J testfed_3
       -R 3
-      -r 0
+      -r ${ROUND}  # 환경 변수를 사용하여 round 값 설정
       -E 1
       -e 0
       -i 3
       -c cc359ppmi128/CC359PPMI128_fed-test.csv
       -M None"
-    stdin_open: true  # equivalent to Kubernetes 'stdin: true'
-    tty: true  # equivalent to Kubernetes 'tty: true'
+    stdin_open: true
+    tty: true
     volumes:
-      - /home2/jennyk0321/MASTER01/fedpod:/fedpod  # Absolute path on host mapped to /fedpod in container
-      - /fedpod/cc359ppmi128:/fedpod/cc359ppmi128  # Absolute path on host mapped to /fedpod in container
-      - /fedpod/states:/fedpod/states  # Absolute path on host mapped to /fedpod in container
-      - /fedpod/logs:/fedpod/logs  # Absolute path on host mapped to /fedpod in container
+      - /home2/jennyk0321/MASTER01/fedpod:/fedpod
+      - /fedpod/cc359ppmi128:/fedpod/cc359ppmi128
+      - /fedpod/states:/fedpod/states
+      - /fedpod/logs:/fedpod/logs
+      - /fedpod/runs:/fedpod/runs  # Absolute path on host mapped to /fedpod in container
