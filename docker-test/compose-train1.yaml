@@ -20,7 +20,7 @@ services:
     stdin_open: true
     tty: true
     volumes:
-      - /home2/jennyk0321/MASTER01/fedpod:/fedpod
+      - /fedpod:/fedpod
       - /fedpod/cc359ppmi128:/fedpod/cc359ppmi128
       - /fedpod/states:/fedpod/states
       - /fedpod/logs:/fedpod/logs
@@ -46,7 +46,7 @@ services:
     stdin_open: true
     tty: true
     volumes:
-      - /home2/jennyk0321/MASTER01/fedpod:/fedpod
+      - /fedpod:/fedpod
       - /fedpod/cc359ppmi128:/fedpod/cc359ppmi128
       - /fedpod/states:/fedpod/states
       - /fedpod/logs:/fedpod/logs
