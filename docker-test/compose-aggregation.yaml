@@ -1,7 +1,7 @@
 version: '3'
 services:
   fedpod-test:
-    image: dwnusa/fedpod:v0.4.8-test
+    image: dwnusa/fedpod:v0.4.15.6-test
     container_name: fedpod-test
     command: >
       /bin/bash -c "/fedpod/run_aggregation.sh 
