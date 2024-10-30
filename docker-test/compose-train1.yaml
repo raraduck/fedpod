@@ -16,7 +16,7 @@ services:
       -e 0
       -i ${INSTID1}
       -c cc359ppmi128/CC359PPMI128_fed-test.csv
-      -M None"
+      -M ${MODEL}"
     stdin_open: true
     tty: true
     volumes:
@@ -42,7 +42,7 @@ services:
       -e 0
       -i ${INSTID2}
       -c cc359ppmi128/CC359PPMI128_fed-test.csv
-      -M None"
+      -M ${MODEL}"
     stdin_open: true
     tty: true
     volumes:
