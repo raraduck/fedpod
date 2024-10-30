@@ -236,7 +236,7 @@ def fed_print_to_csv(args, logger, local_models_with_dlen):
 #     return
 
 
-def fed_processing(args, base_dir, curr_round, next_round, logger):
+def fed_processing(args, base_dir, curr_round, next_round, logger, writer):
     inst_dir = os.path.join(base_dir, f"{args.job_prefix}_*") # inst0 also included 
     curr_round_dir = os.path.join(inst_dir, f"R{args.rounds:02}r{curr_round:02}")
     
@@ -269,6 +269,17 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
         })
 
     fed_round_to_json(args, logger, local_dict, f'{args.job_prefix}.json')
+    
+    jobname, tmp_metrics = list(local_dict.items())[0]
+    train_tb = {
+        'DSCL_AVG': tmp_metrics['pre_metrics']['DSCL_AVG'],
+        # 'dsc_loss': state['pre_metrics']['DSCL_AVG'],
+        # 'total_loss': state['pre_metrics']['DSCL_AVG'],
+        # 'lr': optimizer.state_dict()['param_groups'][0]['lr'],
+    }
+    if writer is not None:
+        for key, value in train_tb.items():
+            writer.add_scalar(f"train/{key}", value, args.round)
 
     # TODO: 여기서는 pth last와 prev 를 읽어서 cli_args 내 정보를 바탕으로 pandas 형태로 저장한 뒤 csv에 저장하기
     # 이후 round 에서도 csv를 읽을 때 pandas로 읽어들여서 column과 row를 관리해야함 (json으로 저장해서 dict 로 호환해도 됨)
@@ -344,6 +355,16 @@ def main(args):
     tb_name = f"{args.job_prefix}"
     writer = SummaryWriter(os.path.join('runs', tb_name)),
     
+        # train_tb = {
+        #     'bce_loss': bce_meter.avg,
+        #     'dsc_loss': dsc_meter.avg,
+        #     'total_loss': loss_meter.avg,
+        #     'lr': optimizer.state_dict()['param_groups'][0]['lr'],
+        # }
+        # if writer is not None:
+        #     for key, value in train_tb.items():
+        #         writer.add_scalar(f"train/{key}", value, epoch)
+
     # prev_round = args.round - 1
     curr_round = args.round
     next_round = args.round + 1
@@ -354,7 +375,7 @@ def main(args):
         assert curr_round == 0, f"init_processing must be called at round 0, currently it is {curr_round}"
         init_processing(args, base_dir, curr_round, logger)
     else:
-        fed_processing(args, base_dir, curr_round, next_round, logger)
+        fed_processing(args, base_dir, curr_round, next_round, logger, writer)
 
     # 현재 라운드를 가져오고 1을 더한 후 두 자리 형식으로 변환
     next_round_formatted = f"{next_round:02d}"
