@@ -28,5 +28,5 @@ docker compose -f compose-HPC.yaml down
 export ROUNDS=3 ROUND=1
 export MODEL=/fedpod/states/testfed_0/R03r02/models/R03r02_agg.pth
 export JOBNAME=testfed_test INSTID=0
-docker compose -f compose-infer1.yaml up fedpod-infer && \
-docker compose -f compose-infer1.yaml down
+docker compose -f compose-HPC.yaml up fedpod-infer && \
+docker compose -f compose-HPC.yaml down
