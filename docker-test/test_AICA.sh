@@ -17,7 +17,7 @@ export ROUNDS=3 ROUND=1
 export MODEL=/fedpod/states/testfed_0/R03r01/models/R03r01_agg.pth 
 export JOBNAME1=testfed_2 INSTID1=2 
 export JOBNAME2=testfed_3 INSTID2=3 
-docker compose -f compose-AICA.yaml up fedpod-train1  fedpod-train2 && \
+docker compose -f compose-AICA.yaml up fedpod-train1 fedpod-train2 && \
 docker compose -f compose-AICA.yaml down
 
 export ROUNDS=3 ROUND=1 
