@@ -36,7 +36,7 @@ spec:
           - name: model_pth
             value: "None"
         withItems:
-        - { inst: "3" }
+        - { inst: "4" }
 
       - name: run-aggregation-jobs-00
         template: aggregation-job
