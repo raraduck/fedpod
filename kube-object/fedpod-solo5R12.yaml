@@ -24,7 +24,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_train1.sh"
+            value: "run_train2.sh"
           - name: round
             value: "{{workflow.parameters.initial-round}}"
           - name: epochs
@@ -64,7 +64,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_train1.sh"
+            value: "run_train2.sh"
           - name: round
             value: "{{tasks.run-aggregation-jobs-00.outputs.parameters.next-round}}"
           - name: epochs
@@ -110,7 +110,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_train1.sh"
+            value: "run_train2.sh"
           - name: round
             value: "{{tasks.run-aggregation-jobs-01.outputs.parameters.next-round}}"
           - name: epochs
@@ -156,7 +156,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_train1.sh"
+            value: "run_train2.sh"
           - name: round
             value: "{{tasks.run-aggregation-jobs-02.outputs.parameters.next-round}}"
           - name: epochs
@@ -202,7 +202,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_train1.sh"
+            value: "run_train2.sh"
           - name: round
             value: "{{tasks.run-aggregation-jobs-03.outputs.parameters.next-round}}"
           - name: epochs
@@ -248,7 +248,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_train1.sh"
+            value: "run_train2.sh"
           - name: round
             value: "{{tasks.run-aggregation-jobs-04.outputs.parameters.next-round}}"
           - name: epochs
@@ -294,7 +294,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_train1.sh"
+            value: "run_train2.sh"
           - name: round
             value: "{{tasks.run-aggregation-jobs-05.outputs.parameters.next-round}}"
           - name: epochs
@@ -340,7 +340,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_train1.sh"
+            value: "run_train2.sh"
           - name: round
             value: "{{tasks.run-aggregation-jobs-06.outputs.parameters.next-round}}"
           - name: epochs
@@ -386,7 +386,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_train1.sh"
+            value: "run_train2.sh"
           - name: round
             value: "{{tasks.run-aggregation-jobs-07.outputs.parameters.next-round}}"
           - name: epochs
@@ -432,7 +432,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_train1.sh"
+            value: "run_train2.sh"
           - name: round
             value: "{{tasks.run-aggregation-jobs-08.outputs.parameters.next-round}}"
           - name: epochs
@@ -478,7 +478,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_train1.sh"
+            value: "run_train2.sh"
           - name: round
             value: "{{tasks.run-aggregation-jobs-09.outputs.parameters.next-round}}"
           - name: epochs
@@ -524,7 +524,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_train1.sh"
+            value: "run_train2.sh"
           - name: round
             value: "{{tasks.run-aggregation-jobs-10.outputs.parameters.next-round}}"
           - name: epochs
@@ -572,7 +572,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_infer1.sh"
+            value: "run_infer2.sh"
           - name: job-name
             value: "{{item.job-name}}"
           - name: rounds
