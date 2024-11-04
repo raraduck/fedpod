@@ -11,7 +11,7 @@ spec:
     - name: initial-round
       value: "00"
     - name: job-prefix
-      value: "fed"
+      value: "aff"
     - name: split_csv
       value: "cc359ppmi128/CC359PPMI128_fed-test.csv"
   templates:
