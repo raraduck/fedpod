@@ -273,7 +273,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.16.1
+      image: dwnusa/fedpod:v0.4.16.2
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args:
@@ -336,7 +336,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.16.1
+      image: dwnusa/fedpod:v0.4.16.2
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
@@ -350,6 +350,16 @@ spec:
           -i {{inputs.parameters.inst-id}} 
           -a {{inputs.parameters.algorithm}} 
           -M {{inputs.parameters.model_pth}}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: "kubernetes.io/hostname"
+                operator: "In"
+                values:
+                - node07
+                # - "{{ 'node03' if inputs.parameters.inst-id == '3' else '' }}"
       resources:
         requests:
           cpu: "2"
@@ -404,7 +414,7 @@ spec:
       - name: split_csv
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.16.1
+      image: dwnusa/fedpod:v0.4.16.2
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
