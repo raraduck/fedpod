@@ -56,29 +56,53 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
     # prev to json
     prev_pattern = os.path.join(curr_round_dir, 'models', '*_prev.pth') # but, _last.pth removes inst0 because inst0 never has _last.pth file on it
     prev_pth_path = natsort.natsorted(glob.glob(prev_pattern))
+    assert len(prev_pth_path) > 0, f"*_prev.pth does not exist"
     local_dict = {
         state['args'].job_name: {
-            'prev': state['pre_metrics'],
-            # 'prev_DSCL_AVG': state['pre_metrics']['DSCL_AVG'],
-            # 'prev_DICE_AVG': state['pre_metrics']['DICE_AVG'],
-            # 'prev_HD95_AVG': state['pre_metrics']['HD95_AVG']
+            'prev': state['pre_metrics']
         }
         for el in prev_pth_path for state in [torch.load(el)]
+    }
+    # DSCL_AVG 값을 저장할 리스트 초기화
+    avg_values = {'DSCL':[], 'DICE':[], 'HD95':[]}
+
+    # local_dict를 순회하며 DSCL_AVG 값 추출
+    for job_info in local_dict.values():
+        avg_values['DSCL'].append(job_info['prev']['DSCL_AVG'])
+        avg_values['DICE'].append(job_info['prev']['DICE_AVG'])
+        avg_values['HD95'].append(job_info['prev']['HD95_AVG'])
+
+    local_dict[f"{args.job_prefix}_{args.inst_id}"]['prev'] = {
+        'DSCL_AVG': sum(avg_values['DSCL']) / len(avg_values['DSCL']),
+        'DICE_AVG': sum(avg_values['DICE']) / len(avg_values['DICE']),
+        'HD95_AVG': sum(avg_values['HD95']) / len(avg_values['HD95'])
     }
 
     # last to json
     last_pattern = os.path.join(curr_round_dir, 'models', '*_last.pth') # but, _last.pth removes inst0 because inst0 never has _last.pth file on it
     last_pth_path = natsort.natsorted(glob.glob(last_pattern))
+    assert len(last_pth_path) > 0, f"*_last.pth does not exist"
 
     for el in last_pth_path:
         state = torch.load(el)
         job_name = state['args'].job_name
         local_dict[job_name].update({
-            'post': state['post_metrics'],
-            # 'post_DSCL_AVG': state['post_metrics']['DSCL_AVG'],
-            # 'post_DICE_AVG': state['post_metrics']['DICE_AVG'],
-            # 'post_HD95_AVG': state['post_metrics']['HD95_AVG']
+            'post': state['post_metrics']
         })
+    # DSCL_AVG 값을 저장할 리스트 초기화
+    avg_values = {'DSCL':[], 'DICE':[], 'HD95':[]}
+
+    # local_dict를 순회하며 DSCL_AVG 값 추출
+    for job_info in local_dict.values():
+        avg_values['DSCL'].append(job_info['post']['DSCL_AVG'])
+        avg_values['DICE'].append(job_info['post']['DICE_AVG'])
+        avg_values['HD95'].append(job_info['post']['HD95_AVG'])
+
+    local_dict[f"{args.job_prefix}_{args.inst_id}"]['post'] = {
+        'DSCL_AVG': sum(avg_values['DSCL']) / len(avg_values['DSCL']),
+        'DICE_AVG': sum(avg_values['DICE']) / len(avg_values['DICE']),
+        'HD95_AVG': sum(avg_values['HD95']) / len(avg_values['HD95'])
+    }
 
     fed_round_to_json(args, logger, local_dict, f'{args.job_prefix}.json')
     
