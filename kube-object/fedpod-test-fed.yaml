@@ -358,8 +358,7 @@ spec:
               - key: "kubernetes.io/hostname"
                 operator: "In"
                 values:
-                - "node01"
-                # - "{{ 'node03' if inputs.parameters.inst-id == '3' else '' }}"
+                - "node08"
       resources:
         requests:
           cpu: "2"
