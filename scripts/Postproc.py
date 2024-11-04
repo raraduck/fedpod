@@ -83,12 +83,48 @@ from torch.cuda.amp import GradScaler, autocast
 #             save_seg_nifti(label, name, 'preproc', 'labels',
 #                             affine, label_map, save_val_path)
 
+import json
 if __name__ == '__main__':
+    job_list = ['cen1R12_0', 'trf1R12_0', 'fed1R12_0', 'sol1R12_0', 'sol2R12_0', 'sol3R12_0', 'sol4R12_0', 'sol5R12_0', 'sol6R12_0']
     base_dir = os.path.join('/backup', 'fedpod', 'temp', 'v1', 'logs', )
-    json_pattern = os.path.join(base_dir, '*_0', '*.json')
-    json_path = glob.glob(json_pattern)
-    json_path_sorted = natsort.natsorted(json_path)
-    print(json_path_sorted)
+    # job_list = ['cen2R12_0', 'trf2R12_0', 'fed2R12_0', 'solo1R12_0', 'solo2R12_0', 'solo3R12_0', 'solo4R12_0', 'solo5R12_0', 'solo6R12_0']
+    # base_dir = os.path.join('/backup', 'fedpod', 'temp', 'v2', 'logs', )
+    # json_pattern = os.path.join(base_dir, job_list[0], '*.json')
+    # json_path = glob.glob(json_pattern)
+    # json_path_sorted = natsort.natsorted(json_path)
+
+    mean_by_job = {}
+    for job in job_list:
+        json_pattern = os.path.join(base_dir, job, '*.json')
+        json_path = glob.glob(json_pattern)
+        json_path_sorted = natsort.natsorted(json_path)
+        json_dict = {}
+        if os.path.exists(json_path_sorted[0]):
+            with open(json_path_sorted[0], 'r', encoding='utf-8') as file:
+                json_dict = json.load(file)
+
+        prev_mean_list = []
+        for rnd, v in json_dict.items():
+            # print(rnd, v.keys())
+            prev_dice_at_rnd = []
+            prev_mean = 0
+            for inst, prev_post in v.items():
+                # print(inst, prev_post.keys())
+                for when, metrics in prev_post.items():
+                    # print(rnd, inst, when, list(metrics.keys())[0])
+                    if when == 'prev':
+                        # print(f"{int(rnd):2d}, {inst}, {when}, DICE_AVG: {metrics['DICE_AVG']:5.3f}, DSCL_AVG: {metrics['DSCL_AVG']:5.3f}")
+                        prev_dice_at_rnd.append(metrics['DICE_AVG']) 
+            # print(prev_dice_at_rnd, sum(prev_dice_at_rnd)/len(prev_dice_at_rnd))
+            prev_mean = sum(prev_dice_at_rnd)/len(prev_dice_at_rnd)
+            # print(f"{job} mean: {prev_mean:5.3f}")
+            prev_mean_list.append(f"{prev_mean:.3f}")
+        mean_by_job[job] = prev_mean_list
+        print(f"{job}: {prev_mean_list}")
+
+    # print(json_path_sorted)
+    # for el in json_path_sorted:
+        # print(el)
 
     # job_dir = os.path.join(logs_dir, f"{args.job_prefix}_{args.inst_id}")
     # os.makedirs(job_dir, exist_ok=True)
