@@ -72,7 +72,7 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
         avg_values['DSCL'].append(job_info['prev']['DSCL_AVG'])
         avg_values['DICE'].append(job_info['prev']['DICE_AVG'])
         avg_values['HD95'].append(job_info['prev']['HD95_AVG'])
-        for k, v in job_info['prev']:
+        for k, v in job_info['prev'].items():
             mean_values[k].append(v)
 
     local_dict = {
@@ -108,7 +108,7 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
             avg_values['DSCL'].append(job_info['post']['DSCL_AVG'])
             avg_values['DICE'].append(job_info['post']['DICE_AVG'])
             avg_values['HD95'].append(job_info['post']['HD95_AVG'])
-            for k, v in job_info['post']:
+            for k, v in job_info['post'].items():
                 mean_values[k].append(v)
             
     if len(avg_values['DSCL']) > 0:
