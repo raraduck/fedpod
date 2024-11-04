@@ -64,14 +64,14 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
         for el in prev_pth_path for state in [torch.load(el)]
     }
     # DSCL_AVG 값을 저장할 리스트 초기화
-    avg_values = {'DSCL':[], 'DICE':[], 'HD95':[]}
+    # avg_values = {'DSCL':[], 'DICE':[], 'HD95':[]}
     mean_values = {k: [] for k, v in list(local_dict.values())[0]['prev'].items()} 
 
     # local_dict를 순회하며 DSCL_AVG 값 추출
     for job_info in local_dict.values():
-        avg_values['DSCL'].append(job_info['prev']['DSCL_AVG'])
-        avg_values['DICE'].append(job_info['prev']['DICE_AVG'])
-        avg_values['HD95'].append(job_info['prev']['HD95_AVG'])
+        # avg_values['DSCL'].append(job_info['prev']['DSCL_AVG'])
+        # avg_values['DICE'].append(job_info['prev']['DICE_AVG'])
+        # avg_values['HD95'].append(job_info['prev']['HD95_AVG'])
         for k, v in job_info['prev'].items():
             mean_values[k].append(v)
 
@@ -99,31 +99,31 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
             'post': state['post_metrics']
         })
     # DSCL_AVG 값을 저장할 리스트 초기화
-    avg_values = {'DSCL':[], 'DICE':[], 'HD95':[]}
+    # avg_values = {'DSCL':[], 'DICE':[], 'HD95':[]}
     mean_values = {k: [] for k, v in list(local_dict.values())[0]['post'].items()} 
 
     # local_dict를 순회하며 DSCL_AVG 값 추출
     for job_info in local_dict.values():
         if 'post' in job_info:
-            avg_values['DSCL'].append(job_info['post']['DSCL_AVG'])
-            avg_values['DICE'].append(job_info['post']['DICE_AVG'])
-            avg_values['HD95'].append(job_info['post']['HD95_AVG'])
+            # avg_values['DSCL'].append(job_info['post']['DSCL_AVG'])
+            # avg_values['DICE'].append(job_info['post']['DICE_AVG'])
+            # avg_values['HD95'].append(job_info['post']['HD95_AVG'])
             for k, v in job_info['post'].items():
                 mean_values[k].append(v)
             
-    if len(avg_values['DSCL']) > 0:
-        local_dict = {
-            **local_dict,
-            f"{args.job_prefix}_{args.inst_id}": {
-                **local_dict[f"{args.job_prefix}_{args.inst_id}"],
-                # 'post':{
-                #     'DSCL_AVG': sum(avg_values['DSCL']) / len(avg_values['DSCL']),
-                #     'DICE_AVG': sum(avg_values['DICE']) / len(avg_values['DICE']),
-                #     'HD95_AVG': sum(avg_values['HD95']) / len(avg_values['HD95'])
-                # },
-                'post':{k: sum(v)/len(v) for k, v in mean_values.items()} 
-            }
+    # if len(last_pth_path) > 0:
+    local_dict = {
+        **local_dict,
+        f"{args.job_prefix}_{args.inst_id}": {
+            **local_dict[f"{args.job_prefix}_{args.inst_id}"],
+            # 'post':{
+            #     'DSCL_AVG': sum(avg_values['DSCL']) / len(avg_values['DSCL']),
+            #     'DICE_AVG': sum(avg_values['DICE']) / len(avg_values['DICE']),
+            #     'HD95_AVG': sum(avg_values['HD95']) / len(avg_values['HD95'])
+            # },
+            'post':{k: sum(v)/len(v) for k, v in mean_values.items()} 
         }
+    }
         # local_dict[f"{args.job_prefix}_{args.inst_id}"] = {
         #     'post':{
         #         'DSCL_AVG': sum(avg_values['DSCL']) / len(avg_values['DSCL']),

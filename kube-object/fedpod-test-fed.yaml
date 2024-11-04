@@ -337,6 +337,15 @@ spec:
       - name: model_pth
     container:
       image: dwnusa/fedpod:v0.4.16.2
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: "kubernetes.io/hostname"
+                operator: "In"
+                values:
+                - "node08"
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
@@ -350,15 +359,6 @@ spec:
           -i {{inputs.parameters.inst-id}} 
           -a {{inputs.parameters.algorithm}} 
           -M {{inputs.parameters.model_pth}}
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: "kubernetes.io/hostname"
-                operator: "In"
-                values:
-                - "node08"
       resources:
         requests:
           cpu: "2"
