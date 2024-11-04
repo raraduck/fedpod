@@ -96,17 +96,19 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
 
     # local_dict를 순회하며 DSCL_AVG 값 추출
     for job_info in local_dict.values():
-        avg_values['DSCL'].append(job_info['post']['DSCL_AVG'])
-        avg_values['DICE'].append(job_info['post']['DICE_AVG'])
-        avg_values['HD95'].append(job_info['post']['HD95_AVG'])
-
-    local_dict[f"{args.job_prefix}_{args.inst_id}"] = {
-        'post':{
-            'DSCL_AVG': sum(avg_values['DSCL']) / len(avg_values['DSCL']),
-            'DICE_AVG': sum(avg_values['DICE']) / len(avg_values['DICE']),
-            'HD95_AVG': sum(avg_values['HD95']) / len(avg_values['HD95'])
+        if 'post' in job_info:
+            avg_values['DSCL'].append(job_info['post']['DSCL_AVG'])
+            avg_values['DICE'].append(job_info['post']['DICE_AVG'])
+            avg_values['HD95'].append(job_info['post']['HD95_AVG'])
+            
+    if len(avg_values['DSCL']) > 0:
+        local_dict[f"{args.job_prefix}_{args.inst_id}"] = {
+            'post':{
+                'DSCL_AVG': sum(avg_values['DSCL']) / len(avg_values['DSCL']),
+                'DICE_AVG': sum(avg_values['DICE']) / len(avg_values['DICE']),
+                'HD95_AVG': sum(avg_values['HD95']) / len(avg_values['HD95'])
+            }
         }
-    }
 
     fed_round_to_json(args, logger, local_dict, f'{args.job_prefix}.json')
     
