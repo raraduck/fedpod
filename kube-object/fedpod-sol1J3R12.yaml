@@ -11,9 +11,9 @@ spec:
     - name: initial-round
       value: "00"
     - name: job-prefix
-      value: "solo1R12"
+      value: "sol1J3R12"
     - name: split_csv
-      value: "cc359ppmi128/CC359PPMI_solo1R12.csv"
+      value: "cc359ppmi128/CC359PPMI_sol1J3R12.csv"
   templates:
   - name: parallel-dag
     dag:
@@ -24,11 +24,11 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_train2.sh"
+            value: "run_train1.sh"
           - name: round
             value: "{{workflow.parameters.initial-round}}"
           - name: epochs
-            value: "001"
+            value: "002"
           - name: epoch
             value: "000"
           - name: inst-id
@@ -36,7 +36,7 @@ spec:
           - name: model_pth
             value: "None"
         withItems:
-        - { inst: "1" }
+        - { inst: "3" }
 
       - name: run-aggregation-jobs-00
         template: aggregation-job
@@ -47,7 +47,7 @@ spec:
           - name: round
             value: "{{workflow.parameters.initial-round}}"
           - name: epochs
-            value: "001"
+            value: "002"
           - name: epoch
             value: "000"
           - name: inst-id
@@ -64,7 +64,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_train2.sh"
+            value: "run_train1.sh"
           - name: round
             value: "{{tasks.run-aggregation-jobs-00.outputs.parameters.next-round}}"
           - name: epochs
@@ -110,7 +110,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_train2.sh"
+            value: "run_train1.sh"
           - name: round
             value: "{{tasks.run-aggregation-jobs-01.outputs.parameters.next-round}}"
           - name: epochs
@@ -156,7 +156,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_train2.sh"
+            value: "run_train1.sh"
           - name: round
             value: "{{tasks.run-aggregation-jobs-02.outputs.parameters.next-round}}"
           - name: epochs
@@ -202,7 +202,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_train2.sh"
+            value: "run_train1.sh"
           - name: round
             value: "{{tasks.run-aggregation-jobs-03.outputs.parameters.next-round}}"
           - name: epochs
@@ -248,7 +248,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_train2.sh"
+            value: "run_train1.sh"
           - name: round
             value: "{{tasks.run-aggregation-jobs-04.outputs.parameters.next-round}}"
           - name: epochs
@@ -294,7 +294,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_train2.sh"
+            value: "run_train1.sh"
           - name: round
             value: "{{tasks.run-aggregation-jobs-05.outputs.parameters.next-round}}"
           - name: epochs
@@ -340,7 +340,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_train2.sh"
+            value: "run_train1.sh"
           - name: round
             value: "{{tasks.run-aggregation-jobs-06.outputs.parameters.next-round}}"
           - name: epochs
@@ -386,7 +386,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_train2.sh"
+            value: "run_train1.sh"
           - name: round
             value: "{{tasks.run-aggregation-jobs-07.outputs.parameters.next-round}}"
           - name: epochs
@@ -432,7 +432,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_train2.sh"
+            value: "run_train1.sh"
           - name: round
             value: "{{tasks.run-aggregation-jobs-08.outputs.parameters.next-round}}"
           - name: epochs
@@ -478,11 +478,11 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_train2.sh"
+            value: "run_train1.sh"
           - name: round
             value: "{{tasks.run-aggregation-jobs-09.outputs.parameters.next-round}}"
           - name: epochs
-            value: "002"
+            value: "001"
           - name: epoch
             value: "{{tasks.run-aggregation-jobs-09.outputs.parameters.next-epoch}}"
           - name: inst-id
@@ -507,7 +507,7 @@ spec:
           - name: round
             value: "{{tasks.run-aggregation-jobs-09.outputs.parameters.next-round}}"
           - name: epochs
-            value: "002"
+            value: "001"
           - name: epoch
             value: "{{tasks.run-aggregation-jobs-09.outputs.parameters.next-epoch}}"
           - name: inst-id
@@ -524,7 +524,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_train2.sh"
+            value: "run_train1.sh"
           - name: round
             value: "{{tasks.run-aggregation-jobs-10.outputs.parameters.next-round}}"
           - name: epochs
@@ -572,7 +572,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_infer2.sh"
+            value: "run_infer1.sh"
           - name: job-name
             value: "{{item.job-name}}"
           - name: rounds
@@ -588,7 +588,7 @@ spec:
           - name: model_pth
             value: "{{item.model_pth}}"
         withItems:
-        - { job-name: "solo1R12_test", rounds: "12", round: "12", epoch: "022", inst: "0", split_csv: "cc359ppmi128/CC359PPMI_solo1R12.csv", model_pth: "/fedpod/states/solo1R12_0/R12r12/models/R12r12_agg.pth"}
+        - { job-name: "sol1J3R12_test", rounds: "12", round: "12", epoch: "022", inst: "0", split_csv: "cc359ppmi128/CC359PPMI_sol1J3R12.csv", model_pth: "/fedpod/states/sol1J3R12_0/R12r12/models/R12r12_agg.pth"}
         dependencies: [run-aggregation-jobs-11]
 
   - name: train-job
@@ -601,7 +601,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.16.0
+      image: dwnusa/fedpod:v0.4.16.1
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args:
@@ -664,7 +664,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.16.0
+      image: dwnusa/fedpod:v0.4.16.1
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
@@ -732,7 +732,7 @@ spec:
       - name: split_csv
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.16.0
+      image: dwnusa/fedpod:v0.4.16.1
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
