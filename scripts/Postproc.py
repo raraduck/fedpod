@@ -84,7 +84,7 @@ from torch.cuda.amp import GradScaler, autocast
 #                             affine, label_map, save_val_path)
 
 if __name__ == '__main__':
-    base_dir = os.path.join('/home2', 'dwnusa', 'node00', 'backup', '20241104-v1', 'logs', )
+    base_dir = os.path.join('/backup', 'fedpod', 'temp', 'v1', 'logs', )
     json_pattern = os.path.join(base_dir, '*', '*.json')
     json_path = glob.glob(json_pattern)
     json_path_sorted = natsort.natsorted(json_path)
