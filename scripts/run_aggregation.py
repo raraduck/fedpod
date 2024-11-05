@@ -100,7 +100,7 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
         })
     # DSCL_AVG 값을 저장할 리스트 초기화
     # avg_values = {'DSCL':[], 'DICE':[], 'HD95':[]}
-    mean_values = {k: [] for k, v in list(local_dict.values())[0]['post'].items()} 
+    mean_values = {k: [] for k, v in list(local_dict.values())[0]['prev'].items()} 
 
     # local_dict를 순회하며 DSCL_AVG 값 추출
     for job_info in local_dict.values():
