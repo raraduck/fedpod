@@ -17,7 +17,7 @@ def cdsc(output: Tensor, target: Tensor) -> np.ndarray:
 def pvdc(output: Tensor, target: Tensor, eps: float = 1e-5) -> np.ndarray:
     """calculate multilabel batch dice"""
     target = target.float()
-    num = 2 * abs(output - target).sum(dim=(2, 3, 4)) + eps
+    num = 2 * (output != target).sum(dim=(2, 3, 4)) + eps
     den = output.sum(dim=(2, 3, 4)) + target.sum(dim=(2, 3, 4)) + eps
     pvd = num / den
 
