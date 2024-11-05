@@ -90,7 +90,7 @@ spec:
           -e {{inputs.parameters.epoch}}
           -c {{inputs.parameters.split_csv}}
           -M {{inputs.parameters.model_pth}}
-          -t test
+          -t val
       resources:
         requests:
           cpu: "2"
