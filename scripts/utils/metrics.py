@@ -14,6 +14,15 @@ def cdsc(output: Tensor, target: Tensor) -> np.ndarray:
     rmse = torch.sqrt(mse)/sum  # 각 샘플에 대한 RMSE 계산
     return rmse.cpu().numpy()  # 결과를 CPU로 이동시킨 후 NumPy 배열로 변환
 
+def pvdc(output: Tensor, target: Tensor, eps: float = 1e-5) -> np.ndarray:
+    """calculate multilabel batch dice"""
+    target = target.float()
+    num = 2 * abs(output - target).sum(dim=(2, 3, 4)) + eps
+    den = output.sum(dim=(2, 3, 4)) + target.sum(dim=(2, 3, 4)) + eps
+    pvd = num / den
+
+    return pvd.cpu().numpy()
+
 def dice(output: Tensor, target: Tensor, eps: float = 1e-5) -> np.ndarray:
     """calculate multilabel batch dice"""
     target = target.float()

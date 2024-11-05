@@ -325,8 +325,9 @@ class Unet3DApp:
                 dsc_loss_by_channels_np = dsc_loss_by_channels.cpu().numpy()
                 dice = metrics.dice(seg_map_th, label)
                 hd95 = metrics.hd95(seg_map_th, label)
+                pvdc = metrics.pvdc(seg_map_th, label)
                 batch_time.update(time.time() - end)
-                case_metrics_meter.update(dsc_loss_by_channels_np, dice, hd95, name, bsz)
+                case_metrics_meter.update(dsc_loss_by_channels_np, dice, hd95, pvdc, name, bsz)
                 end = time.time()
 
                 for bat_idx, (bat_dice, bat_hd95) in enumerate(zip(dice,hd95)):
@@ -367,6 +368,7 @@ class Unet3DApp:
             'DSCL_AVG': np.mean([v for k, v in case_metrics_meter.mean().items() if 'DSCL' in k]),
             'DICE_AVG': np.mean([v for k, v in case_metrics_meter.mean().items() if 'DICE' in k]),
             'HD95_AVG': np.mean([v for k, v in case_metrics_meter.mean().items() if 'HD95' in k]),
+            'PVDC_AVG': np.mean([v for k, v in case_metrics_meter.mean().items() if 'PVDC' in k]),
             **case_metrics_meter.mean(),
         }
 

@@ -201,21 +201,21 @@ class CaseSegMetricsMeter(object):
             *[f'DSCL_{el}' for el in label_names],
             *[f'DICE_{el}' for el in label_names],
             *[f'HD95_{el}' for el in label_names],
+            *[f'PVDC_{el}' for el in label_names],
         ]
         self.reset()
 
     def reset(self):
         self.cases = pd.DataFrame(columns=self.cols)
 
-    def update(self, dscloss, dice, hd95, names, bsz):
+    def update(self, dscloss, dice, hd95, pdvc, names, bsz):
         ch_size = dice.shape[1]
         for i in range(bsz):
             self.cases.loc[names[i]] = [
                 *[dscloss[i, idx] for idx in range(ch_size)],
                 *[dice[i, idx] for idx in range(ch_size)],
                 *[hd95[i, idx] for idx in range(ch_size)],
-                # dice[i, 1], dice[i, 0], dice[i, 2],
-                # hd95[i, 1], hd95[i, 0], hd95[i, 2],
+                *[pdvc[i, idx] for idx in range(ch_size)],
             ]
 
     def mean(self):
