@@ -26,7 +26,7 @@ parser.add_argument('--weight_path', type=str, required=True,
 
 
 def fed_round_to_json(args, logger, local_dict, filename):
-    logs_dir = os.path.join('/', 'fedpod', 'logs')
+    logs_dir = os.path.join('/', 'fedpod', 'states')
     job_dir = os.path.join(logs_dir, f"{args.job_prefix}_{args.inst_id}")
     os.makedirs(job_dir, exist_ok=True)
 
