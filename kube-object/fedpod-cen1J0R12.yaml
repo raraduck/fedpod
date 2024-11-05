@@ -601,7 +601,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.16.2
+      image: dwnusa/fedpod:v0.4.16.3
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args:
@@ -664,7 +664,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.16.2
+      image: dwnusa/fedpod:v0.4.16.3
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
@@ -732,7 +732,7 @@ spec:
       - name: split_csv
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.16.2
+      image: dwnusa/fedpod:v0.4.16.3
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
