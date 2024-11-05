@@ -26,7 +26,7 @@ parser.add_argument('--weight_path', type=str, required=True,
 
 
 def fed_round_to_json(args, logger, local_dict, filename):
-    logs_dir = os.path.join('/','fedpod','logs')
+    logs_dir = os.path.join('/', 'fedpod', 'logs')
     job_dir = os.path.join(logs_dir, f"{args.job_prefix}_{args.inst_id}")
     os.makedirs(job_dir, exist_ok=True)
 
@@ -188,7 +188,7 @@ def init_processing(args, base_dir, curr_round, logger):
 
 def main(args):
     log_filename = f"{args.job_prefix}_R{args.rounds:02}r{args.round:02}.log"
-    logger = initialization_logger(args, log_filename)
+    logger = initialization_logger(args, args.job_prefix, log_filename)
     logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] aggregation algorithm is {args.algorithm.upper()}...")
 
     curr_round = args.round
