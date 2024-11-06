@@ -13,7 +13,7 @@ data_root="cc359ppmi128"
 inst_root="inst_*"
 
 # 명령줄 옵션 처리
-while getopts s:g:J:R:r:e:i:c:M:t:d:n option
+while getopts s:g:J:R:r:e:i:c:M:t:d:n: option
 do
     case "${option}"
     in
