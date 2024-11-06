@@ -538,7 +538,7 @@ class Unet3DApp:
         torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}_last.pth"))
         return
 
-    def forward(self, inst_root, model: nn.Module, infer_loader, mode: str, save_infer: bool = True):
+    def forward(self, inst_root, model: nn.Module, test_loader, mode: str, save_infer: bool = True):
         model.eval()
         seg_names = self.cli_args.label_names
 
@@ -546,7 +546,7 @@ class Unet3DApp:
         os.makedirs(save_val_path, exist_ok=True)
 
         with torch.no_grad():
-            for i, (image, label, _, name, affine, label_names) in enumerate(infer_loader):
+            for i, (image, label, _, name, affine, label_names) in enumerate(test_loader):
                 # label_name = [el[0] for el in label_names]
                 if self.cli_args.use_gpu:
                     image, label = image.float().cuda(), label.float().cuda()
@@ -574,7 +574,7 @@ class Unet3DApp:
 
                 # output seg map
                 if save_infer:
-                    modality = self.cli_args.input_channel_names
+                    modality = [self.cli_args.input_channel_names[0]]
                     scale = 255
                     label_map = self.cli_args.label_index
                     img_name = self.cli_args.img_name
