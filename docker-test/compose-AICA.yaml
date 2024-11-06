@@ -83,7 +83,9 @@ services:
       -e 0
       -c experiments/CC359PPMI128_fed-test.csv
       -M ${MODEL} 
-      -t test"
+      -t test
+      -d cc359ppmi128
+      -n inst_*"
     stdin_open: true  # equivalent to Kubernetes 'stdin: true'
     tty: true  # equivalent to Kubernetes 'tty: true'
     volumes:
