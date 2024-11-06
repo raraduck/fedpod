@@ -63,7 +63,7 @@ def load_subjects_list(rounds: int, round: int, split_path: str, inst_ids: list,
         raise NotImplementedError(f"[MODE:{mode}] is not implemented on load_inst_cases()")
 
 
-def save_img_nifti(image: Tensor, scale:int, names: list, mode: str, postfix:str, affine_src: str, modality: list, save_epoch_path: str, plist: list):
+def save_img_nifti(image: Tensor, scale:int, fname: str, affine_src: str, modality: list, save_epoch_path: str, plist: list):
     """
     Output val img in every iteration to save VRAM
     """
@@ -91,11 +91,11 @@ def save_img_nifti(image: Tensor, scale:int, names: list, mode: str, postfix:str
 
             nib.save(
                 nib.Nifti1Image(image_modality, affine_src[b]),
-                join(save_epoch_seg_path, names[b] + f'_{postfix}_{el_modality}.nii.gz')
+                join(save_epoch_seg_path, f'{fname[b]}.nii.gz')
             )
 
 
-def save_seg_nifti(seg_map: Tensor, names: list, mode: str, postfix:str, affine_src: str, label_map: list, save_epoch_path: str, plist: list):
+def save_seg_nifti(seg_map: Tensor, fname: str, affine_src: str, label_map: list, save_epoch_path: str, plist: list):
     """
     Output val seg map in every iteration to save VRAM
     """
@@ -121,7 +121,7 @@ def save_seg_nifti(seg_map: Tensor, names: list, mode: str, postfix:str, affine_
 
         nib.save(
             nib.Nifti1Image(seg_img, affine_src[b]),
-            join(save_epoch_seg_path, f'{postfix}_{names[b]}.nii.gz')
+            join(save_epoch_seg_path, f'{fname[b]}.nii.gz')
         )
 
 

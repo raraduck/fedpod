@@ -345,35 +345,30 @@ class Unet3DApp:
                 # output seg map
                 if save_infer: # and (round == 0):
                     # rounds == 1 인 경우는 대부분 없음 (infer 의 경우에 한함)
-                    if self.cli_args.rounds == 1:
+                    if mode == 'test':
                         modality = self.cli_args.input_channel_names
                         scale = 255
                         # 여기서 최상위 폴더 하나로 잡고, 하위에 pid폴더를 생성하여 
                         # 그 pid폴더 내부에 각각 brain.nii.gz, striatum_orig.nii.gz
                         # 생성하면 됩니다.
-                        save_img_nifti(image, scale, name, mode[:4], 'tmp',
-                                       affine, modality, save_val_path, name)
                         label_map = self.cli_args.label_index
-                        save_seg_nifti(seg_map_th, name, mode[:4], 'tmp',
-                                    affine, label_map, save_val_path, name)
-                        
-                    if (curr_epoch == 0) and (mode in ['pre', 'test']):
-                        modality = self.cli_args.input_channel_names
-                        scale = 255
-                        save_img_nifti(image, scale, name, mode[:4], 'img',
-                                       affine, modality, save_val_path, [f"{mode[:4]}_img"]*len(name))
+                        save_img_nifti(image, scale,         ['brain']*len(name), affine, modality,    save_val_path, name)
+                        save_seg_nifti(seg_map_th,   ['striatum_orig']*len(name), affine, label_map,   save_val_path, name)
+                    else:
+                        if (curr_epoch == 0):
+                            modality = self.cli_args.input_channel_names
+                            scale = 255
+                            label_map = self.cli_args.label_index
+                            save_img_nifti(image, scale, name, affine, modality,   save_val_path, [f"{mode[:4]}_img"]*len(name))
+                            save_seg_nifti(label,        name, affine, label_map,  save_val_path, [f"{mode[:4]}_lbl"]*len(name))
+                        scale = 100
                         label_map = self.cli_args.label_index
-                        save_seg_nifti(label, name, mode[:4], 'labels',
-                                       affine, label_map, save_val_path, [f"{mode[:4]}_labels"]*len(name))
-
+                        save_img_nifti(seg_map, scale, name, affine, label_name, save_val_path, [f"{mode[:4]}_prb"]*len(name))
+                        save_seg_nifti(seg_map_th,     name, affine, label_map,  save_val_path, [f"{mode[:4]}_prd"]*len(name))
+                    # else:
+                    #     raise f"mode must be test or pre"
                     # if (i % 10 == 0):
                     # seg_labels = label_names
-                    scale = 100
-                    save_img_nifti(seg_map, scale, name, mode[:4], 'prob',
-                                affine, label_name, save_val_path, [f"{mode[:4]}_prob"]*len(name))
-                    label_map = self.cli_args.label_index
-                    save_seg_nifti(seg_map_th, name, mode[:4], 'pred',
-                                affine, label_map, save_val_path, [f"{mode[:4]}_pred"]*len(name))
                                 
         # output case metric csv
         # save_epoch_path = os.path.join(save_val_path, 'case_metric.csv')
