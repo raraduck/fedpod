@@ -344,7 +344,16 @@ class Unet3DApp:
 
                 # output seg map
                 if save_infer: # and (round == 0):
-                    if (curr_epoch <= 1) and (mode in ['pre', 'test']):
+                    if self.cli_args.rounds == 1:
+                        modality = self.cli_args.input_channel_names
+                        scale = 255
+                        save_img_nifti(image, scale, name, mode[:4], 'img',
+                                       affine, modality, save_val_path)
+                        label_map = self.cli_args.label_index
+                        save_seg_nifti(seg_map_th, name, mode[:4], 'img',
+                                    affine, label_map, save_val_path)
+                        
+                    if (curr_epoch == 0) and (mode in ['pre', 'test']):
                         modality = self.cli_args.input_channel_names
                         scale = 255
                         save_img_nifti(image, scale, name, mode[:4], 'img',
