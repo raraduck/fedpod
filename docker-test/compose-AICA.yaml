@@ -73,7 +73,7 @@ services:
     image: dwnusa/fedpod:v0.4.17-test
     container_name: fedpod-infer
     command: >
-      /bin/bash -c "/fedpod/run_infer1.sh 
+      /bin/bash -c "/fedpod/run_forward1.sh 
       -s 1
       -g 0
       -J ${JOBNAME}
