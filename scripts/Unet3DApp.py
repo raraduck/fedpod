@@ -138,6 +138,24 @@ class Unet3DApp:
             pin_memory=self.use_cuda)
         return infer_dataset, infer_loader
 
+    # def initTestDl(self, case_names:list, mode:str):
+    #     base_transform  = get_base_transform(self.cli_args)
+    #     aug_transform = [transforms.EnsureTyped(keys=["image", 'label'])]
+    #     infer_transform = transforms.Compose(base_transform + aug_transform)
+    #     infer_dataset = get_dataset(self.cli_args, case_names, infer_transform, 
+    #                                 mode=mode, 
+    #                                 label_names=self.cli_args.label_names,
+    #                                 custom_min_len=1,
+    #                                 custom_max_len=self.cli_args.max_dlen)
+    #     infer_loader = DataLoader(
+    #         infer_dataset,
+    #         batch_size=self.cli_args.multi_batch_size,
+    #         shuffle=False,
+    #         drop_last=False,
+    #         num_workers=self.cli_args.num_workers,
+    #         pin_memory=self.use_cuda)
+    #     return infer_dataset, infer_loader
+
     def initializer(self, subjects_dict, mode='train'):
         if mode in ['train', 'TRN']:
             self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode.upper()}] Processing with train_loader and val_loader...")
@@ -165,7 +183,23 @@ class Unet3DApp:
                 'loss_fn': loss_fn,
                 'scaler': scaler,
             }
-        elif mode in ['val', 'test']:
+        elif mode in ['val']:
+            self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode.upper()}] Processing with infer_loader...")
+            infer_cases = natsort.natsorted(subjects_dict['infer'])
+            infer_dataset, infer_loader = self.initValDl(infer_cases, mode)
+
+            self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode.upper()}] Processing with model...")
+            model, _ = self.initModel(self.cli_args.weight_path, mode=mode.upper())
+            model = self.setup_gpu(model, mode=mode.upper())
+            loss_fn = SoftDiceBCEWithLogitsLoss(channel_weights=None).to(self.device)
+
+            return {
+                'infer_dataset': infer_dataset,
+                'infer_loader': infer_loader,
+                'model': model,
+                'loss_fn': loss_fn,
+            }
+        elif mode in ['test']:
             self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode.upper()}] Processing with infer_loader...")
             infer_cases = natsort.natsorted(subjects_dict['infer'])
             infer_dataset, infer_loader = self.initValDl(infer_cases, mode)
