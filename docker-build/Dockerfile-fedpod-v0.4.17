@@ -1,0 +1,33 @@
+# Base stage for obtaining dependencies and building any necessary components
+FROM ubuntu:20.04 as builder
+
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python packages
+# RUN pip3 install --no-cache-dir SimpleITK==2.2.1 medpy matplotlib natsort nibabel numpy pandas pillow tensorboard torch tqdm torchsummary monai
+RUN pip3 install --no-cache-dir SimpleITK==2.2.1 medpy matplotlib natsort nibabel numpy pandas pillow tensorboard torch==1.13.1+cpu torchvision==0.14.1+cpu -f https://download.pytorch.org/whl/torch_stable.html monai
+
+# Final stage: copy only the necessary artifacts from the builder stage
+FROM ubuntu:20.04
+COPY --from=builder /usr/local /usr/local
+COPY --from=builder /usr/bin /usr/bin
+COPY --from=builder /usr/lib /usr/lib
+
+WORKDIR /fedpod
+COPY ./scripts /fedpod/scripts
+COPY ./run_train1.sh /fedpod
+COPY ./run_train2.sh /fedpod
+COPY ./run_forward1.sh /fedpod
+COPY ./run_forward2.sh /fedpod
+COPY ./run_aggregation.sh /fedpod
+
+RUN chmod +x /fedpod/run_train1.sh
+RUN chmod +x /fedpod/run_train2.sh
+RUN chmod +x /fedpod/run_forward1.sh
+RUN chmod +x /fedpod/run_forward2.sh
+RUN chmod +x /fedpod/run_aggregation.sh
+
+CMD ["python3", "--version"]

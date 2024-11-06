@@ -538,8 +538,69 @@ class Unet3DApp:
         torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}_last.pth"))
         return
 
-    def run_infer(self, test_mode='test'):
-        time_in_total = time.time()
+    def forward(self, curr_epoch, model: nn.Module, 
+                infer_loader, loss_fn, 
+                mode: str, save_infer: bool = True):
+        model.eval()
+        seg_names = self.cli_args.label_names
+        # batch_time = AverageMeter('Time', ':6.3f')
+        # case_metrics_meter = CaseSegMetricsMeter(seg_names)
+
+        save_val_path = os.path.join("states", self.job_name, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", f"E{curr_epoch:03}")
+        os.makedirs(save_val_path, exist_ok=True)
+        # folder_lv3 = f"{mode}_epoch_{epoch:03d}"
+        # save_epoch_path = os.path.join("states", folder_dir1, folder_dir2, folder_dir3)
+        # if not os.path.exists(save_epoch_path):
+        #     os.makedirs(save_epoch_path, exist_ok=True)
+
+        # end = time.time()
+        with torch.no_grad():
+            for i, (image, label, _, name, affine, label_names) in enumerate(infer_loader):
+                # if i % 10 != 0:
+                #     continue
+                label_name = [el[0] for el in label_names]
+                if self.cli_args.use_gpu:
+                    image, label = image.float().cuda(), label.float().cuda()
+                else:
+                    image, label = image.float(), label.float()
+                # bsz = image.size(0)
+
+                # get seg map
+                seg_map = sliding_window_inference(
+                    inputs=image,
+                    predictor=model,
+                    roi_size=self.cli_args.patch_size,
+                    sw_batch_size=self.cli_args.sw_batch_size,
+                    overlap=self.cli_args.patch_overlap,
+                    mode=self.cli_args.sliding_window_mode
+                )
+
+                if self.cli_args.unet_arch == 'unet':
+                    seg_map = robust_sigmoid(seg_map)
+                else:
+                    msg = f"currently model is {self.cli_args.unet_arch}.\n If the model is not unet, it is necessary to check the value range of seg_map before applying any thresholding."
+                    self.logger.error(msg)
+                    raise NotImplementedError(msg)
+
+                # discrete
+                seg_map_th = torch.where(seg_map > 0.5, True, False)
+
+                # output seg map
+                if save_infer:
+                    modality = self.cli_args.input_channel_names
+                    scale = 255
+                    label_map = self.cli_args.label_index
+                    img_name = self.cli_args.img_name
+                    seg_name = self.cli_args.seg_name
+                    save_img_nifti(image, scale, [img_name]*len(name), affine, modality,    save_val_path, name)
+                    save_seg_nifti(seg_map_th,   [seg_name]*len(name), affine, label_map,   save_val_path, name)
+                                
+        # output case metric csv
+        # save_epoch_path = os.path.join(save_val_path, 'case_metric.csv')
+        # case_metrics_meter.output(save_val_path)
+        return
+
+    def run_forward(self, test_mode='test'):
         infer_dict = load_subjects_list(
             self.cli_args.rounds, 
             self.cli_args.round, 
@@ -548,20 +609,10 @@ class Unet3DApp:
             TrainOrVal=[test_mode], 
             mode=test_mode
         )
-
         assert self.cli_args.weight_path is not None, f"run_infer must have weight_path for model to infer."
-        # _, self.cli_args.weight_path = self.initModel(self.cli_args.weight_path)
-
         infer_setup = self.initializer(infer_dict, mode=test_mode)
-
-        # val_epoch = self.cli_args.epochs * (self.cli_args.round)
         val_epoch = self.cli_args.epoch
-        # to_epoch    = self.cli_args.epoch + self.cli_args.epochs
-
-        # from_epoch = self.cli_args.epochs * (self.cli_args.round)
-        # to_epoch = self.cli_args.epochs * (self.cli_args.round + 1)
-        # Validation
-        infer_metrics = self.infer(
+        self.forward(
             val_epoch, 
             infer_setup['model'], 
             infer_setup['infer_loader'], 
@@ -569,13 +620,4 @@ class Unet3DApp:
             mode=test_mode,
             save_infer=self.cli_args.save_infer
         )
-
-        # state = {
-        #     'args': self.cli_args,
-        #     f'{infer_mode}_metrics': infer_metrics,
-        #     'time': time.time() - time_in_total,
-        # }
-        # save_model_path = os.path.join("states", self.job_name, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", "models")
-        # os.makedirs(save_model_path, exist_ok=True)
-        # torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}.pth"))
         return

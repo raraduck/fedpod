@@ -41,7 +41,7 @@ if [ -z "$save_infer" ] || [ -z "$use_gpu" ] || [ -z "$job_name" ] ||  [ -z "$ro
 fi
 
 
-python3 scripts/run_infer.py \
+python3 scripts/run_forward.py \
 	--test_mode $test_mode \
 	--save_infer $save_infer \
     --use_gpu $use_gpu \

@@ -12,7 +12,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_infer1.sh"
+            value: "run_forward1.sh"
           - name: job-name
             value: "{{item.job-name}}"
           - name: rounds
@@ -44,7 +44,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_infer2.sh"
+            value: "run_forward2.sh"
           - name: job-name
             value: "{{item.job-name}}"
           - name: rounds
