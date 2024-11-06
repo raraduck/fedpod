@@ -352,8 +352,10 @@ class Unet3DApp:
                         # 그 pid폴더 내부에 각각 brain.nii.gz, striatum_orig.nii.gz
                         # 생성하면 됩니다.
                         label_map = self.cli_args.label_index
-                        save_img_nifti(image, scale,         ['brain']*len(name), affine, modality,    save_val_path, name)
-                        save_seg_nifti(seg_map_th,   ['striatum_orig']*len(name), affine, label_map,   save_val_path, name)
+                        img_name = self.cli_args.img_name
+                        seg_name = self.cli_args.seg_name
+                        save_img_nifti(image, scale, [img_name]*len(name), affine, modality,    save_val_path, name)
+                        save_seg_nifti(seg_map_th,   [seg_name]*len(name), affine, label_map,   save_val_path, name)
                     else:
                         if (curr_epoch == 0):
                             modality = self.cli_args.input_channel_names

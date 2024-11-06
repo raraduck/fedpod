@@ -51,6 +51,8 @@ python3 scripts/run_infer.py \
 	--dataset CC359PPMI \
 	--data_root cc359ppmi128 \
 	--inst_root inst_* \
+	--img_name brain \
+	--seg_name striatum_orig \
 	\
 	--cases_split $split_csv \
 	--inst_ids [$inst_id] \
