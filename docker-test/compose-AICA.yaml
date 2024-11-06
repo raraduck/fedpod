@@ -1,7 +1,7 @@
 version: '3'
 services:
   fedpod-train1:
-    image: dwnusa/fedpod:v0.4.16.0-test-cuda
+    image: dwnusa/fedpod:v0.4.17-test-cuda
     container_name: fedpod-train1
     command: >
       /bin/bash -c "/fedpod/run_train1.sh 
