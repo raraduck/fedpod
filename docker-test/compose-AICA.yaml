@@ -85,7 +85,7 @@ services:
       -M ${MODEL} 
       -t test
       -d cc359ppmi128
-      -n inst_*"
+      -n inst_00"
     stdin_open: true  # equivalent to Kubernetes 'stdin: true'
     tty: true  # equivalent to Kubernetes 'tty: true'
     volumes:
