@@ -201,19 +201,19 @@ class Unet3DApp:
             }
         elif mode in ['test']:
             self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode.upper()}] Processing with infer_loader...")
-            infer_cases = natsort.natsorted(subjects_dict['infer'])
-            infer_dataset, infer_loader = self.initValDl(infer_cases, mode)
+            test_cases = natsort.natsorted(subjects_dict['infer'])
+            test_dataset, test_loader = self.initValDl(test_cases, mode)
 
             self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode.upper()}] Processing with model...")
             model, _ = self.initModel(self.cli_args.weight_path, mode=mode.upper())
             model = self.setup_gpu(model, mode=mode.upper())
-            loss_fn = SoftDiceBCEWithLogitsLoss(channel_weights=None).to(self.device)
+            # loss_fn = SoftDiceBCEWithLogitsLoss(channel_weights=None).to(self.device)
 
             return {
-                'infer_dataset': infer_dataset,
-                'infer_loader': infer_loader,
+                'test_dataset': test_dataset,
+                'test_loader': test_loader,
                 'model': model,
-                'loss_fn': loss_fn,
+                # 'loss_fn': loss_fn,
             }
         else:
             raise NotImplementedError(f"[{self.cli_args.job_name.upper()}][MODE:{mode}] is not implemented on initializer()")
@@ -538,34 +538,21 @@ class Unet3DApp:
         torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}_last.pth"))
         return
 
-    def forward(self, curr_epoch, model: nn.Module, 
-                infer_loader, loss_fn, 
-                mode: str, save_infer: bool = True):
+    def forward(self, inst_root, model: nn.Module, infer_loader, mode: str, save_infer: bool = True):
         model.eval()
         seg_names = self.cli_args.label_names
-        # batch_time = AverageMeter('Time', ':6.3f')
-        # case_metrics_meter = CaseSegMetricsMeter(seg_names)
 
-        save_val_path = os.path.join("states", self.job_name, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", f"E{curr_epoch:03}")
+        save_val_path = os.path.join("states", self.job_name, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", inst_root)
         os.makedirs(save_val_path, exist_ok=True)
-        # folder_lv3 = f"{mode}_epoch_{epoch:03d}"
-        # save_epoch_path = os.path.join("states", folder_dir1, folder_dir2, folder_dir3)
-        # if not os.path.exists(save_epoch_path):
-        #     os.makedirs(save_epoch_path, exist_ok=True)
 
-        # end = time.time()
         with torch.no_grad():
             for i, (image, label, _, name, affine, label_names) in enumerate(infer_loader):
-                # if i % 10 != 0:
-                #     continue
-                label_name = [el[0] for el in label_names]
+                # label_name = [el[0] for el in label_names]
                 if self.cli_args.use_gpu:
                     image, label = image.float().cuda(), label.float().cuda()
                 else:
                     image, label = image.float(), label.float()
-                # bsz = image.size(0)
 
-                # get seg map
                 seg_map = sliding_window_inference(
                     inputs=image,
                     predictor=model,
@@ -594,14 +581,10 @@ class Unet3DApp:
                     seg_name = self.cli_args.seg_name
                     save_img_nifti(image, scale, [img_name]*len(name), affine, modality,    save_val_path, name)
                     save_seg_nifti(seg_map_th,   [seg_name]*len(name), affine, label_map,   save_val_path, name)
-                                
-        # output case metric csv
-        # save_epoch_path = os.path.join(save_val_path, 'case_metric.csv')
-        # case_metrics_meter.output(save_val_path)
         return
 
     def run_forward(self, test_mode='test'):
-        infer_dict = load_subjects_list(
+        test_dict = load_subjects_list(
             self.cli_args.rounds, 
             self.cli_args.round, 
             self.cli_args.cases_split, 
@@ -610,13 +593,12 @@ class Unet3DApp:
             mode=test_mode
         )
         assert self.cli_args.weight_path is not None, f"run_infer must have weight_path for model to infer."
-        infer_setup = self.initializer(infer_dict, mode=test_mode)
-        val_epoch = self.cli_args.epoch
+        test_setup = self.initializer(test_dict, mode=test_mode)
+        inst_root = self.cli_args.inst_root
         self.forward(
-            val_epoch, 
-            infer_setup['model'], 
-            infer_setup['infer_loader'], 
-            infer_setup['loss_fn'], 
+            inst_root, 
+            test_setup['model'], 
+            test_setup['test_loader'], 
             mode=test_mode,
             save_infer=self.cli_args.save_infer
         )
