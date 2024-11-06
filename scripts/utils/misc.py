@@ -63,7 +63,7 @@ def load_subjects_list(rounds: int, round: int, split_path: str, inst_ids: list,
         raise NotImplementedError(f"[MODE:{mode}] is not implemented on load_inst_cases()")
 
 
-def save_img_nifti(image: Tensor, scale:int, names: list, mode: str, postfix:str, affine_src: str, modality: list, save_epoch_path: str):
+def save_img_nifti(image: Tensor, scale:int, names: list, mode: str, postfix:str, affine_src: str, modality: list, save_epoch_path: str, plist: list):
     """
     Output val img in every iteration to save VRAM
     """
@@ -72,10 +72,10 @@ def save_img_nifti(image: Tensor, scale:int, names: list, mode: str, postfix:str
     B, _, H, W, D = image_numpy.shape
 
     # make save folder
-    save_epoch_seg_path = join(save_epoch_path, f"{mode}_{postfix}")
-    os.makedirs(save_epoch_seg_path, exist_ok=True)
 
     for b in range(B):
+        save_epoch_seg_path = join(save_epoch_path, plist[b])
+        os.makedirs(save_epoch_seg_path, exist_ok=True)
         # random modality is ok
         # original_img_path = join(data_root, src_path, names[b], affine_src)
         # affine = nib_affine(original_img_path)
@@ -95,7 +95,7 @@ def save_img_nifti(image: Tensor, scale:int, names: list, mode: str, postfix:str
             )
 
 
-def save_seg_nifti(seg_map: Tensor, names: list, mode: str, postfix:str, affine_src: str, label_map: list, save_epoch_path: str):
+def save_seg_nifti(seg_map: Tensor, names: list, mode: str, postfix:str, affine_src: str, label_map: list, save_epoch_path: str, plist: list):
     """
     Output val seg map in every iteration to save VRAM
     """
@@ -104,10 +104,11 @@ def save_seg_nifti(seg_map: Tensor, names: list, mode: str, postfix:str, affine_
     B, _, H, W, D = seg_map_numpy.shape
 
     # make save folder
-    save_epoch_seg_path = join(save_epoch_path, f"{mode}_{postfix}")
-    os.makedirs(save_epoch_seg_path, exist_ok=True)
 
     for b in range(B):
+        save_epoch_seg_path = join(save_epoch_path, plist[b])
+        os.makedirs(save_epoch_seg_path, exist_ok=True)
+        
         output = seg_map_numpy[b]
         seg_img = np.zeros((H, W, D), dtype=np.uint16)
 
