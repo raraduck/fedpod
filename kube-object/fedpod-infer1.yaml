@@ -1,0 +1,119 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: fedpod-jobs-
+spec:
+  entrypoint: parallel-steps
+  templates:
+  - name: parallel-steps
+    steps:
+    - - name: run-infer-jobs-00
+        template: infer-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_infer1.sh"
+          - name: job-name
+            value: "{{item.job-name}}"
+          - name: rounds
+            value: "{{item.rounds}}"
+          - name: round
+            value: "{{item.round}}"
+          - name: epoch
+            value: "{{item.epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: split_csv
+            value: "{{item.split_csv}}"
+          - name: model_pth
+            value: "{{item.model_pth}}"
+        withItems:
+        - { job-name: "cascade_1", rounds: "00", round: "00", epoch: "000", inst: "0", split_csv: "cc359ppmi128/CC359PPMI_test.csv", model_pth: "/fedpod/states/fed1J0R12_0/R12r12/models/R12r12_agg.pth"}
+        # - { job-name: "last_sol1_2", rounds: "02", round: "02", epoch: "040", inst: "2", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02.pth"}
+        # - { job-name: "last_sol1_3", rounds: "02", round: "02", epoch: "040", inst: "3", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02.pth"}
+        # - { job-name: "last_sol1_4", rounds: "02", round: "02", epoch: "040", inst: "4", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02.pth"}
+        # - { job-name: "last_sol1_5", rounds: "02", round: "02", epoch: "040", inst: "5", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02.pth"}
+        # - { job-name: "last_sol1_6", rounds: "02", round: "02", epoch: "040", inst: "6", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02.pth"}
+
+    # - - name: run-infer-jobs-01
+    #     template: infer-job
+    #     arguments:
+    #       parameters:
+    #       - name: script-name
+    #         value: "run_infer2.sh"
+    #       - name: job-name
+    #         value: "{{item.job-name}}"
+    #       - name: rounds
+    #         value: "{{item.rounds}}"
+    #       - name: round
+    #         value: "{{item.round}}"
+    #       - name: epoch
+    #         value: "{{item.epoch}}"
+    #       - name: inst-id
+    #         value: "{{item.inst}}"
+    #       - name: split_csv
+    #         value: "{{item.split_csv}}"
+    #       - name: model_pth
+    #         value: "{{item.model_pth}}"
+    #     withItems:
+    #     - { job-name: "cascade_2", rounds: "02", round: "02", epoch: "022", inst: "1", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/fed2J0R12_0/R12r12/models/R12r12_agg.pth"}
+    #     # - { job-name: "last_cen1_2", rounds: "02", round: "02", epoch: "040", inst: "2", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r02/models/R02r02.pth"}
+    #     # - { job-name: "last_cen1_3", rounds: "02", round: "02", epoch: "040", inst: "3", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r02/models/R02r02.pth"}
+    #     # - { job-name: "last_cen1_4", rounds: "02", round: "02", epoch: "040", inst: "4", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r02/models/R02r02.pth"}
+    #     # - { job-name: "last_cen1_5", rounds: "02", round: "02", epoch: "040", inst: "5", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r02/models/R02r02.pth"}
+    #     # - { job-name: "last_cen1_6", rounds: "02", round: "02", epoch: "040", inst: "6", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r02/models/R02r02.pth"}
+
+  - name: infer-job
+    inputs:
+      parameters:
+      - name: script-name
+      - name: job-name
+      - name: rounds
+      - name: round
+      - name: epoch
+      - name: inst-id
+      - name: split_csv
+      - name: model_pth
+    container:
+      image: dwnusa/fedpod:v0.4.16.3
+      imagePullPolicy: Always
+      command: ["/bin/sh", "-c"]
+      args: 
+        - >
+          ./{{inputs.parameters.script-name}}
+          -s 1
+          -g 0
+          -J {{inputs.parameters.job-name}}
+          -i {{inputs.parameters.inst-id}}
+          -R {{inputs.parameters.rounds}}
+          -r {{inputs.parameters.round}}
+          -e {{inputs.parameters.epoch}}
+          -c {{inputs.parameters.split_csv}}
+          -M {{inputs.parameters.model_pth}}
+          -t test
+      resources:
+        requests:
+          cpu: "2"
+          memory: "16G"
+      volumeMounts:
+      - name: cc359ppmi128-volume
+        mountPath: /fedpod/cc359ppmi128
+      - name: states-volume
+        mountPath: /fedpod/states
+      - name: logs-volume
+        mountPath: /fedpod/logs
+      stdin: true
+      tty: true
+    volumes:
+    - name: cc359ppmi128-volume
+      hostPath:
+        path: /fedpod/cc359ppmi128  # 로컬 경로
+        type: Directory
+    - name: states-volume
+      hostPath:
+        path: /fedpod/states  # 로컬 경로
+        type: Directory
+    - name: logs-volume
+      hostPath:
+        path: /fedpod/logs  # 로컬 경로
+        type: Directory
