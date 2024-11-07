@@ -118,7 +118,8 @@ def get_base_transform(args):
     ]
     base_transform_2 = [
         # RobustZScoreNormalization(keys=(lambda x: x[:-1] if len(x) > 1 else x)(args.input_channel_names)),
-        RobustZScoreNormalization(keys=args.input_channel_names),
+        # RobustZScoreNormalization(keys=args.input_channel_names),
+        RobustZScoreNormalization(keys=[el for el in args.input_channel_names if el not in ['seg']]),
         transforms.ConcatItemsd(keys=args.input_channel_names, name='image', dim=0),
         transforms.DeleteItemsd(keys=args.input_channel_names),
         ConvertToMultiChannel(keys=["label"], labels=args.label_groups)
@@ -147,7 +148,8 @@ def get_forward_transform(args):
     ]
     base_transform_2 = [
         # RobustZScoreNormalization(keys=(lambda x: x[:-1] if len(x) > 1 else x)(args.input_channel_names)),
-        RobustZScoreNormalization(keys=args.input_channel_names),
+        # RobustZScoreNormalization(keys=args.input_channel_names),
+        RobustZScoreNormalization(keys=[el for el in args.input_channel_names if el not in ['seg']]),
         transforms.ConcatItemsd(keys=args.input_channel_names, name='image', dim=0),
         transforms.DeleteItemsd(keys=args.input_channel_names),
         # ConvertToMultiChannel(keys=["label"], labels=args.label_groups)
