@@ -117,7 +117,7 @@ def get_base_transform(args):
         transforms.SpatialPadd(keys=selected_keys, spatial_size=(args.resize, args.resize, args.resize), mode='constant'),
     ]
     base_transform_2 = [
-        RobustZScoreNormalization(keys=args.input_channel_names),
+        RobustZScoreNormalization(keys=args.input_channel_names[:-1]),
         transforms.ConcatItemsd(keys=args.input_channel_names, name='image', dim=0),
         transforms.DeleteItemsd(keys=args.input_channel_names),
         ConvertToMultiChannel(keys=["label"], labels=args.label_groups)
@@ -145,7 +145,7 @@ def get_forward_transform(args):
         transforms.SpatialPadd(keys=selected_keys, spatial_size=(args.resize, args.resize, args.resize), mode='constant'),
     ]
     base_transform_2 = [
-        RobustZScoreNormalization(keys=args.input_channel_names[0]),
+        RobustZScoreNormalization(keys=args.input_channel_names[:-1]),
         transforms.ConcatItemsd(keys=args.input_channel_names, name='image', dim=0),
         transforms.DeleteItemsd(keys=args.input_channel_names),
         # ConvertToMultiChannel(keys=["label"], labels=args.label_groups)
