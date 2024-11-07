@@ -403,8 +403,8 @@ class Unet3DApp:
 
                     # scale = 100
                     label_map = self.cli_args.label_index
-                    save_img_nifti(seg_map,    f"{mode[:4]}_", "_prd", affine, label_name, save_val_path, name) #[f"{mode[:4]}_prb"]*len(name))
-                    save_seg_nifti(seg_map_th, f"{mode[:4]}_", "_prb", affine, label_map,  save_val_path, name) #[f"{mode[:4]}_prd"]*len(name))
+                    save_img_nifti(seg_map,    f"{mode[:4]}_", "_prb", affine, label_name, save_val_path, name) #[f"{mode[:4]}_prb"]*len(name))
+                    save_seg_nifti(seg_map_th, f"{mode[:4]}_", "_prd", affine, label_map,  save_val_path, name) #[f"{mode[:4]}_prd"]*len(name))
                     # else:
                     #     raise f"mode must be test or pre"
                     # if (i % 10 == 0):
