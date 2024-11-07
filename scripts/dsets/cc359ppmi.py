@@ -101,6 +101,9 @@ class CC359PPMIDataset(Dataset):
             # el['image'].affine[:3, 3] = torch.tensor(-np.array(image_shape) / 2 * np.diag(el['image'].affine)[:3])
             # return el['image'], el['label'], index, name, el['image'].affine, self.label_names # item['image_meta_dict']['affine']
         else:
+            mask = np.array(nib_load(join(base_dir, f'{name}_sub.nii.gz'))[0], dtype='uint8')  # ground truth
+            channels_dict['label'] = mask
+            item = self.transforms(channels_dict)
             # 이미지 중앙을 원점으로 설정하기
             # affine[:3, 3] = torch.tensor(-np.array(image_shape) / 2 * np.diag(item['image'].affine)[:3])
             # affine[:3, 3] = torch.tensor(-np.array(image_shape) / 2)
