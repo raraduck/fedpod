@@ -395,16 +395,16 @@ class Unet3DApp:
                         modality = self.cli_args.input_channel_names
                         scale = 255
                         label_map = self.cli_args.label_index
-                        save_img_nifti(image, scale, [], affine, modality,   save_val_path, [f"{el}_img" for el in name]) #[f"{mode[:4]}_img"]*len(name))
-                        save_seg_nifti(label,        [], affine, label_map,  save_val_path, [f"{el}_lbl" for el in name]) #[f"{mode[:4]}_lbl"]*len(name))
+                        save_img_nifti(image, scale, f"{mode[:4]}_", "_img", affine, modality,   save_val_path, name) #[f"{mode[:4]}_img"]*len(name))
+                        save_seg_nifti(label,        f"{mode[:4]}_", "_lbl", affine, label_map,  save_val_path, name) #[f"{mode[:4]}_lbl"]*len(name))
 
                         # save_img_nifti(image, scale, [img_name]*len(name), affine, modality,    save_val_path, name)
                         # save_seg_nifti(seg_map_th,   [seg_name]*len(name), affine, label_map,   save_val_path, name)
 
                     scale = 100
                     label_map = self.cli_args.label_index
-                    save_img_nifti(seg_map, scale, [], affine, label_name, save_val_path, [f"{el}_prb" for el in name]) #[f"{mode[:4]}_prb"]*len(name))
-                    save_seg_nifti(seg_map_th,     [], affine, label_map,  save_val_path, [f"{el}_prd" for el in name]) #[f"{mode[:4]}_prd"]*len(name))
+                    save_img_nifti(seg_map, scale, f"{mode[:4]}_", "_prb", affine, label_name, save_val_path, name) #[f"{mode[:4]}_prb"]*len(name))
+                    save_seg_nifti(seg_map_th,     f"{mode[:4]}_", "_prb", affine, label_map,  save_val_path, name) #[f"{mode[:4]}_prd"]*len(name))
                     # else:
                     #     raise f"mode must be test or pre"
                     # if (i % 10 == 0):
@@ -581,10 +581,10 @@ class Unet3DApp:
                     modality = self.cli_args.input_channel_names
                     scale = 255
                     label_map = self.cli_args.label_index
-                    img_name = self.cli_args.img_name
-                    seg_name = self.cli_args.seg_name
-                    save_img_nifti(image, scale, [img_name]*len(name), affine, modality,    save_val_path, name)
-                    save_seg_nifti(seg_map_th,   [seg_name]*len(name), affine, label_map,   save_val_path, name)
+                    # img_name = self.cli_args.img_name
+                    # seg_name = self.cli_args.seg_name
+                    save_img_nifti(image, scale, "", "", affine, modality,    save_val_path, name)
+                    save_seg_nifti(seg_map_th,   "", "", affine, label_map,   save_val_path, name)
         return
 
     def run_forward(self, test_mode='test'):
