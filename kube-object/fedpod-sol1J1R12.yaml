@@ -572,7 +572,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_infer1.sh"
+            value: "run_forward1.sh"
           - name: job-name
             value: "{{item.job-name}}"
           - name: rounds
@@ -587,6 +587,10 @@ spec:
             value: "{{item.split_csv}}"
           - name: model_pth
             value: "{{item.model_pth}}"
+          - name: data_root
+            value: "cc359ppmi128"
+          - name: inst_root
+            value: "inst_00"
         withItems:
         - { job-name: "sol1J1R12_test", rounds: "12", round: "12", epoch: "022", inst: "0", split_csv: "cc359ppmi128/CC359PPMI_sol1J1R12.csv", model_pth: "/fedpod/states/sol1J1R12_0/R12r12/models/R12r12_agg.pth"}
         dependencies: [run-aggregation-jobs-11]
@@ -601,7 +605,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.16.3
+      image: dwnusa/fedpod:v0.4.17.1
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args:
@@ -664,7 +668,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.16.3
+      image: dwnusa/fedpod:v0.4.17.1
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
@@ -731,8 +735,10 @@ spec:
       - name: inst-id
       - name: split_csv
       - name: model_pth
+      - name: data_root
+      - name: inst_root
     container:
-      image: dwnusa/fedpod:v0.4.16.3
+      image: dwnusa/fedpod:v0.4.17.1
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
@@ -748,6 +754,8 @@ spec:
           -c {{inputs.parameters.split_csv}}
           -M {{inputs.parameters.model_pth}}
           -t test
+          -d {{inputs.parameters.data_root}}
+          -n {{inputs.parameters.inst_root}}
       resources:
         requests:
           cpu: "2"
