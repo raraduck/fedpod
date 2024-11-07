@@ -583,8 +583,8 @@ class Unet3DApp:
                     label_map = self.cli_args.label_index
                     # img_name = self.cli_args.img_name
                     # seg_name = self.cli_args.seg_name
-                    save_img_nifti(image, scale, "", "", affine, modality,    save_val_path, name)
-                    save_seg_nifti(seg_map_th,   "", "", affine, label_map,   save_val_path, name)
+                    save_img_nifti(image, scale, "", "",      affine, modality,    save_val_path, name)
+                    save_seg_nifti(seg_map_th,   "", "_seg",  affine, label_map,   save_val_path, name)
         return
 
     def run_forward(self, test_mode='test'):
