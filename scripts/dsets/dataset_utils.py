@@ -126,6 +126,34 @@ def get_base_transform(args):
         return base_transform_1 + zoom_transform + base_transform_2
     else:
         return base_transform_1 + base_transform_2
+    
+def get_forward_transform(args):
+    selected_keys = [*args.input_channel_names]
+    base_transform_1 = [
+        transforms.EnsureTyped(keys=selected_keys),  # 데이터를 MetaTensor로 변환
+        transforms.Orientationd(keys=selected_keys, axcodes="RAS"),
+    ]
+    zoom_transform = [
+        transforms.CropForegroundd(
+            keys=selected_keys,
+            source_key=selected_keys[0],
+            margin=(10, 10, 10),
+            k_divisible=[1, 1, 1],
+        ),
+        transforms.Lambda(func=lambda data: calculate_new_pixdim(args, data)),
+        transforms.Lambda(func=lambda data: apply_spacing_transform(args, data)),
+        transforms.SpatialPadd(keys=selected_keys, spatial_size=(args.resize, args.resize, args.resize), mode='constant'),
+    ]
+    base_transform_2 = [
+        RobustZScoreNormalization(keys=args.input_channel_names),
+        transforms.ConcatItemsd(keys=args.input_channel_names, name='image', dim=0),
+        transforms.DeleteItemsd(keys=args.input_channel_names),
+        # ConvertToMultiChannel(keys=["label"], labels=args.label_groups)
+    ]
+    if args.zoom:
+        return base_transform_1 + zoom_transform + base_transform_2
+    else:
+        return base_transform_1 + base_transform_2
 
 def get_aug_transform(args):
     aug_patch_crop = [

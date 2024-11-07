@@ -26,7 +26,7 @@ from utils.configs import parse_args
 from utils.misc import *
 import utils.metrics as metrics
 from models import get_unet
-from dsets import get_dataset, get_base_transform, get_aug_transform, custom_collate
+from dsets import get_dataset, get_base_transform, get_forward_transform, get_aug_transform, custom_collate
 from utils.optim import get_optimizer
 from utils.loss import SoftDiceBCEWithLogitsLoss, robust_sigmoid
 from utils.scheduler import get_scheduler
@@ -138,23 +138,23 @@ class Unet3DApp:
             pin_memory=self.use_cuda)
         return infer_dataset, infer_loader
 
-    # def initTestDl(self, case_names:list, mode:str):
-    #     base_transform  = get_base_transform(self.cli_args)
-    #     aug_transform = [transforms.EnsureTyped(keys=["image", 'label'])]
-    #     infer_transform = transforms.Compose(base_transform + aug_transform)
-    #     infer_dataset = get_dataset(self.cli_args, case_names, infer_transform, 
-    #                                 mode=mode, 
-    #                                 label_names=self.cli_args.label_names,
-    #                                 custom_min_len=1,
-    #                                 custom_max_len=self.cli_args.max_dlen)
-    #     infer_loader = DataLoader(
-    #         infer_dataset,
-    #         batch_size=self.cli_args.multi_batch_size,
-    #         shuffle=False,
-    #         drop_last=False,
-    #         num_workers=self.cli_args.num_workers,
-    #         pin_memory=self.use_cuda)
-    #     return infer_dataset, infer_loader
+    def initTestDl(self, case_names:list, mode:str):
+        forward_transform  = get_forward_transform(self.cli_args)
+        aug_transform = [transforms.EnsureTyped(keys=["image"])]
+        forward_transform = transforms.Compose(forward_transform + aug_transform)
+        forward_dataset = get_dataset(self.cli_args, case_names, forward_transform, 
+                                    mode=mode, 
+                                    label_names=self.cli_args.label_names,
+                                    custom_min_len=1,
+                                    custom_max_len=self.cli_args.max_dlen)
+        test_loader = DataLoader(
+            forward_dataset,
+            batch_size=self.cli_args.multi_batch_size,
+            shuffle=False,
+            drop_last=False,
+            num_workers=self.cli_args.num_workers,
+            pin_memory=self.use_cuda)
+        return forward_dataset, test_loader
 
     def initializer(self, subjects_dict, mode='train'):
         if mode in ['train', 'TRN']:
@@ -202,7 +202,7 @@ class Unet3DApp:
         elif mode in ['test']:
             self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode.upper()}] Processing with infer_loader...")
             test_cases = natsort.natsorted(subjects_dict['infer'])
-            test_dataset, test_loader = self.initValDl(test_cases, mode)
+            test_dataset, test_loader = self.initTestDl(test_cases, mode)
 
             self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode.upper()}] Processing with model...")
             model, _ = self.initModel(self.cli_args.weight_path, mode=mode.upper())
@@ -546,12 +546,12 @@ class Unet3DApp:
         os.makedirs(save_val_path, exist_ok=True)
 
         with torch.no_grad():
-            for i, (image, label, _, name, affine, label_names) in enumerate(test_loader):
+            for i, (image, _, _, name, affine, label_names) in enumerate(test_loader):
                 # label_name = [el[0] for el in label_names]
                 if self.cli_args.use_gpu:
-                    image, label = image.float().cuda(), label.float().cuda()
+                    image = image.float().cuda()
                 else:
-                    image, label = image.float(), label.float()
+                    image = image.float()
 
                 seg_map = sliding_window_inference(
                     inputs=image,

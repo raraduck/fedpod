@@ -12,7 +12,7 @@ import os
 # from .cc359 import CC359Dataset
 from .cc359ppmi import CC359PPMIDataset
 from .brain import BrainDataset
-from .dataset_utils import get_base_transform, get_aug_transform, custom_collate
+from .dataset_utils import get_base_transform, get_forward_transform, get_aug_transform, custom_collate
 def get_dataset(args, case_names, _transforms, mode, label_names, custom_min_len=1, custom_max_len=99999):
     # kwargs = {
     #     "input_channels": args.input_channels,
