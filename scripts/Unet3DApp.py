@@ -393,18 +393,18 @@ class Unet3DApp:
                     # else:
                     if (curr_epoch == 0):
                         modality = self.cli_args.input_channel_names
-                        scale = 255
+                        # scale = 255
                         label_map = self.cli_args.label_index
-                        save_img_nifti(image, scale, f"{mode[:4]}_", "_img", affine, modality,   save_val_path, name) #[f"{mode[:4]}_img"]*len(name))
-                        save_seg_nifti(label,        f"{mode[:4]}_", "_lbl", affine, label_map,  save_val_path, name) #[f"{mode[:4]}_lbl"]*len(name))
+                        save_img_nifti(image, f"{mode[:4]}_", "_img", affine, modality,   save_val_path, name) #[f"{mode[:4]}_img"]*len(name))
+                        save_seg_nifti(label, f"{mode[:4]}_", "_lbl", affine, label_map,  save_val_path, name) #[f"{mode[:4]}_lbl"]*len(name))
 
                         # save_img_nifti(image, scale, [img_name]*len(name), affine, modality,    save_val_path, name)
                         # save_seg_nifti(seg_map_th,   [seg_name]*len(name), affine, label_map,   save_val_path, name)
 
-                    scale = 100
+                    # scale = 100
                     label_map = self.cli_args.label_index
-                    save_img_nifti(seg_map, scale, f"{mode[:4]}_", "_prb", affine, label_name, save_val_path, name) #[f"{mode[:4]}_prb"]*len(name))
-                    save_seg_nifti(seg_map_th,     f"{mode[:4]}_", "_prb", affine, label_map,  save_val_path, name) #[f"{mode[:4]}_prd"]*len(name))
+                    save_img_nifti(seg_map,    f"{mode[:4]}_", "_prb", affine, label_name, save_val_path, name) #[f"{mode[:4]}_prb"]*len(name))
+                    save_seg_nifti(seg_map_th, f"{mode[:4]}_", "_prb", affine, label_map,  save_val_path, name) #[f"{mode[:4]}_prd"]*len(name))
                     # else:
                     #     raise f"mode must be test or pre"
                     # if (i % 10 == 0):
@@ -579,12 +579,12 @@ class Unet3DApp:
                 # output seg map
                 if save_infer:
                     modality = self.cli_args.input_channel_names
-                    scale = 1
+                    # scale = 255
                     label_map = self.cli_args.label_index
                     # img_name = self.cli_args.img_name
                     # seg_name = self.cli_args.seg_name
-                    save_img_nifti(image, scale, "", "",                        affine, modality,    save_val_path, name)
-                    save_seg_nifti(seg_map_th,   "", self.cli_args.seg_postfix, affine, label_map,   save_val_path, name)
+                    save_img_nifti(image,      "", "",                        affine, modality,    save_val_path, name)
+                    save_seg_nifti(seg_map_th, "", self.cli_args.seg_postfix, affine, label_map,   save_val_path, name)
         return
 
     def run_forward(self, test_mode='test'):
