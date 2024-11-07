@@ -11,9 +11,9 @@ spec:
     - name: initial-round
       value: "00"
     - name: job-prefix
-      value: "sol1J2R12v1"
+      value: "sol1J2R12"
     - name: split_csv
-      value: "cc359ppmi128/CC359PPMI_sol1J2R12v1.csv"
+      value: "cc359ppmi128/CC359PPMI_sol1J2R12.csv"
   templates:
   - name: parallel-dag
     dag:
@@ -592,7 +592,7 @@ spec:
           - name: inst_root
             value: "inst_00"
         withItems:
-        - { job-name: "sol1J2R12v1_test", rounds: "12", round: "12", epoch: "022", inst: "0", split_csv: "cc359ppmi128/CC359PPMI_sol1J2R12v1.csv", model_pth: "/fedpod/states/sol1J2R12v1_0/R12r12/models/R12r12_agg.pth"}
+        - { job-name: "sol1J2R12_test", rounds: "12", round: "12", epoch: "022", inst: "0", split_csv: "cc359ppmi128/CC359PPMI_sol1J2R12.csv", model_pth: "/fedpod/states/sol1J2R12_0/R12r12/models/R12r12_agg.pth"}
         dependencies: [run-aggregation-jobs-11]
 
   - name: train-job
