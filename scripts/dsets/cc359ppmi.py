@@ -56,17 +56,17 @@ class CC359PPMIDataset(Dataset):
             # flair, _ = nib_load(join(base_dir, 'brain.nii.gz'))
             channels_dict['flair'] = np.array(flair, dtype='float32')
 
-        if 'pet' in self.input_channel_names:
+        if 'pt' in self.input_channel_names:
             pet, _ = nib_load(join(base_dir, f'{name}_pt.nii.gz'))
             # pet, _ = nib_load(join(base_dir, 'pet.nii.gz'))
-            channels_dict['pet'] = np.array(pet, dtype='float32')
+            channels_dict['pt'] = np.array(pet, dtype='float32')
 
-        if 'striatum' in self.input_channel_names:
+        if 'seg' in self.input_channel_names:
             striatum, _ = nib_load(join(base_dir, f'{name}_seg.nii.gz'))
             # striatum, _ = nib_load(join(base_dir, 'striatum_orig.nii.gz'))
             _mask = np.array(striatum, dtype='float32')
             # _mask = np.where(_mask != 0, 100, 0)
-            channels_dict['striatum'] = _mask
+            channels_dict['seg'] = _mask
 
         # if self.mode.lower() == 'test':
         #     mask = np.array(nib_load(join(base_dir, f'{name}_seg.nii.gz'))[0], dtype='uint8')  # ground truth

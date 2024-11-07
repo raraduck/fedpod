@@ -91,7 +91,7 @@ def save_img_nifti(image: Tensor, scale:int, fname: str, affine_src: str, modali
 
             nib.save(
                 nib.Nifti1Image(image_modality, affine_src[b]),
-                join(save_epoch_seg_path, f'{fname[b]}.nii.gz')
+                join(save_epoch_seg_path, f'{plist[b]}_{el_modality}.nii.gz')
             )
 
 
@@ -121,7 +121,7 @@ def save_seg_nifti(seg_map: Tensor, fname: str, affine_src: str, label_map: list
 
         nib.save(
             nib.Nifti1Image(seg_img, affine_src[b]),
-            join(save_epoch_seg_path, f'{fname[b]}.nii.gz')
+            join(save_epoch_seg_path, f'{plist[b]}_seg.nii.gz')
         )
 
 

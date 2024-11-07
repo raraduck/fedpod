@@ -574,7 +574,7 @@ class Unet3DApp:
 
                 # output seg map
                 if save_infer:
-                    modality = [self.cli_args.input_channel_names[0]]
+                    modality = self.cli_args.input_channel_names
                     scale = 255
                     label_map = self.cli_args.label_index
                     img_name = self.cli_args.img_name
