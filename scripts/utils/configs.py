@@ -67,8 +67,8 @@ def parse_args(argv):
     parser.add_argument('--sliding_window_mode', type=str, default='constant',
         choices=['constant', 'gaussian'], help='sliding window importance map mode')
     parser.add_argument('--test_mode', type=str, default='test', help='test_mode is among val or test')
-    parser.add_argument('--img_name', type=str, default='brain', help='img file name at test mode')
-    parser.add_argument('--seg_name', type=str, default='striatum_orig', help='seg file name at test mode')
+    # parser.add_argument('--img_name', type=str, default='brain', help='img file name at test mode')
+    parser.add_argument('--seg_postfix', type=str, default='_seg', help='seg postfix for saving file name at test mode')
     
     # model (u-net)
     parser.add_argument('--weight_path', type=str, required=True, help='The model path must be provided.')

@@ -55,8 +55,7 @@ python3 scripts/run_forward.py \
 	--dataset CC359PPMI \
 	--data_root $data_root \
 	--inst_root $inst_root \
-	--img_name brain \
-	--seg_name striatum_sub \
+	--seg_postfix _sub \
 	\
 	--cases_split $split_csv \
 	--inst_ids [$inst_id] \
