@@ -611,7 +611,7 @@ spec:
       args:
         - >
           ./{{inputs.parameters.script-name}} 
-          -s 0 
+          -s 1 
           -f 10
           -m 15
           -g 0 
