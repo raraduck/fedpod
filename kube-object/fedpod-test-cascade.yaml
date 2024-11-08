@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
-  generateName: fedpod-jobs-
+  generateName: cascade-
 spec:
   entrypoint: parallel-steps
   templates:
