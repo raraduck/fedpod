@@ -11,9 +11,9 @@ spec:
     - name: initial-round
       value: "00"
     - name: job-prefix
-      value: "cen2J0R12"
+      value: "cen2J0R12v1"
     - name: split_csv
-      value: "cc359ppmi128/CC359PPMI_cen2J0R12.csv"
+      value: "cc359ppmi128/CC359PPMI_cen2J0R12v1.csv"
   templates:
   - name: parallel-dag
     dag:
@@ -592,7 +592,7 @@ spec:
           - name: inst_root
             value: "inst_00"
         withItems:
-        - { job-name: "cen2J0R12_test", rounds: "12", round: "12", epoch: "022", inst: "0", split_csv: "cc359ppmi128/CC359PPMI_cen2J0R12.csv", model_pth: "/fedpod/states/cen2J0R12_0/R12r12/models/R12r12_agg.pth"}
+        - { job-name: "cen2J0R12v1_test", rounds: "12", round: "12", epoch: "022", inst: "0", split_csv: "cc359ppmi128/CC359PPMI_cen2J0R12v1.csv", model_pth: "/fedpod/states/cen2J0R12v1_0/R12r12/models/R12r12_agg.pth"}
         dependencies: [run-aggregation-jobs-11]
 
   - name: train-job
@@ -605,7 +605,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.17.1
+      image: dwnusa/fedpod:v0.4.17.3
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args:
@@ -668,7 +668,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.17.1
+      image: dwnusa/fedpod:v0.4.17.3
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
@@ -738,7 +738,7 @@ spec:
       - name: data_root
       - name: inst_root
     container:
-      image: dwnusa/fedpod:v0.4.17.1
+      image: dwnusa/fedpod:v0.4.17.3
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
