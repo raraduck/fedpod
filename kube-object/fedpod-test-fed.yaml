@@ -337,15 +337,15 @@ spec:
       - name: model_pth
     container:
       image: dwnusa/fedpod:v0.4.17.3
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: "kubernetes.io/hostname"
-                operator: "In"
-                values:
-                - "node08"
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #       - matchExpressions:
+      #         - key: "kubernetes.io/hostname"
+      #           operator: "In"
+      #           values:
+      #           - "node08"
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 

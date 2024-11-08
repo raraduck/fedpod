@@ -235,6 +235,14 @@ spec:
         mountPath: /fedpod/runs
       stdin: true
       tty: true
+    outputs:
+      parameters:
+      - name: next-round
+        valueFrom:
+          path: /tmp/next_round.txt  # Return the value from the temp file
+      - name: next-epoch
+        valueFrom:
+          path: /tmp/next_epoch.txt
     volumes:
     - name: cc359ppmi128-volume
       hostPath:
