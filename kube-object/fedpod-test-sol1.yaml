@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
-  generateName: sol1-
+  generateName: sol-
 spec:
   entrypoint: parallel-dag
   arguments:
