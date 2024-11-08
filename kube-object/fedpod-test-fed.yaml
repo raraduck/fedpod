@@ -19,7 +19,7 @@ spec:
     dag:
       tasks:
       # Round 0
-      - name: run-train-jobs-00
+      - name: train-aff-00
         template: train-job
         arguments:
           parameters:
@@ -38,7 +38,7 @@ spec:
         withItems:
         - { inst: "3" }
 
-      - name: run-aggregation-jobs-00
+      - name: agg-aff-00
         template: aggregation-job
         arguments:
           parameters:
@@ -56,195 +56,195 @@ spec:
             value: "None"
           - name: algorithm
             value: "fedavg"
-        dependencies: [run-train-jobs-00]
+        dependencies: [train-aff-00]
 
       # Round 1
-      - name: run-train-jobs-01
+      - name: train-aff-01
         template: train-job
         arguments:
           parameters:
           - name: script-name
             value: "run_train1.sh"
           - name: round
-            value: "{{tasks.run-aggregation-jobs-00.outputs.parameters.next-round}}"
+            value: "{{tasks.agg-aff-00.outputs.parameters.next-round}}"
           - name: epochs
             value: "001"
           - name: epoch
-            value: "{{tasks.run-aggregation-jobs-00.outputs.parameters.next-epoch}}"
+            value: "{{tasks.agg-aff-00.outputs.parameters.next-epoch}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.run-aggregation-jobs-00.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.run-aggregation-jobs-00.outputs.parameters.next-round}}_agg.pth"
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-aff-00.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-aff-00.outputs.parameters.next-round}}_agg.pth"
         withItems:
         - { inst: "3" }
         - { inst: "4" }
         - { inst: "5" }
         - { inst: "6" }
-        dependencies: [run-aggregation-jobs-00]
+        dependencies: [agg-aff-00]
 
-      - name: run-aggregation-jobs-01
+      - name: agg-aff-01
         template: aggregation-job
         arguments:
           parameters:
           - name: script-name
             value: "run_aggregation.sh"
           - name: round
-            value: "{{tasks.run-aggregation-jobs-00.outputs.parameters.next-round}}"
+            value: "{{tasks.agg-aff-00.outputs.parameters.next-round}}"
           - name: epochs
             value: "001"
           - name: epoch
-            value: "{{tasks.run-aggregation-jobs-00.outputs.parameters.next-epoch}}"
+            value: "{{tasks.agg-aff-00.outputs.parameters.next-epoch}}"
           - name: inst-id
             value: "0"
           - name: model_pth
             value: "None"
           - name: algorithm
             value: "fedavg"
-        dependencies: [run-train-jobs-01]
+        dependencies: [train-aff-01]
 
       # Round 2
-      - name: run-train-jobs-02
+      - name: train-aff-02
         template: train-job
         arguments:
           parameters:
           - name: script-name
             value: "run_train1.sh"
           - name: round
-            value: "{{tasks.run-aggregation-jobs-01.outputs.parameters.next-round}}"
+            value: "{{tasks.agg-aff-01.outputs.parameters.next-round}}"
           - name: epochs
             value: "001"
           - name: epoch
-            value: "{{tasks.run-aggregation-jobs-01.outputs.parameters.next-epoch}}"
+            value: "{{tasks.agg-aff-01.outputs.parameters.next-epoch}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.run-aggregation-jobs-01.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.run-aggregation-jobs-01.outputs.parameters.next-round}}_agg.pth"
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-aff-01.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-aff-01.outputs.parameters.next-round}}_agg.pth"
         withItems:
         - { inst: "2" }
         - { inst: "3" }
         - { inst: "4" }
         - { inst: "5" }
         - { inst: "6" }
-        dependencies: [run-aggregation-jobs-01]
+        dependencies: [agg-aff-01]
 
-      - name: run-aggregation-jobs-02
+      - name: agg-aff-02
         template: aggregation-job
         arguments:
           parameters:
           - name: script-name
             value: "run_aggregation.sh"
           - name: round
-            value: "{{tasks.run-aggregation-jobs-01.outputs.parameters.next-round}}"
+            value: "{{tasks.agg-aff-01.outputs.parameters.next-round}}"
           - name: epochs
             value: "001"
           - name: epoch
-            value: "{{tasks.run-aggregation-jobs-01.outputs.parameters.next-epoch}}"
+            value: "{{tasks.agg-aff-01.outputs.parameters.next-epoch}}"
           - name: inst-id
             value: "0"
           - name: model_pth
             value: "None"
           - name: algorithm
             value: "fedavg"
-        dependencies: [run-train-jobs-02]
+        dependencies: [train-aff-02]
 
         
       # Round 3
-      - name: run-train-jobs-03
+      - name: train-aff-03
         template: train-job
         arguments:
           parameters:
           - name: script-name
             value: "run_train1.sh"
           - name: round
-            value: "{{tasks.run-aggregation-jobs-02.outputs.parameters.next-round}}"
+            value: "{{tasks.agg-aff-02.outputs.parameters.next-round}}"
           - name: epochs
             value: "001"
           - name: epoch
-            value: "{{tasks.run-aggregation-jobs-02.outputs.parameters.next-epoch}}"
+            value: "{{tasks.agg-aff-02.outputs.parameters.next-epoch}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.run-aggregation-jobs-02.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.run-aggregation-jobs-02.outputs.parameters.next-round}}_agg.pth"
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-aff-02.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-aff-02.outputs.parameters.next-round}}_agg.pth"
         withItems:
         - { inst: "2" }
         - { inst: "3" }
         - { inst: "4" }
         - { inst: "5" }
         - { inst: "6" }
-        dependencies: [run-aggregation-jobs-02]
+        dependencies: [agg-aff-02]
 
-      - name: run-aggregation-jobs-03
+      - name: agg-aff-03
         template: aggregation-job
         arguments:
           parameters:
           - name: script-name
             value: "run_aggregation.sh"
           - name: round
-            value: "{{tasks.run-aggregation-jobs-02.outputs.parameters.next-round}}"
+            value: "{{tasks.agg-aff-02.outputs.parameters.next-round}}"
           - name: epochs
             value: "001"
           - name: epoch
-            value: "{{tasks.run-aggregation-jobs-02.outputs.parameters.next-epoch}}"
+            value: "{{tasks.agg-aff-02.outputs.parameters.next-epoch}}"
           - name: inst-id
             value: "0"
           - name: model_pth
             value: "None"
           - name: algorithm
             value: "fedavg"
-        dependencies: [run-train-jobs-03]
+        dependencies: [train-aff-03]
 
       # Round 4
-      - name: run-train-jobs-04
+      - name: train-aff-04
         template: train-job
         arguments:
           parameters:
           - name: script-name
             value: "run_train1.sh"
           - name: round
-            value: "{{tasks.run-aggregation-jobs-03.outputs.parameters.next-round}}"
+            value: "{{tasks.agg-aff-03.outputs.parameters.next-round}}"
           - name: epochs
             value: "001"
           - name: epoch
-            value: "{{tasks.run-aggregation-jobs-03.outputs.parameters.next-epoch}}"
+            value: "{{tasks.agg-aff-03.outputs.parameters.next-epoch}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.run-aggregation-jobs-03.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.run-aggregation-jobs-03.outputs.parameters.next-round}}_agg.pth"
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-aff-03.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-aff-03.outputs.parameters.next-round}}_agg.pth"
         withItems:
         - { inst: "2" }
         - { inst: "3" }
         - { inst: "4" }
         - { inst: "5" }
         - { inst: "6" }
-        dependencies: [run-aggregation-jobs-03]
+        dependencies: [agg-aff-03]
 
-      - name: run-aggregation-jobs-04
+      - name: agg-aff-04
         template: aggregation-job
         arguments:
           parameters:
           - name: script-name
             value: "run_aggregation.sh"
           - name: round
-            value: "{{tasks.run-aggregation-jobs-03.outputs.parameters.next-round}}"
+            value: "{{tasks.agg-aff-03.outputs.parameters.next-round}}"
           - name: epochs
             value: "001"
           - name: epoch
-            value: "{{tasks.run-aggregation-jobs-03.outputs.parameters.next-epoch}}"
+            value: "{{tasks.agg-aff-03.outputs.parameters.next-epoch}}"
           - name: inst-id
             value: "0"
           - name: model_pth
             value: "None"
           - name: algorithm
             value: "fedavg"
-        dependencies: [run-train-jobs-04]
+        dependencies: [train-aff-04]
 
       # Round 5 (Inference)
-      - name: run-infer-jobs-05
+      - name: infer-aff-05
         template: infer-job
         arguments:
           parameters:
           - name: script-name
-            value: "run_infer1.sh"
+            value: "run_forward1.sh"
           - name: job-name
             value: "{{item.job-name}}"
           - name: rounds
@@ -261,7 +261,7 @@ spec:
             value: "{{item.model_pth}}"
         withItems:
         - { job-name: "aff_0_test", rounds: "05", round: "04", epoch: "005", inst: "0", split_csv: "cc359ppmi128/CC359PPMI128_fed-test.csv", model_pth: "/fedpod/states/aff_0/R05r05/models/R05r05_agg.pth"}
-        dependencies: [run-aggregation-jobs-04]
+        dependencies: [agg-aff-04]
 
   - name: train-job
     inputs:
@@ -273,7 +273,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.16.3
+      image: dwnusa/fedpod:v0.4.17.3
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args:
@@ -336,7 +336,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.16.3
+      image: dwnusa/fedpod:v0.4.17.3
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -413,7 +413,7 @@ spec:
       - name: split_csv
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.16.3
+      image: dwnusa/fedpod:v0.4.17.3
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 

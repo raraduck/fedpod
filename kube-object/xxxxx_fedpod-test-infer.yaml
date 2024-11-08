@@ -17,7 +17,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_infer1.sh"
+            value: "run_forward1.sh"
           - name: job-name
             value: "{{item.job-name}}"
           - name: rounds
@@ -49,7 +49,7 @@ spec:
         arguments:
           parameters:
           - name: script-name
-            value: "run_infer1.sh"
+            value: "run_forward1.sh"
           - name: job-name
             value: "{{item.job-name}}"
           - name: rounds
@@ -90,7 +90,7 @@ spec:
       - name: data_root
       - name: inst_root
     container:
-      image: dwnusa/fedpod:v0.4.16.4
+      image: dwnusa/fedpod:v0.4.17.3
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 

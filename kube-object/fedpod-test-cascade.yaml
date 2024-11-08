@@ -7,7 +7,7 @@ spec:
   templates:
   - name: parallel-steps
     steps:
-    - - name: run-infer-jobs-00
+    - - name: infer-cascade1-00
         template: infer-job
         arguments:
           parameters:
@@ -32,14 +32,14 @@ spec:
           - name: inst_root
             value: "inst_00"
         withItems:
-        - { job-name: "cascade_1", rounds: "02", round: "02", epoch: "022", inst: "0", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/fed1J0R12_0/R12r12/models/R12r12_agg.pth"}
+        - { job-name: "cascade1", rounds: "02", round: "02", epoch: "022", inst: "0", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/fed1J0R12_0/R12r12/models/R12r12_agg.pth"}
         # - { job-name: "last_sol1_2", rounds: "02", round: "02", epoch: "040", inst: "2", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02.pth"}
         # - { job-name: "last_sol1_3", rounds: "02", round: "02", epoch: "040", inst: "3", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02.pth"}
         # - { job-name: "last_sol1_4", rounds: "02", round: "02", epoch: "040", inst: "4", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02.pth"}
         # - { job-name: "last_sol1_5", rounds: "02", round: "02", epoch: "040", inst: "5", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02.pth"}
         # - { job-name: "last_sol1_6", rounds: "02", round: "02", epoch: "040", inst: "6", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02.pth"}
 
-    - - name: run-infer-jobs-01
+    - - name: infer-cascade2-01
         template: infer-job
         arguments:
           parameters:
@@ -60,11 +60,11 @@ spec:
           - name: model_pth
             value: "{{item.model_pth}}"
           - name: data_root
-            value: "states/cascade_1/R02r02"
+            value: "states/cascade1/R02r02"
           - name: inst_root
             value: "inst_00"
         withItems:
-        - { job-name: "cascade_2", rounds: "02", round: "02", epoch: "022", inst: "0", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/fed2J0R12_0/R12r12/models/R12r12_agg.pth"}
+        - { job-name: "cascade2", rounds: "02", round: "02", epoch: "022", inst: "0", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/fed2J0R12_0/R12r12/models/R12r12_agg.pth"}
         # - { job-name: "last_cen1_2", rounds: "02", round: "02", epoch: "040", inst: "2", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r02/models/R02r02.pth"}
         # - { job-name: "last_cen1_3", rounds: "02", round: "02", epoch: "040", inst: "3", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r02/models/R02r02.pth"}
         # - { job-name: "last_cen1_4", rounds: "02", round: "02", epoch: "040", inst: "4", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r02/models/R02r02.pth"}
@@ -85,7 +85,7 @@ spec:
       - name: data_root
       - name: inst_root
     container:
-      image: dwnusa/fedpod:v0.4.17.1
+      image: dwnusa/fedpod:v0.4.17.3
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
