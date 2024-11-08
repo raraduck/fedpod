@@ -1,8 +1,13 @@
-argo submit kube-object/fedpod-test-sol1.yaml -n argo
+#!/bin/bash
+
+kubectl create -f kube-object/fedpod-test-sol1.yaml -n argo
+
+WORKFLOW_NAME=$(kubectl get wf -o jsonpath='{.items[0].metadata.name}' -n argo)
+
 while true; do
-  STATUS=$(argo get @latest --no-color | grep Status: | awk '{print $2}')
+  STATUS=$(kubectl get wf $WORKFLOW_NAME -o jsonpath='{.status.phase}' -n argo)	
   if [[ $STATUS == "Succeeded" ]]; then
-    argo submit kube-object/fedpod-test-fed.yaml -n argo
+    kubectl create -f kube-object/fedpod-test-fed.yaml -n argo
     break
   fi
   sleep 10
