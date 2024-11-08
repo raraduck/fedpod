@@ -63,7 +63,7 @@ spec:
             value: "fedavg"
         dependencies: [train-sol1-00]
 
-      - name: infer-sol1--00
+      - name: infer-sol1-00
         template: infer-job
         arguments:
           parameters:
@@ -133,7 +133,7 @@ spec:
             value: "fedavg"
         dependencies: [train-sol1-01]
 
-      - name: infer-sol1--01
+      - name: infer-sol1-01
         template: infer-job
         arguments:
           parameters:
