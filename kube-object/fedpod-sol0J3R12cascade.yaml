@@ -32,7 +32,7 @@ spec:
           - name: inst_root
             value: "inst_00"
         withItems:
-        - { job-name: "cascade1-sol1J3R12v1", rounds: "01", round: "00", epoch: "000", inst: "0", split_csv: "cc359ppmi128/CC359PPMI_sol1J3R12v1.csv", model_pth: "/fedpod/states/sol1J3R12v1_0/R12r12/models/R12r12_agg.pth"}
+        - { job-name: "sol1J3R12v1_cascade1", rounds: "01", round: "00", epoch: "000", inst: "0", split_csv: "cc359ppmi128/CC359PPMI_sol1J3R12v1.csv", model_pth: "/fedpod/states/sol1J3R12v1_0/R12r12/models/R12r12_agg.pth"}
         # - { job-name: "last_sol1_2", rounds: "02", round: "02", epoch: "040", inst: "2", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02.pth"}
         # - { job-name: "last_sol1_3", rounds: "02", round: "02", epoch: "040", inst: "3", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02.pth"}
         # - { job-name: "last_sol1_4", rounds: "02", round: "02", epoch: "040", inst: "4", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r02/models/R02r02.pth"}
@@ -60,11 +60,11 @@ spec:
           - name: model_pth
             value: "{{item.model_pth}}"
           - name: data_root
-            value: "states/cascade1-sol1J3R12v1/R01r00"
+            value: "states/sol1J3R12v1_cascade1/R01r00"
           - name: inst_root
             value: "inst_00"
         withItems:
-        - { job-name: "cascade2-sol2J3R12v1", rounds: "01", round: "01", epoch: "000", inst: "0", split_csv: "cc359ppmi128/CC359PPMI_sol1J3R12v1.csv", model_pth: "/fedpod/states/sol2J3R12v1_0/R12r12/models/R12r12_agg.pth"}
+        - { job-name: "sol2J3R12v1_cascade2", rounds: "01", round: "01", epoch: "000", inst: "0", split_csv: "cc359ppmi128/CC359PPMI_sol1J3R12v1.csv", model_pth: "/fedpod/states/sol2J3R12v1_0/R12r12/models/R12r12_agg.pth"}
         # - { job-name: "last_cen1_2", rounds: "02", round: "02", epoch: "040", inst: "2", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r02/models/R02r02.pth"}
         # - { job-name: "last_cen1_3", rounds: "02", round: "02", epoch: "040", inst: "3", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r02/models/R02r02.pth"}
         # - { job-name: "last_cen1_4", rounds: "02", round: "02", epoch: "040", inst: "4", split_csv: "cc359ppmi128/CC359PPMI_v1-test.csv", model_pth: "/fedpod/states/cen1_0/R02r02/models/R02r02.pth"}
