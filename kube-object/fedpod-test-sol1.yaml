@@ -63,30 +63,6 @@ spec:
             value: "fedavg"
         dependencies: [train-sol1-00]
 
-      - name: infer-sol1-00
-        template: infer-job
-        arguments:
-          parameters:
-          - name: script-name
-            value: "run_forward1.sh"
-          - name: job-name
-            value: "{{item.job-name}}"
-          - name: rounds
-            value: "{{item.rounds}}"
-          - name: round
-            value: "{{item.round}}"
-          - name: epoch
-            value: "{{item.epoch}}"
-          - name: inst-id
-            value: "{{item.inst}}"
-          - name: split_csv
-            value: "{{item.split_csv}}"
-          - name: model_pth
-            value: "{{item.model_pth}}"
-        withItems:
-        - { job-name: "sol1_test_0", rounds: "02", round: "01", epoch: "001", inst: "0", split_csv: "cc359ppmi128/CC359PPMI128_sol1-test.csv", model_pth: "/fedpod/states/sol1_0/R02r01/models/R02r01_agg.pth" }
-        dependencies: [agg-sol1-00]
-
       # Round 1
       - name: train-sol1-01
         template: train-job
