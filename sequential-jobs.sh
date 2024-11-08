@@ -15,7 +15,7 @@ while true; do
     WORKFLOW_NAME=$(kubectl get wf -n argo --sort-by='{.metadata.creationTimestamp}' -o jsonpath='{.items[-1:].metadata.name}')
     break
   fi
-  sleep 10
+  sleep 300
 done
 
 # 워크플로우의 상태 확인
@@ -28,7 +28,7 @@ while true; do
     WORKFLOW_NAME=$(kubectl get wf -n argo --sort-by='{.metadata.creationTimestamp}' -o jsonpath='{.items[-1:].metadata.name}')
     break
   fi
-  sleep 10
+  sleep 300
 done
 
 
@@ -42,7 +42,7 @@ while true; do
     WORKFLOW_NAME=$(kubectl get wf -n argo --sort-by='{.metadata.creationTimestamp}' -o jsonpath='{.items[-1:].metadata.name}')
     break
   fi
-  sleep 10
+  sleep 300
 done
 
 
@@ -56,7 +56,7 @@ while true; do
     WORKFLOW_NAME=$(kubectl get wf -n argo --sort-by='{.metadata.creationTimestamp}' -o jsonpath='{.items[-1:].metadata.name}')
     break
   fi
-  sleep 10
+  sleep 300
 done
 
 
@@ -70,5 +70,5 @@ while true; do
     WORKFLOW_NAME=$(kubectl get wf -n argo --sort-by='{.metadata.creationTimestamp}' -o jsonpath='{.items[-1:].metadata.name}')
     break
   fi
-  sleep 10
+  sleep 300
 done
