@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
-  generateName: fed0J0R12v1_cascade-
+  generateName: fed0j0r12v1_cascade-
 spec:
   entrypoint: parallel-steps
   templates:
