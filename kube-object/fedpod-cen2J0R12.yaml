@@ -758,7 +758,7 @@ spec:
           -n {{inputs.parameters.inst_root}}
       resources:
         requests:
-          cpu: "2"
+          cpu: "18"
           memory: "16G"
       volumeMounts:
       - name: cc359ppmi128-volume

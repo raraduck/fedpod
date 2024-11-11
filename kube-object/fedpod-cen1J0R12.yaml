@@ -625,7 +625,7 @@ spec:
           -M {{inputs.parameters.model_pth}}
       resources:
         requests:
-          cpu: "2"
+          cpu: "18"
           memory: "16G"
       volumeMounts:
       - name: cc359ppmi128-volume
