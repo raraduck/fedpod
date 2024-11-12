@@ -149,14 +149,24 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
 
     if args.algorithm == "fedavg":
         P = [1 for el in local_models_with_dlen]
-        W = [el/sum(P) for el in P]
+        W = [p/sum(P) for p in P]
         M = [el['model'] for el in local_models_with_dlen]
         aggregated_model = fedavg(W, M)
     elif args.algorithm == "fedwavg":
         P = [el['P'] for el in local_models_with_dlen]
-        W = [el/sum(P) for el in P]
+        W = [p/sum(P) for p in P]
         M = [el['model'] for el in local_models_with_dlen]
         aggregated_model = fedwavg(W, M)
+    elif args.algorithm == "fedpod":
+        P = [el['P'] for el in local_models_with_dlen]
+        I = [el['I'] for el in local_models_with_dlen]
+        D = [el['D'] for el in local_models_with_dlen]
+        alpha = 0.3
+        beta = 0.1
+        gamma = 0.6
+        W = [alpha*p/sum(P) + beta*i/sum(I) + gamma*d/sum(D) for p, i, d in zip(P, I, D)]
+        M = [el['model'] for el in local_models_with_dlen]
+        aggregated_model = fedPOD(W, M)
     else:
         raise NotImplementedError(f"{args.algorithm.upper()} is not implemented on Aggregator()")
 
