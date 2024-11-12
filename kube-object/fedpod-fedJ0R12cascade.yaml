@@ -85,7 +85,7 @@ spec:
       - name: data_root
       - name: inst_root
     container:
-      image: dwnusa/fedpod:v0.4.17.3
+      image: dwnusa/fedpod:v0.4.17.5
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
