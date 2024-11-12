@@ -55,7 +55,7 @@ spec:
           - name: model_pth
             value: "None"
           - name: algorithm
-            value: "fedwavg"
+            value: "fedpod"
         dependencies: [train-fed1J6R12v1-00]
 
       # Round 1
@@ -101,7 +101,7 @@ spec:
           - name: model_pth
             value: "None"
           - name: algorithm
-            value: "fedwavg"
+            value: "fedpod"
         dependencies: [train-fed1J6R12v1-01]
 
       # Round 2
@@ -147,7 +147,7 @@ spec:
           - name: model_pth
             value: "None"
           - name: algorithm
-            value: "fedwavg"
+            value: "fedpod"
         dependencies: [train-fed1J6R12v1-02]
         
       # Round 3
@@ -193,7 +193,7 @@ spec:
           - name: model_pth
             value: "None"
           - name: algorithm
-            value: "fedwavg"
+            value: "fedpod"
         dependencies: [train-fed1J6R12v1-03]
 
       # Round 4
@@ -239,7 +239,7 @@ spec:
           - name: model_pth
             value: "None"
           - name: algorithm
-            value: "fedwavg"
+            value: "fedpod"
         dependencies: [train-fed1J6R12v1-04]
 
       # Round 5
@@ -285,7 +285,7 @@ spec:
           - name: model_pth
             value: "None"
           - name: algorithm
-            value: "fedwavg"
+            value: "fedpod"
         dependencies: [train-fed1J6R12v1-05]
         
       # Round 6
@@ -331,7 +331,7 @@ spec:
           - name: model_pth
             value: "None"
           - name: algorithm
-            value: "fedwavg"
+            value: "fedpod"
         dependencies: [train-fed1J6R12v1-06]
         
       # Round 7
@@ -377,7 +377,7 @@ spec:
           - name: model_pth
             value: "None"
           - name: algorithm
-            value: "fedwavg"
+            value: "fedpod"
         dependencies: [train-fed1J6R12v1-07]
         
       # Round 8
@@ -423,7 +423,7 @@ spec:
           - name: model_pth
             value: "None"
           - name: algorithm
-            value: "fedwavg"
+            value: "fedpod"
         dependencies: [train-fed1J6R12v1-08]
         
       # Round 9
@@ -469,7 +469,7 @@ spec:
           - name: model_pth
             value: "None"
           - name: algorithm
-            value: "fedwavg"
+            value: "fedpod"
         dependencies: [train-fed1J6R12v1-09]
         
       # Round 10
@@ -515,7 +515,7 @@ spec:
           - name: model_pth
             value: "None"
           - name: algorithm
-            value: "fedwavg"
+            value: "fedpod"
         dependencies: [train-fed1J6R12v1-10]
         
       # Round 11
@@ -561,7 +561,7 @@ spec:
           - name: model_pth
             value: "None"
           - name: algorithm
-            value: "fedwavg"
+            value: "fedpod"
         dependencies: [train-fed1J6R12v1-11]
 
 
