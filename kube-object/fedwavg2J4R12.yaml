@@ -36,7 +36,7 @@ spec:
           - name: model_pth
             value: "None"
         withItems:
-        - { inst: "6" }
+        - { inst: "4" }
 
       - name: agg-fedwavg2j4r12v2-00
         template: aggregation-job
