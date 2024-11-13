@@ -523,9 +523,9 @@ class Unet3DApp:
             train_setup['model'] = train_setup['model'].module  # Extract original model from DataParallel wrapper
         train_setup['model'] = train_setup['model'].to('cpu')  # Move model back to CPU
 
-        Pre_DSCL = pre_metrics['DSCL_AVG']
-        Post_DSCL = post_metrics['DSCL_AVG']
-        Post_DSCL = np.min([Pre_DSCL, Post_DSCL])
+        Pre_LOSS = pre_metrics['PVDC_AVG'] # PVDC_AVG vs. DSCL_AVG
+        Post_LOSS = post_metrics['PVDC_AVG'] # PVDC_AVG vs. DSCL_AVG
+        Post_LOSS = Post_LOSS if Post_LOSS < Pre_LOSS else Pre_LOSS # np.min([Pre_LOSS, Post_LOSS])
         state = {
             'model': train_setup['model'].state_dict(), 
             'args': self.cli_args,
@@ -533,8 +533,8 @@ class Unet3DApp:
             'pre_metrics': pre_metrics,
             'post_metrics': post_metrics,
             'P': train_setup['train_loader'].dataset.__len__(),
-            'I': (Pre_DSCL + Post_DSCL)/2,
-            'D': (Pre_DSCL - Post_DSCL),
+            'I': (Pre_LOSS + Post_LOSS)/2,
+            'D': (Pre_LOSS - Post_LOSS),
             'time': time.time() - time_in_total,
         }
         save_model_path = os.path.join("states", self.job_name, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", "models")
