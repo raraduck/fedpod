@@ -592,7 +592,7 @@ spec:
           - name: inst_root
             value: "inst_00"
         withItems:
-        - { job-name: "fedwavg1nj6r12v3_test", rounds: "12", round: "12", epoch: "022", inst: "0", split_csv: "cc359ppmi128/CC359PPMI_fedwavg1nj6r12v3.csv", model_pth: "/fedpod/states/fedwavg1nj6r12v3_0/R12r12/models/R12r12_agg.pth"}
+        - { job-name: "fedwavg1nj6r12v3_test", rounds: "12", round: "12", epoch: "022", inst: "0", split_csv: "cc359ppmi128/CC359PPMI_nj6r12v3.csv", model_pth: "/fedpod/states/fedwavg1nj6r12v3_0/R12r12/models/R12r12_agg.pth"}
         dependencies: [agg-fedwavg1nj6r12v3-11]
 
   - name: train-job
