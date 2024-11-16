@@ -4,7 +4,6 @@ metadata:
   generateName: fedpod-
 spec:
   entrypoint: parallel-dag
-  onExit: infer-12
   arguments:
     parameters:
     - name: train-script
