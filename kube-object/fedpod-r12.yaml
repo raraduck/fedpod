@@ -190,7 +190,9 @@ spec:
         - { inst: "5" }
         - { inst: "6" }
         dependencies: [agg-02]
-        when: "{{tasks.agg-02.outputs.parameters.next-round|default(12)}} < {{workflow.parameters.rounds}}"
+        # when: "{{tasks.agg-02.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+        when: "{{tasks.agg-02.outputs.parameters.next-round is defined and tasks.agg-02.outputs.parameters.next-round < workflow.parameters.rounds or not tasks.agg-02.outputs.parameters.next-round is defined and 12 < workflow.parameters.rounds}}"
+
 
       - name: agg-03
         template: aggregation-job
@@ -211,7 +213,8 @@ spec:
           - name: algorithm
             value: "fedpod"
         dependencies: [train-03]
-        when: "{{tasks.agg-02.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+        # when: "{{tasks.agg-02.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+        when: "{{tasks.agg-02.outputs.parameters.next-round is defined and tasks.agg-02.outputs.parameters.next-round < workflow.parameters.rounds or not tasks.agg-02.outputs.parameters.next-round is defined and 12 < workflow.parameters.rounds}}"
 
       # Round 4
       - name: train-04
