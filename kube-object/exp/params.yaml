@@ -10,7 +10,7 @@ parameters:
   - name: initial-round
     value: "03"
   - name: job-prefix
-    value: "model-241116"
+    value: "model-241116-1"
   - name: split_csv
     value: "cc359ppmi128/CC359PPMI_nj4r12v3.csv"
   - name: init_model
