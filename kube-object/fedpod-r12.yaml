@@ -4,6 +4,7 @@ metadata:
   generateName: fedpod-
 spec:
   entrypoint: parallel-dag
+  onExit: infer-12
   arguments:
     parameters:
     - name: train-script
@@ -91,6 +92,7 @@ spec:
         - { inst: "5" }
         - { inst: "6" }
         dependencies: [agg-00]
+        when: "{{tasks.agg-00.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-01
         template: aggregation-job
@@ -111,6 +113,7 @@ spec:
           - name: algorithm
             value: "fedpod"
         dependencies: [train-01]
+        when: "{{tasks.agg-00.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       # Round 2
       - name: train-02
@@ -137,6 +140,7 @@ spec:
         - { inst: "5" }
         - { inst: "6" }
         dependencies: [agg-01]
+        when: "{{tasks.agg-01.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-02
         template: aggregation-job
@@ -157,6 +161,7 @@ spec:
           - name: algorithm
             value: "fedpod"
         dependencies: [train-02]
+        when: "{{tasks.agg-01.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
         
       # Round 3
       - name: train-03
@@ -183,6 +188,7 @@ spec:
         - { inst: "5" }
         - { inst: "6" }
         dependencies: [agg-02]
+        when: "{{tasks.agg-02.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-03
         template: aggregation-job
@@ -203,6 +209,7 @@ spec:
           - name: algorithm
             value: "fedpod"
         dependencies: [train-03]
+        when: "{{tasks.agg-02.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       # Round 4
       - name: train-04
@@ -229,6 +236,7 @@ spec:
         - { inst: "5" }
         - { inst: "6" }
         dependencies: [agg-03]
+        when: "{{tasks.agg-03.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-04
         template: aggregation-job
@@ -249,6 +257,7 @@ spec:
           - name: algorithm
             value: "fedpod"
         dependencies: [train-04]
+        when: "{{tasks.agg-03.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       # Round 5
       - name: train-05
@@ -275,6 +284,7 @@ spec:
         - { inst: "5" }
         - { inst: "6" }
         dependencies: [agg-04]
+        when: "{{tasks.agg-04.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-05
         template: aggregation-job
@@ -295,6 +305,7 @@ spec:
           - name: algorithm
             value: "fedpod"
         dependencies: [train-05]
+        when: "{{tasks.agg-04.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
         
       # Round 6
       - name: train-06
@@ -321,6 +332,7 @@ spec:
         - { inst: "5" }
         - { inst: "6" }
         dependencies: [agg-05]
+        when: "{{tasks.agg-05.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-06
         template: aggregation-job
@@ -341,6 +353,7 @@ spec:
           - name: algorithm
             value: "fedpod"
         dependencies: [train-06]
+        when: "{{tasks.agg-05.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
         
       # Round 7
       - name: train-07
@@ -367,6 +380,7 @@ spec:
         - { inst: "5" }
         - { inst: "6" }
         dependencies: [agg-06]
+        when: "{{tasks.agg-06.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-07
         template: aggregation-job
@@ -387,6 +401,7 @@ spec:
           - name: algorithm
             value: "fedpod"
         dependencies: [train-07]
+        when: "{{tasks.agg-06.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
         
       # Round 8
       - name: train-08
@@ -413,6 +428,7 @@ spec:
         - { inst: "5" }
         - { inst: "6" }
         dependencies: [agg-07]
+        when: "{{tasks.agg-07.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-08
         template: aggregation-job
@@ -433,6 +449,7 @@ spec:
           - name: algorithm
             value: "fedpod"
         dependencies: [train-08]
+        when: "{{tasks.agg-07.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
         
       # Round 9
       - name: train-09
@@ -459,6 +476,7 @@ spec:
         - { inst: "5" }
         - { inst: "6" }
         dependencies: [agg-08]
+        when: "{{tasks.agg-08.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-09
         template: aggregation-job
@@ -479,6 +497,7 @@ spec:
           - name: algorithm
             value: "fedpod"
         dependencies: [train-09]
+        when: "{{tasks.agg-08.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
         
       # Round 10
       - name: train-10
@@ -505,6 +524,7 @@ spec:
         - { inst: "5" }
         - { inst: "6" }
         dependencies: [agg-09]
+        when: "{{tasks.agg-09.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-10
         template: aggregation-job
@@ -525,6 +545,7 @@ spec:
           - name: algorithm
             value: "fedpod"
         dependencies: [train-10]
+        when: "{{tasks.agg-09.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
         
       # Round 11
       - name: train-11
@@ -551,6 +572,7 @@ spec:
         - { inst: "5" }
         - { inst: "6" }
         dependencies: [agg-10]
+        when: "{{tasks.agg-10.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-11
         template: aggregation-job
@@ -571,37 +593,36 @@ spec:
           - name: algorithm
             value: "fedpod"
         dependencies: [train-11]
+        when: "{{tasks.agg-10.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
-
-
-      # Round 12 (Inference)
-      - name: infer-12
-        template: infer-job
-        arguments:
-          parameters:
-          - name: infer-script
-            value: "{{workflow.parameters.infer-script}}"
-          - name: job-name
-            value: "{{item.job-name}}"
-          - name: rounds
-            value: "{{item.rounds}}"
-          - name: round
-            value: "{{item.round}}"
-          - name: epoch
-            value: "{{item.epoch}}"
-          - name: inst-id
-            value: "{{item.inst}}"
-          - name: split_csv
-            value: "{{item.split_csv}}"
-          - name: model_pth
-            value: "{{item.model_pth}}"
-          - name: data_root
-            value: "cc359ppmi128"
-          - name: inst_root
-            value: "inst_00"
-        withItems:
-        - { job-name: "{{workflow.parameters.job-prefix}}_test", rounds: "{{workflow.parameters.rounds}}", round: "12", epoch: "000", inst: "0", split_csv: "{{workflow.parameters.split_csv}}", model_pth: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R12r12/models/R12r12_agg.pth"}
-        dependencies: [agg-11]
+  # Round 12 (Inference)
+  - name: infer-12
+    template: infer-job
+    arguments:
+      parameters:
+      - name: infer-script
+        value: "{{workflow.parameters.infer-script}}"
+      - name: job-name
+        value: "{{item.job-name}}"
+      - name: rounds
+        value: "{{item.rounds}}"
+      - name: round
+        value: "{{item.round}}"
+      - name: epoch
+        value: "{{item.epoch}}"
+      - name: inst-id
+        value: "{{item.inst}}"
+      - name: split_csv
+        value: "{{item.split_csv}}"
+      - name: model_pth
+        value: "{{item.model_pth}}"
+      - name: data_root
+        value: "cc359ppmi128"
+      - name: inst_root
+        value: "inst_00"
+    withItems:
+    - { job-name: "{{workflow.parameters.job-prefix}}_test", rounds: "{{workflow.parameters.rounds}}", round: "12", epoch: "000", inst: "0", split_csv: "{{workflow.parameters.split_csv}}", model_pth: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R12r12/models/R12r12_agg.pth"}
+    # dependencies: [agg-11]
 
   - name: train-job
     inputs:
