@@ -595,34 +595,34 @@ spec:
         dependencies: [train-11]
         when: "{{tasks.agg-10.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
-  # Round 12 (Inference)
-  - name: infer-12
-    template: infer-job
-    arguments:
-      parameters:
-      - name: infer-script
-        value: "{{workflow.parameters.infer-script}}"
-      - name: job-name
-        value: "{{item.job-name}}"
-      - name: rounds
-        value: "{{item.rounds}}"
-      - name: round
-        value: "{{item.round}}"
-      - name: epoch
-        value: "{{item.epoch}}"
-      - name: inst-id
-        value: "{{item.inst}}"
-      - name: split_csv
-        value: "{{item.split_csv}}"
-      - name: model_pth
-        value: "{{item.model_pth}}"
-      - name: data_root
-        value: "cc359ppmi128"
-      - name: inst_root
-        value: "inst_00"
-    withItems:
-    - { job-name: "{{workflow.parameters.job-prefix}}_test", rounds: "{{workflow.parameters.rounds}}", round: "12", epoch: "000", inst: "0", split_csv: "{{workflow.parameters.split_csv}}", model_pth: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R12r12/models/R12r12_agg.pth"}
-    # dependencies: [agg-11]
+      # Round 12 (Inference)
+      - name: infer-12
+        template: infer-job
+        arguments:
+          parameters:
+          - name: infer-script
+            value: "{{workflow.parameters.infer-script}}"
+          - name: job-name
+            value: "{{item.job-name}}"
+          - name: rounds
+            value: "{{item.rounds}}"
+          - name: round
+            value: "{{item.round}}"
+          - name: epoch
+            value: "{{item.epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: split_csv
+            value: "{{item.split_csv}}"
+          - name: model_pth
+            value: "{{item.model_pth}}"
+          - name: data_root
+            value: "cc359ppmi128"
+          - name: inst_root
+            value: "inst_00"
+        withItems:
+        - { job-name: "{{workflow.parameters.job-prefix}}_test", rounds: "{{workflow.parameters.rounds}}", round: "12", epoch: "000", inst: "0", split_csv: "{{workflow.parameters.split_csv}}", model_pth: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R12r12/models/R12r12_agg.pth"}
+        dependencies: [agg-00, agg-01, agg-02, agg-03, agg-04, agg-05, agg-06, agg-07, agg-08, agg-09, agg-10, agg-11]
 
   - name: train-job
     inputs:
