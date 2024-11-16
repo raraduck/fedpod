@@ -1,0 +1,17 @@
+parameters:
+  - name: train-script
+    value: "run_train1.sh"
+  - name: agg-script
+    value: "run_aggregation.sh"
+  - name: infer-script
+    value: "run_forward1.sh"
+  - name: rounds
+    value: "12"
+  - name: initial-round
+    value: "03"
+  - name: job-prefix
+    value: "model-241116"
+  - name: split_csv
+    value: "cc359ppmi128/CC359PPMI_nj4r12v3.csv"
+  - name: init_model
+    value: "/fedpod/states/nj6r12v3_0/R12r03/models/R12r03_agg.pth"
