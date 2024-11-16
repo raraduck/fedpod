@@ -190,7 +190,7 @@ spec:
         - { inst: "5" }
         - { inst: "6" }
         dependencies: [agg-02]
-        when: "{{tasks.agg-02.outputs.parameters.next-round | default(12)}} < {{workflow.parameters.rounds}}"
+        when: "{{tasks.agg-02.outputs.parameters.next-round|default(12)}} < {{workflow.parameters.rounds}}"
 
       - name: agg-03
         template: aggregation-job
