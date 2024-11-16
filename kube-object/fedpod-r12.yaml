@@ -165,6 +165,11 @@ spec:
         dependencies: [train-02]
         when: "{{tasks.agg-01.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
         
+      - name: dummy-agg-02
+        template: dummy-task
+        when: "{{tasks.agg-02.status}} == Skipped"
+        dependencies: [agg-02]
+        
       # Round 3
       - name: train-03
         template: train-job
@@ -190,9 +195,7 @@ spec:
         - { inst: "5" }
         - { inst: "6" }
         dependencies: [agg-02]
-        # when: "{{tasks.agg-02.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
-        when: "{{tasks.agg-02.outputs.parameters.next-round is defined and tasks.agg-02.outputs.parameters.next-round < workflow.parameters.rounds or not tasks.agg-02.outputs.parameters.next-round is defined and 12 < workflow.parameters.rounds}}"
-
+        when: "{{tasks.agg-02.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-03
         template: aggregation-job
@@ -213,8 +216,7 @@ spec:
           - name: algorithm
             value: "fedpod"
         dependencies: [train-03]
-        # when: "{{tasks.agg-02.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
-        when: "{{tasks.agg-02.outputs.parameters.next-round is defined and tasks.agg-02.outputs.parameters.next-round < workflow.parameters.rounds or not tasks.agg-02.outputs.parameters.next-round is defined and 12 < workflow.parameters.rounds}}"
+        when: "{{tasks.agg-02.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       # Round 4
       - name: train-04
@@ -826,3 +828,17 @@ spec:
       hostPath:
         path: /fedpod/runs  # 로컬 경로
         type: Directory
+
+  - name: dummy-task
+    container:
+      image: alpine:3.7
+      command: [sh, -c]
+      args: ["echo '12' > /tmp/next_round.txt; echo '0' > /tmp/next_epoch.txt"]
+    outputs:
+      parameters:
+      - name: next-round
+        valueFrom:
+          path: /tmp/next_round.txt
+      - name: next-epoch
+        valueFrom:
+          path: /tmp/next_epoch.txt
