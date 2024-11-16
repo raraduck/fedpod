@@ -94,7 +94,7 @@ spec:
         - { inst: "5" }
         - { inst: "6" }
         dependencies: [agg-00]
-        when: "{{tasks.agg-00.outputs.parameters.next-round or workflow.parameters.rounds}} < {{workflow.parameters.rounds}}"
+        when: "{{tasks.agg-00.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-01
         template: aggregation-job
@@ -115,7 +115,7 @@ spec:
           - name: algorithm
             value: "fedpod"
         dependencies: [train-01]
-        when: "{{tasks.agg-00.outputs.parameters.next-round or workflow.parameters.rounds}} < {{workflow.parameters.rounds}}"
+        when: "{{tasks.agg-00.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       # Round 2
       - name: train-02
@@ -142,7 +142,7 @@ spec:
         - { inst: "5" }
         - { inst: "6" }
         dependencies: [agg-01]
-        when: "{{tasks.agg-01.outputs.parameters.next-round or workflow.parameters.rounds}} < {{workflow.parameters.rounds}}"
+        when: "{{tasks.agg-01.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-02
         template: aggregation-job
@@ -163,7 +163,7 @@ spec:
           - name: algorithm
             value: "fedpod"
         dependencies: [train-02]
-        when: "{{tasks.agg-01.outputs.parameters.next-round or workflow.parameters.rounds}} < {{workflow.parameters.rounds}}"
+        when: "{{tasks.agg-01.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
         
       # Round 3
       - name: train-03
@@ -190,7 +190,7 @@ spec:
         - { inst: "5" }
         - { inst: "6" }
         dependencies: [agg-02]
-        when: "{{tasks.agg-02.outputs.parameters.next-round or workflow.parameters.rounds}} < {{workflow.parameters.rounds}}"
+        when: "{{tasks.agg-02.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-03
         template: aggregation-job
@@ -211,7 +211,7 @@ spec:
           - name: algorithm
             value: "fedpod"
         dependencies: [train-03]
-        when: "{{tasks.agg-02.outputs.parameters.next-round or workflow.parameters.rounds}} < {{workflow.parameters.rounds}}"
+        when: "{{tasks.agg-02.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       # Round 4
       - name: train-04
@@ -238,7 +238,7 @@ spec:
         - { inst: "5" }
         - { inst: "6" }
         dependencies: [agg-03]
-        when: "{{tasks.agg-03.outputs.parameters.next-round or workflow.parameters.rounds}} < {{workflow.parameters.rounds}}"
+        when: "{{tasks.agg-03.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-04
         template: aggregation-job
@@ -259,7 +259,7 @@ spec:
           - name: algorithm
             value: "fedpod"
         dependencies: [train-04]
-        when: "{{tasks.agg-03.outputs.parameters.next-round or workflow.parameters.rounds}} < {{workflow.parameters.rounds}}"
+        when: "{{tasks.agg-03.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       # Round 5
       - name: train-05
@@ -286,7 +286,7 @@ spec:
         - { inst: "5" }
         - { inst: "6" }
         dependencies: [agg-04]
-        when: "{{tasks.agg-04.outputs.parameters.next-round or workflow.parameters.rounds}} < {{workflow.parameters.rounds}}"
+        when: "{{tasks.agg-04.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-05
         template: aggregation-job
@@ -307,7 +307,7 @@ spec:
           - name: algorithm
             value: "fedpod"
         dependencies: [train-05]
-        when: "{{tasks.agg-04.outputs.parameters.next-round or workflow.parameters.rounds}} < {{workflow.parameters.rounds}}"
+        when: "{{tasks.agg-04.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
         
       # Round 6
       - name: train-06
@@ -735,6 +735,7 @@ spec:
       - name: next-round
         valueFrom:
           path: /tmp/next_round.txt  # Return the value from the temp file
+          default: "{{workflow.parameters.rounds}}"
       - name: next-epoch
         valueFrom:
           path: /tmp/next_epoch.txt
