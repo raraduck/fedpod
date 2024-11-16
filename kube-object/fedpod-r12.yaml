@@ -169,7 +169,7 @@ spec:
         template: dummy-task
         when: "{{tasks.agg-02.status}} == Skipped"
         dependencies: [agg-02]
-        
+
       # Round 3
       - name: train-03
         template: train-job
@@ -194,7 +194,8 @@ spec:
         - { inst: "4" }
         - { inst: "5" }
         - { inst: "6" }
-        dependencies: [agg-02]
+        # dependencies: [agg-02]
+        dependencies: [agg-02, dummy-agg-02]
         when: "{{tasks.agg-02.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-03
