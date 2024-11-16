@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: my-workflow-
+spec:
+  entrypoint: my-workflow-entry
+  arguments:
+    parameters:
+      - name: message
+        value: "Hello, Argo!"
+
+  templates:
+    - name: my-workflow-entry
+      steps:
+        - - name: print-message
+            template: print-message
+            arguments:
+              parameters:
+                - name: message
+                  value: "{{workflow.parameters.message}}"
+
+    - name: print-message
+      inputs:
+        parameters:
+          - name: message
+      container:
+        image: alpine:latest
+        command: [echo]
+        args: ["{{inputs.parameters.message}}"]
