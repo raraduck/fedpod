@@ -739,6 +739,7 @@ spec:
       - name: next-epoch
         valueFrom:
           path: /tmp/next_epoch.txt
+          default: "0"
     volumes:
     - name: cc359ppmi128-volume
       hostPath:
