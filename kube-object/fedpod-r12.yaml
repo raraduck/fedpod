@@ -178,15 +178,15 @@ spec:
           - name: train-script
             value: "{{workflow.parameters.train-script}}"
           - name: round
-            value: "{{tasks.agg-02.outputs.parameters.next-round}}"
+            value: "{{tasks.dummy-agg-02.outputs.parameters.next-round | default(tasks.agg-02.outputs.parameters.next-round)}}"
           - name: epochs
             value: "002"
           - name: epoch
-            value: "{{tasks.agg-02.outputs.parameters.next-epoch}}"
+            value: "{{tasks.dummy-agg-02.outputs.parameters.next-epoch | default(tasks.agg-02.outputs.parameters.next-epoch)}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-02.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-02.outputs.parameters.next-round}}_agg.pth"
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.dummy-agg-02.outputs.parameters.next-round | default(tasks.agg-02.outputs.parameters.next-round)}}/models/R{{workflow.parameters.rounds}}r{{tasks.dummy-agg-02.outputs.parameters.next-round | default(tasks.agg-02.outputs.parameters.next-round)}}_agg.pth"
         withItems:
         - { inst: "1" }
         - { inst: "2" }
@@ -194,9 +194,8 @@ spec:
         - { inst: "4" }
         - { inst: "5" }
         - { inst: "6" }
-        # dependencies: [agg-02]
         dependencies: [agg-02, dummy-agg-02]
-        when: "{{tasks.agg-02.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+        when: "{{tasks.dummy-agg-02.outputs.parameters.next-round | default(tasks.agg-02.outputs.parameters.next-round)}} < {{workflow.parameters.rounds}}"
 
       - name: agg-03
         template: aggregation-job
@@ -205,11 +204,11 @@ spec:
           - name: agg-script
             value: "{{workflow.parameters.agg-script}}"
           - name: round
-            value: "{{tasks.agg-02.outputs.parameters.next-round}}"
+            value: "{{tasks.dummy-agg-02.outputs.parameters.next-round | default(tasks.agg-02.outputs.parameters.next-round)}}"
           - name: epochs
             value: "002"
           - name: epoch
-            value: "{{tasks.agg-02.outputs.parameters.next-epoch}}"
+            value: "{{tasks.dummy-agg-02.outputs.parameters.next-epoch | default(tasks.agg-02.outputs.parameters.next-epoch)}}"
           - name: inst-id
             value: "0"
           - name: model_pth
@@ -217,7 +216,8 @@ spec:
           - name: algorithm
             value: "fedpod"
         dependencies: [train-03]
-        when: "{{tasks.agg-02.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+        when: "{{tasks.dummy-agg-02.outputs.parameters.next-round | default(tasks.agg-02.outputs.parameters.next-round)}} < {{workflow.parameters.rounds}}"
+
 
       # Round 4
       - name: train-04
