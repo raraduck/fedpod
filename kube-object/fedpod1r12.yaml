@@ -11,9 +11,11 @@ spec:
     - name: initial-round
       value: "00"
     - name: job-prefix
-      value: "fedpod1nj4r12v3"
+      value: "undefined"
     - name: split_csv
-      value: "cc359ppmi128/CC359PPMI_nj4r12v3.csv"
+      value: "undefined" # "cc359ppmi128/CC359PPMI_nj4r12v3.csv"
+    - name: init_model
+      value: "None" # "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}_agg.pth"
   templates:
   - name: parallel-dag
     dag:
@@ -34,7 +36,7 @@ spec:
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
-            value: "None"
+            value: "{{workflow.parameters.init_model}}"
         withItems:
         - { inst: "4" }
 
