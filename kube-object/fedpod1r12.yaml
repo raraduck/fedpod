@@ -1,0 +1,790 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: fedpod1r12-
+spec:
+  entrypoint: parallel-dag
+  arguments:
+    parameters:
+    - name: rounds
+      value: "12"
+    - name: initial-round
+      value: "00"
+    - name: job-prefix
+      value: "fedpod1nj4r12v3"
+    - name: split_csv
+      value: "cc359ppmi128/CC359PPMI_nj4r12v3.csv"
+  templates:
+  - name: parallel-dag
+    dag:
+      tasks:
+      # Round 0
+      - name: train-00
+        template: train-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_train1.sh"
+          - name: round
+            value: "{{workflow.parameters.initial-round}}"
+          - name: epochs
+            value: "002"
+          - name: epoch
+            value: "000"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "None"
+        withItems:
+        - { inst: "4" }
+
+      - name: agg-00
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_aggregation.sh"
+          - name: round
+            value: "{{workflow.parameters.initial-round}}"
+          - name: epochs
+            value: "002"
+          - name: epoch
+            value: "000"
+          - name: inst-id
+            value: "0"
+          - name: model_pth
+            value: "None"
+          - name: algorithm
+            value: "fedpod"
+        dependencies: [train-00]
+
+      # Round 1
+      - name: train-01
+        template: train-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_train1.sh"
+          - name: round
+            value: "{{tasks.agg-00.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "002"
+          - name: epoch
+            value: "{{tasks.agg-00.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}_agg.pth"
+        withItems:
+        - { inst: "1" }
+        - { inst: "2" }
+        - { inst: "3" }
+        - { inst: "4" }
+        - { inst: "5" }
+        - { inst: "6" }
+        dependencies: [agg-00]
+
+      - name: agg-01
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_aggregation.sh"
+          - name: round
+            value: "{{tasks.agg-00.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "002"
+          - name: epoch
+            value: "{{tasks.agg-00.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "0"
+          - name: model_pth
+            value: "None"
+          - name: algorithm
+            value: "fedpod"
+        dependencies: [train-01]
+
+      # Round 2
+      - name: train-02
+        template: train-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_train1.sh"
+          - name: round
+            value: "{{tasks.agg-01.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "002"
+          - name: epoch
+            value: "{{tasks.agg-01.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}_agg.pth"
+        withItems:
+        - { inst: "1" }
+        - { inst: "2" }
+        - { inst: "3" }
+        - { inst: "4" }
+        - { inst: "5" }
+        - { inst: "6" }
+        dependencies: [agg-01]
+
+      - name: agg-02
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_aggregation.sh"
+          - name: round
+            value: "{{tasks.agg-01.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "002"
+          - name: epoch
+            value: "{{tasks.agg-01.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "0"
+          - name: model_pth
+            value: "None"
+          - name: algorithm
+            value: "fedpod"
+        dependencies: [train-02]
+        
+      # Round 3
+      - name: train-03
+        template: train-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_train1.sh"
+          - name: round
+            value: "{{tasks.agg-02.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "002"
+          - name: epoch
+            value: "{{tasks.agg-02.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-02.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-02.outputs.parameters.next-round}}_agg.pth"
+        withItems:
+        - { inst: "1" }
+        - { inst: "2" }
+        - { inst: "3" }
+        - { inst: "4" }
+        - { inst: "5" }
+        - { inst: "6" }
+        dependencies: [agg-02]
+
+      - name: agg-03
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_aggregation.sh"
+          - name: round
+            value: "{{tasks.agg-02.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "002"
+          - name: epoch
+            value: "{{tasks.agg-02.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "0"
+          - name: model_pth
+            value: "None"
+          - name: algorithm
+            value: "fedpod"
+        dependencies: [train-03]
+
+      # Round 4
+      - name: train-04
+        template: train-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_train1.sh"
+          - name: round
+            value: "{{tasks.agg-03.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "002"
+          - name: epoch
+            value: "{{tasks.agg-03.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-03.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-03.outputs.parameters.next-round}}_agg.pth"
+        withItems:
+        - { inst: "1" }
+        - { inst: "2" }
+        - { inst: "3" }
+        - { inst: "4" }
+        - { inst: "5" }
+        - { inst: "6" }
+        dependencies: [agg-03]
+
+      - name: agg-04
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_aggregation.sh"
+          - name: round
+            value: "{{tasks.agg-03.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "002"
+          - name: epoch
+            value: "{{tasks.agg-03.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "0"
+          - name: model_pth
+            value: "None"
+          - name: algorithm
+            value: "fedpod"
+        dependencies: [train-04]
+
+      # Round 5
+      - name: train-05
+        template: train-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_train1.sh"
+          - name: round
+            value: "{{tasks.agg-04.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "002"
+          - name: epoch
+            value: "{{tasks.agg-04.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-04.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-04.outputs.parameters.next-round}}_agg.pth"
+        withItems:
+        - { inst: "1" }
+        - { inst: "2" }
+        - { inst: "3" }
+        - { inst: "4" }
+        - { inst: "5" }
+        - { inst: "6" }
+        dependencies: [agg-04]
+
+      - name: agg-05
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_aggregation.sh"
+          - name: round
+            value: "{{tasks.agg-04.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "002"
+          - name: epoch
+            value: "{{tasks.agg-04.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "0"
+          - name: model_pth
+            value: "None"
+          - name: algorithm
+            value: "fedpod"
+        dependencies: [train-05]
+        
+      # Round 6
+      - name: train-06
+        template: train-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_train1.sh"
+          - name: round
+            value: "{{tasks.agg-05.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "002"
+          - name: epoch
+            value: "{{tasks.agg-05.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-05.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-05.outputs.parameters.next-round}}_agg.pth"
+        withItems:
+        - { inst: "1" }
+        - { inst: "2" }
+        - { inst: "3" }
+        - { inst: "4" }
+        - { inst: "5" }
+        - { inst: "6" }
+        dependencies: [agg-05]
+
+      - name: agg-06
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_aggregation.sh"
+          - name: round
+            value: "{{tasks.agg-05.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "002"
+          - name: epoch
+            value: "{{tasks.agg-05.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "0"
+          - name: model_pth
+            value: "None"
+          - name: algorithm
+            value: "fedpod"
+        dependencies: [train-06]
+        
+      # Round 7
+      - name: train-07
+        template: train-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_train1.sh"
+          - name: round
+            value: "{{tasks.agg-06.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "002"
+          - name: epoch
+            value: "{{tasks.agg-06.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-06.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-06.outputs.parameters.next-round}}_agg.pth"
+        withItems:
+        - { inst: "1" }
+        - { inst: "2" }
+        - { inst: "3" }
+        - { inst: "4" }
+        - { inst: "5" }
+        - { inst: "6" }
+        dependencies: [agg-06]
+
+      - name: agg-07
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_aggregation.sh"
+          - name: round
+            value: "{{tasks.agg-06.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "002"
+          - name: epoch
+            value: "{{tasks.agg-06.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "0"
+          - name: model_pth
+            value: "None"
+          - name: algorithm
+            value: "fedpod"
+        dependencies: [train-07]
+        
+      # Round 8
+      - name: train-08
+        template: train-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_train1.sh"
+          - name: round
+            value: "{{tasks.agg-07.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "002"
+          - name: epoch
+            value: "{{tasks.agg-07.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-07.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-07.outputs.parameters.next-round}}_agg.pth"
+        withItems:
+        - { inst: "1" }
+        - { inst: "2" }
+        - { inst: "3" }
+        - { inst: "4" }
+        - { inst: "5" }
+        - { inst: "6" }
+        dependencies: [agg-07]
+
+      - name: agg-08
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_aggregation.sh"
+          - name: round
+            value: "{{tasks.agg-07.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "002"
+          - name: epoch
+            value: "{{tasks.agg-07.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "0"
+          - name: model_pth
+            value: "None"
+          - name: algorithm
+            value: "fedpod"
+        dependencies: [train-08]
+        
+      # Round 9
+      - name: train-09
+        template: train-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_train1.sh"
+          - name: round
+            value: "{{tasks.agg-08.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "002"
+          - name: epoch
+            value: "{{tasks.agg-08.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-08.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-08.outputs.parameters.next-round}}_agg.pth"
+        withItems:
+        - { inst: "1" }
+        - { inst: "2" }
+        - { inst: "3" }
+        - { inst: "4" }
+        - { inst: "5" }
+        - { inst: "6" }
+        dependencies: [agg-08]
+
+      - name: agg-09
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_aggregation.sh"
+          - name: round
+            value: "{{tasks.agg-08.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "002"
+          - name: epoch
+            value: "{{tasks.agg-08.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "0"
+          - name: model_pth
+            value: "None"
+          - name: algorithm
+            value: "fedpod"
+        dependencies: [train-09]
+        
+      # Round 10
+      - name: train-10
+        template: train-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_train1.sh"
+          - name: round
+            value: "{{tasks.agg-09.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "001"
+          - name: epoch
+            value: "{{tasks.agg-09.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-09.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-09.outputs.parameters.next-round}}_agg.pth"
+        withItems:
+        - { inst: "1" }
+        - { inst: "2" }
+        - { inst: "3" }
+        - { inst: "4" }
+        - { inst: "5" }
+        - { inst: "6" }
+        dependencies: [agg-09]
+
+      - name: agg-10
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_aggregation.sh"
+          - name: round
+            value: "{{tasks.agg-09.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "001"
+          - name: epoch
+            value: "{{tasks.agg-09.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "0"
+          - name: model_pth
+            value: "None"
+          - name: algorithm
+            value: "fedpod"
+        dependencies: [train-10]
+        
+      # Round 11
+      - name: train-11
+        template: train-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_train1.sh"
+          - name: round
+            value: "{{tasks.agg-10.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "001"
+          - name: epoch
+            value: "{{tasks.agg-10.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-10.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-10.outputs.parameters.next-round}}_agg.pth"
+        withItems:
+        - { inst: "1" }
+        - { inst: "2" }
+        - { inst: "3" }
+        - { inst: "4" }
+        - { inst: "5" }
+        - { inst: "6" }
+        dependencies: [agg-10]
+
+      - name: agg-11
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_aggregation.sh"
+          - name: round
+            value: "{{tasks.agg-10.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "001"
+          - name: epoch
+            value: "{{tasks.agg-10.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "0"
+          - name: model_pth
+            value: "None"
+          - name: algorithm
+            value: "fedpod"
+        dependencies: [train-11]
+
+
+
+      # Round 12 (Inference)
+      - name: infer-12
+        template: infer-job
+        arguments:
+          parameters:
+          - name: script-name
+            value: "run_forward1.sh"
+          - name: job-name
+            value: "{{item.job-name}}"
+          - name: rounds
+            value: "{{item.rounds}}"
+          - name: round
+            value: "{{item.round}}"
+          - name: epoch
+            value: "{{item.epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: split_csv
+            value: "{{item.split_csv}}"
+          - name: model_pth
+            value: "{{item.model_pth}}"
+          - name: data_root
+            value: "cc359ppmi128"
+          - name: inst_root
+            value: "inst_00"
+        withItems:
+        - { job-name: "fedpod1nj4r12v3_test", rounds: "12", round: "12", epoch: "022", inst: "0", split_csv: "cc359ppmi128/CC359PPMI_nj4r12v3.csv", model_pth: "/fedpod/states/fedpod1nj4r12v3_0/R12r12/models/R12r12_agg.pth"}
+        dependencies: [agg-11]
+
+  - name: train-job
+    inputs:
+      parameters:
+      - name: script-name
+      - name: round
+      - name: epochs
+      - name: epoch
+      - name: inst-id
+      - name: model_pth
+    container:
+      image: dwnusa/fedpod:v0.4.17.6
+      imagePullPolicy: Always
+      command: ["/bin/sh", "-c"]
+      args:
+        - >
+          ./{{inputs.parameters.script-name}} 
+          -s 0 
+          -f 10
+          -m 15
+          -g 0 
+          -J {{workflow.parameters.job-prefix}}_{{inputs.parameters.inst-id}} 
+          -R {{workflow.parameters.rounds}} 
+          -r {{inputs.parameters.round}} 
+          -E {{inputs.parameters.epochs}} 
+          -e {{inputs.parameters.epoch}} 
+          -i {{inputs.parameters.inst-id}} 
+          -c {{workflow.parameters.split_csv}} 
+          -M {{inputs.parameters.model_pth}}
+      resources:
+        requests:
+          cpu: "2"
+          memory: "16G"
+      volumeMounts:
+      - name: cc359ppmi128-volume
+        mountPath: /fedpod/cc359ppmi128
+      - name: states-volume
+        mountPath: /fedpod/states
+      - name: logs-volume
+        mountPath: /fedpod/logs
+      - name: runs-volume
+        mountPath: /fedpod/runs
+      stdin: true
+      tty: true
+    volumes:
+    - name: cc359ppmi128-volume
+      hostPath:
+        path: /fedpod/cc359ppmi128  # 로컬 경로
+        type: Directory
+    - name: states-volume
+      hostPath:
+        path: /fedpod/states  # 로컬 경로
+        type: Directory
+    - name: logs-volume
+      hostPath:
+        path: /fedpod/logs  # 로컬 경로
+        type: Directory
+    - name: runs-volume
+      hostPath:
+        path: /fedpod/runs  # 로컬 경로
+        type: Directory
+
+
+  - name: aggregation-job
+    inputs:
+      parameters:
+      - name: script-name
+      - name: round
+      - name: epochs
+      - name: epoch
+      - name: algorithm
+      - name: inst-id
+      - name: model_pth
+    container:
+      image: dwnusa/fedpod:v0.4.17.6
+      imagePullPolicy: Always
+      command: ["/bin/sh", "-c"]
+      args: 
+        - >
+          ./{{inputs.parameters.script-name}} 
+          -R {{workflow.parameters.rounds}} 
+          -r {{inputs.parameters.round}} 
+          -E {{inputs.parameters.epochs}} 
+          -e {{inputs.parameters.epoch}} 
+          -j {{workflow.parameters.job-prefix}} 
+          -i {{inputs.parameters.inst-id}} 
+          -a {{inputs.parameters.algorithm}} 
+          -M {{inputs.parameters.model_pth}}
+      resources:
+        requests:
+          cpu: "2"
+          memory: "4G"
+      volumeMounts:
+      - name: cc359ppmi128-volume
+        mountPath: /fedpod/cc359ppmi128
+      - name: states-volume
+        mountPath: /fedpod/states
+      - name: logs-volume
+        mountPath: /fedpod/logs
+      - name: runs-volume
+        mountPath: /fedpod/runs
+      stdin: true
+      tty: true
+    outputs:
+      parameters:
+      - name: next-round
+        valueFrom:
+          path: /tmp/next_round.txt  # Return the value from the temp file
+      - name: next-epoch
+        valueFrom:
+          path: /tmp/next_epoch.txt
+    volumes:
+    - name: cc359ppmi128-volume
+      hostPath:
+        path: /fedpod/cc359ppmi128  # 로컬 경로
+        type: Directory
+    - name: states-volume
+      hostPath:
+        path: /fedpod/states  # 로컬 경로
+        type: Directory
+    - name: logs-volume
+      hostPath:
+        path: /fedpod/logs  # 로컬 경로
+        type: Directory
+    - name: runs-volume
+      hostPath:
+        path: /fedpod/runs  # 로컬 경로
+        type: Directory
+
+        
+  - name: infer-job
+    inputs:
+      parameters:
+      - name: script-name
+      - name: job-name
+      - name: rounds
+      - name: round
+      - name: epoch
+      - name: inst-id
+      - name: split_csv
+      - name: model_pth
+      - name: data_root
+      - name: inst_root
+    container:
+      image: dwnusa/fedpod:v0.4.17.6
+      imagePullPolicy: Always
+      command: ["/bin/sh", "-c"]
+      args: 
+        - >
+          ./{{inputs.parameters.script-name}}
+          -s 1
+          -g 0
+          -J {{inputs.parameters.job-name}}
+          -i {{inputs.parameters.inst-id}}
+          -R {{inputs.parameters.rounds}}
+          -r {{inputs.parameters.round}}
+          -e {{inputs.parameters.epoch}}
+          -c {{inputs.parameters.split_csv}}
+          -M {{inputs.parameters.model_pth}}
+          -t test
+          -d {{inputs.parameters.data_root}}
+          -n {{inputs.parameters.inst_root}}
+      resources:
+        requests:
+          cpu: "2"
+          memory: "16G"
+      volumeMounts:
+      - name: cc359ppmi128-volume
+        mountPath: /fedpod/cc359ppmi128
+      - name: states-volume
+        mountPath: /fedpod/states
+      - name: logs-volume
+        mountPath: /fedpod/logs
+      - name: runs-volume
+        mountPath: /fedpod/runs
+      stdin: true
+      tty: true
+    volumes:
+    - name: cc359ppmi128-volume
+      hostPath:
+        path: /fedpod/cc359ppmi128  # 로컬 경로
+        type: Directory
+    - name: states-volume
+      hostPath:
+        path: /fedpod/states  # 로컬 경로
+        type: Directory
+    - name: logs-volume
+      hostPath:
+        path: /fedpod/logs  # 로컬 경로
+        type: Directory
+    - name: runs-volume
+      hostPath:
+        path: /fedpod/runs  # 로컬 경로
+        type: Directory
