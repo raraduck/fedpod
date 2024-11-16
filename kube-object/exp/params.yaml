@@ -1,7 +1,7 @@
 train-script: "run_train1.sh"
 agg-script: "run_aggregation.sh"
 infer-script: "run_forward1.sh"
-job-prefix: "model-241116-2"
+job-prefix: "model-241116-3"
 rounds: "12"
 initial-round: "10"
 initial-epoch: "20"
