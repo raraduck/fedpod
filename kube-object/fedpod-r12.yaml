@@ -39,7 +39,7 @@ spec:
           - name: round
             value: "{{workflow.parameters.initial-round}}"
           - name: epochs
-            value: "002"
+            value: "000"
           - name: epoch
             value: "{{workflow.parameters.initial-epoch}}"
           - name: inst-id
@@ -58,7 +58,7 @@ spec:
           - name: round
             value: "{{workflow.parameters.initial-round}}"
           - name: epochs
-            value: "002"
+            value: "000"
           - name: epoch
             value: "{{workflow.parameters.initial-epoch}}"
           - name: inst-id
@@ -512,7 +512,7 @@ spec:
           - name: round
             value: "{{tasks.agg-09.outputs.parameters.next-round}}"
           - name: epochs
-            value: "001"
+            value: "002"
           - name: epoch
             value: "{{tasks.agg-09.outputs.parameters.next-epoch}}"
           - name: inst-id
@@ -538,7 +538,7 @@ spec:
           - name: round
             value: "{{tasks.agg-09.outputs.parameters.next-round}}"
           - name: epochs
-            value: "001"
+            value: "002"
           - name: epoch
             value: "{{tasks.agg-09.outputs.parameters.next-epoch}}"
           - name: inst-id
