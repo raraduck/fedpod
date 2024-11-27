@@ -3,8 +3,8 @@ kind: Workflow
 metadata:
   generateName: fedpod-
 spec:
-  entrypoint: parallel-dag
-  onExit: infer-dag
+  entrypoint: infer-dag
+#  onExit: infer-dag
   arguments:
     parameters:
     - name: train-script
