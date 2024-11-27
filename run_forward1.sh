@@ -24,11 +24,11 @@ do
         r) round=${OPTARG};;
         e) curr_epoch=${OPTARG};;
         i) inst_id=${OPTARG};;
-		c) split_csv=${OPTARG};;
-		M) model_pth=${OPTARG};;
-		t) test_mode=${OPTARG};;
-		d) data_root=${OPTARG};;
-		n) inst_root=${OPTARG};;
+        c) split_csv=${OPTARG};;
+        M) model_pth=${OPTARG};;
+        t) test_mode=${OPTARG};;
+        d) data_root=${OPTARG};;
+        n) inst_root=${OPTARG};;
     esac
 done
 echo "save_infer: $save_infer, gpu: $use_gpu, job: $job_name, rounds: $round, curr_epoch: $curr_epoch, inst: $inst_id, split_csv: $split_csv, model_pth: $model_pth, test_mode: $test_mode, data_root: $data_root, inst_root: $inst_root"
@@ -51,6 +51,7 @@ python3 scripts/run_forward.py \
 	\
 	--resize 128 \
 	--patch_size 128 \
+	--zoom 1 \
 	--dataset CC359PPMI \
 	--data_root $data_root \
 	--inst_root $inst_root \

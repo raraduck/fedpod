@@ -27,7 +27,7 @@ def parse_args(argv):
     parser.add_argument('--inst_root', type=str, default='inst_01/', help='root dir of inst')
     
     # data augmentation
-    parser.add_argument('--zoom', type=int, choices=[0, 1], default=1, help='enable zoom to crop (default: False)')
+    parser.add_argument('--zoom', type=int, choices=[0, 1], default=0, help='enable zoom to crop (default: False)')
     parser.add_argument('--flip_lr', type=int, choices=[0, 1], default=0, help='enable flip to left and right (default: False)')
     parser.add_argument('--resize', type=int, default=256, help='resize')
     parser.add_argument('--patch_size', type=int, default=256, help='patch size')
