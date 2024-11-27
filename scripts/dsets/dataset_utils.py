@@ -185,8 +185,8 @@ def get_aug_transform(args):
         # axis 1는 Post->Ant (PA:1)
         # axis 2은 Inf->Sup (IS:2)
         transforms.RandFlipd(keys=["image", 'label'], prob=0.5, spatial_axis=0),
-        # transforms.RandFlipd(keys=["image", 'label'], prob=0.5, spatial_axis=1),
-        # transforms.RandFlipd(keys=["image", 'label'], prob=0.5, spatial_axis=2),
+        transforms.RandFlipd(keys=["image", 'label'], prob=0.5, spatial_axis=1),
+        transforms.RandFlipd(keys=["image", 'label'], prob=0.5, spatial_axis=2),
     ]
     aug_rest = [
         # rotate

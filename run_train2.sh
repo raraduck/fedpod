@@ -53,6 +53,8 @@ python3 scripts/run_train.py \
 	\
 	--resize 128 \
 	--patch_size 128 \
+	--zoom 0 \
+	--flip_lr 1 \
 	--dataset CC359PPMI \
 	--data_root cc359ppmi128 \
 	--inst_root inst_* \

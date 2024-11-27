@@ -44,8 +44,8 @@ fi
 python3 scripts/run_train.py \
 	--save_infer $save_infer \
 	--eval_freq $eval_freq \
-    --use_gpu $use_gpu \
-    --job_name $job_name \
+	--use_gpu $use_gpu \
+	--job_name $job_name \
 	--rounds $rounds \
 	--round $round \
 	--epochs $epochs \
@@ -53,6 +53,8 @@ python3 scripts/run_train.py \
 	\
 	--resize 128 \
 	--patch_size 128 \
+	--zoom 0 \
+	--flip_lr 1 \
 	--dataset CC359PPMI \
 	--data_root cc359ppmi128 \
 	--inst_root inst_* \
