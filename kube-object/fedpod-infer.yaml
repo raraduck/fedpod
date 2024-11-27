@@ -1,0 +1,278 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: fedpod-
+spec:
+  entrypoint: parallel-dag
+  onExit: infer-dag
+  arguments:
+    parameters:
+    - name: train-script
+      value: "run_train1.sh"
+    - name: agg-script
+      value: "run_aggregation.sh"
+    - name: infer-script
+      value: "run_forward1.sh"
+    - name: rounds
+      value: "12"
+    - name: initial-round
+      value: "00"
+    - name: initial-epoch
+      value: "00"
+    - name: job-prefix
+      value: "undefined"
+    - name: split_csv
+      value: "undefined" # "cc359ppmi128/CC359PPMI_nj4r12v3.csv"
+    - name: init_model
+      value: "None" # "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}_agg.pth"
+  templates:
+  - name: parallel-dag
+    dag:
+      tasks:
+
+  # Round 12 (Inference)
+  - name: infer-dag
+    dag:
+      tasks:
+      - name: infer-12
+        template: infer-job
+        arguments:
+          parameters:
+          - name: infer-script
+            value: "{{workflow.parameters.infer-script}}"
+          - name: job-name
+            value: "{{item.job-name}}"
+          - name: rounds
+            value: "{{item.rounds}}"
+          - name: round
+            value: "{{item.round}}"
+          - name: epoch
+            value: "{{item.epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: split_csv
+            value: "{{item.split_csv}}"
+          - name: model_pth
+            value: "{{item.model_pth}}"
+          - name: data_root
+            value: "cc359ppmi128"
+          - name: inst_root
+            value: "inst_00"
+        withItems:
+        - { job-name: "{{workflow.parameters.job-prefix}}_test",
+            rounds: "{{workflow.parameters.rounds}}",
+            round: "{{workflow.parameters.initial-round}}",
+            epoch: "{{workflow.parameters.initial-epoch}}",
+            inst: "0",
+            split_csv: "{{workflow.parameters.split_csv}}",
+            model_pth: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R12r12/models/R12r12_agg.pth"}
+
+  - name: train-job
+    inputs:
+      parameters:
+      - name: train-script
+      - name: round
+      - name: epochs
+      - name: epoch
+      - name: inst-id
+      - name: model_pth
+    container:
+      image: dwnusa/fedpod:v0.4.17.6
+      imagePullPolicy: Always
+      command: ["/bin/sh", "-c"]
+      args:
+        - >
+          ./{{inputs.parameters.train-script}} 
+          -s 0 
+          -f 10
+          -m 15
+          -g 0 
+          -J {{workflow.parameters.job-prefix}}_{{inputs.parameters.inst-id}} 
+          -R {{workflow.parameters.rounds}} 
+          -r {{inputs.parameters.round}} 
+          -E {{inputs.parameters.epochs}} 
+          -e {{inputs.parameters.epoch}} 
+          -i {{inputs.parameters.inst-id}} 
+          -c {{workflow.parameters.split_csv}} 
+          -M {{inputs.parameters.model_pth}}
+      resources:
+        requests:
+          cpu: "2"
+          memory: "16G"
+      volumeMounts:
+      - name: cc359ppmi128-volume
+        mountPath: /fedpod/cc359ppmi128
+      - name: states-volume
+        mountPath: /fedpod/states
+      - name: logs-volume
+        mountPath: /fedpod/logs
+      - name: runs-volume
+        mountPath: /fedpod/runs
+      stdin: true
+      tty: true
+    volumes:
+    - name: cc359ppmi128-volume
+      hostPath:
+        path: /fedpod/cc359ppmi128  # 로컬 경로
+        type: Directory
+    - name: states-volume
+      hostPath:
+        path: /fedpod/states  # 로컬 경로
+        type: Directory
+    - name: logs-volume
+      hostPath:
+        path: /fedpod/logs  # 로컬 경로
+        type: Directory
+    - name: runs-volume
+      hostPath:
+        path: /fedpod/runs  # 로컬 경로
+        type: Directory
+
+
+  - name: aggregation-job
+    inputs:
+      parameters:
+      - name: agg-script
+      - name: round
+      - name: epochs
+      - name: epoch
+      - name: algorithm
+      - name: inst-id
+      - name: model_pth
+    container:
+      image: dwnusa/fedpod:v0.4.17.6
+      imagePullPolicy: Always
+      command: ["/bin/sh", "-c"]
+      args: 
+        - >
+          ./{{inputs.parameters.agg-script}} 
+          -R {{workflow.parameters.rounds}} 
+          -r {{inputs.parameters.round}} 
+          -E {{inputs.parameters.epochs}} 
+          -e {{inputs.parameters.epoch}} 
+          -j {{workflow.parameters.job-prefix}} 
+          -i {{inputs.parameters.inst-id}} 
+          -a {{inputs.parameters.algorithm}} 
+          -M {{inputs.parameters.model_pth}}
+      resources:
+        requests:
+          cpu: "2"
+          memory: "4G"
+      volumeMounts:
+      - name: cc359ppmi128-volume
+        mountPath: /fedpod/cc359ppmi128
+      - name: states-volume
+        mountPath: /fedpod/states
+      - name: logs-volume
+        mountPath: /fedpod/logs
+      - name: runs-volume
+        mountPath: /fedpod/runs
+      stdin: true
+      tty: true
+    outputs:
+      parameters:
+      - name: next-round
+        valueFrom:
+          path: /tmp/next_round.txt  # Return the value from the temp file
+          default: "{{workflow.parameters.rounds}}"
+      - name: next-epoch
+        valueFrom:
+          path: /tmp/next_epoch.txt
+          default: "0"
+    volumes:
+    - name: cc359ppmi128-volume
+      hostPath:
+        path: /fedpod/cc359ppmi128  # 로컬 경로
+        type: Directory
+    - name: states-volume
+      hostPath:
+        path: /fedpod/states  # 로컬 경로
+        type: Directory
+    - name: logs-volume
+      hostPath:
+        path: /fedpod/logs  # 로컬 경로
+        type: Directory
+    - name: runs-volume
+      hostPath:
+        path: /fedpod/runs  # 로컬 경로
+        type: Directory
+
+        
+  - name: infer-job
+    inputs:
+      parameters:
+      - name: infer-script
+      - name: job-name
+      - name: rounds
+      - name: round
+      - name: epoch
+      - name: inst-id
+      - name: split_csv
+      - name: model_pth
+      - name: data_root
+      - name: inst_root
+    container:
+      image: dwnusa/fedpod:v0.4.17.6
+      imagePullPolicy: Always
+      command: ["/bin/sh", "-c"]
+      args: 
+        - >
+          ./{{inputs.parameters.infer-script}}
+          -s 1
+          -g 0
+          -J {{inputs.parameters.job-name}}
+          -i {{inputs.parameters.inst-id}}
+          -R {{inputs.parameters.rounds}}
+          -r {{inputs.parameters.round}}
+          -e {{inputs.parameters.epoch}}
+          -c {{inputs.parameters.split_csv}}
+          -M {{inputs.parameters.model_pth}}
+          -t test
+          -d {{inputs.parameters.data_root}}
+          -n {{inputs.parameters.inst_root}}
+      resources:
+        requests:
+          cpu: "2"
+          memory: "16G"
+      volumeMounts:
+      - name: cc359ppmi128-volume
+        mountPath: /fedpod/cc359ppmi128
+      - name: states-volume
+        mountPath: /fedpod/states
+      - name: logs-volume
+        mountPath: /fedpod/logs
+      - name: runs-volume
+        mountPath: /fedpod/runs
+      stdin: true
+      tty: true
+    volumes:
+    - name: cc359ppmi128-volume
+      hostPath:
+        path: /fedpod/cc359ppmi128  # 로컬 경로
+        type: Directory
+    - name: states-volume
+      hostPath:
+        path: /fedpod/states  # 로컬 경로
+        type: Directory
+    - name: logs-volume
+      hostPath:
+        path: /fedpod/logs  # 로컬 경로
+        type: Directory
+    - name: runs-volume
+      hostPath:
+        path: /fedpod/runs  # 로컬 경로
+        type: Directory
+
+  - name: dummy-task
+    container:
+      image: alpine:3.7
+      command: [sh, -c]
+      args: ["echo '12' > /tmp/next_round.txt; echo '0' > /tmp/next_epoch.txt"]
+    outputs:
+      parameters:
+      - name: next-round
+        valueFrom:
+          path: /tmp/next_round.txt
+      - name: next-epoch
+        valueFrom:
+          path: /tmp/next_epoch.txt
