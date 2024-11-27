@@ -73,15 +73,19 @@ def calculate_new_pixdim(args, data):
     data['cropped_shape'] = cropped_shape
     return data
 
-def apply_spacing_transform(args, data):
+def apply_spacing_transform(args, data, selected_keys):
     max_size = max(data['cropped_shape'])
     ratio = max_size/args.resize * 1 # args.pixdim
-    selected_keys = [*args.input_channel_names, 'label']
+    if 'label' in selected_keys:
+        interpolations = [*(['bilinear'] * args.input_channels), 'nearest']
+    else:
+        interpolations = [*(['bilinear'] * len(selected_keys))]
+    # selected_keys = [*args.input_channel_names, 'label']
     # 정의된 함수에서 Spacingd 변환 적용
     transform = transforms.Spacingd(
         keys=selected_keys,
         pixdim=(ratio, ratio, ratio),  # new_pixdim을 이미 계산한 값으로 가정
-        mode=[*(['bilinear']*args.input_channels), 'nearest'],
+        mode=interpolations,
         # recompute_affine=True
     )
     return transform(data)
@@ -143,7 +147,7 @@ def get_forward_transform(args):
             k_divisible=[1, 1, 1],
         ),
         transforms.Lambda(func=lambda data: calculate_new_pixdim(args, data)),
-        transforms.Lambda(func=lambda data: apply_spacing_transform(args, data)),
+        transforms.Lambda(func=lambda data: apply_spacing_transform(args, data, selected_keys)),
         transforms.SpatialPadd(keys=selected_keys, spatial_size=(args.resize, args.resize, args.resize), mode='constant'),
     ]
     base_transform_2 = [
