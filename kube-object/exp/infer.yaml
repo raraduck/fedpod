@@ -3,7 +3,7 @@
 infer-script: "run_forward1.sh"
 # job-prefix: "model-241116-3"
 rounds: "12"
-initial-round: "00"
+initial-round: "01"
 initial-epoch: "00"
 split_csv: "cc359ppmi128/CC359PPMI_j4r12v4.csv"
 init_model: "/fedpod/states/cmc02_0/R12r12/models/R12r12_agg.pth"
