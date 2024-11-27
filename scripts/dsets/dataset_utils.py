@@ -12,8 +12,7 @@ def nib_load(file_name):
     if not os.path.exists(file_name):
         raise FileNotFoundError(file_name)
     proxy = nib.load(file_name)
-    # 데이터를 RAS 방향으로 변환
-    # proxy = nib.as_closest_canonical(proxy)
+    proxy = nib.as_closest_canonical(proxy)
     data = proxy.get_fdata()
     affine = proxy.affine
     # image_shape = canonical_nii.header.get_data_shape()  # 이미지의 복셀 크기 가져오기
