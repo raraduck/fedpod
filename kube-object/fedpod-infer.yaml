@@ -26,10 +26,6 @@ spec:
     - name: init_model
       value: "None" # "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}_agg.pth"
   templates:
-  - name: parallel-dag
-    dag:
-      tasks:
-
   # Round 12 (Inference)
   - name: infer-dag
     dag:
