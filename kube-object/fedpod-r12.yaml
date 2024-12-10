@@ -25,6 +25,8 @@ spec:
       value: "undefined" # "cc359ppmi128/CC359PPMI_nj4r12v3.csv"
     - name: init_model
       value: "None" # "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}_agg.pth"
+    - name: agg-algo
+      value: "fedavg"
   templates:
   - name: parallel-dag
     dag:
@@ -66,7 +68,7 @@ spec:
           - name: model_pth
             value: "None"
           - name: algorithm
-            value: "fedpod"
+            value: "{{workflow.parameters.agg-algo}}"
         dependencies: [train-00]
 
       # Round 1
@@ -113,7 +115,7 @@ spec:
           - name: model_pth
             value: "None"
           - name: algorithm
-            value: "fedpod"
+            value: "{{workflow.parameters.agg-algo}}"
         dependencies: [train-01]
         when: "{{tasks.agg-00.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -161,7 +163,7 @@ spec:
           - name: model_pth
             value: "None"
           - name: algorithm
-            value: "fedpod"
+            value: "{{workflow.parameters.agg-algo}}"
         dependencies: [train-02]
         when: "{{tasks.agg-01.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -210,7 +212,7 @@ spec:
           - name: model_pth
             value: "None"
           - name: algorithm
-            value: "fedpod"
+            value: "{{workflow.parameters.agg-algo}}"
         dependencies: [train-03]
         when: "{{tasks.agg-02.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -258,7 +260,7 @@ spec:
           - name: model_pth
             value: "None"
           - name: algorithm
-            value: "fedpod"
+            value: "{{workflow.parameters.agg-algo}}"
         dependencies: [train-04]
         when: "{{tasks.agg-03.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -306,7 +308,7 @@ spec:
           - name: model_pth
             value: "None"
           - name: algorithm
-            value: "fedpod"
+            value: "{{workflow.parameters.agg-algo}}"
         dependencies: [train-05]
         when: "{{tasks.agg-04.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
         
@@ -354,7 +356,7 @@ spec:
           - name: model_pth
             value: "None"
           - name: algorithm
-            value: "fedpod"
+            value: "{{workflow.parameters.agg-algo}}"
         dependencies: [train-06]
         when: "{{tasks.agg-05.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
         
@@ -402,7 +404,7 @@ spec:
           - name: model_pth
             value: "None"
           - name: algorithm
-            value: "fedpod"
+            value: "{{workflow.parameters.agg-algo}}"
         dependencies: [train-07]
         when: "{{tasks.agg-06.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
         
@@ -450,7 +452,7 @@ spec:
           - name: model_pth
             value: "None"
           - name: algorithm
-            value: "fedpod"
+            value: "{{workflow.parameters.agg-algo}}"
         dependencies: [train-08]
         when: "{{tasks.agg-07.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
         
@@ -498,7 +500,7 @@ spec:
           - name: model_pth
             value: "None"
           - name: algorithm
-            value: "fedpod"
+            value: "{{workflow.parameters.agg-algo}}"
         dependencies: [train-09]
         when: "{{tasks.agg-08.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
         
@@ -546,7 +548,7 @@ spec:
           - name: model_pth
             value: "None"
           - name: algorithm
-            value: "fedpod"
+            value: "{{workflow.parameters.agg-algo}}"
         dependencies: [train-10]
         when: "{{tasks.agg-09.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
         
@@ -594,7 +596,7 @@ spec:
           - name: model_pth
             value: "None"
           - name: algorithm
-            value: "fedpod"
+            value: "{{workflow.parameters.agg-algo}}"
         dependencies: [train-11]
         when: "{{tasks.agg-10.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
