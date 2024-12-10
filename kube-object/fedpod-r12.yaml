@@ -47,7 +47,7 @@ spec:
           - name: model_pth
             value: "{{workflow.parameters.init_model}}"
         withItems:
-        - { inst: "4" }
+        - { inst: "1" }
 
       - name: agg-00
         template: aggregation-job
