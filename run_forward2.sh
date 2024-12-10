@@ -76,5 +76,5 @@ python3 scripts/run_forward.py \
 	--kernel_size 3 \
 	--norm instance \
 	--scheduler step \
-	--milestones [16] \
+	--milestones [18] \
 	--lr_gamma 0.1
