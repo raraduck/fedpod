@@ -676,6 +676,7 @@ spec:
       - name: epoch
       - name: inst-id
       - name: model_pth
+      - name: data_percentage
     container:
       image: dwnusa/fedpod:v0.4.17.11
       imagePullPolicy: Always
