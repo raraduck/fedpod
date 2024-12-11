@@ -25,6 +25,8 @@ spec:
       value: "undefined" # "cc359ppmi128/CC359PPMI_nj4r12v3.csv"
     - name: init_model
       value: "None" # "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}_agg.pth"
+    - name: input_channel_names
+      value: "None"
   templates:
   # Round 12 (Inference)
   - name: infer-dag
@@ -54,6 +56,8 @@ spec:
             value: "cc359ppmi128"
           - name: inst_root
             value: "inst_00"
+          - name: input_channels
+            value: "{{workflow.parameters.input_channel_names}}"
         withItems:
         - { job-name: "{{workflow.parameters.job-prefix}}_test",
             rounds: "{{workflow.parameters.rounds}}",
@@ -64,135 +68,135 @@ spec:
             model_pth: "{{workflow.parameters.init_model}}"}
             # model_pth: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R12r12/models/R12r12_agg.pth"}
 
-  - name: train-job
-    inputs:
-      parameters:
-      - name: train-script
-      - name: round
-      - name: epochs
-      - name: epoch
-      - name: inst-id
-      - name: model_pth
-    container:
-      image: dwnusa/fedpod:v0.4.17.9
-      imagePullPolicy: Always
-      command: ["/bin/sh", "-c"]
-      args:
-        - >
-          ./{{inputs.parameters.train-script}} 
-          -s 0 
-          -f 10
-          -m 15
-          -g 0 
-          -J {{workflow.parameters.job-prefix}}_{{inputs.parameters.inst-id}} 
-          -R {{workflow.parameters.rounds}} 
-          -r {{inputs.parameters.round}} 
-          -E {{inputs.parameters.epochs}} 
-          -e {{inputs.parameters.epoch}} 
-          -i {{inputs.parameters.inst-id}} 
-          -c {{workflow.parameters.split_csv}} 
-          -M {{inputs.parameters.model_pth}}
-      resources:
-        requests:
-          cpu: "2"
-          memory: "16G"
-      volumeMounts:
-      - name: cc359ppmi128-volume
-        mountPath: /fedpod/cc359ppmi128
-      - name: states-volume
-        mountPath: /fedpod/states
-      - name: logs-volume
-        mountPath: /fedpod/logs
-      - name: runs-volume
-        mountPath: /fedpod/runs
-      stdin: true
-      tty: true
-    volumes:
-    - name: cc359ppmi128-volume
-      hostPath:
-        path: /fedpod/cc359ppmi128  # 로컬 경로
-        type: Directory
-    - name: states-volume
-      hostPath:
-        path: /fedpod/states  # 로컬 경로
-        type: Directory
-    - name: logs-volume
-      hostPath:
-        path: /fedpod/logs  # 로컬 경로
-        type: Directory
-    - name: runs-volume
-      hostPath:
-        path: /fedpod/runs  # 로컬 경로
-        type: Directory
+  # - name: train-job
+  #   inputs:
+  #     parameters:
+  #     - name: train-script
+  #     - name: round
+  #     - name: epochs
+  #     - name: epoch
+  #     - name: inst-id
+  #     - name: model_pth
+  #   container:
+  #     image: dwnusa/fedpod:v0.4.17.9
+  #     imagePullPolicy: Always
+  #     command: ["/bin/sh", "-c"]
+  #     args:
+  #       - >
+  #         ./{{inputs.parameters.train-script}} 
+  #         -s 0 
+  #         -f 10
+  #         -m 15
+  #         -g 0 
+  #         -J {{workflow.parameters.job-prefix}}_{{inputs.parameters.inst-id}} 
+  #         -R {{workflow.parameters.rounds}} 
+  #         -r {{inputs.parameters.round}} 
+  #         -E {{inputs.parameters.epochs}} 
+  #         -e {{inputs.parameters.epoch}} 
+  #         -i {{inputs.parameters.inst-id}} 
+  #         -c {{workflow.parameters.split_csv}} 
+  #         -M {{inputs.parameters.model_pth}}
+  #     resources:
+  #       requests:
+  #         cpu: "2"
+  #         memory: "16G"
+  #     volumeMounts:
+  #     - name: cc359ppmi128-volume
+  #       mountPath: /fedpod/cc359ppmi128
+  #     - name: states-volume
+  #       mountPath: /fedpod/states
+  #     - name: logs-volume
+  #       mountPath: /fedpod/logs
+  #     - name: runs-volume
+  #       mountPath: /fedpod/runs
+  #     stdin: true
+  #     tty: true
+  #   volumes:
+  #   - name: cc359ppmi128-volume
+  #     hostPath:
+  #       path: /fedpod/cc359ppmi128  # 로컬 경로
+  #       type: Directory
+  #   - name: states-volume
+  #     hostPath:
+  #       path: /fedpod/states  # 로컬 경로
+  #       type: Directory
+  #   - name: logs-volume
+  #     hostPath:
+  #       path: /fedpod/logs  # 로컬 경로
+  #       type: Directory
+  #   - name: runs-volume
+  #     hostPath:
+  #       path: /fedpod/runs  # 로컬 경로
+  #       type: Directory
 
 
-  - name: aggregation-job
-    inputs:
-      parameters:
-      - name: agg-script
-      - name: round
-      - name: epochs
-      - name: epoch
-      - name: algorithm
-      - name: inst-id
-      - name: model_pth
-    container:
-      image: dwnusa/fedpod:v0.4.17.9
-      imagePullPolicy: Always
-      command: ["/bin/sh", "-c"]
-      args: 
-        - >
-          ./{{inputs.parameters.agg-script}} 
-          -R {{workflow.parameters.rounds}} 
-          -r {{inputs.parameters.round}} 
-          -E {{inputs.parameters.epochs}} 
-          -e {{inputs.parameters.epoch}} 
-          -j {{workflow.parameters.job-prefix}} 
-          -i {{inputs.parameters.inst-id}} 
-          -a {{inputs.parameters.algorithm}} 
-          -M {{inputs.parameters.model_pth}}
-      resources:
-        requests:
-          cpu: "2"
-          memory: "4G"
-      volumeMounts:
-      - name: cc359ppmi128-volume
-        mountPath: /fedpod/cc359ppmi128
-      - name: states-volume
-        mountPath: /fedpod/states
-      - name: logs-volume
-        mountPath: /fedpod/logs
-      - name: runs-volume
-        mountPath: /fedpod/runs
-      stdin: true
-      tty: true
-    outputs:
-      parameters:
-      - name: next-round
-        valueFrom:
-          path: /tmp/next_round.txt  # Return the value from the temp file
-          default: "{{workflow.parameters.rounds}}"
-      - name: next-epoch
-        valueFrom:
-          path: /tmp/next_epoch.txt
-          default: "0"
-    volumes:
-    - name: cc359ppmi128-volume
-      hostPath:
-        path: /fedpod/cc359ppmi128  # 로컬 경로
-        type: Directory
-    - name: states-volume
-      hostPath:
-        path: /fedpod/states  # 로컬 경로
-        type: Directory
-    - name: logs-volume
-      hostPath:
-        path: /fedpod/logs  # 로컬 경로
-        type: Directory
-    - name: runs-volume
-      hostPath:
-        path: /fedpod/runs  # 로컬 경로
-        type: Directory
+  # - name: aggregation-job
+  #   inputs:
+  #     parameters:
+  #     - name: agg-script
+  #     - name: round
+  #     - name: epochs
+  #     - name: epoch
+  #     - name: algorithm
+  #     - name: inst-id
+  #     - name: model_pth
+  #   container:
+  #     image: dwnusa/fedpod:v0.4.17.9
+  #     imagePullPolicy: Always
+  #     command: ["/bin/sh", "-c"]
+  #     args: 
+  #       - >
+  #         ./{{inputs.parameters.agg-script}} 
+  #         -R {{workflow.parameters.rounds}} 
+  #         -r {{inputs.parameters.round}} 
+  #         -E {{inputs.parameters.epochs}} 
+  #         -e {{inputs.parameters.epoch}} 
+  #         -j {{workflow.parameters.job-prefix}} 
+  #         -i {{inputs.parameters.inst-id}} 
+  #         -a {{inputs.parameters.algorithm}} 
+  #         -M {{inputs.parameters.model_pth}}
+  #     resources:
+  #       requests:
+  #         cpu: "2"
+  #         memory: "4G"
+  #     volumeMounts:
+  #     - name: cc359ppmi128-volume
+  #       mountPath: /fedpod/cc359ppmi128
+  #     - name: states-volume
+  #       mountPath: /fedpod/states
+  #     - name: logs-volume
+  #       mountPath: /fedpod/logs
+  #     - name: runs-volume
+  #       mountPath: /fedpod/runs
+  #     stdin: true
+  #     tty: true
+  #   outputs:
+  #     parameters:
+  #     - name: next-round
+  #       valueFrom:
+  #         path: /tmp/next_round.txt  # Return the value from the temp file
+  #         default: "{{workflow.parameters.rounds}}"
+  #     - name: next-epoch
+  #       valueFrom:
+  #         path: /tmp/next_epoch.txt
+  #         default: "0"
+  #   volumes:
+  #   - name: cc359ppmi128-volume
+  #     hostPath:
+  #       path: /fedpod/cc359ppmi128  # 로컬 경로
+  #       type: Directory
+  #   - name: states-volume
+  #     hostPath:
+  #       path: /fedpod/states  # 로컬 경로
+  #       type: Directory
+  #   - name: logs-volume
+  #     hostPath:
+  #       path: /fedpod/logs  # 로컬 경로
+  #       type: Directory
+  #   - name: runs-volume
+  #     hostPath:
+  #       path: /fedpod/runs  # 로컬 경로
+  #       type: Directory
 
         
   - name: infer-job
@@ -208,6 +212,7 @@ spec:
       - name: model_pth
       - name: data_root
       - name: inst_root
+      - name: input_channels
     container:
       image: dwnusa/fedpod:v0.4.17.9
       imagePullPolicy: Always
@@ -227,6 +232,7 @@ spec:
           -t test
           -d {{inputs.parameters.data_root}}
           -n {{inputs.parameters.inst_root}}
+          -C {{inputs.parameters.input_channels}}
       resources:
         requests:
           cpu: "2"
