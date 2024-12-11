@@ -13,7 +13,7 @@ import os
 from .cc359ppmi import CC359PPMIDataset
 from .brain import BrainDataset
 from .dataset_utils import get_base_transform, get_forward_transform, get_aug_transform, custom_collate
-def get_dataset(args, case_names, _transforms, mode, label_names, custom_min_len=1, custom_max_len=99999):
+def get_dataset(args, case_names, _transforms, mode, label_names, custom_min_len=1, custom_max_len=99999, index_filter=None):
     # kwargs = {
     #     "input_channels": args.input_channels,
     #     "output_classes": args.num_classes,
@@ -55,7 +55,8 @@ def get_dataset(args, case_names, _transforms, mode, label_names, custom_min_len
             label_names=label_names,
             custom_lower_bound=custom_min_len,
             custom_upper_bound=custom_max_len,
-            transforms=_transforms)
+            transforms=_transforms, 
+            index_filter=index_filter)
     elif args.dataset == 'FeTS2022':
         return BrainDataset(
             args,

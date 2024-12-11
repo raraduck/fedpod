@@ -75,10 +75,18 @@ def calculate_new_pixdim(args, data):
 def apply_spacing_transform(args, data, selected_keys):
     max_size = max(data['cropped_shape'])
     ratio = max_size/args.resize * 1 # args.pixdim
-    if 'label' in selected_keys:
-        interpolations = [*(['bilinear'] * args.input_channels), 'nearest']
-    else:
-        interpolations = [*(['bilinear'] * len(selected_keys))]
+    # if 'label' in selected_keys:
+    #     interpolations = [*(['bilinear'] * args.input_channels), 'nearest']
+    # else:
+    #     interpolations = [*(['bilinear'] * len(selected_keys))]
+    
+    interpolations = []
+    for key in selected_keys:
+        if key in ['seg', 'ref', 'label']:  # 특정 키에 대해 nearest interpolation
+            interpolations.append('nearest')
+        else:
+            interpolations.append('bilinear')  # 나머지 키는 bilinear interpolation
+
     # selected_keys = [*args.input_channel_names, 'label']
     # 정의된 함수에서 Spacingd 변환 적용
     transform = transforms.Spacingd(
@@ -116,13 +124,13 @@ def get_base_transform(args):
             k_divisible=[1, 1, 1],
         ),
         transforms.Lambda(func=lambda data: calculate_new_pixdim(args, data)),
-        transforms.Lambda(func=lambda data: apply_spacing_transform(args, data)),
+        transforms.Lambda(func=lambda data: apply_spacing_transform(args, data, selected_keys)),
         transforms.SpatialPadd(keys=selected_keys, spatial_size=(args.resize, args.resize, args.resize), mode='constant'),
     ]
     base_transform_2 = [
         # RobustZScoreNormalization(keys=(lambda x: x[:-1] if len(x) > 1 else x)(args.input_channel_names)),
         # RobustZScoreNormalization(keys=args.input_channel_names),
-        RobustZScoreNormalization(keys=[el for el in args.input_channel_names if el not in ['seg']]),
+        RobustZScoreNormalization(keys=[el for el in args.input_channel_names if el not in ['seg','ref']]),
         transforms.ConcatItemsd(keys=args.input_channel_names, name='image', dim=0),
         transforms.DeleteItemsd(keys=args.input_channel_names),
         ConvertToMultiChannel(keys=["label"], labels=args.label_groups)
@@ -152,7 +160,7 @@ def get_forward_transform(args):
     base_transform_2 = [
         # RobustZScoreNormalization(keys=(lambda x: x[:-1] if len(x) > 1 else x)(args.input_channel_names)),
         # RobustZScoreNormalization(keys=args.input_channel_names),
-        RobustZScoreNormalization(keys=[el for el in args.input_channel_names if el not in ['seg']]),
+        RobustZScoreNormalization(keys=[el for el in args.input_channel_names if el not in ['seg','ref']]),
         transforms.ConcatItemsd(keys=args.input_channel_names, name='image', dim=0),
         transforms.DeleteItemsd(keys=args.input_channel_names),
         # ConvertToMultiChannel(keys=["label"], labels=args.label_groups)

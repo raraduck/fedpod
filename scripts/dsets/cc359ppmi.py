@@ -68,6 +68,13 @@ class CC359PPMIDataset(Dataset):
             # _mask = np.where(_mask != 0, 100, 0)
             channels_dict['seg'] = _mask
 
+        if 'ref' in self.input_channel_names:
+            striatum, _ = nib_load(join(base_dir, f'{name}_ref.nii.gz'))
+            # striatum, _ = nib_load(join(base_dir, 'striatum_orig.nii.gz'))
+            _mask = np.array(striatum, dtype='float32')
+            # _mask = np.where(_mask != 0, 100, 0)
+            channels_dict['ref'] = _mask
+
         # if self.mode.lower() == 'test':
         #     mask = np.array(nib_load(join(base_dir, f'{name}_seg.nii.gz'))[0], dtype='uint8')  # ground truth
         #     # mask = np.array(nib_load(join(base_dir, 'striatum_orig.nii.gz'))[0], dtype='uint16')  # ground truth

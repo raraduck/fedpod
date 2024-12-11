@@ -98,7 +98,7 @@ class Unet3DApp:
 
         return model, init_model_path
 
-    def initTrainDl(self, case_names:list, mode='training'):
+    def initTrainDl(self, case_names:list, mode='training', index_filter=None):
         base_transform = get_base_transform(self.cli_args)
         aug_transform = get_aug_transform(self.cli_args)
         train_transforms = transforms.Compose(base_transform + aug_transform)
@@ -107,7 +107,7 @@ class Unet3DApp:
                                     mode=mode,
                                     label_names=self.cli_args.label_names,
                                     custom_min_len=self.cli_args.min_dlen,
-                                    custom_max_len=self.cli_args.max_dlen)
+                                    index_filter=index_filter)  # 필터 전달
 
         train_loader = DataLoader(
             train_dataset,
@@ -160,7 +160,7 @@ class Unet3DApp:
         if mode in ['train', 'TRN']:
             self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode.upper()}] Processing with train_loader and val_loader...")
             train_cases = natsort.natsorted(subjects_dict['train'])
-            train_dataset, train_loader = self.initTrainDl(train_cases)
+            train_dataset, train_loader = self.initTrainDl(train_cases, index_filter=lambda x: x % 2 == 0)
             val_cases = natsort.natsorted(subjects_dict['val'])
             val_dataset, val_loader = self.initValDl(val_cases, 'val')
 
