@@ -27,7 +27,17 @@ spec:
       value: "None" # "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}_agg.pth"
     - name: agg-algo
       value: "fedavg"
-    - name: data_percentage
+    - name: inst_01_percentage
+      value: "100"
+    - name: inst_02_percentage
+      value: "100"
+    - name: inst_03_percentage
+      value: "100"
+    - name: inst_04_percentage
+      value: "100"
+    - name: inst_05_percentage
+      value: "100"
+    - name: inst_06_percentage
       value: "100"
   templates:
   - name: parallel-dag
@@ -50,8 +60,10 @@ spec:
             value: "{{item.inst}}"
           - name: model_pth
             value: "{{workflow.parameters.init_model}}"
+          - name: data_percentage
+            value: "{{item.data_percentage}}"
         withItems:
-        - { inst: "1" }
+        - { inst: "1", data_percentage: "{{workflow.parameters.inst_01_percentage}}"}
 
       - name: agg-00
         template: aggregation-job
@@ -90,13 +102,15 @@ spec:
             value: "{{item.inst}}"
           - name: model_pth
             value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}_agg.pth"
+          - name: data_percentage
+            value: "{{item.data_percentage}}"
         withItems:
-        - { inst: "1" }
-        - { inst: "2" }
-        - { inst: "3" }
-        - { inst: "4" }
-        - { inst: "5" }
-        - { inst: "6" }
+        - { inst: "1", data_percentage: "{{workflow.parameters.inst_01_percentage}}"}
+        - { inst: "2", data_percentage: "{{workflow.parameters.inst_02_percentage}}"}
+        - { inst: "3", data_percentage: "{{workflow.parameters.inst_03_percentage}}"}
+        - { inst: "4", data_percentage: "{{workflow.parameters.inst_04_percentage}}"}
+        - { inst: "5", data_percentage: "{{workflow.parameters.inst_05_percentage}}"}
+        - { inst: "6", data_percentage: "{{workflow.parameters.inst_06_percentage}}"}
         dependencies: [agg-00]
         when: "{{tasks.agg-00.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -138,13 +152,15 @@ spec:
             value: "{{item.inst}}"
           - name: model_pth
             value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}_agg.pth"
+          - name: data_percentage
+            value: "{{item.data_percentage}}"
         withItems:
-        - { inst: "1" }
-        - { inst: "2" }
-        - { inst: "3" }
-        - { inst: "4" }
-        - { inst: "5" }
-        - { inst: "6" }
+        - { inst: "1", data_percentage: "{{workflow.parameters.inst_01_percentage}}"}
+        - { inst: "2", data_percentage: "{{workflow.parameters.inst_02_percentage}}"}
+        - { inst: "3", data_percentage: "{{workflow.parameters.inst_03_percentage}}"}
+        - { inst: "4", data_percentage: "{{workflow.parameters.inst_04_percentage}}"}
+        - { inst: "5", data_percentage: "{{workflow.parameters.inst_05_percentage}}"}
+        - { inst: "6", data_percentage: "{{workflow.parameters.inst_06_percentage}}"}
         dependencies: [agg-01]
         when: "{{tasks.agg-01.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -187,13 +203,15 @@ spec:
             value: "{{item.inst}}"
           - name: model_pth
             value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-02.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-02.outputs.parameters.next-round}}_agg.pth"
+          - name: data_percentage
+            value: "{{item.data_percentage}}"
         withItems:
-        - { inst: "1" }
-        - { inst: "2" }
-        - { inst: "3" }
-        - { inst: "4" }
-        - { inst: "5" }
-        - { inst: "6" }
+        - { inst: "1", data_percentage: "{{workflow.parameters.inst_01_percentage}}"}
+        - { inst: "2", data_percentage: "{{workflow.parameters.inst_02_percentage}}"}
+        - { inst: "3", data_percentage: "{{workflow.parameters.inst_03_percentage}}"}
+        - { inst: "4", data_percentage: "{{workflow.parameters.inst_04_percentage}}"}
+        - { inst: "5", data_percentage: "{{workflow.parameters.inst_05_percentage}}"}
+        - { inst: "6", data_percentage: "{{workflow.parameters.inst_06_percentage}}"}
         # dependencies: [agg-02]
         dependencies: [agg-02]
 
@@ -235,13 +253,15 @@ spec:
             value: "{{item.inst}}"
           - name: model_pth
             value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-03.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-03.outputs.parameters.next-round}}_agg.pth"
+          - name: data_percentage
+            value: "{{item.data_percentage}}"
         withItems:
-        - { inst: "1" }
-        - { inst: "2" }
-        - { inst: "3" }
-        - { inst: "4" }
-        - { inst: "5" }
-        - { inst: "6" }
+        - { inst: "1", data_percentage: "{{workflow.parameters.inst_01_percentage}}"}
+        - { inst: "2", data_percentage: "{{workflow.parameters.inst_02_percentage}}"}
+        - { inst: "3", data_percentage: "{{workflow.parameters.inst_03_percentage}}"}
+        - { inst: "4", data_percentage: "{{workflow.parameters.inst_04_percentage}}"}
+        - { inst: "5", data_percentage: "{{workflow.parameters.inst_05_percentage}}"}
+        - { inst: "6", data_percentage: "{{workflow.parameters.inst_06_percentage}}"}
         dependencies: [agg-03]
         when: "{{tasks.agg-03.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -283,13 +303,15 @@ spec:
             value: "{{item.inst}}"
           - name: model_pth
             value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-04.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-04.outputs.parameters.next-round}}_agg.pth"
+          - name: data_percentage
+            value: "{{item.data_percentage}}"
         withItems:
-        - { inst: "1" }
-        - { inst: "2" }
-        - { inst: "3" }
-        - { inst: "4" }
-        - { inst: "5" }
-        - { inst: "6" }
+        - { inst: "1", data_percentage: "{{workflow.parameters.inst_01_percentage}}"}
+        - { inst: "2", data_percentage: "{{workflow.parameters.inst_02_percentage}}"}
+        - { inst: "3", data_percentage: "{{workflow.parameters.inst_03_percentage}}"}
+        - { inst: "4", data_percentage: "{{workflow.parameters.inst_04_percentage}}"}
+        - { inst: "5", data_percentage: "{{workflow.parameters.inst_05_percentage}}"}
+        - { inst: "6", data_percentage: "{{workflow.parameters.inst_06_percentage}}"}
         dependencies: [agg-04]
         when: "{{tasks.agg-04.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -331,13 +353,15 @@ spec:
             value: "{{item.inst}}"
           - name: model_pth
             value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-05.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-05.outputs.parameters.next-round}}_agg.pth"
+          - name: data_percentage
+            value: "{{item.data_percentage}}"
         withItems:
-        - { inst: "1" }
-        - { inst: "2" }
-        - { inst: "3" }
-        - { inst: "4" }
-        - { inst: "5" }
-        - { inst: "6" }
+        - { inst: "1", data_percentage: "{{workflow.parameters.inst_01_percentage}}"}
+        - { inst: "2", data_percentage: "{{workflow.parameters.inst_02_percentage}}"}
+        - { inst: "3", data_percentage: "{{workflow.parameters.inst_03_percentage}}"}
+        - { inst: "4", data_percentage: "{{workflow.parameters.inst_04_percentage}}"}
+        - { inst: "5", data_percentage: "{{workflow.parameters.inst_05_percentage}}"}
+        - { inst: "6", data_percentage: "{{workflow.parameters.inst_06_percentage}}"}
         dependencies: [agg-05]
         when: "{{tasks.agg-05.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -379,13 +403,15 @@ spec:
             value: "{{item.inst}}"
           - name: model_pth
             value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-06.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-06.outputs.parameters.next-round}}_agg.pth"
+          - name: data_percentage
+            value: "{{item.data_percentage}}"
         withItems:
-        - { inst: "1" }
-        - { inst: "2" }
-        - { inst: "3" }
-        - { inst: "4" }
-        - { inst: "5" }
-        - { inst: "6" }
+        - { inst: "1", data_percentage: "{{workflow.parameters.inst_01_percentage}}"}
+        - { inst: "2", data_percentage: "{{workflow.parameters.inst_02_percentage}}"}
+        - { inst: "3", data_percentage: "{{workflow.parameters.inst_03_percentage}}"}
+        - { inst: "4", data_percentage: "{{workflow.parameters.inst_04_percentage}}"}
+        - { inst: "5", data_percentage: "{{workflow.parameters.inst_05_percentage}}"}
+        - { inst: "6", data_percentage: "{{workflow.parameters.inst_06_percentage}}"}
         dependencies: [agg-06]
         when: "{{tasks.agg-06.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -427,13 +453,15 @@ spec:
             value: "{{item.inst}}"
           - name: model_pth
             value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-07.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-07.outputs.parameters.next-round}}_agg.pth"
+          - name: data_percentage
+            value: "{{item.data_percentage}}"
         withItems:
-        - { inst: "1" }
-        - { inst: "2" }
-        - { inst: "3" }
-        - { inst: "4" }
-        - { inst: "5" }
-        - { inst: "6" }
+        - { inst: "1", data_percentage: "{{workflow.parameters.inst_01_percentage}}"}
+        - { inst: "2", data_percentage: "{{workflow.parameters.inst_02_percentage}}"}
+        - { inst: "3", data_percentage: "{{workflow.parameters.inst_03_percentage}}"}
+        - { inst: "4", data_percentage: "{{workflow.parameters.inst_04_percentage}}"}
+        - { inst: "5", data_percentage: "{{workflow.parameters.inst_05_percentage}}"}
+        - { inst: "6", data_percentage: "{{workflow.parameters.inst_06_percentage}}"}
         dependencies: [agg-07]
         when: "{{tasks.agg-07.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -475,13 +503,15 @@ spec:
             value: "{{item.inst}}"
           - name: model_pth
             value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-08.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-08.outputs.parameters.next-round}}_agg.pth"
+          - name: data_percentage
+            value: "{{item.data_percentage}}"
         withItems:
-        - { inst: "1" }
-        - { inst: "2" }
-        - { inst: "3" }
-        - { inst: "4" }
-        - { inst: "5" }
-        - { inst: "6" }
+        - { inst: "1", data_percentage: "{{workflow.parameters.inst_01_percentage}}"}
+        - { inst: "2", data_percentage: "{{workflow.parameters.inst_02_percentage}}"}
+        - { inst: "3", data_percentage: "{{workflow.parameters.inst_03_percentage}}"}
+        - { inst: "4", data_percentage: "{{workflow.parameters.inst_04_percentage}}"}
+        - { inst: "5", data_percentage: "{{workflow.parameters.inst_05_percentage}}"}
+        - { inst: "6", data_percentage: "{{workflow.parameters.inst_06_percentage}}"}
         dependencies: [agg-08]
         when: "{{tasks.agg-08.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -523,13 +553,15 @@ spec:
             value: "{{item.inst}}"
           - name: model_pth
             value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-09.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-09.outputs.parameters.next-round}}_agg.pth"
+          - name: data_percentage
+            value: "{{item.data_percentage}}"
         withItems:
-        - { inst: "1" }
-        - { inst: "2" }
-        - { inst: "3" }
-        - { inst: "4" }
-        - { inst: "5" }
-        - { inst: "6" }
+        - { inst: "1", data_percentage: "{{workflow.parameters.inst_01_percentage}}"}
+        - { inst: "2", data_percentage: "{{workflow.parameters.inst_02_percentage}}"}
+        - { inst: "3", data_percentage: "{{workflow.parameters.inst_03_percentage}}"}
+        - { inst: "4", data_percentage: "{{workflow.parameters.inst_04_percentage}}"}
+        - { inst: "5", data_percentage: "{{workflow.parameters.inst_05_percentage}}"}
+        - { inst: "6", data_percentage: "{{workflow.parameters.inst_06_percentage}}"}
         dependencies: [agg-09]
         when: "{{tasks.agg-09.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -571,13 +603,15 @@ spec:
             value: "{{item.inst}}"
           - name: model_pth
             value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-10.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-10.outputs.parameters.next-round}}_agg.pth"
+          - name: data_percentage
+            value: "{{item.data_percentage}}"
         withItems:
-        - { inst: "1" }
-        - { inst: "2" }
-        - { inst: "3" }
-        - { inst: "4" }
-        - { inst: "5" }
-        - { inst: "6" }
+        - { inst: "1", data_percentage: "{{workflow.parameters.inst_01_percentage}}"}
+        - { inst: "2", data_percentage: "{{workflow.parameters.inst_02_percentage}}"}
+        - { inst: "3", data_percentage: "{{workflow.parameters.inst_03_percentage}}"}
+        - { inst: "4", data_percentage: "{{workflow.parameters.inst_04_percentage}}"}
+        - { inst: "5", data_percentage: "{{workflow.parameters.inst_05_percentage}}"}
+        - { inst: "6", data_percentage: "{{workflow.parameters.inst_06_percentage}}"}
         dependencies: [agg-10]
         when: "{{tasks.agg-10.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -661,7 +695,7 @@ spec:
           -i {{inputs.parameters.inst-id}} 
           -c {{workflow.parameters.split_csv}} 
           -M {{inputs.parameters.model_pth}}
-          -p {{workflow.parameters.data_percentage}}
+          -p {{inputs.parameters.data_percentage}}
       resources:
         requests:
           cpu: "2"
