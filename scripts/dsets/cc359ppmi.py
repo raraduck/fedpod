@@ -29,7 +29,15 @@ class CC359PPMIDataset(Dataset):
         self.index_filter = index_filter  # 필터 저장
 
     def __getitem__(self, index: int) -> tuple:
-        index = index % len(self.case_names)
+        if self.index_filter:
+            # 필터링된 인덱스 계산
+            filtered_indices = [
+                i for i in range(len(self.case_names))
+                if self.index_filter(i)
+            ]
+            index = filtered_indices[index % len(filtered_indices)]
+        else:
+            index = index % len(self.case_names)
         name = self.case_names[index]
         # base_dir = join(self.data_root, 'training', name, name)  # seg/data/brats21/BraTS2021_00000/BraTS2021_00000
         base_dir_list = glob.glob(join(self.data_root, self.inst_root, name))  # seg/data/brats21/BraTS2021_00000/BraTS2021_00000
