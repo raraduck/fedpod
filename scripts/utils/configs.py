@@ -25,6 +25,7 @@ def parse_args(argv):
         choices=['FeTS2022', 'iSeg-2019', 'gaain', 'CC359', 'CC359PPMI'])
     parser.add_argument('--data_root', type=str, default='data/', help='root dir of dataset')
     parser.add_argument('--inst_root', type=str, default='inst_01/', help='root dir of inst')
+    parser.add_argument('--data_percentage', type=int, default=100, help='data percentage')
     
     # data augmentation
     parser.add_argument('--zoom', type=int, choices=[0, 1], default=0, help='enable zoom to crop (default: False)')

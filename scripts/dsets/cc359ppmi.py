@@ -28,10 +28,16 @@ class CC359PPMIDataset(Dataset):
         self.index_filter = index_filter  # 필터 저장
         # self.custom_len = min(max(custom_lower_bound, len(case_names)), custom_upper_bound)
         # 필터링된 case_names 계산
+        total_len = len(case_names)
+        self.percentile_indices = [
+            (i / total_len) * 100 for i in range(total_len)
+        ]
         if self.index_filter:
-            self.filtered_case_indices = [i for i in range(len(case_names)) if self.index_filter(i)]
+            self.filtered_case_indices = [
+                i for i, percentile in enumerate(self.percentile_indices) if self.index_filter(percentile)
+            ]
         else:
-            self.filtered_case_indices = list(range(len(case_names)))
+            self.filtered_case_indices = list(range(total_len))
         # 필터링된 case_names의 길이를 custom_len으로 설정
         self.custom_len = min(max(custom_lower_bound, len(self.filtered_case_indices)), custom_upper_bound)
 
@@ -42,7 +48,7 @@ class CC359PPMIDataset(Dataset):
         else:
             index = index % len(self.case_names)
         name = self.case_names[index]
-        
+
         base_dir_list = glob.glob(join(self.data_root, self.inst_root, name))  # seg/data/brats21/BraTS2021_00000/BraTS2021_00000
         assert base_dir_list.__len__() == 1
         base_dir = base_dir_list[0]

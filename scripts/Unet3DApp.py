@@ -161,7 +161,7 @@ class Unet3DApp:
             self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode.upper()}] Processing with train_loader and val_loader...")
             train_cases = natsort.natsorted(subjects_dict['train'])
             # train_dataset, train_loader = self.initTrainDl(train_cases)
-            train_dataset, train_loader = self.initTrainDl(train_cases, index_filter=lambda x: x % 2 == 0)
+            train_dataset, train_loader = self.initTrainDl(train_cases, index_filter=lambda x: x < self.cli_args.data_percentage)
             val_cases = natsort.natsorted(subjects_dict['val'])
             val_dataset, val_loader = self.initValDl(val_cases, 'val')
 
