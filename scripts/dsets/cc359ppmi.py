@@ -77,12 +77,15 @@ class CC359PPMIDataset(Dataset):
         # channels_dict['label'] = mask
 
         if self.mode.lower() == 'test':
+            # pet = np.array(nib_load(join(base_dir, f'{name}_pt.nii.gz'))[0], dtype='uint8')  # ground truth
+            # channels_dict['label'] = pet
+            
             item = self.transforms(channels_dict)
             if self.args.zoom or (item['image'][0].shape != t1[0].shape):
                 temp_affine = affine
             else:
                 temp_affine = affine # item['image'].affine[:3, 3]
-            return item['image'], item['image'], index, name, temp_affine, self.label_names # item['image_meta_dict']['affine']
+            return item['image'], item['label'], index, name, temp_affine, self.label_names # item['image_meta_dict']['affine']
         elif self.mode.lower() in ['train', 'training']:
             mask = np.array(nib_load(join(base_dir, f'{name}_sub.nii.gz'))[0], dtype='uint8')  # ground truth
             channels_dict['label'] = mask
