@@ -24,7 +24,9 @@ spec:
     - name: split_csv
       value: "undefined" # "cc359ppmi128/CC359PPMI_nj4r12v3.csv"
     - name: init_model
-      value: "None" # "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}_agg.pth"
+      value: "None"
+    - name: input_channel_names
+      value: "None"
     - name: agg-algo
       value: "fedavg"
   templates:
@@ -628,6 +630,8 @@ spec:
             value: "cc359ppmi128"
           - name: inst_root
             value: "inst_00"
+          - name: input_channels
+            value: "{{workflow.parameters.input_channel_names}}"
         withItems:
         - { job-name: "{{workflow.parameters.job-prefix}}_test", rounds: "{{workflow.parameters.rounds}}", round: "12", epoch: "000", inst: "0", split_csv: "{{workflow.parameters.split_csv}}", model_pth: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R12r12/models/R12r12_agg.pth"}
 
@@ -794,6 +798,7 @@ spec:
           -t test
           -d {{inputs.parameters.data_root}}
           -n {{inputs.parameters.inst_root}}
+          -C {{inputs.parameters.input_channels}}
       resources:
         requests:
           cpu: "2"
