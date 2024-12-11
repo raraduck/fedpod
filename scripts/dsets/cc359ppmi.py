@@ -23,23 +23,26 @@ class CC359PPMIDataset(Dataset):
         self.input_channel_names = input_channel_names
         self.case_names = case_names
         self.label_names = label_names
-        self.custom_len = min(max(custom_lower_bound, len(case_names)), custom_upper_bound)
         # self.custom_max_len = len(case_names) if custom_max_len <= 1 else custom_max_len
         self.transforms = transforms
         self.index_filter = index_filter  # 필터 저장
+        # self.custom_len = min(max(custom_lower_bound, len(case_names)), custom_upper_bound)
+        # 필터링된 case_names 계산
+        if self.index_filter:
+            self.filtered_case_indices = [i for i in range(len(case_names)) if self.index_filter(i)]
+        else:
+            self.filtered_case_indices = list(range(len(case_names)))
+        # 필터링된 case_names의 길이를 custom_len으로 설정
+        self.custom_len = min(max(custom_lower_bound, len(self.filtered_case_indices)), custom_upper_bound)
+
 
     def __getitem__(self, index: int) -> tuple:
         if self.index_filter:
-            # 필터링된 인덱스 계산
-            filtered_indices = [
-                i for i in range(len(self.case_names))
-                if self.index_filter(i)
-            ]
-            index = filtered_indices[index % len(filtered_indices)]
+            index = self.filtered_case_indices[index % self.custom_len]
         else:
             index = index % len(self.case_names)
         name = self.case_names[index]
-        # base_dir = join(self.data_root, 'training', name, name)  # seg/data/brats21/BraTS2021_00000/BraTS2021_00000
+        
         base_dir_list = glob.glob(join(self.data_root, self.inst_root, name))  # seg/data/brats21/BraTS2021_00000/BraTS2021_00000
         assert base_dir_list.__len__() == 1
         base_dir = base_dir_list[0]
