@@ -61,7 +61,8 @@ spec:
             epoch: "{{workflow.parameters.initial-epoch}}",
             inst: "0",
             split_csv: "{{workflow.parameters.split_csv}}",
-            model_pth: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R12r12/models/R12r12_agg.pth"}
+            model_pth: "{{workflow.parameters.init_model}}"}
+            # model_pth: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R12r12/models/R12r12_agg.pth"}
 
   - name: train-job
     inputs:
