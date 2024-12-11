@@ -10,7 +10,7 @@ import nibabel as nib
 import glob
 
 class CC359PPMIDataset(Dataset):
-    def __init__(self, args, data_root: str, inst_root: str, mode: str, case_names: list = [], input_channel_names: list = [], label_names: list = [], transforms=None, custom_lower_bound=1, custom_upper_bound=99999):
+    def __init__(self, args, data_root: str, inst_root: str, mode: str, case_names: list = [], input_channel_names: list = [], label_names: list = [], transforms=None, custom_lower_bound=1, custom_upper_bound=99999, index_filter=None):
         super(CC359PPMIDataset, self).__init__()
 
         assert mode.lower() in ['train', 'training', 
@@ -26,6 +26,7 @@ class CC359PPMIDataset(Dataset):
         self.custom_len = min(max(custom_lower_bound, len(case_names)), custom_upper_bound)
         # self.custom_max_len = len(case_names) if custom_max_len <= 1 else custom_max_len
         self.transforms = transforms
+        self.index_filter = index_filter  # 필터 저장
 
     def __getitem__(self, index: int) -> tuple:
         index = index % len(self.case_names)
