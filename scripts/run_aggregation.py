@@ -165,9 +165,9 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
         P = [el['P'] for el in local_models_with_dlen]
         I = [el['I'] for el in local_models_with_dlen]
         D = [el['D'] for el in local_models_with_dlen]
-        alpha = 0.3
+        alpha = 0.2
         beta = 0.1
-        gamma = 0.6
+        gamma = 0.7
         if sum(I) == 0 or sum(D) == 0:
             W = [p/sum(P) for p in P]
             logger.warn(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] I or D term is zero")
