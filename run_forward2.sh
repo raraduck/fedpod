@@ -11,9 +11,10 @@ model_pth=""
 test_mode=""
 data_root="cc359ppmi128"
 inst_root="inst_*"
+intput_channels="[t1,seg]"
 
 # 명령줄 옵션 처리
-while getopts s:g:J:R:r:e:i:c:M:t:d:n: option
+while getopts s:g:J:R:r:e:i:c:M:t:d:n:C: option
 do
     case "${option}"
     in
@@ -29,14 +30,15 @@ do
 		t) test_mode=${OPTARG};;
 		d) data_root=${OPTARG};;
 		n) inst_root=${OPTARG};;
+		C) input_channels=${OPTARG};;
     esac
 done
-echo "save_infer: $save_infer, gpu: $use_gpu, job: $job_name, rounds: $round, curr_epoch: $curr_epoch, inst: $inst_id, split_csv: $split_csv, model_pth: $model_pth, test_mode: $test_mode, data_root: $data_root, inst_root: $inst_root"
+echo "save_infer: $save_infer, gpu: $use_gpu, job: $job_name, rounds: $round, curr_epoch: $curr_epoch, inst: $inst_id, split_csv: $split_csv, model_pth: $model_pth, test_mode: $test_mode, data_root: $data_root, inst_root: $inst_root, input_channels: $input_channels"
 
 # 필수 옵션 검사
-if [ -z "$save_infer" ] || [ -z "$use_gpu" ] || [ -z "$job_name" ] ||  [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$curr_epoch" ] || [ -z "$inst_id" ] || [ -z "$split_csv" ] || [ -z "$inst_id" ] || [ -z "$test_mode" ]; then
+if [ -z "$save_infer" ] || [ -z "$use_gpu" ] || [ -z "$job_name" ] ||  [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$curr_epoch" ] || [ -z "$inst_id" ] || [ -z "$split_csv" ] || [ -z "$inst_id" ] || [ -z "$test_mode" ] || [ -z "$input_channels" ]; then
     echo "Error: All parameters are required."
-    echo "Usage: $0 -s <save_infer> -g <use_gpu> -J <job_name> -R <rounds> -r <round> -e <curr_epoch> -i <inst_id> -c <split_csv> -M <model_pth> -t <test_mode> -d <data_root> -n <inst_root>"
+    echo "Usage: $0 -s <save_infer> -g <use_gpu> -J <job_name> -R <rounds> -r <round> -e <curr_epoch> -i <inst_id> -c <split_csv> -M <model_pth> -t <test_mode> -d <data_root> -n <inst_root> -C <input_channels>"
     exit 1
 fi
 
@@ -64,7 +66,7 @@ python3 scripts/run_forward.py \
 	--batch_size 1 \
 	\
 	--weight_path $model_pth \
-	--input_channel_names [t1,seg] \
+	--input_channel_names $input_channels \
 	--label_groups [[1,1],[2,2],[3,3],[4,4],[5,5],[6,6],[7,7],[8,8],[9,9],[10,10],[11,11],[12,12]] \
 	--label_names [LVS,LAC,LAP,LAP,LPP,LVP,RVS,RAC,RAP,RAP,RPP,RVP] \
 	--label_index [1,2,3,4,5,6,7,8,9,10,11,12] \
