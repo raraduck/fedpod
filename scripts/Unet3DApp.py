@@ -459,7 +459,7 @@ class Unet3DApp:
         save_model_path = os.path.join("states", self.job_name, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", "models")
         os.makedirs(save_model_path, exist_ok=True)
         torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}_prev.pth"))
-        print(f"****IMPORTANT: {train_setup['train_loader'].__len__()}")
+        # print(f"****IMPORTANT: {train_setup['train_loader'].__len__()}")
         # if train_setup['train_loader'].__len__() == 0:
         if self.cli_args.data_percentage == 0:
             self.logger.info(f"[{self.cli_args.job_name.upper()}][TRN] exit before train as train data not exists at job_name-{self.job_name}...")
