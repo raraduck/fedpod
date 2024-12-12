@@ -199,7 +199,7 @@ def get_aug_transform(args):
         # rotate
         transforms.RandRotated(
             keys=["image", 'label'], prob=0.5, mode=['bilinear', 'nearest'],
-            range_x=(0.2, 0.2), range_y=(0.2, 0.2), range_z=(0.2, 0.2)),
+            range_x=(0.3, 0.3), range_y=(0.3, 0.3), range_z=(0.3, 0.3)),
 
         # intensity aug
         transforms.RandGaussianNoised(keys='image', prob=0.15, mean=0.0, std=0.33),
