@@ -39,6 +39,7 @@ class Unet3DApp:
         # 기본 로거 설정 (기본값 사용)
         args = parse_args(sys_argv)
         self.cli_args = args
+        seed_everything(self.cli_args.seed)
         self.cli_args.weight_path = None if self.cli_args.weight_path == "None" else self.cli_args.weight_path
         self.cli_args.amp = True if self.cli_args.amp else False
         self.job_name = self.cli_args.job_name if self.cli_args.job_name else time.strftime("%Y%m%d_%H%M%S")

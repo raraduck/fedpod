@@ -14,6 +14,11 @@ import torch
 from torch import Tensor
 from torch import nn
 
+def seed_everything(seed=42):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    
 def load_subjects_list(rounds: int, round: int, split_path: str, inst_ids: list, TrainOrVal: list, mode='train'):
     df = pd.read_csv(split_path)
     Partition_round = f"R{round}"

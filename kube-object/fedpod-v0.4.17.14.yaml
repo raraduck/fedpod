@@ -695,7 +695,7 @@ spec:
       - name: model_pth
       - name: data_percentage
     container:
-      image: dwnusa/fedpod:v0.4.17.13
+      image: dwnusa/fedpod:v0.4.17.14
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args:
@@ -760,7 +760,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.17.13
+      image: dwnusa/fedpod:v0.4.17.14
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
@@ -833,7 +833,7 @@ spec:
       - name: inst_root
       - name: input_channels
     container:
-      image: dwnusa/fedpod:v0.4.17.13
+      image: dwnusa/fedpod:v0.4.17.14
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 

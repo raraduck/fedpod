@@ -9,6 +9,7 @@ def parse_args(argv):
     parser = argparse.ArgumentParser()
     # meta
     # parser.add_argument('--use_gpu', action='store_true', default=False, help='enable gpu (default: False)')
+    parser.add_argument('--seed', type=int, default=100)
     parser.add_argument('--save_infer', type=int, choices=[0, 1], default=1, help='whether save individual prediction')
     parser.add_argument('--eval_freq', type=int, default=5, help='eval frequency')
     parser.add_argument('--use_gpu', type=int, choices=[0, 1], default=0, help='Enable GPU (0 = No, 1 = Yes, default: 0)')
