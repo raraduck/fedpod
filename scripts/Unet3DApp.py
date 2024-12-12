@@ -279,6 +279,7 @@ class Unet3DApp:
                 f"DSCL:{avg_dsc_loss.item():2.3f}",
                 f"BCEL+DSCL:{loss.item():2.3f}",
                 f"lr:{optimizer.state_dict()['param_groups'][0]['lr']:0.4f}",
+                f"N:{name}",
                 f"{str(batch_time)}",
             ]))
             end = time.time()
