@@ -460,7 +460,7 @@ class Unet3DApp:
         os.makedirs(save_model_path, exist_ok=True)
         torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}_prev.pth"))
 
-        if train_val_dict['train'].__len__() == 0:
+        if train_setup['train_loader'].__len__() == 0:
             self.logger.info(f"[{self.cli_args.job_name.upper()}][TRN] exit before train as train data not exists at job_name-{self.job_name}...")
             return # Finish process because there is no training data
         
