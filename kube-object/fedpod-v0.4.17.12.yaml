@@ -77,7 +77,7 @@ spec:
           - name: data_percentage
             value: "{{item.data_percentage}}"
         withItems:
-        - { inst: "1", data_percentage: "{{workflow.parameters.inst_01_ratio_1}}"}
+        - { inst: "6", data_percentage: "{{workflow.parameters.inst_06_ratio_1}}"}
 
       - name: agg-00
         template: aggregation-job
