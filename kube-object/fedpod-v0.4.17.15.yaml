@@ -14,7 +14,7 @@ spec:
     - name: infer-script
       value: "run_forward1.sh"
     - name: rounds
-      value: "19"
+      value: "20"
     - name: initial-round
       value: "00"
     - name: initial-epoch
@@ -1121,7 +1121,7 @@ spec:
           - name: input_channels
             value: "{{workflow.parameters.input_channel_names}}"
         withItems:
-        - { job-name: "{{workflow.parameters.job-prefix}}_test", rounds: "{{workflow.parameters.rounds}}", round: "19", epoch: "000", inst: "0", split_csv: "{{workflow.parameters.split_csv}}", model_pth: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R19r19/models/R19r19_agg.pth"}
+        - { job-name: "{{workflow.parameters.job-prefix}}_test", rounds: "{{workflow.parameters.rounds}}", round: "20", epoch: "000", inst: "0", split_csv: "{{workflow.parameters.split_csv}}", model_pth: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R20r20/models/R20r20_agg.pth"}
 
   - name: train-job
     inputs:
