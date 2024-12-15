@@ -13,7 +13,7 @@ services:
       -J ${JOBNAME1}
       -R ${ROUNDS}
       -r ${ROUND}
-      -E 30
+      -E 20
       -e 0
       -i ${INSTID1}
       -c experiments/CC359PPMICMC_v0.csv
@@ -44,7 +44,7 @@ services:
       -J ${JOBNAME2}
       -R ${ROUNDS}
       -r ${ROUND}
-      -E 30
+      -E 20
       -e 0
       -i ${INSTID2}
       -c experiments/CC359PPMICMC_v0.csv
@@ -75,7 +75,7 @@ services:
       -J ${JOBNAME1}
       -R ${ROUNDS}
       -r ${ROUND}
-      -E 30
+      -E 20
       -e 0
       -i ${INSTID1}
       -c experiments/CC359PPMICMC_v0n1.csv
@@ -107,7 +107,7 @@ services:
       -J ${JOBNAME2}
       -R ${ROUNDS}
       -r ${ROUND}
-      -E 30
+      -E 20
       -e 0
       -i ${INSTID2}
       -c experiments/CC359PPMICMC_v0n1.csv
@@ -142,7 +142,7 @@ services:
       -J ${JOBNAME1}
       -R ${ROUNDS}
       -r ${ROUND}
-      -E 30
+      -E 20
       -e 0
       -i ${INSTID1}
       -c experiments/CC359PPMICMC_v0n2.csv
@@ -174,7 +174,7 @@ services:
       -J ${JOBNAME2}
       -R ${ROUNDS}
       -r ${ROUND}
-      -E 30
+      -E 20
       -e 0
       -i ${INSTID2}
       -c experiments/CC359PPMICMC_v0n2.csv
@@ -210,7 +210,7 @@ services:
       -J ${JOBNAME1}
       -R ${ROUNDS}
       -r ${ROUND}
-      -E 30
+      -E 20
       -e 0
       -i ${INSTID1}
       -c experiments/CC359PPMICMC_v0n3.csv
@@ -242,7 +242,7 @@ services:
       -J ${JOBNAME2}
       -R ${ROUNDS}
       -r ${ROUND}
-      -E 30
+      -E 20
       -e 0
       -i ${INSTID2}
       -c experiments/CC359PPMICMC_v0n3.csv
@@ -279,7 +279,7 @@ services:
       -J ${JOBNAME1}
       -R ${ROUNDS}
       -r ${ROUND}
-      -E 30
+      -E 20
       -e 0
       -i ${INSTID1}
       -c experiments/CC359PPMICMC_v0n4.csv
@@ -311,7 +311,7 @@ services:
       -J ${JOBNAME2}
       -R ${ROUNDS}
       -r ${ROUND}
-      -E 30
+      -E 20
       -e 0
       -i ${INSTID2}
       -c experiments/CC359PPMICMC_v0n4.csv
@@ -350,7 +350,7 @@ services:
       -J ${JOBNAME1}
       -R ${ROUNDS}
       -r ${ROUND}
-      -E 30
+      -E 20
       -e 0
       -i ${INSTID1}
       -c experiments/CC359PPMICMC_v0n5.csv
@@ -382,7 +382,7 @@ services:
       -J ${JOBNAME2}
       -R ${ROUNDS}
       -r ${ROUND}
-      -E 30
+      -E 20
       -e 0
       -i ${INSTID2}
       -c experiments/CC359PPMICMC_v0n5.csv
@@ -416,7 +416,7 @@ services:
       -J ${JOBNAME1}
       -R ${ROUNDS}
       -r ${ROUND}
-      -E 30
+      -E 20
       -e 0
       -i ${INSTID1}
       -c experiments/CC359PPMICMC_v0n6.csv
@@ -448,7 +448,7 @@ services:
       -J ${JOBNAME2}
       -R ${ROUNDS}
       -r ${ROUND}
-      -E 30
+      -E 20
       -e 0
       -i ${INSTID2}
       -c experiments/CC359PPMICMC_v0n6.csv
