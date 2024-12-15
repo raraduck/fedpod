@@ -3,7 +3,7 @@ set -e  # 명령어 실패 시 스크립트 종료
 
 export ROUNDS=1 ROUND=0 
 export MODEL=None 
-export JOBNAME1=centre1 INSTID1=1 
+export JOBNAME1=centre1 INSTID1=6 
 # export JOBNAME2=testfed_3 INSTID2=3 
 docker compose -f compose-AICA.yaml up fedpod-train1 && \
 docker compose -f compose-AICA.yaml down

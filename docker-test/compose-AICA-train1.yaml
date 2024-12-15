@@ -16,7 +16,7 @@ services:
       -E 1
       -e 0
       -i ${INSTID1}
-      -c experiments/CC359PPMI128_fed-test.csv
+      -c experiments/CC359PPMICMC_v1.csv
       -M ${MODEL}
       -p 100"
     stdin_open: true
