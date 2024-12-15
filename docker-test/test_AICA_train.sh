@@ -13,9 +13,9 @@ export MODEL=None
 # docker compose -f compose-AICA-train1.yaml down
 
 export JOBNAME11=solo11 INSTID11=1
-docker compose -f compose-AICA-train1.yaml up solo1-train1 && \
-docker compose -f compose-AICA-train1.yaml down
+docker compose -f compose-AICA-train.yaml up solo1-train1 && \
+docker compose -f compose-AICA-train.yaml down
 
 export JOBNAME12=solo12 INSTID12=1
-docker compose -f compose-AICA-train1.yaml up solo1-train2 && \
-docker compose -f compose-AICA-train1.yaml down
+docker compose -f compose-AICA-train.yaml up solo1-train2 && \
+docker compose -f compose-AICA-train.yaml down
