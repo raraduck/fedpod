@@ -13,7 +13,7 @@ services:
       -J ${JOBNAME1}
       -R ${ROUNDS}
       -r ${ROUND}
-      -E 1
+      -E 30
       -e 0
       -i ${INSTID1}
       -c experiments/CC359PPMICMC_v1.csv

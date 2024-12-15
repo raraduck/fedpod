@@ -5,8 +5,8 @@ export ROUNDS=1 ROUND=0
 export MODEL=None 
 export JOBNAME1=centre1 INSTID1=6 
 # export JOBNAME2=testfed_3 INSTID2=3 
-docker compose -f compose-AICA.yaml up fedpod-train1 && \
-docker compose -f compose-AICA.yaml down
+docker compose -f compose-AICA-train1.yaml up fedpod-train1 && \
+docker compose -f compose-AICA-train1.yaml down
 
 # export ROUNDS=3 ROUND=0 
 # export JOBPREFIX=testfed INSTID=0 
