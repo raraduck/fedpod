@@ -1,0 +1,126 @@
+version: '3'
+services:
+  centre0-train1:
+    image: dwnusa/fedpod:v0.4.17-test-cuda
+    container_name: fedpod-train01
+    command: >
+      /bin/bash -c "/fedpod/run_train1.sh 
+      -S 10000
+      -s 1 
+      -f 10
+      -m 15
+      -g 1 
+      -J ${JOBNAME01}
+      -R ${ROUNDS}
+      -r ${ROUND}
+      -E 30
+      -e 0
+      -i ${INSTID01}
+      -c experiments/CC359PPMICMC_v0.csv
+      -M ${MODEL}
+      -p 100"
+    stdin_open: true
+    tty: true
+    volumes:
+      - /fedpod:/fedpod
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  centre0-train2:
+    image: dwnusa/fedpod:v0.4.17-test-cuda
+    container_name: fedpod-train02
+    command: >
+      /bin/bash -c "/fedpod/run_train2.sh 
+      -S 10000
+      -s 1 
+      -f 10
+      -m 15
+      -g 1 
+      -J ${JOBNAME02}
+      -R ${ROUNDS}
+      -r ${ROUND}
+      -E 30
+      -e 0
+      -i ${INSTID02}
+      -c experiments/CC359PPMICMC_v0.csv
+      -M ${MODEL}
+      -p 100"
+    stdin_open: true
+    tty: true
+    volumes:
+      - /fedpod:/fedpod
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  solo1-train1:
+    image: dwnusa/fedpod:v0.4.17-test-cuda
+    container_name: fedpod-train11
+    command: >
+      /bin/bash -c "/fedpod/run_train1.sh 
+      -S 10000
+      -s 1 
+      -f 10
+      -m 15
+      -g 1 
+      -J ${JOBNAME11}
+      -R ${ROUNDS}
+      -r ${ROUND}
+      -E 30
+      -e 0
+      -i ${INSTID11}
+      -c experiments/CC359PPMICMC_v0n1.csv
+      -M ${MODEL}
+      -p 100"
+    stdin_open: true
+    tty: true
+    volumes:
+      - /fedpod:/fedpod
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+
+  solo1-train2:
+    image: dwnusa/fedpod:v0.4.17-test-cuda
+    container_name: fedpod-train12
+    command: >
+      /bin/bash -c "/fedpod/run_train2.sh 
+      -S 10000
+      -s 1 
+      -f 10
+      -m 15
+      -g 1 
+      -J ${JOBNAME12}
+      -R ${ROUNDS}
+      -r ${ROUND}
+      -E 30
+      -e 0
+      -i ${INSTID12}
+      -c experiments/CC359PPMICMC_v0n1.csv
+      -M ${MODEL}
+      -p 100"
+    stdin_open: true
+    tty: true
+    volumes:
+      - /fedpod:/fedpod
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

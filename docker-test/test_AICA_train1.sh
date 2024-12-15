@@ -3,30 +3,19 @@ set -e  # 명령어 실패 시 스크립트 종료
 
 export ROUNDS=1 ROUND=0 
 export MODEL=None 
-export JOBNAME1=centre1 INSTID1=6 
-# export JOBNAME2=testfed_3 INSTID2=3 
-docker compose -f compose-AICA-train1.yaml up fedpod-train1 && \
+
+export JOBNAME01=centre1 INSTID01=6 
+docker compose -f compose-AICA-train1.yaml up centre0-train1 && \
 docker compose -f compose-AICA-train1.yaml down
 
-# export ROUNDS=3 ROUND=0 
-# export JOBPREFIX=testfed INSTID=0 
-# docker compose -f compose-AICA.yaml up fedpod-aggregation && \
-# docker compose -f compose-AICA.yaml down
+export JOBNAME02=centre2 INSTID02=6 
+docker compose -f compose-AICA-train1.yaml up centre0-train2 && \
+docker compose -f compose-AICA-train1.yaml down
 
-# export ROUNDS=3 ROUND=1 
-# export MODEL=/fedpod/states/testfed_0/R03r01/models/R03r01_agg.pth 
-# export JOBNAME1=testfed_2 INSTID1=2 
-# export JOBNAME2=testfed_3 INSTID2=3 
-# docker compose -f compose-AICA.yaml up fedpod-train1 fedpod-train2 && \
-# docker compose -f compose-AICA.yaml down
+export JOBNAME11=solo1 INSTID11=1
+docker compose -f compose-AICA-train1.yaml up solo1-train1 && \
+docker compose -f compose-AICA-train1.yaml down
 
-# export ROUNDS=3 ROUND=1 
-# export JOBPREFIX=testfed INSTID=0 
-# docker compose -f compose-AICA.yaml up fedpod-aggregation && \
-# docker compose -f compose-AICA.yaml down
-
-# export ROUNDS=1 ROUND=0 
-# export MODEL=/fedpod/states/testfed_0/R03r02/models/R03r02_agg.pth 
-# export JOBNAME=testfed_test INSTID=0 
-# docker compose -f compose-AICA.yaml up fedpod-infer && \
-# docker compose -f compose-AICA.yaml down
+export JOBNAME12=solo1 INSTID12=1
+docker compose -f compose-AICA-train1.yaml up solo1-train2 && \
+docker compose -f compose-AICA-train1.yaml down
