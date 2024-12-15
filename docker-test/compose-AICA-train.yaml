@@ -4,7 +4,7 @@ services:
     image: dwnusa/fedpod:v0.4.17-test-cuda
     container_name: fedpod-train01
     command: >
-      /bin/bash -c "/fedpod/run_train1.sh 
+      /bin/bash -c "/fedpod/run_train1_cmc.sh 
       -S 10000
       -s 1 
       -f 10
@@ -35,7 +35,7 @@ services:
     image: dwnusa/fedpod:v0.4.17-test-cuda
     container_name: fedpod-train02
     command: >
-      /bin/bash -c "/fedpod/run_train2.sh 
+      /bin/bash -c "/fedpod/run_train2_cmc.sh 
       -S 10000
       -s 1 
       -f 10
@@ -66,7 +66,7 @@ services:
     image: dwnusa/fedpod:v0.4.17-test-cuda
     container_name: fedpod-train11
     command: >
-      /bin/bash -c "/fedpod/run_train1.sh 
+      /bin/bash -c "/fedpod/run_train1_cmc.sh 
       -S 10000
       -s 1 
       -f 10
@@ -98,7 +98,7 @@ services:
     image: dwnusa/fedpod:v0.4.17-test-cuda
     container_name: fedpod-train12
     command: >
-      /bin/bash -c "/fedpod/run_train2.sh 
+      /bin/bash -c "/fedpod/run_train2_cmc.sh 
       -S 10000
       -s 1 
       -f 10
