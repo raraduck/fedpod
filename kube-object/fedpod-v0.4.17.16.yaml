@@ -7,8 +7,8 @@ spec:
   onExit: infer-dag
   arguments:
     parameters:
-    # - name: data_root
-    #   value: "cc359ppmicmc256_dwnusa"
+    - name: data_root
+      value: "cc359ppmicmc256_dwnusa"
     - name: train-script
       value: "run_train1.sh"
     - name: agg-script
@@ -1137,7 +1137,7 @@ spec:
       - name: model_pth
       - name: data_percentage
     container:
-      image: dwnusa/fedpod:v0.4.17.15
+      image: dwnusa/fedpod:v0.4.17.16
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args:
@@ -1202,7 +1202,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.17.15
+      image: dwnusa/fedpod:v0.4.17.16
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
@@ -1275,7 +1275,7 @@ spec:
       - name: inst_root
       - name: input_channels
     container:
-      image: dwnusa/fedpod:v0.4.17.15
+      image: dwnusa/fedpod:v0.4.17.16
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 

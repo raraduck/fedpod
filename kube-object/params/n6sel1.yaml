@@ -1,3 +1,4 @@
+data_root: "cc359ppmicmc256_dwnusa"
 train-script: "run_train1.sh"
 agg-script: "run_aggregation.sh"
 infer-script: "run_forward1.sh"
