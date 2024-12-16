@@ -1117,7 +1117,7 @@ spec:
           - name: model_pth
             value: "{{item.model_pth}}"
           - name: data_root
-            value: "cc359ppmi128"
+            value: "{{workflow.parameters.data_root}}"
           - name: inst_root
             value: "inst_00"
           - name: input_channels
@@ -1128,7 +1128,6 @@ spec:
   - name: train-job
     inputs:
       parameters:
-      - name: data_root
       - name: seed
       - name: train-script
       - name: round
