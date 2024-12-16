@@ -3,6 +3,7 @@ set -e  # 명령어 실패 시 스크립트 종료
 
 export ROUNDS=1 ROUND=0 
 export MODEL=None 
+export DATAROOT="cc359ppmicmc256_jennyk"
 
 export JOBNAME1=centre01 INSTID1=6 
 docker compose -f compose-AICA-train.yaml up centre0-train1 && \

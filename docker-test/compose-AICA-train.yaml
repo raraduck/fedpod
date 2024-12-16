@@ -4,7 +4,7 @@ services:
     image: dwnusa/fedpod:v0.4.17-test-cuda
     container_name: centre0-train1
     command: >
-      /bin/bash -c "/fedpod/run_train1_cmc.sh 
+      /bin/bash -c "/fedpod/run_train1_aica.sh 
       -S 10000
       -s 1 
       -f 10
@@ -18,7 +18,8 @@ services:
       -i ${INSTID1}
       -c experiments/CC359PPMICMC_v0.csv
       -M ${MODEL}
-      -p 100"
+      -p 100
+      -D ${DATAROOT}"
     stdin_open: true
     tty: true
     volumes:
@@ -35,7 +36,7 @@ services:
     image: dwnusa/fedpod:v0.4.17-test-cuda
     container_name: centre0-train2
     command: >
-      /bin/bash -c "/fedpod/run_train2_cmc.sh 
+      /bin/bash -c "/fedpod/run_train2_aica.sh 
       -S 10000
       -s 1 
       -f 10
@@ -49,7 +50,8 @@ services:
       -i ${INSTID2}
       -c experiments/CC359PPMICMC_v0.csv
       -M ${MODEL}
-      -p 100"
+      -p 100
+      -D ${DATAROOT}"
     stdin_open: true
     tty: true
     volumes:
@@ -66,7 +68,7 @@ services:
     image: dwnusa/fedpod:v0.4.17-test-cuda
     container_name: solo1-train1
     command: >
-      /bin/bash -c "/fedpod/run_train1_cmc.sh 
+      /bin/bash -c "/fedpod/run_train1_aica.sh 
       -S 10000
       -s 1 
       -f 10
@@ -80,7 +82,8 @@ services:
       -i ${INSTID1}
       -c experiments/CC359PPMICMC_v0n1.csv
       -M ${MODEL}
-      -p 100"
+      -p 100
+      -D ${DATAROOT}"
     stdin_open: true
     tty: true
     volumes:
@@ -98,7 +101,7 @@ services:
     image: dwnusa/fedpod:v0.4.17-test-cuda
     container_name: solo1-train2
     command: >
-      /bin/bash -c "/fedpod/run_train2_cmc.sh 
+      /bin/bash -c "/fedpod/run_train2_aica.sh 
       -S 10000
       -s 1 
       -f 10
@@ -112,7 +115,8 @@ services:
       -i ${INSTID2}
       -c experiments/CC359PPMICMC_v0n1.csv
       -M ${MODEL}
-      -p 100"
+      -p 100
+      -D ${DATAROOT}"
     stdin_open: true
     tty: true
     volumes:
@@ -133,7 +137,7 @@ services:
     image: dwnusa/fedpod:v0.4.17-test-cuda
     container_name: solo2-train1
     command: >
-      /bin/bash -c "/fedpod/run_train1_cmc.sh 
+      /bin/bash -c "/fedpod/run_train1_aica.sh 
       -S 10000
       -s 1 
       -f 10
@@ -147,7 +151,8 @@ services:
       -i ${INSTID1}
       -c experiments/CC359PPMICMC_v0n2.csv
       -M ${MODEL}
-      -p 100"
+      -p 100
+      -D ${DATAROOT}"
     stdin_open: true
     tty: true
     volumes:
@@ -165,7 +170,7 @@ services:
     image: dwnusa/fedpod:v0.4.17-test-cuda
     container_name: solo2-train2
     command: >
-      /bin/bash -c "/fedpod/run_train2_cmc.sh 
+      /bin/bash -c "/fedpod/run_train2_aica.sh 
       -S 10000
       -s 1 
       -f 10
@@ -179,7 +184,8 @@ services:
       -i ${INSTID2}
       -c experiments/CC359PPMICMC_v0n2.csv
       -M ${MODEL}
-      -p 100"
+      -p 100
+      -D ${DATAROOT}"
     stdin_open: true
     tty: true
     volumes:
@@ -201,7 +207,7 @@ services:
     image: dwnusa/fedpod:v0.4.17-test-cuda
     container_name: solo3-train1
     command: >
-      /bin/bash -c "/fedpod/run_train1_cmc.sh 
+      /bin/bash -c "/fedpod/run_train1_aica.sh 
       -S 10000
       -s 1 
       -f 10
@@ -215,7 +221,8 @@ services:
       -i ${INSTID1}
       -c experiments/CC359PPMICMC_v0n3.csv
       -M ${MODEL}
-      -p 100"
+      -p 100
+      -D ${DATAROOT}"
     stdin_open: true
     tty: true
     volumes:
@@ -233,7 +240,7 @@ services:
     image: dwnusa/fedpod:v0.4.17-test-cuda
     container_name: solo3-train2
     command: >
-      /bin/bash -c "/fedpod/run_train2_cmc.sh 
+      /bin/bash -c "/fedpod/run_train2_aica.sh 
       -S 10000
       -s 1 
       -f 10
@@ -247,7 +254,8 @@ services:
       -i ${INSTID2}
       -c experiments/CC359PPMICMC_v0n3.csv
       -M ${MODEL}
-      -p 100"
+      -p 100
+      -D ${DATAROOT}"
     stdin_open: true
     tty: true
     volumes:
@@ -270,7 +278,7 @@ services:
     image: dwnusa/fedpod:v0.4.17-test-cuda
     container_name: solo4-train1
     command: >
-      /bin/bash -c "/fedpod/run_train1_cmc.sh 
+      /bin/bash -c "/fedpod/run_train1_aica.sh 
       -S 10000
       -s 1 
       -f 10
@@ -284,7 +292,8 @@ services:
       -i ${INSTID1}
       -c experiments/CC359PPMICMC_v0n4.csv
       -M ${MODEL}
-      -p 100"
+      -p 100
+      -D ${DATAROOT}"
     stdin_open: true
     tty: true
     volumes:
@@ -302,7 +311,7 @@ services:
     image: dwnusa/fedpod:v0.4.17-test-cuda
     container_name: solo4-train2
     command: >
-      /bin/bash -c "/fedpod/run_train2_cmc.sh 
+      /bin/bash -c "/fedpod/run_train2_aica.sh 
       -S 10000
       -s 1 
       -f 10
@@ -316,7 +325,8 @@ services:
       -i ${INSTID2}
       -c experiments/CC359PPMICMC_v0n4.csv
       -M ${MODEL}
-      -p 100"
+      -p 100
+      -D ${DATAROOT}"
     stdin_open: true
     tty: true
     volumes:
@@ -341,7 +351,7 @@ services:
     image: dwnusa/fedpod:v0.4.17-test-cuda
     container_name: solo5-train1
     command: >
-      /bin/bash -c "/fedpod/run_train1_cmc.sh 
+      /bin/bash -c "/fedpod/run_train1_aica.sh 
       -S 10000
       -s 1 
       -f 10
@@ -355,7 +365,8 @@ services:
       -i ${INSTID1}
       -c experiments/CC359PPMICMC_v0n5.csv
       -M ${MODEL}
-      -p 100"
+      -p 100
+      -D ${DATAROOT}"
     stdin_open: true
     tty: true
     volumes:
@@ -373,7 +384,7 @@ services:
     image: dwnusa/fedpod:v0.4.17-test-cuda
     container_name: solo5-train2
     command: >
-      /bin/bash -c "/fedpod/run_train2_cmc.sh 
+      /bin/bash -c "/fedpod/run_train2_aica.sh 
       -S 10000
       -s 1 
       -f 10
@@ -387,7 +398,8 @@ services:
       -i ${INSTID2}
       -c experiments/CC359PPMICMC_v0n5.csv
       -M ${MODEL}
-      -p 100"
+      -p 100
+      -D ${DATAROOT}"
     stdin_open: true
     tty: true
     volumes:
@@ -407,7 +419,7 @@ services:
     image: dwnusa/fedpod:v0.4.17-test-cuda
     container_name: solo6-train1
     command: >
-      /bin/bash -c "/fedpod/run_train1_cmc.sh 
+      /bin/bash -c "/fedpod/run_train1_aica.sh 
       -S 10000
       -s 1 
       -f 10
@@ -421,7 +433,8 @@ services:
       -i ${INSTID1}
       -c experiments/CC359PPMICMC_v0n6.csv
       -M ${MODEL}
-      -p 100"
+      -p 100
+      -D ${DATAROOT}"
     stdin_open: true
     tty: true
     volumes:
@@ -439,7 +452,7 @@ services:
     image: dwnusa/fedpod:v0.4.17-test-cuda
     container_name: solo6-train2
     command: >
-      /bin/bash -c "/fedpod/run_train2_cmc.sh 
+      /bin/bash -c "/fedpod/run_train2_aica.sh 
       -S 10000
       -s 1 
       -f 10
@@ -453,7 +466,8 @@ services:
       -i ${INSTID2}
       -c experiments/CC359PPMICMC_v0n6.csv
       -M ${MODEL}
-      -p 100"
+      -p 100
+      -D ${DATAROOT}"
     stdin_open: true
     tty: true
     volumes:
