@@ -589,7 +589,7 @@ spec:
           - name: round
             value: "{{tasks.agg-09.outputs.parameters.next-round}}"
           - name: epochs
-            value: "003"
+            value: "002"
           - name: epoch
             value: "{{tasks.agg-09.outputs.parameters.next-epoch}}"
           - name: inst-id
@@ -617,7 +617,7 @@ spec:
           - name: round
             value: "{{tasks.agg-09.outputs.parameters.next-round}}"
           - name: epochs
-            value: "003"
+            value: "002"
           - name: epoch
             value: "{{tasks.agg-09.outputs.parameters.next-epoch}}"
           - name: inst-id
@@ -641,7 +641,7 @@ spec:
           - name: round
             value: "{{tasks.agg-10.outputs.parameters.next-round}}"
           - name: epochs
-            value: "003"
+            value: "002"
           - name: epoch
             value: "{{tasks.agg-10.outputs.parameters.next-epoch}}"
           - name: inst-id
@@ -669,7 +669,7 @@ spec:
           - name: round
             value: "{{tasks.agg-10.outputs.parameters.next-round}}"
           - name: epochs
-            value: "003"
+            value: "002"
           - name: epoch
             value: "{{tasks.agg-10.outputs.parameters.next-epoch}}"
           - name: inst-id
@@ -693,7 +693,7 @@ spec:
           - name: round
             value: "{{tasks.agg-11.outputs.parameters.next-round}}"
           - name: epochs
-            value: "003"
+            value: "002"
           - name: epoch
             value: "{{tasks.agg-11.outputs.parameters.next-epoch}}"
           - name: inst-id
@@ -721,7 +721,7 @@ spec:
           - name: round
             value: "{{tasks.agg-11.outputs.parameters.next-round}}"
           - name: epochs
-            value: "003"
+            value: "002"
           - name: epoch
             value: "{{tasks.agg-11.outputs.parameters.next-epoch}}"
           - name: inst-id
@@ -745,7 +745,7 @@ spec:
           - name: round
             value: "{{tasks.agg-12.outputs.parameters.next-round}}"
           - name: epochs
-            value: "003"
+            value: "002"
           - name: epoch
             value: "{{tasks.agg-12.outputs.parameters.next-epoch}}"
           - name: inst-id
@@ -773,7 +773,7 @@ spec:
           - name: round
             value: "{{tasks.agg-12.outputs.parameters.next-round}}"
           - name: epochs
-            value: "003"
+            value: "002"
           - name: epoch
             value: "{{tasks.agg-12.outputs.parameters.next-epoch}}"
           - name: inst-id
@@ -797,7 +797,7 @@ spec:
           - name: round
             value: "{{tasks.agg-13.outputs.parameters.next-round}}"
           - name: epochs
-            value: "003"
+            value: "002"
           - name: epoch
             value: "{{tasks.agg-13.outputs.parameters.next-epoch}}"
           - name: inst-id
@@ -825,7 +825,7 @@ spec:
           - name: round
             value: "{{tasks.agg-13.outputs.parameters.next-round}}"
           - name: epochs
-            value: "003"
+            value: "002"
           - name: epoch
             value: "{{tasks.agg-13.outputs.parameters.next-epoch}}"
           - name: inst-id
@@ -849,7 +849,7 @@ spec:
           - name: round
             value: "{{tasks.agg-14.outputs.parameters.next-round}}"
           - name: epochs
-            value: "003"
+            value: "002"
           - name: epoch
             value: "{{tasks.agg-14.outputs.parameters.next-epoch}}"
           - name: inst-id
@@ -877,7 +877,7 @@ spec:
           - name: round
             value: "{{tasks.agg-14.outputs.parameters.next-round}}"
           - name: epochs
-            value: "003"
+            value: "002"
           - name: epoch
             value: "{{tasks.agg-14.outputs.parameters.next-epoch}}"
           - name: inst-id
@@ -901,7 +901,7 @@ spec:
           - name: round
             value: "{{tasks.agg-15.outputs.parameters.next-round}}"
           - name: epochs
-            value: "003"
+            value: "002"
           - name: epoch
             value: "{{tasks.agg-15.outputs.parameters.next-epoch}}"
           - name: inst-id
@@ -929,7 +929,7 @@ spec:
           - name: round
             value: "{{tasks.agg-15.outputs.parameters.next-round}}"
           - name: epochs
-            value: "003"
+            value: "002"
           - name: epoch
             value: "{{tasks.agg-15.outputs.parameters.next-epoch}}"
           - name: inst-id
@@ -953,7 +953,7 @@ spec:
           - name: round
             value: "{{tasks.agg-16.outputs.parameters.next-round}}"
           - name: epochs
-            value: "003"
+            value: "002"
           - name: epoch
             value: "{{tasks.agg-16.outputs.parameters.next-epoch}}"
           - name: inst-id
@@ -981,7 +981,7 @@ spec:
           - name: round
             value: "{{tasks.agg-16.outputs.parameters.next-round}}"
           - name: epochs
-            value: "003"
+            value: "002"
           - name: epoch
             value: "{{tasks.agg-16.outputs.parameters.next-epoch}}"
           - name: inst-id
@@ -1005,7 +1005,7 @@ spec:
           - name: round
             value: "{{tasks.agg-17.outputs.parameters.next-round}}"
           - name: epochs
-            value: "003"
+            value: "002"
           - name: epoch
             value: "{{tasks.agg-17.outputs.parameters.next-epoch}}"
           - name: inst-id
@@ -1033,7 +1033,7 @@ spec:
           - name: round
             value: "{{tasks.agg-17.outputs.parameters.next-round}}"
           - name: epochs
-            value: "003"
+            value: "002"
           - name: epoch
             value: "{{tasks.agg-17.outputs.parameters.next-epoch}}"
           - name: inst-id
@@ -1057,7 +1057,7 @@ spec:
           - name: round
             value: "{{tasks.agg-18.outputs.parameters.next-round}}"
           - name: epochs
-            value: "003"
+            value: "002"
           - name: epoch
             value: "{{tasks.agg-18.outputs.parameters.next-epoch}}"
           - name: inst-id
@@ -1085,7 +1085,7 @@ spec:
           - name: round
             value: "{{tasks.agg-18.outputs.parameters.next-round}}"
           - name: epochs
-            value: "003"
+            value: "002"
           - name: epoch
             value: "{{tasks.agg-18.outputs.parameters.next-epoch}}"
           - name: inst-id
