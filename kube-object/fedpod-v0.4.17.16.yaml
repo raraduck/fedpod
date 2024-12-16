@@ -1128,6 +1128,7 @@ spec:
   - name: train-job
     inputs:
       parameters:
+      - name: data_root
       - name: seed
       - name: train-script
       - name: round
@@ -1157,6 +1158,7 @@ spec:
           -c {{workflow.parameters.split_csv}} 
           -M {{inputs.parameters.model_pth}}
           -p {{inputs.parameters.data_percentage}}
+          -D {{workflow.parameters.data_root}} 
       resources:
         requests:
           cpu: "2"
