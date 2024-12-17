@@ -1166,7 +1166,7 @@ spec:
       resources:
         requests:
           cpu: "2"
-          memory: "4G"
+          memory: "8G"
       volumeMounts:
       - name: cc359ppmi128-volume
         mountPath: /fedpod/{{workflow.parameters.data_root}}
@@ -1303,7 +1303,7 @@ spec:
       resources:
         requests:
           cpu: "2"
-          memory: "4G"
+          memory: "8G"
       volumeMounts:
       - name: cc359ppmi128-volume
         mountPath: /fedpod/{{inputs.parameters.data_root}}
