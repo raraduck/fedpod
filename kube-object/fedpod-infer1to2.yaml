@@ -103,8 +103,8 @@ spec:
         withItems:
         - { job-name: "{{workflow.parameters.job-prefix2}}_test2",
             rounds: "{{workflow.parameters.rounds}}",
-            round: "{{workflow.parameters.initial-round}}",
-            epoch: "{{workflow.parameters.initial-epoch}}",
+            round: "{{workflow.parameters.selected-round}}",
+            epoch: "{{workflow.parameters.selected-epoch}}",
             inst: "0",
             split_csv: "{{workflow.parameters.split_csv}}",
             model_pth: "/fedpod/states/{{workflow.parameters.job-prefix2}}_0/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}/models/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}_agg.pth" }
