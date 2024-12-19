@@ -1168,6 +1168,8 @@ spec:
           cpu: "2"
           memory: "8G"
       volumeMounts:
+      - name: csv-volume
+        mountPath: /fedpod/experiments
       - name: cc359ppmi128-volume
         mountPath: /fedpod/data
       - name: states-volume
@@ -1179,6 +1181,10 @@ spec:
       stdin: true
       tty: true
     volumes:
+    - name: csv-volume
+      hostPath:
+        path: /fedpod/experiments  # 로컬 경로
+        type: Directory
     - name: cc359ppmi128-volume
       hostPath:
         path: /fedpod/{{workflow.parameters.data_root}}  # 로컬 경로
@@ -1227,6 +1233,8 @@ spec:
           cpu: "2"
           memory: "4G"
       volumeMounts:
+      - name: csv-volume
+        mountPath: /fedpod/experiments
       - name: cc359ppmi128-volume
         mountPath: /fedpod/data
       - name: states-volume
@@ -1248,6 +1256,10 @@ spec:
           path: /tmp/next_epoch.txt
           default: "0"
     volumes:
+    - name: csv-volume
+      hostPath:
+        path: /fedpod/experiments  # 로컬 경로
+        type: Directory
     - name: cc359ppmi128-volume
       hostPath:
         path: /fedpod/{{workflow.parameters.data_root}}  # 로컬 경로
@@ -1305,6 +1317,8 @@ spec:
           cpu: "2"
           memory: "8G"
       volumeMounts:
+      - name: csv-volume
+        mountPath: /fedpod/experiments
       - name: cc359ppmi128-volume
         mountPath: /fedpod/data
       - name: states-volume
@@ -1316,6 +1330,10 @@ spec:
       stdin: true
       tty: true
     volumes:
+    - name: csv-volume
+      hostPath:
+        path: /fedpod/experiments  # 로컬 경로
+        type: Directory
     - name: cc359ppmi128-volume
       hostPath:
         path: /fedpod/{{inputs.parameters.data_root}}  # 로컬 경로
