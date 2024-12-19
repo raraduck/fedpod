@@ -63,7 +63,7 @@ spec:
           - name: input_channels
             value: "[t1]"
         withItems:
-        - { job-name: "{{workflow.parameters.job-prefix}}_test1",
+        - { job-name: "{{workflow.parameters.job-prefix}}_test2",
             rounds: "{{workflow.parameters.rounds}}",
             round: "{{workflow.parameters.selected-round}}",
             epoch: "{{workflow.parameters.selected-epoch}}",
