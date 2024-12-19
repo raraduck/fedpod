@@ -147,7 +147,7 @@ spec:
           memory: "8G"
       volumeMounts:
       - name: cc359ppmi128-volume
-        mountPath: /fedpod/cc359ppmi128
+        mountPath: /fedpod/{{workflow.parameters.data_root}}
       - name: states-volume
         mountPath: /fedpod/states
       - name: logs-volume
@@ -159,7 +159,7 @@ spec:
     volumes:
     - name: cc359ppmi128-volume
       hostPath:
-        path: /fedpod/cc359ppmi128  # 로컬 경로
+        path: /fedpod/{{workflow.parameters.data_root}}  # 로컬 경로
         type: Directory
     - name: states-volume
       hostPath:
