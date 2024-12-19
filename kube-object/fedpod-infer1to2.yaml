@@ -13,8 +13,6 @@ spec:
       value: "20"
     - name: selected-epoch
       value: "00"
-    - name: split_csv
-      value: "undefined" # "cc359ppmi128/CC359PPMI_nj4r12v3.csv"
 
     - name: data_root1
       value: "cc359ppmicmc256_dwnusa"
@@ -24,6 +22,8 @@ spec:
       value: "None"
     - name: job-prefix1
       value: "undefined"
+    - name: split_csv1
+      value: "undefined"
 
     - name: data_root2
       value: "cc359ppmicmc256_dwnusa"
@@ -32,6 +32,8 @@ spec:
     - name: input_channel_names2
       value: "None"
     - name: job-prefix2
+      value: "undefined"
+    - name: split_csv2
       value: "undefined"
       
   templates:
@@ -70,7 +72,7 @@ spec:
             round: "{{workflow.parameters.selected-round}}",
             epoch: "{{workflow.parameters.selected-epoch}}",
             inst: "0",
-            split_csv: "{{workflow.parameters.split_csv}}",
+            split_csv: "{{workflow.parameters.split_csv1}}",
             model_pth: "/fedpod/states/{{workflow.parameters.job-prefix1}}_0/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}/models/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}_agg.pth" }
             # "{{workflow.parameters.init_model}}" }
 
@@ -106,7 +108,7 @@ spec:
             round: "{{workflow.parameters.selected-round}}",
             epoch: "{{workflow.parameters.selected-epoch}}",
             inst: "0",
-            split_csv: "{{workflow.parameters.split_csv}}",
+            split_csv: "{{workflow.parameters.split_csv2}}",
             model_pth: "/fedpod/states/{{workflow.parameters.job-prefix2}}_0/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}/models/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}_agg.pth" }
         dependencies: [infer-1]
 
@@ -149,6 +151,8 @@ spec:
           cpu: "2"
           memory: "8G"
       volumeMounts:
+      - name: csv-volume
+        mountPath: /fedpod/experiments
       - name: cc359ppmi128-volume
         mountPath: /fedpod/data
       - name: states-volume
@@ -160,6 +164,10 @@ spec:
       stdin: true
       tty: true
     volumes:
+    - name: csv-volume
+      hostPath:
+        path: /fedpod/experiments  # 로컬 경로
+        type: Directory
     - name: cc359ppmi128-volume
       hostPath:
         path: /fedpod/{{inputs.parameters.data_root}}  # 로컬 경로
