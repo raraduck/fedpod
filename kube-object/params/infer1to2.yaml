@@ -8,7 +8,7 @@ input_channel_names1: "[t1]"
 # job-prefix1: "centre01v16n6cen1-1"
 split_csv1: "experiments/CC359PPMICMC_v0.csv"
 
-data_root2: "states/centre01v16n6cen1-1_test1/R20r20"
+# data_root2: "states/centre01v16n6cen1-1_test1/R20r20"
 infer-script2: "run_forward2.sh"
 input_channel_names2: "[t1,seg]"
 # job-prefix2: "centre02v16n6cen2-1"
