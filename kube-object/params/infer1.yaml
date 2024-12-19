@@ -1,6 +1,6 @@
 data_root: "cc359ppmicmc256_jennyk"
 infer-script1: "run_forward1.sh"
-job-prefix: "centre01v16n6cen1-1"
+# job-prefix: "centre01v16n6cen1-1"
 rounds: "20"
 selected-round: "20"
 selected-epoch: "00"
