@@ -81,7 +81,7 @@ spec:
         arguments:
           parameters:
           - name: infer-script
-            value: "{{workflow.parameters.infer-script1}}"
+            value: "{{workflow.parameters.infer-script2}}"
           - name: job-name
             value: "{{item.job-name}}"
           - name: rounds
