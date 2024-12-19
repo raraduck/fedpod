@@ -25,8 +25,8 @@ spec:
     - name: split_csv1
       value: "undefined"
 
-    - name: data_root2
-      value: "cc359ppmicmc256_dwnusa"
+    # - name: data_root2
+    #   value: "cc359ppmicmc256_dwnusa"
     - name: infer-script2
       value: "run_forward2.sh"
     - name: input_channel_names2
@@ -97,7 +97,7 @@ spec:
           - name: model_pth
             value: "{{item.model_pth}}"
           - name: data_root
-            value: "{{workflow.parameters.data_root2}}"
+            value: "states/{{workflow.parameters.job-prefix1}}_test1/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}"
           - name: inst_root
             value: "inst_00"
           - name: input_channels
