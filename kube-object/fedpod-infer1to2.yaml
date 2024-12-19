@@ -108,7 +108,7 @@ spec:
             inst: "0",
             split_csv: "{{workflow.parameters.split_csv}}",
             model_pth: "/fedpod/states/{{workflow.parameters.job-prefix2}}_0/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}/models/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}_agg.pth" }
-        dependencies: [infer-2]
+        dependencies: [infer-1]
 
   - name: infer-job
     inputs:
