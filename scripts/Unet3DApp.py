@@ -581,10 +581,6 @@ class Unet3DApp:
                 # discrete
                 seg_map_th = torch.where(seg_map > 0.5, True, False)
 ##### logger name only when forward testset
-                # batch_time.update(time.time() - end)
-                # case_metrics_meter.update(dsc_loss_by_channels_np, dice, hd95, pvdc, name, bsz)
-                # end = time.time()
-
                 for bat_idx, _ in enumerate(image):
                     bat_list=[]
                     bat_list+=[
