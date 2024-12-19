@@ -122,7 +122,7 @@ spec:
       - name: inst_root
       - name: input_channels
     container:
-      image: dwnusa/fedpod:v0.4.17.16
+      image: dwnusa/fedpod:v0.4.17.17
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
@@ -147,7 +147,7 @@ spec:
           memory: "8G"
       volumeMounts:
       - name: cc359ppmi128-volume
-        mountPath: /fedpod/{{workflow.parameters.data_root}}
+        mountPath: /fedpod/data
       - name: states-volume
         mountPath: /fedpod/states
       - name: logs-volume
@@ -199,7 +199,7 @@ spec:
   #     - name: inst-id
   #     - name: model_pth
   #   container:
-  #     image: dwnusa/fedpod:v0.4.17.16
+  #     image: dwnusa/fedpod:v0.4.17.17
   #     imagePullPolicy: Always
   #     command: ["/bin/sh", "-c"]
   #     args:
@@ -262,7 +262,7 @@ spec:
   #     - name: inst-id
   #     - name: model_pth
   #   container:
-  #     image: dwnusa/fedpod:v0.4.17.16
+  #     image: dwnusa/fedpod:v0.4.17.17
   #     imagePullPolicy: Always
   #     command: ["/bin/sh", "-c"]
   #     args: 
