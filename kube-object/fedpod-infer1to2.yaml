@@ -161,7 +161,7 @@ spec:
     volumes:
     - name: cc359ppmi128-volume
       hostPath:
-        path: /fedpod/{{workflow.parameters.data_root}}  # 로컬 경로
+        path: /fedpod/{{inputs.parameters.data_root}}  # 로컬 경로
         type: Directory
     - name: states-volume
       hostPath:
