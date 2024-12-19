@@ -580,7 +580,19 @@ class Unet3DApp:
 
                 # discrete
                 seg_map_th = torch.where(seg_map > 0.5, True, False)
+##### logger name only when forward testset
+                # batch_time.update(time.time() - end)
+                # case_metrics_meter.update(dsc_loss_by_channels_np, dice, hd95, pvdc, name, bsz)
+                # end = time.time()
 
+                for bat_idx, name in enumerate(name):
+                    bat_list=[]
+                    bat_list+=[
+                        f"[{self.cli_args.job_name.upper()}][{mode.upper()}]({((i+1)/len(test_loader)*100):3.0f}%)",
+                        f"{name[bat_idx]}",
+                    ]
+                    self.logger.info(" ".join(bat_list))
+#####
                 # output seg map
                 if save_infer:
                     modality = self.cli_args.input_channel_names
