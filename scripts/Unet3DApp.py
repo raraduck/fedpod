@@ -585,11 +585,11 @@ class Unet3DApp:
                 # case_metrics_meter.update(dsc_loss_by_channels_np, dice, hd95, pvdc, name, bsz)
                 # end = time.time()
 
-                for bat_idx, n in enumerate(name):
+                for bat_idx, _ in enumerate(image):
                     bat_list=[]
                     bat_list+=[
                         f"[{self.cli_args.job_name.upper()}][{mode.upper()}]({((i+1)/len(test_loader)*100):3.0f}%)",
-                        f"{n[bat_idx]}",
+                        f"{name[bat_idx]}",
                     ]
                     self.logger.info(" ".join(bat_list))
 #####
