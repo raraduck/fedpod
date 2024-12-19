@@ -61,7 +61,7 @@ spec:
           - name: inst_root
             value: "inst_00"
           - name: input_channels
-            value: "[t1]"
+            value: "{{workflow.parameters.input_channel_names}}"
         withItems:
         - { job-name: "{{workflow.parameters.job-prefix}}_test2",
             rounds: "{{workflow.parameters.rounds}}",
