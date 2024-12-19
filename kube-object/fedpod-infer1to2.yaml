@@ -41,7 +41,7 @@ spec:
         arguments:
           parameters:
           - name: infer-script
-            value: "run_forward1.sh" # "{{workflow.parameters.infer-script1}}"
+            value: "{{workflow.parameters.infer-script1}}"
           - name: job-name
             value: "{{item.job-name}}"
           - name: rounds
