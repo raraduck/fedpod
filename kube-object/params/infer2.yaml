@@ -1,4 +1,5 @@
-data_root: "states/centre01v16n6cen1-1_test1/R20r20"
+# data_root: "states/centre01v16n6cen1-1_test1/R20r20"
+data_root: "cc359ppmicmc256_dwnusa"
 infer-script1: "run_forward2.sh"
 # job-prefix: "centre01v16n6cen1-1"
 rounds: "20"
