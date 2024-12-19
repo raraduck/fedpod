@@ -7,24 +7,28 @@ spec:
 #  onExit: infer-dag
   arguments:
     parameters:
-    - name: train-script
-      value: "run_train1.sh"
-    - name: agg-script
-      value: "run_aggregation.sh"
-    - name: infer-script
+    - name: data_root
+      value: "cc359ppmicmc256_dwnusa"
+    # - name: train-script
+    #   value: "run_train1.sh"
+    # - name: agg-script
+    #   value: "run_aggregation.sh"
+    - name: infer-script1
       value: "run_forward1.sh"
+    # - name: infer-script2
+    #   value: "run_forward2.sh"
     - name: rounds
       value: "20"
-    - name: initial-round
-      value: "00"
-    - name: initial-epoch
+    - name: selected-round
+      value: "20"
+    - name: selected-epoch
       value: "00"
     - name: job-prefix
       value: "undefined"
     - name: split_csv
       value: "undefined" # "cc359ppmi128/CC359PPMI_nj4r12v3.csv"
-    - name: init_model
-      value: "None" # "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}_agg.pth"
+    # - name: init_model
+    #   value: "None" # "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}_agg.pth"
     - name: input_channel_names
       value: "None"
   templates:
@@ -32,12 +36,12 @@ spec:
   - name: infer-dag
     dag:
       tasks:
-      - name: infer-12
+      - name: infer-1
         template: infer-job
         arguments:
           parameters:
           - name: infer-script
-            value: "{{workflow.parameters.infer-script}}"
+            value: "run_forward1.sh" # "{{workflow.parameters.infer-script1}}"
           - name: job-name
             value: "{{item.job-name}}"
           - name: rounds
@@ -53,20 +57,55 @@ spec:
           - name: model_pth
             value: "{{item.model_pth}}"
           - name: data_root
-            value: "cc359ppmi128"
+            value: "{{workflow.parameters.data_root}}"
           - name: inst_root
             value: "inst_00"
           - name: input_channels
-            value: "{{workflow.parameters.input_channel_names}}"
+            value: "[t1]"
         withItems:
-        - { job-name: "{{workflow.parameters.job-prefix}}_test",
+        - { job-name: "{{workflow.parameters.job-prefix}}_test1",
             rounds: "{{workflow.parameters.rounds}}",
-            round: "{{workflow.parameters.initial-round}}",
-            epoch: "{{workflow.parameters.initial-epoch}}",
+            round: "{{workflow.parameters.selected-round}}",
+            epoch: "{{workflow.parameters.selected-epoch}}",
             inst: "0",
             split_csv: "{{workflow.parameters.split_csv}}",
-            model_pth: "{{workflow.parameters.init_model}}" }
-            # model_pth: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R12r12/models/R12r12_agg.pth"}
+            model_pth: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}/models/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}_agg.pth" }
+            # "{{workflow.parameters.init_model}}" }
+
+      # - name: infer-2
+      #   template: infer-job
+      #   arguments:
+      #     parameters:
+      #     - name: infer-script
+      #       value: "{{workflow.parameters.infer-script}}"
+      #     - name: job-name
+      #       value: "{{item.job-name}}"
+      #     - name: rounds
+      #       value: "{{item.rounds}}"
+      #     - name: round
+      #       value: "{{item.round}}"
+      #     - name: epoch
+      #       value: "{{item.epoch}}"
+      #     - name: inst-id
+      #       value: "{{item.inst}}"
+      #     - name: split_csv
+      #       value: "{{item.split_csv}}"
+      #     - name: model_pth
+      #       value: "{{item.model_pth}}"
+      #     - name: data_root
+      #       value: "cc359ppmi128"
+      #     - name: inst_root
+      #       value: "inst_00"
+      #     - name: input_channels
+      #       value: "[t1,seg]"
+      #   withItems:
+      #   - { job-name: "{{workflow.parameters.job-prefix}}_test2",
+      #       rounds: "{{workflow.parameters.rounds}}",
+      #       round: "{{workflow.parameters.initial-round}}",
+      #       epoch: "{{workflow.parameters.initial-epoch}}",
+      #       inst: "0",
+      #       split_csv: "{{workflow.parameters.split_csv}}",
+      #       model_pth: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R12r12/models/R12r12_agg.pth" }
 
   - name: infer-job
     inputs:
@@ -83,7 +122,7 @@ spec:
       - name: inst_root
       - name: input_channels
     container:
-      image: dwnusa/fedpod:v0.4.17.9
+      image: dwnusa/fedpod:v0.4.17.16
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
@@ -105,7 +144,7 @@ spec:
       resources:
         requests:
           cpu: "2"
-          memory: "16G"
+          memory: "8G"
       volumeMounts:
       - name: cc359ppmi128-volume
         mountPath: /fedpod/cc359ppmi128
@@ -160,7 +199,7 @@ spec:
   #     - name: inst-id
   #     - name: model_pth
   #   container:
-  #     image: dwnusa/fedpod:v0.4.17.9
+  #     image: dwnusa/fedpod:v0.4.17.16
   #     imagePullPolicy: Always
   #     command: ["/bin/sh", "-c"]
   #     args:
@@ -223,7 +262,7 @@ spec:
   #     - name: inst-id
   #     - name: model_pth
   #   container:
-  #     image: dwnusa/fedpod:v0.4.17.9
+  #     image: dwnusa/fedpod:v0.4.17.16
   #     imagePullPolicy: Always
   #     command: ["/bin/sh", "-c"]
   #     args: 

@@ -25,12 +25,12 @@ do
         r) round=${OPTARG};;
         e) curr_epoch=${OPTARG};;
         i) inst_id=${OPTARG};;
-		c) split_csv=${OPTARG};;
-		M) model_pth=${OPTARG};;
-		t) test_mode=${OPTARG};;
-		d) data_root=${OPTARG};;
-		n) inst_root=${OPTARG};;
-		C) input_channels=${OPTARG};;
+        c) split_csv=${OPTARG};;
+        M) model_pth=${OPTARG};;
+        t) test_mode=${OPTARG};;
+        d) data_root=${OPTARG};;
+        n) inst_root=${OPTARG};;
+        C) input_channels=${OPTARG};;
     esac
 done
 echo "save_infer: $save_infer, gpu: $use_gpu, job: $job_name, rounds: $round, curr_epoch: $curr_epoch, inst: $inst_id, split_csv: $split_csv, model_pth: $model_pth, test_mode: $test_mode, data_root: $data_root, inst_root: $inst_root, input_channels: $input_channels"
@@ -44,39 +44,39 @@ fi
 
 
 python3 scripts/run_forward.py \
-	--test_mode $test_mode \
-	--save_infer $save_infer \
+    --test_mode $test_mode \
+    --save_infer $save_infer \
     --use_gpu $use_gpu \
     --job_name $job_name \
-	--rounds $rounds \
-	--round $round \
-	--epoch $curr_epoch \
-	\
-	--resize 128 \
-	--patch_size 128 \
-	--zoom 1 \
-	--flip_lr 0 \
-	--dataset CC359PPMI \
-	--data_root $data_root \
-	--inst_root $inst_root \
-	--seg_postfix _sub \
-	\
-	--cases_split $split_csv \
-	--inst_ids [$inst_id] \
-	--batch_size 1 \
-	\
-	--weight_path $model_pth \
-	--input_channel_names $input_channels \
-	--label_groups [[1,1],[2,2],[3,3],[4,4],[5,5],[6,6],[7,7],[8,8],[9,9],[10,10],[11,11],[12,12]] \
-	--label_names [LVS,LAC,LAP,LAP,LPP,LVP,RVS,RAC,RAP,RAP,RPP,RVP] \
-	--label_index [1,2,3,4,5,6,7,8,9,10,11,12] \
-	--unet_arch unet \
-	--channels_list [32,64,128,256] \
-	--block res \
-	--optim adamw \
-	--ds_layer 1 \
-	--kernel_size 3 \
-	--norm instance \
-	--scheduler step \
-	--milestones [18] \
-	--lr_gamma 0.1
+    --rounds $rounds \
+    --round $round \
+    --epoch $curr_epoch \
+    \
+    --resize 128 \
+    --patch_size 128 \
+    --zoom 1 \
+    --flip_lr 0 \
+    --dataset CC359PPMI \
+    --data_root $data_root \
+    --inst_root $inst_root \
+    --seg_postfix _sub \
+    \
+    --cases_split $split_csv \
+    --inst_ids [$inst_id] \
+    --batch_size 1 \
+    \
+    --weight_path $model_pth \
+    --input_channel_names $input_channels \
+    --label_groups [[1,1],[2,2],[3,3],[4,4],[5,5],[6,6],[7,7],[8,8],[9,9],[10,10],[11,11],[12,12]] \
+    --label_names [LVS,LAC,LAP,LAP,LPP,LVP,RVS,RAC,RAP,RAP,RPP,RVP] \
+    --label_index [1,2,3,4,5,6,7,8,9,10,11,12] \
+    --unet_arch unet \
+    --channels_list [32,64,128,256] \
+    --block res \
+    --optim adamw \
+    --ds_layer 1 \
+    --kernel_size 3 \
+    --norm instance \
+    --scheduler step \
+    --milestones [18] \
+    --lr_gamma 0.1
