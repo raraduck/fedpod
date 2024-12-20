@@ -13,7 +13,7 @@ import pandas as pd
 import torch
 from torch import Tensor
 from torch import nn
-
+MASKS=['seg','ref','sub','label']
 def seed_everything(seed=42):
     random.seed(seed)
     np.random.seed(seed)
@@ -90,7 +90,7 @@ def save_img_nifti(image: Tensor, prefix: str, postfix: str, affine_src: str, mo
             # Convert image tensor to numpy and scale to uint8
             
             image_modality = image_numpy[b][ch_idx].astype(np.float32)
-            if el_modality not in ['seg','ref','sub']:
+            if el_modality not in MASKS:
                 scale = 255
                 # Normalize the image data to 0-255 or 0-100
                 image_modality -= image_modality.min()  # Shift data to 0

@@ -34,6 +34,7 @@ from utils.scheduler import get_scheduler
 # import torchvision.transforms as tf
 # ToPILImage 변환timestamp기 초기화
 # to_pil = tf.ToPILImage()
+MASKS=['seg','ref','sub','label']
 class Unet3DApp:
     def __init__(self, sys_argv=None):
         # 기본 로거 설정 (기본값 사용)
