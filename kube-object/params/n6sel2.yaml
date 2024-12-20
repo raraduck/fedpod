@@ -1,14 +1,17 @@
+# rounds: "19"
+initial-round: "00"
+initial-epoch: "00"
+
 data_root: "cc359ppmi128"
 train-script: "run_train2.sh"
 agg-script: "run_aggregation.sh"
 infer-script: "run_forward2.sh"
 # job-prefix: "model-241116-3"
-# rounds: "19"
-initial-round: "00"
-initial-epoch: "00"
-split_csv: "cc359ppmi128/CC359PPMICMC_v1.csv"
-init_model: "None"
+
 input_channel_names: "[t1,seg]"
+split_csv: "experiments/CC359PPMICMC_v1.csv"
+
+init_model: "None"
 
 inst_01_ratio_1: "0"
 inst_02_ratio_1: "0"
@@ -23,5 +26,3 @@ inst_03_ratio_2: "5"
 inst_04_ratio_2: "5"
 inst_05_ratio_2: "5"
 inst_06_ratio_2: "55"
-# agg-algo: "fedpod"
-# init_model: "/fedpod/states/nj6r12v3_0/R12r10/models/R12r10_agg.pth"
