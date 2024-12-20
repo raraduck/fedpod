@@ -14,15 +14,15 @@ spec:
     - name: selected-epoch
       value: "00"
 
-    - name: data_root2
+    - name: data_root
       value: "cc359ppmicmc256_dwnusa"
-    - name: infer-script2
+    - name: infer-script
       value: "run_forward2.sh"
-    - name: input_channel_names2
+    - name: input_channel_names
       value: "None"
-    - name: job-prefix2
+    - name: job-prefix
       value: "undefined"
-    - name: split_csv2
+    - name: split_csv
       value: "undefined"
       
   templates:
@@ -34,7 +34,7 @@ spec:
         arguments:
           parameters:
           - name: infer-script
-            value: "{{workflow.parameters.infer-script2}}"
+            value: "{{workflow.parameters.infer-script}}"
           - name: job-name
             value: "{{item.job-name}}"
           - name: rounds
@@ -50,18 +50,18 @@ spec:
           - name: model_pth
             value: "{{item.model_pth}}"
           - name: data_root
-            value: "{{workflow.parameters.data_root2}}"
+            value: "{{workflow.parameters.data_root}}"
           - name: inst_root
             value: "inst_00"
           - name: input_channels
-            value: "{{workflow.parameters.input_channel_names2}}"
+            value: "{{workflow.parameters.input_channel_names}}"
         withItems:
-        - { job-name: "{{workflow.parameters.job-prefix2}}_infer2",
+        - { job-name: "{{workflow.parameters.job-prefix}}_infer",
             rounds: "{{workflow.parameters.rounds}}",
             round: "{{workflow.parameters.selected-round}}",
             epoch: "{{workflow.parameters.selected-epoch}}",
             inst: "0",
-            split_csv: "{{workflow.parameters.split_csv2}}",
+            split_csv: "{{workflow.parameters.split_csv}}",
             model_pth: "None" }
 
   - name: infer-job
