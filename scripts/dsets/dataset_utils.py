@@ -82,7 +82,7 @@ def apply_spacing_transform(args, data, selected_keys):
     
     interpolations = []
     for key in selected_keys:
-        if key in ['seg', 'ref', 'label']:  # 특정 키에 대해 nearest interpolation
+        if key in ['seg', 'ref', 'label','sub']:  # 특정 키에 대해 nearest interpolation
             interpolations.append('nearest')
         else:
             interpolations.append('bilinear')  # 나머지 키는 bilinear interpolation
@@ -130,7 +130,7 @@ def get_base_transform(args):
     base_transform_2 = [
         # RobustZScoreNormalization(keys=(lambda x: x[:-1] if len(x) > 1 else x)(args.input_channel_names)),
         # RobustZScoreNormalization(keys=args.input_channel_names),
-        RobustZScoreNormalization(keys=[el for el in args.input_channel_names if el not in ['seg','ref']]),
+        RobustZScoreNormalization(keys=[el for el in args.input_channel_names if el not in ['seg','ref','sub']]),
         transforms.ConcatItemsd(keys=args.input_channel_names, name='image', dim=0),
         transforms.DeleteItemsd(keys=args.input_channel_names),
         ConvertToMultiChannel(keys=["label"], labels=args.label_groups)
@@ -160,7 +160,7 @@ def get_forward_transform(args):
     base_transform_2 = [
         # RobustZScoreNormalization(keys=(lambda x: x[:-1] if len(x) > 1 else x)(args.input_channel_names)),
         # RobustZScoreNormalization(keys=args.input_channel_names),
-        RobustZScoreNormalization(keys=[el for el in args.input_channel_names if el not in ['seg','ref']]),
+        RobustZScoreNormalization(keys=[el for el in args.input_channel_names if el not in ['seg','ref','sub']]),
         transforms.ConcatItemsd(keys=args.input_channel_names, name='image', dim=0),
         transforms.DeleteItemsd(keys=args.input_channel_names),
         # ConvertToMultiChannel(keys=["label"], labels=args.label_groups)
