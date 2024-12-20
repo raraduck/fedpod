@@ -10,6 +10,6 @@ selected-epoch: "00"
 
 data_root2: "cc359ppmicmc256_dwnusa"
 infer-script2: "run_forward2.sh"
-input_channel_names2: "[t1,seg]"
+input_channel_names2: "[t1,pt,ref]"
 split_csv2: "experiments/CC359PPMICMC_v0.csv"
 # job-prefix2: "centre02v16n6cen2-1"
