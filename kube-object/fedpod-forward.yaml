@@ -56,7 +56,7 @@ spec:
           - name: input_channels
             value: "{{workflow.parameters.input_channel_names}}"
         withItems:
-        - { job-name: "{{workflow.parameters.job-prefix}}_infer",
+        - { job-name: "{{workflow.parameters.job-prefix}}_forward",
             rounds: "{{workflow.parameters.rounds}}",
             round: "{{workflow.parameters.selected-round}}",
             epoch: "{{workflow.parameters.selected-epoch}}",
