@@ -1128,7 +1128,13 @@ spec:
           - name: input_channels
             value: "{{workflow.parameters.input_channel_names}}"
         withItems:
-        - { job-name: "{{workflow.parameters.job-prefix}}_test", rounds: "{{workflow.parameters.rounds}}", round: "20", epoch: "000", inst: "0", split_csv: "{{workflow.parameters.split_csv}}", model_pth: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R20r20/models/R20r20_agg.pth"}
+        - { job-name: "{{workflow.parameters.job-prefix}}_test", 
+            rounds: "{{workflow.parameters.rounds}}", 
+            round: "20", 
+            epoch: "000", 
+            inst: "0", 
+            split_csv: "{{workflow.parameters.split_csv}}", 
+            model_pth: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R20r20/models/R20r20_agg.pth"}
 
   - name: train-job
     inputs:
