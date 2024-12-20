@@ -609,7 +609,9 @@ class Unet3DApp:
             TrainOrVal=[test_mode], 
             mode=test_mode
         )
-        assert self.cli_args.weight_path is not None, f"run_infer must have weight_path for model to infer."
+        if self.cli_args.weight_path == None:
+            _, self.cli_args.weight_path = self.initModel(self.cli_args.weight_path, mode='INIT')
+        # assert self.cli_args.weight_path is not None, f"run_infer must have weight_path for model to infer."
         test_setup = self.initializer(test_dict, mode=test_mode)
         inst_root = self.cli_args.inst_root
         self.forward(
