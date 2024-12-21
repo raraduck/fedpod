@@ -24,6 +24,9 @@ spec:
       value: "undefined"
     - name: split_csv
       value: "undefined"
+
+    - name: model_pth
+      value: "None"
       
   templates:
   - name: infer-dag
@@ -62,7 +65,7 @@ spec:
             epoch: "{{workflow.parameters.selected-epoch}}",
             inst: "0",
             split_csv: "{{workflow.parameters.split_csv}}",
-            model_pth: "None" }
+            model_pth: "{{workflow.parameters.model_pth}}" }
 
   - name: infer-job
     inputs:
