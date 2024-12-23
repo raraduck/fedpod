@@ -73,9 +73,8 @@ spec:
             epoch: "{{workflow.parameters.selected-epoch}}",
             inst: "0",
             split_csv: "{{workflow.parameters.split_csv1}}",
-            # model_pth: "{{workflow.parameters.model_pth}}" }
+            # model_pth: "{{workflow.parameters.model_pth1}}" }
             model_pth: "/fedpod/states/{{workflow.parameters.job-prefix1}}_0/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}/models/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}_agg.pth" }
-            # "{{workflow.parameters.init_model}}" }
 
       - name: infer-2
         template: infer-job
