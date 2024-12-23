@@ -703,7 +703,7 @@ class Unet3DApp:
             self.cli_args.round, 
             self.cli_args.cases_split, 
             self.cli_args.inst_ids, 
-            TrainOrVal=[quant_mode], 
+            TrainOrVal=['test'],
             mode=quant_mode
         )
         # if self.cli_args.weight_path == None:

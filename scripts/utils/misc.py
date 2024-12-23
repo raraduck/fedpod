@@ -65,6 +65,22 @@ def load_subjects_list(rounds: int, round: int, split_path: str, inst_ids: list,
             'infer': infer_list,
         }
         return infer_dict
+    elif mode in ['quant']: # in mode:
+        # assert inst_ids == [0], 'test must have 0 inst_id'
+        TrainOrVal_in_partition = df[df['TrainOrVal'].isin(TrainOrVal)][Partition_round].dropna()
+        assert TrainOrVal_in_partition.__len__() > 0, f"Not found train or val from current round {Partition_round}, please check csv file {split_path}"
+        unique_inst_ids = [int(el) for el in set(TrainOrVal_in_partition)]
+        assert len(inst_ids) == 1, f"[VAL or TEST] inst_ids parameters are not allowed to be multiply selected."
+        # assert inst_ids[0] > 0, f"inst_ids 0 is not optional (legacy was for all selection)"
+        unique_inst_ids = [el for el in unique_inst_ids if el in inst_ids]
+        # assert unique_inst_ids == [0], 'test must have 0 Partition_ID'
+        filtered_df = df[df[Partition_round].isin(unique_inst_ids)]
+        infer_list = list(filtered_df[filtered_df['TrainOrVal'].isin(TrainOrVal)]['Subject_ID'])
+        infer_dict = {
+            'inst_ids': unique_inst_ids,
+            'infer': infer_list,
+        }
+        return infer_dict
     else:
         raise NotImplementedError(f"[MODE:{mode}] is not implemented on load_inst_cases()")
 

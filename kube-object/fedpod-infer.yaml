@@ -7,37 +7,80 @@ spec:
 #  onExit: infer-dag
   arguments:
     parameters:
-    - name: train-script
-      value: "run_train1.sh"
-    - name: agg-script
-      value: "run_aggregation.sh"
-    - name: infer-script
-      value: "run_forward1.sh"
     - name: rounds
       value: "20"
-    - name: initial-round
+    - name: selected-round
+      value: "20"
+    - name: selected-epoch
       value: "00"
-    - name: initial-epoch
-      value: "00"
-    - name: job-prefix
-      value: "undefined"
-    - name: split_csv
-      value: "undefined" # "cc359ppmi128/CC359PPMI_nj4r12v3.csv"
-    - name: init_model
-      value: "None" # "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}_agg.pth"
-    - name: input_channel_names
+
+    - name: data_root1
+      value: "cc359ppmicmc256_dwnusa"
+    - name: infer-script1
+      value: "run_forward1.sh"
+    - name: input_channel_names1
       value: "None"
+    - name: job-prefix1
+      value: "undefined"
+    - name: split_csv1
+      value: "undefined"
+
+    # - name: data_root2
+    #   value: "cc359ppmicmc256_dwnusa"
+    - name: infer-script2
+      value: "run_forward2.sh"
+    - name: input_channel_names2
+      value: "None"
+    - name: job-prefix2
+      value: "undefined"
+    - name: split_csv2
+      value: "undefined"
+      
   templates:
-  # Round 12 (Inference)
   - name: infer-dag
     dag:
       tasks:
-      - name: infer-12
+      # - name: infer-1
+      #   template: infer-job
+      #   arguments:
+      #     parameters:
+      #     - name: infer-script
+      #       value: "{{workflow.parameters.infer-script1}}"
+      #     - name: job-name
+      #       value: "{{item.job-name}}"
+      #     - name: rounds
+      #       value: "{{item.rounds}}"
+      #     - name: round
+      #       value: "{{item.round}}"
+      #     - name: epoch
+      #       value: "{{item.epoch}}"
+      #     - name: inst-id
+      #       value: "{{item.inst}}"
+      #     - name: split_csv
+      #       value: "{{item.split_csv}}"
+      #     - name: model_pth
+      #       value: "{{item.model_pth}}"
+      #     - name: data_root
+      #       value: "{{workflow.parameters.data_root1}}"
+      #     - name: inst_root
+      #       value: "inst_00"
+      #     - name: input_channels
+      #       value: "{{workflow.parameters.input_channel_names1}}"
+      #   withItems:
+      #   - { job-name: "{{workflow.parameters.job-prefix1}}_test1",
+      #       rounds: "{{workflow.parameters.rounds}}",
+      #       round: "{{workflow.parameters.selected-round}}",
+      #       epoch: "{{workflow.parameters.selected-epoch}}",
+      #       inst: "0",
+      #       split_csv: "{{workflow.parameters.split_csv1}}",
+      #       model_pth: "/fedpod/states/{{workflow.parameters.job-prefix1}}_0/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}/models/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}_agg.pth" }
+
+      - name: infer-2
         template: infer-job
         arguments:
           parameters:
           - name: infer-script
-            value: "{{workflow.parameters.infer-script}}"
+            value: "{{workflow.parameters.infer-script2}}"
           - name: job-name
             value: "{{item.job-name}}"
           - name: rounds
@@ -53,20 +96,21 @@ spec:
           - name: model_pth
             value: "{{item.model_pth}}"
           - name: data_root
-            value: "cc359ppmi128"
+            value: "{{workflow.parameters.data_root2}}"
+            # value: "states/{{workflow.parameters.job-prefix1}}_test1/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}"
           - name: inst_root
             value: "inst_00"
           - name: input_channels
-            value: "{{workflow.parameters.input_channel_names}}"
+            value: "{{workflow.parameters.input_channel_names2}}"
         withItems:
-        - { job-name: "{{workflow.parameters.job-prefix}}_test",
+        - { job-name: "{{workflow.parameters.job-prefix2}}_test2",
             rounds: "{{workflow.parameters.rounds}}",
-            round: "{{workflow.parameters.initial-round}}",
-            epoch: "{{workflow.parameters.initial-epoch}}",
+            round: "{{workflow.parameters.selected-round}}",
+            epoch: "{{workflow.parameters.selected-epoch}}",
             inst: "0",
-            split_csv: "{{workflow.parameters.split_csv}}",
-            model_pth: "{{workflow.parameters.init_model}}" }
-            # model_pth: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R12r12/models/R12r12_agg.pth"}
+            split_csv: "{{workflow.parameters.split_csv2}}",
+            model_pth: "/fedpod/states/{{workflow.parameters.job-prefix2}}_0/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}/models/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}_agg.pth" }
+        # dependencies: [infer-1]
 
   - name: infer-job
     inputs:
@@ -83,7 +127,7 @@ spec:
       - name: inst_root
       - name: input_channels
     container:
-      image: dwnusa/fedpod:v0.4.17.9
+      image: dwnusa/fedpod:v0.4.17.17
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
@@ -105,10 +149,12 @@ spec:
       resources:
         requests:
           cpu: "2"
-          memory: "16G"
+          memory: "8G"
       volumeMounts:
+      - name: csv-volume
+        mountPath: /fedpod/experiments
       - name: cc359ppmi128-volume
-        mountPath: /fedpod/cc359ppmi128
+        mountPath: /fedpod/data
       - name: states-volume
         mountPath: /fedpod/states
       - name: logs-volume
@@ -118,9 +164,13 @@ spec:
       stdin: true
       tty: true
     volumes:
+    - name: csv-volume
+      hostPath:
+        path: /fedpod/experiments  # 로컬 경로
+        type: Directory
     - name: cc359ppmi128-volume
       hostPath:
-        path: /fedpod/cc359ppmi128  # 로컬 경로
+        path: /fedpod/{{inputs.parameters.data_root}}  # 로컬 경로
         type: Directory
     - name: states-volume
       hostPath:
@@ -148,134 +198,3 @@ spec:
       - name: next-epoch
         valueFrom:
           path: /tmp/next_epoch.txt
-
-
-  # - name: train-job
-  #   inputs:
-  #     parameters:
-  #     - name: train-script
-  #     - name: round
-  #     - name: epochs
-  #     - name: epoch
-  #     - name: inst-id
-  #     - name: model_pth
-  #   container:
-  #     image: dwnusa/fedpod:v0.4.17.9
-  #     imagePullPolicy: Always
-  #     command: ["/bin/sh", "-c"]
-  #     args:
-  #       - >
-  #         ./{{inputs.parameters.train-script}} 
-  #         -s 0 
-  #         -f 10
-  #         -m 15
-  #         -g 0 
-  #         -J {{workflow.parameters.job-prefix}}_{{inputs.parameters.inst-id}} 
-  #         -R {{workflow.parameters.rounds}} 
-  #         -r {{inputs.parameters.round}} 
-  #         -E {{inputs.parameters.epochs}} 
-  #         -e {{inputs.parameters.epoch}} 
-  #         -i {{inputs.parameters.inst-id}} 
-  #         -c {{workflow.parameters.split_csv}} 
-  #         -M {{inputs.parameters.model_pth}}
-  #     resources:
-  #       requests:
-  #         cpu: "2"
-  #         memory: "16G"
-  #     volumeMounts:
-  #     - name: cc359ppmi128-volume
-  #       mountPath: /fedpod/cc359ppmi128
-  #     - name: states-volume
-  #       mountPath: /fedpod/states
-  #     - name: logs-volume
-  #       mountPath: /fedpod/logs
-  #     - name: runs-volume
-  #       mountPath: /fedpod/runs
-  #     stdin: true
-  #     tty: true
-  #   volumes:
-  #   - name: cc359ppmi128-volume
-  #     hostPath:
-  #       path: /fedpod/cc359ppmi128  # 로컬 경로
-  #       type: Directory
-  #   - name: states-volume
-  #     hostPath:
-  #       path: /fedpod/states  # 로컬 경로
-  #       type: Directory
-  #   - name: logs-volume
-  #     hostPath:
-  #       path: /fedpod/logs  # 로컬 경로
-  #       type: Directory
-  #   - name: runs-volume
-  #     hostPath:
-  #       path: /fedpod/runs  # 로컬 경로
-  #       type: Directory
-
-
-  # - name: aggregation-job
-  #   inputs:
-  #     parameters:
-  #     - name: agg-script
-  #     - name: round
-  #     - name: epochs
-  #     - name: epoch
-  #     - name: algorithm
-  #     - name: inst-id
-  #     - name: model_pth
-  #   container:
-  #     image: dwnusa/fedpod:v0.4.17.9
-  #     imagePullPolicy: Always
-  #     command: ["/bin/sh", "-c"]
-  #     args: 
-  #       - >
-  #         ./{{inputs.parameters.agg-script}} 
-  #         -R {{workflow.parameters.rounds}} 
-  #         -r {{inputs.parameters.round}} 
-  #         -E {{inputs.parameters.epochs}} 
-  #         -e {{inputs.parameters.epoch}} 
-  #         -j {{workflow.parameters.job-prefix}} 
-  #         -i {{inputs.parameters.inst-id}} 
-  #         -a {{inputs.parameters.algorithm}} 
-  #         -M {{inputs.parameters.model_pth}}
-  #     resources:
-  #       requests:
-  #         cpu: "2"
-  #         memory: "4G"
-  #     volumeMounts:
-  #     - name: cc359ppmi128-volume
-  #       mountPath: /fedpod/cc359ppmi128
-  #     - name: states-volume
-  #       mountPath: /fedpod/states
-  #     - name: logs-volume
-  #       mountPath: /fedpod/logs
-  #     - name: runs-volume
-  #       mountPath: /fedpod/runs
-  #     stdin: true
-  #     tty: true
-  #   outputs:
-  #     parameters:
-  #     - name: next-round
-  #       valueFrom:
-  #         path: /tmp/next_round.txt  # Return the value from the temp file
-  #         default: "{{workflow.parameters.rounds}}"
-  #     - name: next-epoch
-  #       valueFrom:
-  #         path: /tmp/next_epoch.txt
-  #         default: "0"
-  #   volumes:
-  #   - name: cc359ppmi128-volume
-  #     hostPath:
-  #       path: /fedpod/cc359ppmi128  # 로컬 경로
-  #       type: Directory
-  #   - name: states-volume
-  #     hostPath:
-  #       path: /fedpod/states  # 로컬 경로
-  #       type: Directory
-  #   - name: logs-volume
-  #     hostPath:
-  #       path: /fedpod/logs  # 로컬 경로
-  #       type: Directory
-  #   - name: runs-volume
-  #     hostPath:
-  #       path: /fedpod/runs  # 로컬 경로
-  #       type: Directory
