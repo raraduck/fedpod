@@ -219,22 +219,22 @@ class Unet3DApp:
                 'model': model,
                 # 'loss_fn': loss_fn,
             }
-        elif mode in ['quant']:
-            self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode.upper()}] Processing with infer_loader...")
-            test_cases = natsort.natsorted(subjects_dict['infer'])
-            test_dataset, test_loader = self.initTestDl(test_cases, mode)
+        # elif mode in ['quant']:
+        #     self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode.upper()}] Processing with infer_loader...")
+        #     test_cases = natsort.natsorted(subjects_dict['infer'])
+        #     test_dataset, test_loader = self.initTestDl(test_cases, mode)
 
-            self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode.upper()}] Processing with model...")
-            # model, _ = self.initModel(self.cli_args.weight_path, mode=mode.upper())
-            # model = self.setup_gpu(model, mode=mode.upper())
-            # loss_fn = SoftDiceBCEWithLogitsLoss(channel_weights=None).to(self.device)
+        #     self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode.upper()}] Processing with model...")
+        #     # model, _ = self.initModel(self.cli_args.weight_path, mode=mode.upper())
+        #     # model = self.setup_gpu(model, mode=mode.upper())
+        #     # loss_fn = SoftDiceBCEWithLogitsLoss(channel_weights=None).to(self.device)
 
-            return {
-                'test_dataset': test_dataset,
-                'test_loader': test_loader,
-                # 'model': model,
-                # 'loss_fn': loss_fn,
-            }
+        #     return {
+        #         'test_dataset': test_dataset,
+        #         'test_loader': test_loader,
+        #         # 'model': model,
+        #         # 'loss_fn': loss_fn,
+        #     }
         else:
             raise NotImplementedError(f"[{self.cli_args.job_name.upper()}][MODE:{mode}] is not implemented on initializer()")
     
@@ -642,81 +642,81 @@ class Unet3DApp:
 
 
 
-    def compare(self, inst_root, test_loader, mode: str, save_infer: bool = True):
-        # model.eval()
-        seg_names = self.cli_args.label_names
+#     def compare(self, inst_root, test_loader, mode: str, save_infer: bool = True):
+#         # model.eval()
+#         seg_names = self.cli_args.label_names
 
-        save_val_path = os.path.join("states", self.job_name, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", inst_root)
-        os.makedirs(save_val_path, exist_ok=True)
+#         save_val_path = os.path.join("states", self.job_name, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}", inst_root)
+#         os.makedirs(save_val_path, exist_ok=True)
 
-        with torch.no_grad():
-            for i, (image, _, _, name, affine, label_names) in enumerate(test_loader):
-                # label_name = [el[0] for el in label_names]
-                if self.cli_args.use_gpu:
-                    image = image.float().cuda()
-                else:
-                    image = image.float()
+#         with torch.no_grad():
+#             for i, (image, _, _, name, affine, label_names) in enumerate(test_loader):
+#                 # label_name = [el[0] for el in label_names]
+#                 if self.cli_args.use_gpu:
+#                     image = image.float().cuda()
+#                 else:
+#                     image = image.float()
 
-                # seg_map = 
-                # sliding_window_inference(
-                #     inputs=image,
-                #     predictor=model,
-                #     roi_size=self.cli_args.patch_size,
-                #     sw_batch_size=self.cli_args.sw_batch_size,
-                #     overlap=self.cli_args.patch_overlap,
-                #     mode=self.cli_args.sliding_window_mode
-                # )
+#                 # seg_map = 
+#                 # sliding_window_inference(
+#                 #     inputs=image,
+#                 #     predictor=model,
+#                 #     roi_size=self.cli_args.patch_size,
+#                 #     sw_batch_size=self.cli_args.sw_batch_size,
+#                 #     overlap=self.cli_args.patch_overlap,
+#                 #     mode=self.cli_args.sliding_window_mode
+#                 # )
 
-                # if self.cli_args.unet_arch == 'unet':
-                #     seg_map = robust_sigmoid(seg_map)
-                # else:
-                #     msg = f"currently model is {self.cli_args.unet_arch}.\n If the model is not unet, it is necessary to check the value range of seg_map before applying any thresholding."
-                #     self.logger.error(msg)
-                #     raise NotImplementedError(msg)
+#                 # if self.cli_args.unet_arch == 'unet':
+#                 #     seg_map = robust_sigmoid(seg_map)
+#                 # else:
+#                 #     msg = f"currently model is {self.cli_args.unet_arch}.\n If the model is not unet, it is necessary to check the value range of seg_map before applying any thresholding."
+#                 #     self.logger.error(msg)
+#                 #     raise NotImplementedError(msg)
 
-                # discrete
-                seg_map_th = image
-##### logger name only when forward testset
-                for bat_idx, _ in enumerate(image):
-                    bat_list=[]
-                    bat_list+=[
-                        f"[{self.cli_args.job_name.upper()}][{mode.upper()}]({((i+1)/len(test_loader)*100):3.0f}%)",
-                        f"{name[bat_idx]}",
-                    ]
-                    self.logger.info(" ".join(bat_list))
-#####
-                # output seg map
-                if save_infer:
-                    modality = self.cli_args.input_channel_names
-                    # scale = 255
-                    label_map = self.cli_args.label_index
-                    # img_name = self.cli_args.img_name
-                    # seg_name = self.cli_args.seg_name
-                    save_img_nifti(image,      "", "",                        affine, modality,    save_val_path, name)
-                    save_seg_nifti(seg_map_th, "", self.cli_args.seg_postfix, affine, label_map,   save_val_path, name)
-        return
+#                 # discrete
+#                 seg_map_th = image
+# ##### logger name only when forward testset
+#                 for bat_idx, _ in enumerate(image):
+#                     bat_list=[]
+#                     bat_list+=[
+#                         f"[{self.cli_args.job_name.upper()}][{mode.upper()}]({((i+1)/len(test_loader)*100):3.0f}%)",
+#                         f"{name[bat_idx]}",
+#                     ]
+#                     self.logger.info(" ".join(bat_list))
+# #####
+#                 # output seg map
+#                 if save_infer:
+#                     modality = self.cli_args.input_channel_names
+#                     # scale = 255
+#                     label_map = self.cli_args.label_index
+#                     # img_name = self.cli_args.img_name
+#                     # seg_name = self.cli_args.seg_name
+#                     save_img_nifti(image,      "", "",                        affine, modality,    save_val_path, name)
+#                     save_seg_nifti(seg_map_th, "", self.cli_args.seg_postfix, affine, label_map,   save_val_path, name)
+#         return
 
 
-    def run_quantification(self, quant_mode='quant'):
-        quant_dict = load_subjects_list(
-            self.cli_args.rounds, 
-            self.cli_args.round, 
-            self.cli_args.cases_split, 
-            self.cli_args.inst_ids, 
-            TrainOrVal=['test'],
-            mode=quant_mode
-        )
-        # if self.cli_args.weight_path == None:
-        #     _, self.cli_args.weight_path = self.initModel(self.cli_args.weight_path, mode='INIT')
-        # assert self.cli_args.weight_path is not None, f"run_infer must have weight_path for model to infer."
-        quant_setup = self.initializer(quant_dict, mode=quant_mode)
-        inst_root = self.cli_args.inst_root
-        self.compare(
-            inst_root, 
-            # quant_setup['model'], 
-            quant_setup['test_loader'],     # Manual segmented
-            # quant_setup['test_loader'],   # Model segmented
-            mode=quant_mode,
-            save_infer=self.cli_args.save_infer
-        )
-        return
+    # def run_quantification(self, quant_mode='quant'):
+    #     quant_dict = load_subjects_list(
+    #         self.cli_args.rounds, 
+    #         self.cli_args.round, 
+    #         self.cli_args.cases_split, 
+    #         self.cli_args.inst_ids, 
+    #         TrainOrVal=['test'],
+    #         mode=quant_mode
+    #     )
+    #     # if self.cli_args.weight_path == None:
+    #     #     _, self.cli_args.weight_path = self.initModel(self.cli_args.weight_path, mode='INIT')
+    #     # assert self.cli_args.weight_path is not None, f"run_infer must have weight_path for model to infer."
+    #     quant_setup = self.initializer(quant_dict, mode=quant_mode)
+    #     inst_root = self.cli_args.inst_root
+    #     self.compare(
+    #         inst_root, 
+    #         # quant_setup['model'], 
+    #         quant_setup['test_loader'],     # Manual segmented
+    #         # quant_setup['test_loader'],   # Model segmented
+    #         mode=quant_mode,
+    #         save_infer=self.cli_args.save_infer
+    #     )
+    #     return

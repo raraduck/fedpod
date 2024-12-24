@@ -1,4 +1,23 @@
 venv
+
+states
+logs
+runs
+test
+temp
+*.tar
+
+# pycharm
+.idea
+__pycache__
+
+# vscode
+.vscode
+
+# data
+
+data_*
+
 cc359ppmi_first
 cc359ppmicmc
 cc359ppmicmc128
@@ -14,16 +33,4 @@ dwnusa2_test2
 dwnusa3_infer2
 dwnusa3-3_forward
 jennyk2_test2
-states
-logs
-runs
-test
-temp
-*.tar
-
-# pycharm
-.idea
-__pycache__
-
-# vscode
-.vscode
+jennyk2_infer2
