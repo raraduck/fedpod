@@ -15,7 +15,7 @@ spec:
       value: "00"
 
     - name: data_root1
-      value: "cc359ppmicmc256_dwnusa"
+      value: "data_cc359ppmicmc256_dwnusa"
     - name: infer-script1
       value: "run_forward1.sh"
     - name: input_channel_names1
@@ -26,7 +26,7 @@ spec:
       value: "undefined"
 
     # - name: data_root2
-    #   value: "cc359ppmicmc256_dwnusa"
+    #   value: "data_cc359ppmicmc256_dwnusa"
     - name: infer-script2
       value: "run_forward2.sh"
     - name: input_channel_names2

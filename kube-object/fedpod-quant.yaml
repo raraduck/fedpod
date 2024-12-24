@@ -15,7 +15,7 @@ spec:
       value: "00"
 
     - name: data_root
-      value: "cc359ppmicmc256_dwnusa"
+      value: "data_cc359ppmicmc256_dwnusa"
     - name: infer-script
       value: "run_quant.sh"
     - name: input_channel_names

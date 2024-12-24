@@ -2,7 +2,7 @@
 initial-round: "00"
 initial-epoch: "00"
 
-data_root: "cc359ppmi128"
+data_root: "data_cc359ppmi128"
 train-script: "run_train1.sh"
 agg-script: "run_aggregation.sh"
 infer-script: "run_forward1.sh"
