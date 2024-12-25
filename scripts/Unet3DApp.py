@@ -383,7 +383,7 @@ class Unet3DApp:
                 hd95 = metrics.hd95(seg_map_th, label)
                 pvdc = metrics.pvdc(seg_map_th, label)
                 batch_time.update(time.time() - end)
-                case_metrics_meter.update(dsc_loss_by_channels_np, dice, hd95, pvdc, name, bsz)
+                case_metrics_meter.update(dice, hd95, pvdc, name, bsz, dscloss=dsc_loss_by_channels_np)
                 end = time.time()
 
                 for bat_idx, (bat_dice, bat_hd95) in enumerate(zip(dice,hd95)):

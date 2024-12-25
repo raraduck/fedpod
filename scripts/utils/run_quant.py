@@ -23,7 +23,7 @@ def main(src_base, trg_base):
     assert len(src_list) == len(trg_list), f"src_list and trg_list len must be same"
 
     seg_names = "[LVS,LAC,LAP,LAP,LPP,LVP,RVS,RAC,RAP,RAP,RPP,RVP]".strip("[]").split(",")
-    case_metrics_meter = CaseSegMetricsMeter(seg_names)
+    case_metrics_meter = CaseSegMetricsMeter(seg_names, metrics_list=['DICE','HD95','PVDC'])
     for pid in src_list:
         src_dir = os.path.join(src_path, pid)
         trg_dir = os.path.join(trg_path, pid)
@@ -45,7 +45,7 @@ def main(src_base, trg_base):
         hd95 = metrics.hd95(src_sub_vol, trg_sub_vol)
         pvdc = metrics.pvdc(src_sub_vol, trg_sub_vol)
 
-        case_metrics_meter.update(dice, dice, hd95, pvdc, [pid], 1)
+        case_metrics_meter.update(dice, hd95, pvdc, [pid], 1)
         print(pid, dice.mean())
     # save_val_path = os.path.join(src_path)
     # save_val_path = os.path.dirname(src_path)

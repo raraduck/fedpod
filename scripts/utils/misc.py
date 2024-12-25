@@ -223,27 +223,42 @@ def initialization_logger(args, jobname, filename):
 class CaseSegMetricsMeter(object):
     """Stores segmentation metric (dice & hd95) for every case"""
 
-    def __init__(self, label_names):
-        self.cols = [
-            *[f'DSCL_{el}' for el in label_names],
-            *[f'DICE_{el}' for el in label_names],
-            *[f'HD95_{el}' for el in label_names],
-            *[f'PVDC_{el}' for el in label_names],
-        ]
+    def __init__(self, label_names, metrics_list=['DSCL','DICE','HD95','PVDC']):
+        self.cols = []
+        for m in metrics_list:
+            self.cols += [
+                *[f'{m}_{el}' for el in label_names],
+            ]
+        # self.cols = [
+        #     *[f'DSCL_{el}' for el in label_names],
+        #     *[f'DICE_{el}' for el in label_names],
+        #     *[f'HD95_{el}' for el in label_names],
+        #     *[f'PVDC_{el}' for el in label_names],
+        # ]
         self.reset()
 
     def reset(self):
         self.cases = pd.DataFrame(columns=self.cols)
 
-    def update(self, dscloss, dice, hd95, pdvc, names, bsz):
+    def update(self, dice, hd95, pdvc, names, bsz, dscloss=None):
         ch_size = dice.shape[1]
-        for i in range(bsz):
-            self.cases.loc[names[i]] = [
-                *[dscloss[i, idx] for idx in range(ch_size)],
-                *[dice[i, idx] for idx in range(ch_size)],
-                *[hd95[i, idx] for idx in range(ch_size)],
-                *[pdvc[i, idx] for idx in range(ch_size)],
-            ]
+        if dscloss:
+            print("With dscl")
+            for i in range(bsz):
+                self.cases.loc[names[i]] = [
+                    *[dscloss[i, idx] for idx in range(ch_size)],
+                    *[dice[i, idx] for idx in range(ch_size)],
+                    *[hd95[i, idx] for idx in range(ch_size)],
+                    *[pdvc[i, idx] for idx in range(ch_size)],
+                ]
+        else:
+            print("Without dscl")
+            for i in range(bsz):
+                self.cases.loc[names[i]] = [
+                    *[dice[i, idx] for idx in range(ch_size)],
+                    *[hd95[i, idx] for idx in range(ch_size)],
+                    *[pdvc[i, idx] for idx in range(ch_size)],
+                ]
 
     def mean(self):
         return self.cases.mean(0).to_dict()
