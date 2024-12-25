@@ -243,7 +243,7 @@ class CaseSegMetricsMeter(object):
     def update(self, dice, hd95, pdvc, names, bsz, dscloss=None):
         ch_size = dice.shape[1]
         if dscloss:
-            print("With dscl")
+            # print("With dscl")
             for i in range(bsz):
                 self.cases.loc[names[i]] = [
                     *[dscloss[i, idx] for idx in range(ch_size)],
@@ -252,7 +252,7 @@ class CaseSegMetricsMeter(object):
                     *[pdvc[i, idx] for idx in range(ch_size)],
                 ]
         else:
-            print("Without dscl")
+            # print("Without dscl")
             for i in range(bsz):
                 self.cases.loc[names[i]] = [
                     *[dice[i, idx] for idx in range(ch_size)],
