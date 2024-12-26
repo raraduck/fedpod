@@ -240,10 +240,9 @@ class CaseSegMetricsMeter(object):
     def reset(self):
         self.cases = pd.DataFrame(columns=self.cols)
 
-    def update(self, dice, hd95, pdvc, names, bsz, dscloss=None):
+    def update(self, dice, hd95, pdvc, names, bsz, dscloss=None, suv1=None, suv2=None):
         ch_size = dice.shape[1]
-        if dscloss:
-            # print("With dscl")
+        if dscloss is not None:
             for i in range(bsz):
                 self.cases.loc[names[i]] = [
                     *[dscloss[i, idx] for idx in range(ch_size)],
@@ -251,8 +250,16 @@ class CaseSegMetricsMeter(object):
                     *[hd95[i, idx] for idx in range(ch_size)],
                     *[pdvc[i, idx] for idx in range(ch_size)],
                 ]
+        elif suv1 is not None and suv2 is not None:
+            for i in range(bsz):
+                self.cases.loc[names[i]] = [
+                    *[dice[i, idx] for idx in range(ch_size)],
+                    *[hd95[i, idx] for idx in range(ch_size)],
+                    *[pdvc[i, idx] for idx in range(ch_size)],
+                    *[suv1[i, idx] for idx in range(ch_size)],
+                    *[suv2[i, idx] for idx in range(ch_size)],
+                ]
         else:
-            # print("Without dscl")
             for i in range(bsz):
                 self.cases.loc[names[i]] = [
                     *[dice[i, idx] for idx in range(ch_size)],
