@@ -17,7 +17,6 @@ def main(src_base, postfix):
     # assert not os.path.exists(os.path.join(dst_folder, seg_file)), f"{seg_file} already exists."
 
     src_file = os.path.join(base, pid, sub_file)
-    print(src_file)
 
     proxy = nib.load(src_file)
     affine = proxy.affine
@@ -41,6 +40,7 @@ def main(src_base, postfix):
 
     final_img = nib.Nifti1Image(active_data, affine)
     nib.save(final_img, os.path.join(dst_folder, seg_file))
+    print(f"{sub_file} -> {seg_file}")
 
 
 if __name__ == '__main__':
