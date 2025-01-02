@@ -40,7 +40,7 @@ def main(src_base, postfix):
 
     final_img = nib.Nifti1Image(active_data, affine)
     nib.save(final_img, os.path.join(dst_folder, seg_file))
-    print(f"{sub_file} -> {seg_file}")
+    print(f"{src_file} -> {seg_file}")
 
 
 if __name__ == '__main__':
