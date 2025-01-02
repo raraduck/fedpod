@@ -11,9 +11,10 @@ def main(src_base, postfix):
     dst_folder = os.path.join(base, pid)
     sub_file = f'{pid}_sub.nii.gz'
     seg_file = f'{pid}_{postfix}.nii.gz'
-
-    assert os.path.exists(os.path.join(dst_folder, sub_file)), f"{sub_file}.nii.gz not exists."
-    # assert not os.path.exists(os.path.join(dst_folder, seg_file)), f"{seg_file}.nii.gz already exists."
+    print(os.path.join(dst_folder, sub_file))
+    print(f"{sub_file} not exists.")
+    assert os.path.exists(os.path.join(dst_folder, sub_file)), f"{sub_file} not exists."
+    # assert not os.path.exists(os.path.join(dst_folder, seg_file)), f"{seg_file} already exists."
 
     src_file = os.path.join(base, pid, sub_file)
     print(src_file)
