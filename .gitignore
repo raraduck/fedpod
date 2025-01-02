@@ -16,7 +16,7 @@ __pycache__
 
 # data
 
-data_*
+data*
 case_metrics.csv
 case_metrics_summary.txt
 
