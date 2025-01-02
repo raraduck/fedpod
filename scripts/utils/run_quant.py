@@ -50,6 +50,11 @@ def main(src_base, trg_base):
         trg_ref_file = os.path.join(trg_dir, f"{pid}_ref.nii.gz")
         trg_pet_file = os.path.join(trg_dir, f"{pid}_pt.nii.gz")
 
+        assert os.path.exists(src_sub_file), f"{src_sub_file} not exists."
+        assert os.path.exists(trg_sub_file), f"{trg_sub_file} not exists."
+        assert os.path.exists(trg_ref_file), f"{trg_ref_file} not exists."
+        assert os.path.exists(trg_pet_file), f"{trg_pet_file} not exists."
+
         src_sub_vol = torch.from_numpy(nib.load(src_sub_file).get_fdata()).long().unsqueeze(0)
         trg_sub_vol = torch.from_numpy(nib.load(trg_sub_file).get_fdata()).long().unsqueeze(0)
         trg_ref_vol = torch.from_numpy(nib.load(trg_ref_file).get_fdata()).bool().long().unsqueeze(0)
