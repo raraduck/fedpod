@@ -99,7 +99,7 @@ spec:
             value: "{{workflow.parameters.data_root2}}"
             # value: "states/{{workflow.parameters.job-prefix1}}_test1/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}"
           - name: inst_root
-            value: "inst_*"
+            value: "inst_01"
           - name: input_channels
             value: "{{workflow.parameters.input_channel_names2}}"
         withItems:
@@ -107,7 +107,7 @@ spec:
             rounds: "{{workflow.parameters.rounds}}",
             round: "{{workflow.parameters.selected-round}}",
             epoch: "{{workflow.parameters.selected-epoch}}",
-            inst: "0",
+            inst: "1",
             split_csv: "{{workflow.parameters.split_csv2}}",
             model_pth: "/fedpod/states/{{workflow.parameters.job-prefix2}}_0/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}/models/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}_agg.pth" }
         # dependencies: [infer-1]
