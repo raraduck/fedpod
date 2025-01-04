@@ -99,7 +99,7 @@ spec:
             value: "{{workflow.parameters.data_root2}}"
             # value: "states/{{workflow.parameters.job-prefix1}}_test1/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}"
           - name: inst_root
-            value: "inst_00"
+            value: "inst_*"
           - name: input_channels
             value: "{{workflow.parameters.input_channel_names2}}"
         withItems:
