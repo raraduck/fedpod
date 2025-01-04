@@ -67,7 +67,7 @@ spec:
           - name: input_channels
             value: "{{workflow.parameters.input_channel_names1}}"
         withItems:
-        - { job-name: "{{workflow.parameters.job-prefix1}}_test1",
+        - { job-name: "{{workflow.parameters.job-prefix1}}_infer1",
             rounds: "{{workflow.parameters.rounds}}",
             round: "{{workflow.parameters.selected-round}}",
             epoch: "{{workflow.parameters.selected-epoch}}",
@@ -98,7 +98,7 @@ spec:
       #       value: "{{item.model_pth}}"
       #     - name: data_root
       #       value: "{{workflow.parameters.data_root2}}"
-      #       # value: "states/{{workflow.parameters.job-prefix1}}_test1/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}"
+      #       # value: "states/{{workflow.parameters.job-prefix1}}_infer1/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}"
       #     - name: inst_root
       #       value: "inst_00"
       #     - name: input_channels
