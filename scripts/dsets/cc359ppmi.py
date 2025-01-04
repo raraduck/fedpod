@@ -50,7 +50,7 @@ class CC359PPMIDataset(Dataset):
         name = self.case_names[index]
 
         base_dir_list = glob.glob(join(self.data_root, self.inst_root, name))  # seg/data/brats21/BraTS2021_00000/BraTS2021_00000
-        assert base_dir_list.__len__() == 1
+        assert base_dir_list.__len__() == 1, f"{base_dir_list} not found data."
         base_dir = base_dir_list[0]
 
         channels_dict = {}
