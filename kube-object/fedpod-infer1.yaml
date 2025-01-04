@@ -14,8 +14,8 @@ spec:
     - name: selected-epoch
       value: "00"
 
-    - name: data_root1
-      value: "data_cc359ppmicmc256_dwnusa"
+    # - name: data_root1
+    #   value: "data_cc359ppmicmc256_dwnusa"
     - name: infer-script1
       value: "run_forward1.sh"
     - name: input_channel_names1
@@ -40,47 +40,12 @@ spec:
   - name: infer-dag
     dag:
       tasks:
-      # - name: infer-1
-      #   template: infer-job
-      #   arguments:
-      #     parameters:
-      #     - name: infer-script
-      #       value: "{{workflow.parameters.infer-script1}}"
-      #     - name: job-name
-      #       value: "{{item.job-name}}"
-      #     - name: rounds
-      #       value: "{{item.rounds}}"
-      #     - name: round
-      #       value: "{{item.round}}"
-      #     - name: epoch
-      #       value: "{{item.epoch}}"
-      #     - name: inst-id
-      #       value: "{{item.inst}}"
-      #     - name: split_csv
-      #       value: "{{item.split_csv}}"
-      #     - name: model_pth
-      #       value: "{{item.model_pth}}"
-      #     - name: data_root
-      #       value: "{{workflow.parameters.data_root1}}"
-      #     - name: inst_root
-      #       value: "inst_00"
-      #     - name: input_channels
-      #       value: "{{workflow.parameters.input_channel_names1}}"
-      #   withItems:
-      #   - { job-name: "{{workflow.parameters.job-prefix1}}_test1",
-      #       rounds: "{{workflow.parameters.rounds}}",
-      #       round: "{{workflow.parameters.selected-round}}",
-      #       epoch: "{{workflow.parameters.selected-epoch}}",
-      #       inst: "0",
-      #       split_csv: "{{workflow.parameters.split_csv1}}",
-      #       model_pth: "/fedpod/states/{{workflow.parameters.job-prefix1}}_0/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}/models/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}_agg.pth" }
-
-      - name: infer-2
+      - name: infer-1
         template: infer-job
         arguments:
           parameters:
           - name: infer-script
-            value: "{{workflow.parameters.infer-script2}}"
+            value: "{{workflow.parameters.infer-script1}}"
           - name: job-name
             value: "{{item.job-name}}"
           - name: rounds
@@ -96,21 +61,57 @@ spec:
           - name: model_pth
             value: "{{item.model_pth}}"
           - name: data_root
-            value: "{{workflow.parameters.data_root2}}"
-            # value: "states/{{workflow.parameters.job-prefix1}}_test1/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}"
+            value: "{{workflow.parameters.data_root1}}"
           - name: inst_root
             value: "inst_00"
           - name: input_channels
-            value: "{{workflow.parameters.input_channel_names2}}"
+            value: "{{workflow.parameters.input_channel_names1}}"
         withItems:
-        - { job-name: "{{workflow.parameters.job-prefix2}}_infer2",
+        - { job-name: "{{workflow.parameters.job-prefix1}}_test1",
             rounds: "{{workflow.parameters.rounds}}",
             round: "{{workflow.parameters.selected-round}}",
             epoch: "{{workflow.parameters.selected-epoch}}",
             inst: "0",
-            split_csv: "{{workflow.parameters.split_csv2}}",
-            model_pth: "/fedpod/states/{{workflow.parameters.job-prefix2}}_0/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}/models/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}_agg.pth" }
-        # dependencies: [infer-1]
+            split_csv: "{{workflow.parameters.split_csv1}}",
+            model_pth: "/fedpod/states/{{workflow.parameters.job-prefix1}}_0/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}/models/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}_agg.pth" }
+            # model_pth: "/fedpod/states/{{workflow.parameters.job-prefix2}}_0/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}/models/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}_agg.pth" }
+
+      # - name: infer-2
+      #   template: infer-job
+      #   arguments:
+      #     parameters:
+      #     - name: infer-script
+      #       value: "{{workflow.parameters.infer-script2}}"
+      #     - name: job-name
+      #       value: "{{item.job-name}}"
+      #     - name: rounds
+      #       value: "{{item.rounds}}"
+      #     - name: round
+      #       value: "{{item.round}}"
+      #     - name: epoch
+      #       value: "{{item.epoch}}"
+      #     - name: inst-id
+      #       value: "{{item.inst}}"
+      #     - name: split_csv
+      #       value: "{{item.split_csv}}"
+      #     - name: model_pth
+      #       value: "{{item.model_pth}}"
+      #     - name: data_root
+      #       value: "{{workflow.parameters.data_root2}}"
+      #       # value: "states/{{workflow.parameters.job-prefix1}}_test1/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}"
+      #     - name: inst_root
+      #       value: "inst_00"
+      #     - name: input_channels
+      #       value: "{{workflow.parameters.input_channel_names2}}"
+      #   withItems:
+      #   - { job-name: "{{workflow.parameters.job-prefix2}}_infer2",
+      #       rounds: "{{workflow.parameters.rounds}}",
+      #       round: "{{workflow.parameters.selected-round}}",
+      #       epoch: "{{workflow.parameters.selected-epoch}}",
+      #       inst: "0",
+      #       split_csv: "{{workflow.parameters.split_csv2}}",
+      #       model_pth: "/fedpod/states/{{workflow.parameters.job-prefix2}}_0/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}/models/R{{workflow.parameters.rounds}}r{{workflow.parameters.selected-round}}_agg.pth" }
+      #   # dependencies: [infer-1]
 
   - name: infer-job
     inputs:
