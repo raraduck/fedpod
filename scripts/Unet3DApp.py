@@ -114,8 +114,9 @@ class Unet3DApp:
 
         train_loader = DataLoader(
             train_dataset,
-            batch_size=1,
-            collate_fn=custom_collate,
+            # batch_size=1,
+            # collate_fn=custom_collate,
+            batch_size=self.cli_args.multi_batch_size,
             shuffle=True,
             drop_last=False,
             num_workers=self.cli_args.num_workers,
@@ -246,6 +247,7 @@ class Unet3DApp:
         dsc_meter = AverageMeter('Dice', ':.4f')
         loss_meter = AverageMeter('Loss', ':.4f')
         end = time.time()
+        # for i, (image, label, _, name, affine, label_names) in enumerate(infer_loader):
         for i, (image, label, _, name, affine, label_names) in enumerate(train_loader): # inner_epoch should update local model
             data_time.update(time.time() - end)
             if self.cli_args.use_gpu:

@@ -49,8 +49,9 @@ class CC359PPMIDataset(Dataset):
             index = index % len(self.case_names)
         name = self.case_names[index]
 
-        base_dir_list = glob.glob(join(self.data_root, self.inst_root, name))  # seg/data/brats21/BraTS2021_00000/BraTS2021_00000
-        assert base_dir_list.__len__() == 1, f"{base_dir_list} not found data."
+        base_dir_path = join(self.data_root, self.inst_root, name)
+        base_dir_list = glob.glob(base_dir_path)  # seg/data/brats21/BraTS2021_00000/BraTS2021_00000
+        assert base_dir_list.__len__() == 1, f"{base_dir_path} not found data."
         base_dir = base_dir_list[0]
 
         channels_dict = {}
@@ -123,18 +124,23 @@ class CC359PPMIDataset(Dataset):
             channels_dict['label'] = mask
             item = self.transforms(channels_dict)
             # Assume each item is a dictionary containing multiple samples
-            samples = []
-            for el in item:
+
+            if False:
+                samples = []
+                for el in item:
+                    image_shape = el['image'][0].shape
+                    el['image'].affine[:3, 3] = torch.tensor(-np.array(image_shape) / 2 * np.diag(el['image'].affine)[:3])
+                    samples.append((el['image'], el['label'], index, name, el['image'].affine, self.label_names))
+                return samples
+            else:
+                el = item[0]  # [0] for RandCropByPosNegLabeld
+                # 첫번째 샘플만 뽑아서 작업하는중
+                # image_shape = el['image'][0].shape  # 이미지의 복셀 크기 가져오기
+                # # 이미지 중앙을 원점으로 설정하기
+                # el['image'].affine[:3, 3] = torch.tensor(-np.array(image_shape) / 2 * np.diag(el['image'].affine)[:3])
                 image_shape = el['image'][0].shape
-                el['image'].affine[:3, 3] = torch.tensor(-np.array(image_shape) / 2 * np.diag(el['image'].affine)[:3])
-                samples.append((el['image'], el['label'], index, name, el['image'].affine, self.label_names))
-            return samples
-            # el = item[0]  # [0] for RandCropByPosNegLabeld
-            # # 첫번째 샘플만 뽑아서 작업하는중
-            # image_shape = el['image'][0].shape  # 이미지의 복셀 크기 가져오기
-            # # 이미지 중앙을 원점으로 설정하기
-            # el['image'].affine[:3, 3] = torch.tensor(-np.array(image_shape) / 2 * np.diag(el['image'].affine)[:3])
-            # return el['image'], el['label'], index, name, el['image'].affine, self.label_names # item['image_meta_dict']['affine']
+                temp_affine = torch.tensor(-np.array(image_shape) / 2 * np.diag(el['image'].affine)[:3])
+                return el['image'], el['label'], index, name, temp_affine, self.label_names # item['image_meta_dict']['affine']
         else:
             mask = np.array(nib_load(join(base_dir, f'{name}_sub.nii.gz'))[0], dtype='uint8')  # ground truth
             channels_dict['label'] = mask
