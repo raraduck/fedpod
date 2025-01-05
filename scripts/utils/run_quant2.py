@@ -25,6 +25,8 @@ def get_suvr(pet_vol, ref_vol):
     return pet_vol / pet_ref
 
 
+
+
 def main(src_base, trg_base):
     c_path = os.getcwd()
     src_path = os.path.join(c_path, src_base)
