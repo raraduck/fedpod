@@ -5,13 +5,13 @@ export ROUNDS=1 ROUND=0
 export MODEL=None 
 export DATAROOT=data256_cc359ppmicmc_newseg
 
-export JOBNAME1=centre01 INSTID1=6 
-docker-compose -f compose-CMC-train.yaml up centre0-train1 && \
-docker-compose -f compose-CMC-train.yaml down
+# export JOBNAME1=centre01 INSTID1=6 
+# docker-compose -f compose-CMC-train.yaml up centre0-train1 && \
+# docker-compose -f compose-CMC-train.yaml down
 
-# export JOBNAME2=centre02 INSTID2=6 
-# docker compose -f compose-AICA-train.yaml up centre0-train2 && \
-# docker compose -f compose-AICA-train.yaml down
+export JOBNAME2=centre02 INSTID2=6 
+docker-compose -f compose-CMC-train.yaml up centre0-train2 && \
+docker-compose -f compose-CMC-train.yaml down
 
 
 

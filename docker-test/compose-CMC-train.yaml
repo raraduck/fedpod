@@ -40,7 +40,7 @@ services:
       /bin/bash -c "/fedpod/run_train2_cmc.sh 
       -S 10000
       -s 1 
-      -f 10
+      -f 5
       -m 15
       -g 1 
       -J ${JOBNAME2}
