@@ -66,9 +66,9 @@ python3 scripts/run_forward.py \
     \
     --weight_path $model_pth \
     --input_channel_names $input_channels \
-    --label_groups [[1,2,3,4,5,6],[7,8,9,10,11,12]] \
-    --label_names [L,R] \
-    --label_index [1,2] \
+    --label_groups [[1,2,3],[4,5,6],[7,8,9],[10,11,12]] \
+    --label_names [LC,LP,RC,RP] \
+    --label_index [1,2,3,4] \
     --unet_arch unet \
     --channels_list [32,64,128,256] \
     --block res \
