@@ -24,19 +24,19 @@ def main(src_base, postfix):
 
     active_data = np.zeros_like(data)
 
-    active_data[data == 1] = 26 # LVS
-    active_data[data == 2] = 11 # LAC
-    active_data[data == 3] = 11 # LPC
-    active_data[data == 4] = 12 # LAP
-    active_data[data == 5] = 12 # LPP
-    active_data[data == 6] = 12 # LVP
+    active_data[data == 1] = 1 # LVS
+    active_data[data == 2] = 1 # LAC
+    active_data[data == 3] = 1 # LPC
+    active_data[data == 4] = 1 # LAP
+    active_data[data == 5] = 1 # LPP
+    active_data[data == 6] = 1 # LVP
 
-    active_data[data == 7] = 58 # RVS
-    active_data[data == 8] = 50 # RAC
-    active_data[data == 9] = 50 # RPC
-    active_data[data ==10] = 51 # RAP
-    active_data[data ==11] = 51 # RPP
-    active_data[data ==12] = 51 # RVP
+    active_data[data == 7] = 2 # RVS
+    active_data[data == 8] = 2 # RAC
+    active_data[data == 9] = 2 # RPC
+    active_data[data ==10] = 2 # RAP
+    active_data[data ==11] = 2 # RPP
+    active_data[data ==12] = 2 # RVP
 
     final_img = nib.Nifti1Image(active_data, affine)
     nib.save(final_img, os.path.join(dst_folder, seg_file))
