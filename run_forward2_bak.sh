@@ -11,7 +11,7 @@ model_pth=""
 test_mode=""
 data_root="cc359ppmi128"
 inst_root="inst_*"
-intput_channels="[t1]"
+intput_channels="[t1,seg]"
 
 # 명령줄 옵션 처리
 while getopts s:g:J:R:r:e:i:c:M:t:d:n:C: option
@@ -42,6 +42,7 @@ if [ -z "$save_infer" ] || [ -z "$use_gpu" ] || [ -z "$job_name" ] ||  [ -z "$ro
     exit 1
 fi
 
+
 python3 scripts/run_forward.py \
     --test_mode $test_mode \
     --save_infer $save_infer \
@@ -58,7 +59,7 @@ python3 scripts/run_forward.py \
     --dataset CC359PPMI \
     --data_root $data_root \
     --inst_root $inst_root \
-    --seg_postfix _seg \
+    --seg_postfix _sub \
     \
     --cases_split $split_csv \
     --inst_ids [$inst_id] \
@@ -66,9 +67,9 @@ python3 scripts/run_forward.py \
     \
     --weight_path $model_pth \
     --input_channel_names $input_channels \
-    --label_groups [[1,2,3,4,5,6],[7,8,9,10,11,12]] \
-    --label_names [L,R] \
-    --label_index [1,2] \
+    --label_groups [[1,1],[2,2],[3,3],[4,4],[5,5],[6,6],[7,7],[8,8],[9,9],[10,10],[11,11],[12,12]] \
+    --label_names [LVS,LAC,LAP,LAP,LPP,LVP,RVS,RAC,RAP,RAP,RPP,RVP] \
+    --label_index [1,2,3,4,5,6,7,8,9,10,11,12] \
     --unet_arch unet \
     --channels_list [32,64,128,256] \
     --block res \
