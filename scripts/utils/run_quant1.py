@@ -29,11 +29,11 @@ def load_nii(path):
     data = nib.load(path).get_fdata()
 
     data[data == 26] = 1
-    data[data == 11] = 2
-    data[data == 12] = 3
-
-    data[data == 58] = 4
-    data[data == 50] = 5
+    # data[data == 11] = 2
+    # data[data == 12] = 3
+    #
+    # data[data == 58] = 4
+    # data[data == 50] = 5
     data[data == 51] = 6
     return data
 
