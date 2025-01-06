@@ -8,7 +8,7 @@ selected-epoch: "00"
 # split_csv1: "experiments/CC359PPMICMC_v0.csv"
 # # job-prefix1: "centre01v16n6cen1-1"
 
-data_root: "data256_cc359ppmicmc_sungyu"
+data_root: "data256_ppmicmc_newseg"
 infer-script: "run_forward1.sh"
 input_channel_names: "[t1,sub,pt,ref]"
 split_csv: "experiments/CC359PPMICMC_v0.csv"
