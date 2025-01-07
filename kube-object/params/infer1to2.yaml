@@ -2,7 +2,7 @@ rounds: "20"
 selected-round: "20"
 selected-epoch: "00"
 
-data_root1: "data256_ppmicmc_newseg"
+data_root1: "data128_ppmicmc_newseg"
 infer-script1: "run_forward1.sh"
 input_channel_names1: "[t1]"
 split_csv1: "experiments/CC359PPMICMC_v0.csv"
