@@ -40,7 +40,7 @@ def main(src_base, trg_base):
     print(trg_list)
     assert len(src_list) == len(trg_list), f"src_list and trg_list len must be same"
 
-    seg_names = "[LVS,LAC,LAP,LAP,LPP,LVP,RVS,RAC,RAP,RAP,RPP,RVP]".strip("[]").split(",")
+    seg_names = "[LVS,LAC,LPC,LAP,LPP,LVP,RVS,RAC,RPC,RAP,RPP,RVP]".strip("[]").split(",")
     case_metrics_meter = CaseSegMetricsMeter(seg_names, metrics_list=['DICE','HD95','PVDC', 'SUV1', 'SUV2'])
     for pid in src_list:
         src_dir = os.path.join(src_path, pid)
