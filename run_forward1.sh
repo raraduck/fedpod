@@ -53,7 +53,7 @@ python3 scripts/run_forward.py \
     \
     --resize 128 \
     --patch_size 128 \
-    --zoom 0 \
+    --zoom 1 \
     --flip_lr 0 \
     --dataset CC359PPMI \
     --data_root $data_root \
