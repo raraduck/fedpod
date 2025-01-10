@@ -28,13 +28,13 @@ def get_suvr(pet_vol, ref_vol):
 def load_nii(path):
     data = nib.load(path).get_fdata()
 
-    data[data == 26] = 1
+    data[data == 1] = 1
     # data[data == 11] = 2
     # data[data == 12] = 3
     #
     # data[data == 58] = 4
     # data[data == 50] = 5
-    data[data == 51] = 6
+    data[data == 2] = 2
     return data
 
 def main(src_base, trg_base):
@@ -50,7 +50,7 @@ def main(src_base, trg_base):
     print(trg_list)
     assert len(src_list) == len(trg_list), f"src_list and trg_list len must be same"
 
-    seg_names = "[LV,LC,LP,RV,RC,RP]".strip("[]").split(",")
+    seg_names = "[LS,RS]".strip("[]").split(",")
     case_metrics_meter = CaseSegMetricsMeter(seg_names, metrics_list=['DICE','HD95','PVDC', 'SUV1', 'SUV2'])
     for pid in src_list:
         src_dir = os.path.join(src_path, pid)
@@ -75,8 +75,8 @@ def main(src_base, trg_base):
 
 
         # 원-핫 인코딩 (num_classes=13, 라벨 1~12)
-        src_seg_vol = F.one_hot(src_seg_vol, num_classes=7)[..., 1:].permute(0, 4, 1, 2, 3).to(torch.float)
-        trg_seg_vol = F.one_hot(trg_seg_vol, num_classes=7)[..., 1:].permute(0, 4, 1, 2, 3).to(torch.float)
+        src_seg_vol = F.one_hot(src_seg_vol, num_classes=len(seg_names)+1)[..., 1:].permute(0, 4, 1, 2, 3).to(torch.float)
+        trg_seg_vol = F.one_hot(trg_seg_vol, num_classes=len(seg_names)+1)[..., 1:].permute(0, 4, 1, 2, 3).to(torch.float)
         trg_ref_vol = F.one_hot(trg_ref_vol, num_classes=2)[..., 1:].permute(0, 4, 1, 2, 3).to(torch.float)
         trg_pet_vol = trg_pet_vol.unsqueeze(0).to(torch.float)
 
