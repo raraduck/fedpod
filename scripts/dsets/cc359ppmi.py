@@ -56,7 +56,7 @@ class CC359PPMIDataset(Dataset):
 
         channels_dict = {}
         if 't1' in self.input_channel_names:
-            t1, affine = nib_load(join(base_dir, f'{name}_t1.nii.gz'))
+            t1, affine = nib_load(join(base_dir, f'{name}_mni2t1.nii.gz'))
             # t1, affine = nib_load(join(base_dir, 'brain.nii.gz'))
             channels_dict['t1'] = np.array(t1, dtype='float32')
 
@@ -81,14 +81,14 @@ class CC359PPMIDataset(Dataset):
             channels_dict['pt'] = np.array(pet, dtype='float32')
 
         if 'seg' in self.input_channel_names:
-            striatum, _ = nib_load(join(base_dir, f'{name}_seg.nii.gz'))
+            striatum, _ = nib_load(join(base_dir, f'{name}_mni2seg.nii.gz'))
             # striatum, _ = nib_load(join(base_dir, 'striatum_orig.nii.gz'))
             _mask = np.array(striatum, dtype='float32')
             # _mask = np.where(_mask != 0, 100, 0)
             channels_dict['seg'] = _mask
             
         if 'sub' in self.input_channel_names:
-            striatum, _ = nib_load(join(base_dir, f'{name}_sub.nii.gz'))
+            striatum, _ = nib_load(join(base_dir, f'{name}_mni2sub.nii.gz'))
             # striatum, _ = nib_load(join(base_dir, 'striatum_orig.nii.gz'))
             _mask = np.array(striatum, dtype='float32')
             # _mask = np.where(_mask != 0, 100, 0)
@@ -101,24 +101,24 @@ class CC359PPMIDataset(Dataset):
             # _mask = np.where(_mask != 0, 100, 0)
             channels_dict['ref'] = _mask
 
-        if 'mni2t1' in self.input_channel_names:
-            t2, _ = nib_load(join(base_dir, f'{name}_mni2t1.nii.gz'))
-            # t2, _ = nib_load(join(base_dir, 'brain.nii.gz'))
-            channels_dict['t1'] = np.array(t2, dtype='float32')
-
-        if 'mni2seg' in self.input_channel_names:
-            striatum, _ = nib_load(join(base_dir, f'{name}_mni2seg.nii.gz'))
-            # striatum, _ = nib_load(join(base_dir, 'striatum_orig.nii.gz'))
-            _mask = np.array(striatum, dtype='float32')
-            # _mask = np.where(_mask != 0, 100, 0)
-            channels_dict['seg'] = _mask
-
-        if 'mni2sub' in self.input_channel_names:
-            striatum, _ = nib_load(join(base_dir, f'{name}_mni2sub.nii.gz'))
-            # striatum, _ = nib_load(join(base_dir, 'striatum_orig.nii.gz'))
-            _mask = np.array(striatum, dtype='float32')
-            # _mask = np.where(_mask != 0, 100, 0)
-            channels_dict['sub'] = _mask
+        # if 'mni2t1' in self.input_channel_names:
+        #     t2, _ = nib_load(join(base_dir, f'{name}_mni2t1.nii.gz'))
+        #     # t2, _ = nib_load(join(base_dir, 'brain.nii.gz'))
+        #     channels_dict['t1'] = np.array(t2, dtype='float32')
+        #
+        # if 'mni2seg' in self.input_channel_names:
+        #     striatum, _ = nib_load(join(base_dir, f'{name}_mni2seg.nii.gz'))
+        #     # striatum, _ = nib_load(join(base_dir, 'striatum_orig.nii.gz'))
+        #     _mask = np.array(striatum, dtype='float32')
+        #     # _mask = np.where(_mask != 0, 100, 0)
+        #     channels_dict['seg'] = _mask
+        #
+        # if 'mni2sub' in self.input_channel_names:
+        #     striatum, _ = nib_load(join(base_dir, f'{name}_mni2sub.nii.gz'))
+        #     # striatum, _ = nib_load(join(base_dir, 'striatum_orig.nii.gz'))
+        #     _mask = np.array(striatum, dtype='float32')
+        #     # _mask = np.where(_mask != 0, 100, 0)
+        #     channels_dict['sub'] = _mask
 
         # if self.mode.lower() == 'test':
         #     mask = np.array(nib_load(join(base_dir, f'{name}_seg.nii.gz'))[0], dtype='uint8')  # ground truth
