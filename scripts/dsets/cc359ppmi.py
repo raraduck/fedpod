@@ -56,7 +56,7 @@ class CC359PPMIDataset(Dataset):
 
         channels_dict = {}
         if 't1' in self.input_channel_names:
-            t1, affine = nib_load(join(base_dir, f'{name}_mni2t1.nii.gz'))
+            t1, affine = nib_load(join(base_dir, f'{name}_t1.nii.gz'))
             # t1, affine = nib_load(join(base_dir, 'brain.nii.gz'))
             channels_dict['t1'] = np.array(t1, dtype='float32')
 
