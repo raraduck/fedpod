@@ -81,14 +81,14 @@ class CC359PPMIDataset(Dataset):
             channels_dict['pt'] = np.array(pet, dtype='float32')
 
         if 'seg' in self.input_channel_names:
-            striatum, _ = nib_load(join(base_dir, f'{name}_mni2seg.nii.gz'))
+            striatum, _ = nib_load(join(base_dir, f'{name}_seg.nii.gz'))
             # striatum, _ = nib_load(join(base_dir, 'striatum_orig.nii.gz'))
             _mask = np.array(striatum, dtype='float32')
             # _mask = np.where(_mask != 0, 100, 0)
             channels_dict['seg'] = _mask
             
         if 'sub' in self.input_channel_names:
-            striatum, _ = nib_load(join(base_dir, f'{name}_mni2sub.nii.gz'))
+            striatum, _ = nib_load(join(base_dir, f'{name}_sub.nii.gz'))
             # striatum, _ = nib_load(join(base_dir, 'striatum_orig.nii.gz'))
             _mask = np.array(striatum, dtype='float32')
             # _mask = np.where(_mask != 0, 100, 0)

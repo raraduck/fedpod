@@ -41,7 +41,7 @@ def main(src_base, trg_base):
     assert len(src_list) == len(trg_list), f"src_list and trg_list len must be same"
 
     seg_names = "[LVS,LAC,LPC,LAP,LPP,LVP,RVS,RAC,RPC,RAP,RPP,RVP]".strip("[]").split(",")
-    case_metrics_meter = CaseSegMetricsMeter(seg_names, metrics_list=['DICE','HD95','PVDC', 'SUV1', 'SUV2'])
+    case_metrics_meter = CaseSegMetricsMeter(seg_names, metrics_list=['DICE','HD95','PVDC', 'PRED', 'GOLD'])
     for pid in src_list:
         src_dir = os.path.join(src_path, pid)
         trg_dir = os.path.join(trg_path, pid)
@@ -60,7 +60,7 @@ def main(src_base, trg_base):
         src_sub_vol = torch.from_numpy(nib.load(src_sub_file).get_fdata()).long().unsqueeze(0)
         trg_sub_vol = torch.from_numpy(nib.load(trg_sub_file).get_fdata()).long().unsqueeze(0)
         trg_ref_vol = torch.from_numpy(nib.load(trg_ref_file).get_fdata()).bool().long().unsqueeze(0)
-        trg_pet_vol = torch.from_numpy(nib.load(trg_pet_file).get_fdata()).long().unsqueeze(0)
+        trg_pet_vol = torch.from_numpy(nib.load(trg_pet_file).get_fdata()).float().unsqueeze(0)
 
         # 원-핫 인코딩 (num_classes=13, 라벨 1~12)
         src_sub_vol = F.one_hot(src_sub_vol, num_classes=13)[..., 1:].permute(0, 4, 1, 2, 3).to(torch.float)
@@ -70,6 +70,9 @@ def main(src_base, trg_base):
 
         dice = metrics.dice(src_sub_vol, trg_sub_vol)
         hd95 = metrics.hd95(src_sub_vol, trg_sub_vol)
+        # hd95 = np.array([[3.        , 3.16227766, 3.16227766, 3.        , 2.23606798,
+        # 1.77224319, 2.23606798, 4.12310563, 5.19615242, 3.60555128,
+        # 3.16227766, 3.        ]])
         pvdc = metrics.pvdc(src_sub_vol, trg_sub_vol)
         norm_pet = get_suvr(trg_pet_vol, trg_ref_vol)
         suvr_src = metrics.suvr(norm_pet, src_sub_vol)
