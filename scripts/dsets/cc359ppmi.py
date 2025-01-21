@@ -60,6 +60,11 @@ class CC359PPMIDataset(Dataset):
             # t1, affine = nib_load(join(base_dir, 'brain.nii.gz'))
             channels_dict['t1'] = np.array(t1, dtype='float32')
 
+        if 't1mni' in self.input_channel_names:
+            t1mni, _ = nib_load(join(base_dir, f'{name}_t1mni.nii.gz'))
+            # t1ce, _ = nib_load(join(base_dir, 'orig.nii.gz'))
+            channels_dict['t1mni'] = np.array(t1mni, dtype='float32')
+
         if 't1ce' in self.input_channel_names:
             t1ce, _ = nib_load(join(base_dir, f'{name}_t1ce.nii.gz'))
             # t1ce, _ = nib_load(join(base_dir, 'orig.nii.gz'))
