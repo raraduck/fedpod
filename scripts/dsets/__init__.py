@@ -11,7 +11,7 @@ import os
 # from .gaain import GaainDataset
 # from .cc359 import CC359Dataset
 from .cc359ppmi import CC359PPMIDataset
-from .fets1689 import FETS1689Dataset
+from .fets1470 import FETS1470Dataset
 from .dataset_utils import get_base_transform, get_forward_transform, get_aug_transform, custom_collate
 def get_dataset(args, case_names, _transforms, mode, label_names, custom_min_len=1, custom_max_len=99999, index_filter=None):
     # kwargs = {
@@ -58,7 +58,7 @@ def get_dataset(args, case_names, _transforms, mode, label_names, custom_min_len
             transforms=_transforms, 
             index_filter=index_filter)
     elif args.dataset == 'FETS1689':
-        return FETS1689Dataset(
+        return FETS1470Dataset(
             args,
             # data_root=os.path.join(args.data_root, args.dataset),
             data_root='data',

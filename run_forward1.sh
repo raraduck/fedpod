@@ -55,7 +55,7 @@ python3 scripts/run_forward.py \
     --patch_size 128 \
     --zoom 1 \
     --flip_lr 0 \
-    --dataset FETS1689 \
+    --dataset FETS1470 \
     --data_root $data_root \
     --inst_root $inst_root \
     --seg_postfix _seg \

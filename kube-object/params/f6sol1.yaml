@@ -2,14 +2,14 @@
 initial-round: "00"
 initial-epoch: "00"
 
-data_root: "data240_fets1689"
+data_root: "data240_fets1470"
 train-script: "run_train1.sh"
 agg-script: "run_aggregation.sh"
 infer-script: "run_forward1.sh"
 # job-prefix: "model-241116-3"
 
 input_channel_names: "[t1,t1ce,t2,flair]"
-split_csv: "experiments/FETS1689_v0.csv"
+split_csv: "experiments/FETS1470_v0.csv"
 
 init_model: "None"
 

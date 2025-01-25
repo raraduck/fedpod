@@ -9,9 +9,9 @@ from dsets.dataset_utils import nib_load
 import nibabel as nib
 import glob
 
-class FETS1689Dataset(Dataset):
+class FETS1470Dataset(Dataset):
     def __init__(self, args, data_root: str, inst_root: str, mode: str, case_names: list = [], input_channel_names: list = [], label_names: list = [], transforms=None, custom_lower_bound=1, custom_upper_bound=99999, index_filter=None):
-        super(FETS1689Dataset, self).__init__()
+        super(FETS1470Dataset, self).__init__()
 
         assert mode.lower() in ['train', 'training', 
                                 'infer', 'val', 'validation', 
