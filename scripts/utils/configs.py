@@ -23,7 +23,7 @@ def parse_args(argv):
     parser.add_argument('--label_index', type=parse_1d_int_list, default=[10, 20], help='1D list of label index')
     parser.add_argument('--input_channel_names', type=parse_1d_str_list, default=['t1'], help='1D list of input channel names')
     parser.add_argument('--dataset', type=str, default='CC359PPMI', help='dataset list',
-        choices=['FeTS2022', 'iSeg-2019', 'gaain', 'CC359', 'CC359PPMI'])
+        choices=['FETS1689', 'iSeg-2019', 'gaain', 'CC359', 'CC359PPMI'])
     parser.add_argument('--data_root', type=str, default='data/', help='root dir of dataset')
     parser.add_argument('--inst_root', type=str, default='inst_01/', help='root dir of inst')
     parser.add_argument('--data_percentage', type=int, default=100, help='data percentage')

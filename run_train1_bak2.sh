@@ -63,7 +63,7 @@ python3 scripts/run_train.py \
   --patch_size 128 \
   --zoom 1 \
   --flip_lr 0 \
-  --dataset FETS1689 \
+  --dataset CC359PPMI \
   --data_root $data_root \
   --inst_root $inst_root \
   --data_percentage $data_percentage \
@@ -73,10 +73,10 @@ python3 scripts/run_train.py \
   --batch_size 1 \
   \
   --weight_path $model_pth \
-  --input_channel_names [t1,t1ce,t2,flair] \
-  --label_groups [[1,2,4]] \
-  --label_names [WT] \
-  --label_index [1] \
+  --input_channel_names [t1] \
+  --label_groups [[1,2,3,4,5,6],[7,8,9,10,11,12]] \
+  --label_names [LS,RS] \
+  --label_index [1,2] \
   --unet_arch unet \
   --channels_list [32,64,128,256] \
   --block res \

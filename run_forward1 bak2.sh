@@ -55,7 +55,7 @@ python3 scripts/run_forward.py \
     --patch_size 128 \
     --zoom 1 \
     --flip_lr 0 \
-    --dataset FETS1689 \
+    --dataset CC359PPMI \
     --data_root $data_root \
     --inst_root $inst_root \
     --seg_postfix _seg \
@@ -66,9 +66,9 @@ python3 scripts/run_forward.py \
     \
     --weight_path $model_pth \
     --input_channel_names $input_channels \
-    --label_groups [[1,2,4]] \
-    --label_names [WT] \
-    --label_index [1] \
+    --label_groups [[1,2,3,4,5,6],[7,8,9,10,11,12]] \
+    --label_names [LS,RS] \
+    --label_index [1,2] \
     --unet_arch unet \
     --channels_list [32,64,128,256] \
     --block res \
