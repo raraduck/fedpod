@@ -9,6 +9,8 @@ spec:
     parameters:
     - name: data_root
       value: "data_cc359ppmicmc256_dwnusa"
+    - name: data_set
+      value: ""
     - name: train-script
       value: "run_train1.sh"
     - name: agg-script
@@ -1123,6 +1125,8 @@ spec:
             value: "{{item.model_pth}}"
           - name: data_root
             value: "{{workflow.parameters.data_root}}"
+          - name: data_set
+            value: "{{workflow.parameters.data_set}}"
           - name: inst_root
             value: "inst_00"
           - name: input_channels
@@ -1169,6 +1173,7 @@ spec:
           -M {{inputs.parameters.model_pth}}
           -p {{inputs.parameters.data_percentage}}
           -D {{workflow.parameters.data_root}} 
+          -d {{workflow.parameters.data_set}}
       resources:
         requests:
           cpu: "2"
@@ -1296,6 +1301,7 @@ spec:
       - name: split_csv
       - name: model_pth
       - name: data_root
+      - name: data_set
       - name: inst_root
       - name: input_channels
     container:
@@ -1315,7 +1321,8 @@ spec:
           -c {{inputs.parameters.split_csv}}
           -M {{inputs.parameters.model_pth}}
           -t test
-          -d {{inputs.parameters.data_root}}
+          -D {{inputs.parameters.data_root}}
+          -d {{inputs.parameters.data_set}}
           -n {{inputs.parameters.inst_root}}
           -C {{inputs.parameters.input_channels}}
       resources:

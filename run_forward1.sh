@@ -10,11 +10,12 @@ split_csv=""
 model_pth=""
 test_mode=""
 data_root=""
+data_set=""
 inst_root="inst_*"
 # intput_channels="[t1]"
 
 # 명령줄 옵션 처리
-while getopts s:g:J:R:r:e:i:c:M:t:d:n:C: option
+while getopts s:g:J:R:r:e:i:c:M:t:D:d:n:C: option
 do
     case "${option}"
     in
@@ -28,17 +29,18 @@ do
         c) split_csv=${OPTARG};;
         M) model_pth=${OPTARG};;
         t) test_mode=${OPTARG};;
-        d) data_root=${OPTARG};;
+        D) data_root=${OPTARG};;
+        d) data_set=${OPTARG};;
         n) inst_root=${OPTARG};;
         C) input_channels=${OPTARG};;
     esac
 done
-echo "save_infer: $save_infer, gpu: $use_gpu, job: $job_name, rounds: $round, curr_epoch: $curr_epoch, inst: $inst_id, split_csv: $split_csv, model_pth: $model_pth, test_mode: $test_mode, data_root: $data_root, inst_root: $inst_root, input_channels: $input_channels"
+echo "save_infer: $save_infer, gpu: $use_gpu, job: $job_name, rounds: $round, curr_epoch: $curr_epoch, inst: $inst_id, split_csv: $split_csv, model_pth: $model_pth, test_mode: $test_mode, data_root: $data_root, data_set: $data_set, inst_root: $inst_root, input_channels: $input_channels"
 
 # 필수 옵션 검사
-if [ -z "$save_infer" ] || [ -z "$use_gpu" ] || [ -z "$job_name" ] ||  [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$curr_epoch" ] || [ -z "$inst_id" ] || [ -z "$split_csv" ] || [ -z "$inst_id" ] || [ -z "$test_mode" ] || [ -z "$input_channels" ]; then
+if [ -z "$save_infer" ] || [ -z "$use_gpu" ] || [ -z "$job_name" ] ||  [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$curr_epoch" ] || [ -z "$inst_id" ] || [ -z "$split_csv" ] || [ -z "$inst_id" ] || [ -z "$test_mode" ] || [ -z "$data_set" ] || [ -z "$input_channels" ]; then
     echo "Error: All parameters are required."
-    echo "Usage: $0 -s <save_infer> -g <use_gpu> -J <job_name> -R <rounds> -r <round> -e <curr_epoch> -i <inst_id> -c <split_csv> -M <model_pth> -t <test_mode> -d <data_root> -n <inst_root> -C <input_channels>"
+    echo "Usage: $0 -s <save_infer> -g <use_gpu> -J <job_name> -R <rounds> -r <round> -e <curr_epoch> -i <inst_id> -c <split_csv> -M <model_pth> -t <test_mode> -D <data_root> -d <data_set> -n <inst_root> -C <input_channels>"
     exit 1
 fi
 
@@ -55,7 +57,7 @@ python3 scripts/run_forward.py \
     --patch_size 128 \
     --zoom 1 \
     --flip_lr 0 \
-    --dataset FETS1470 \
+    --dataset $data_set \
     --data_root $data_root \
     --inst_root $inst_root \
     --seg_postfix _seg \
