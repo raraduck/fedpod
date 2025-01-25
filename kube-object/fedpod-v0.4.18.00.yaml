@@ -1155,7 +1155,7 @@ spec:
         - >
           ./{{inputs.parameters.train-script}} 
           -S {{inputs.parameters.seed}} 
-          -s 0 
+          -s 1 
           -f 10
           -m 15
           -g 0 
