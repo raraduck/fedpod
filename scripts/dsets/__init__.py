@@ -57,7 +57,7 @@ def get_dataset(args, case_names, _transforms, mode, label_names, custom_min_len
             custom_upper_bound=custom_max_len,
             transforms=_transforms, 
             index_filter=index_filter)
-    elif args.dataset == 'FETS1689':
+    elif args.dataset == 'FETS1470':
         return FETS1470Dataset(
             args,
             # data_root=os.path.join(args.data_root, args.dataset),
