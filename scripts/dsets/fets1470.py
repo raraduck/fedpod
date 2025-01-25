@@ -75,12 +75,12 @@ class FETS1470Dataset(Dataset):
             # flair, _ = nib_load(join(base_dir, 'brain.nii.gz'))
             channels_dict['flair'] = np.array(flair, dtype='float32')
 
-        # if 'seg' in self.input_channel_names:
-        #     striatum, _ = nib_load(join(base_dir, f'{name}_seg.nii.gz'))
-        #     # striatum, _ = nib_load(join(base_dir, 'striatum_orig.nii.gz'))
-        #     _mask = np.array(striatum, dtype='float32')
-        #     # _mask = np.where(_mask != 0, 100, 0)
-        #     channels_dict['seg'] = _mask
+        if 'seg' in self.input_channel_names:
+            striatum, _ = nib_load(join(base_dir, f'{name}_seg.nii.gz'))
+            # striatum, _ = nib_load(join(base_dir, 'striatum_orig.nii.gz'))
+            _mask = np.array(striatum, dtype='float32')
+            # _mask = np.where(_mask != 0, 100, 0)
+            channels_dict['seg'] = _mask
 
         if self.mode.lower() == 'test':
             item = self.transforms(channels_dict)
@@ -90,7 +90,7 @@ class FETS1470Dataset(Dataset):
                 temp_affine = affine # item['image'].affine[:3, 3]
             return item['image'], item['image'], index, name, temp_affine, self.label_names # item['image_meta_dict']['affine']
         elif self.mode.lower() in ['train', 'training']:
-            mask = np.array(nib_load(join(base_dir, f'{name}_seg.nii.gz'))[0], dtype='uint8')  # ground truth
+            mask = np.array(nib_load(join(base_dir, f'{name}_sub.nii.gz'))[0], dtype='uint8')  # ground truth
             channels_dict['label'] = mask
             item = self.transforms(channels_dict)
             # Assume each item is a dictionary containing multiple samples
@@ -112,7 +112,7 @@ class FETS1470Dataset(Dataset):
                 temp_affine = torch.tensor(-np.array(image_shape) / 2 * np.diag(el['image'].affine)[:3])
                 return el['image'], el['label'], index, name, temp_affine, self.label_names # item['image_meta_dict']['affine']
         else:
-            mask = np.array(nib_load(join(base_dir, f'{name}_seg.nii.gz'))[0], dtype='uint8')  # ground truth
+            mask = np.array(nib_load(join(base_dir, f'{name}_sub.nii.gz'))[0], dtype='uint8')  # ground truth
             channels_dict['label'] = mask
             item = self.transforms(channels_dict)
             # 이미지 중앙을 원점으로 설정하기

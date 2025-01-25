@@ -75,10 +75,10 @@ python3 scripts/run_train.py \
   --batch_size 1 \
   \
   --weight_path $model_pth \
-  --input_channel_names [t1,seg] \
-  --label_groups [[1,1],[2,2],[3,3],[4,4],[5,5],[6,6],[7,7],[8,8],[9,9],[10,10],[11,11],[12,12]] \
-  --label_names [LVS,LAC,LPC,LAP,LPP,LVP,RVS,RAC,RPC,RAP,RPP,RVP] \
-  --label_index [1,2,3,4,5,6,7,8,9,10,11,12] \
+  --input_channel_names [t1,t1ce,t2,flair,seg] \
+  --label_groups [[1,1],[2,2],[4,4]] \
+  --label_names [NCR,ED,ET] \
+  --label_index [1,2,4] \
   --unet_arch unet \
   --channels_list [32,64,128,256] \
   --block res \
