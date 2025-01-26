@@ -57,6 +57,40 @@ spec:
       value: "100"
     - name: inst_06_ratio_2
       value: "100"
+    - name: inst_07_ratio_2
+      value: "100"
+    - name: inst_08_ratio_2
+      value: "100"
+    - name: inst_09_ratio_2
+      value: "100"
+    - name: inst_10_ratio_2
+      value: "100"
+    - name: inst_11_ratio_2
+      value: "100"
+    - name: inst_12_ratio_2
+      value: "100"
+    - name: inst_13_ratio_2
+      value: "100"
+    - name: inst_14_ratio_2
+      value: "100"
+    - name: inst_15_ratio_2
+      value: "100"
+    - name: inst_16_ratio_2
+      value: "100"
+    - name: inst_17_ratio_2
+      value: "100"
+    - name: inst_18_ratio_2
+      value: "100"
+    - name: inst_19_ratio_2
+      value: "100"
+    - name: inst_20_ratio_2
+      value: "100"
+    - name: inst_21_ratio_2
+      value: "100"
+    - name: inst_22_ratio_2
+      value: "100"
+    - name: inst_23_ratio_2
+      value: "100"
   templates:
   - name: parallel-dag
     dag:
