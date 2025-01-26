@@ -76,9 +76,9 @@ python3 scripts/run_train.py \
   \
   --weight_path $model_pth \
   --input_channel_names [t1,t1ce,t2,flair,seg] \
-  --label_groups [[1,4],[4,4]] \
-  --label_names [TC,ET] \
-  --label_index [2,4] \
+  --label_groups [[1,1],[2,2],[4,4]] \
+  --label_names [NCR,ED,ET] \
+  --label_index [1,2,4] \
   --unet_arch unet \
   --channels_list [32,64,128,256] \
   --block res \
