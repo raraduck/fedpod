@@ -154,14 +154,14 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
         M = [el['model'] for el in local_models_with_dlen]
         aggregated_model = fedavg(W, M)
         for p, w, j in zip(P, W, JOB_NAME):
-            logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][{j}][J,P,W][{p:.2f},{w:.2f}]")
+            logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][{j}][P,W][{p:.2f},{w:.2f}]")
     elif args.algorithm == "fedwavg":
         P = [el['P'] for el in local_models_with_dlen]
         W = [p/sum(P) for p in P]
         M = [el['model'] for el in local_models_with_dlen]
         aggregated_model = fedwavg(W, M)
         for p, w, j in zip(P, W, JOB_NAME):
-            logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][{j}][J,P,W][{p:.2f},{w:.2f}]")
+            logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][{j}][P,W][{p:.2f},{w:.2f}]")
     elif args.algorithm == "fedpod":
         P = [el['P'] for el in local_models_with_dlen]
         I = [el['I'] for el in local_models_with_dlen]
