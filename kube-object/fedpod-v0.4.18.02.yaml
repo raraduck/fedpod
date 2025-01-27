@@ -32,7 +32,7 @@ spec:
     - name: input_channel_names
       value: "None"
     - name: agg-algo
-      value: "fedavg"
+      value: "fedpod"
     - name: inst_01_ratio_1
       value: "100"
     - name: inst_02_ratio_1
@@ -627,18 +627,19 @@ spec:
           - name: train-script
             value: "{{workflow.parameters.train-script}}"
           - name: round
-            # value: "10" # 연속 실험 20250127
-            value: "{{tasks.agg-09.outputs.parameters.next-round}}"
+            value: "10" # 연속 실험 20250127
+            # value: "{{tasks.agg-09.outputs.parameters.next-round}}"
           - name: epochs
             value: "003"
           - name: epoch
-            # value: "027" # 연속 실험 20250127
-            value: "{{tasks.agg-09.outputs.parameters.next-epoch}}"
+            value: "027" # 연속 실험 20250127
+            # value: "{{tasks.agg-09.outputs.parameters.next-epoch}}"
           - name: inst-id
             value: "{{item.inst}}"
           - name: model_pth
-            # value: "/fedpod/states/select01_0/R{{workflow.parameters.rounds}}r{{tasks.agg-09.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-09.outputs.parameters.next-round}}_agg.pth" # 연속 실험 20250127
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-09.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-09.outputs.parameters.next-round}}_agg.pth"
+            value: "/fedpod/states/select01_0/R{{workflow.parameters.rounds}}r{{tasks.agg-09.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-09.outputs.parameters.next-round}}_agg.pth"
+             # 연속 실험 20250127
+            # value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-09.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-09.outputs.parameters.next-round}}_agg.pth"
           - name: data_percentage
             value: "{{item.data_percentage}}"
         withItems:
@@ -659,13 +660,13 @@ spec:
           - name: agg-script
             value: "{{workflow.parameters.agg-script}}"
           - name: round
-            # value: "10" # 연속 실험 20250127
-            value: "{{tasks.agg-09.outputs.parameters.next-round}}"
+            value: "10" # 연속 실험 20250127
+            # value: "{{tasks.agg-09.outputs.parameters.next-round}}"
           - name: epochs
             value: "003"
           - name: epoch
-            # value: "027" # 연속 실험 20250127
-            value: "{{tasks.agg-09.outputs.parameters.next-epoch}}"
+            value: "027" # 연속 실험 20250127
+            # value: "{{tasks.agg-09.outputs.parameters.next-epoch}}"
           - name: inst-id
             value: "0"
           - name: model_pth
@@ -1286,7 +1287,7 @@ spec:
       - name: model_pth
       - name: data_percentage
     container:
-      image: dwnusa/fedpod:v0.4.18.01
+      image: dwnusa/fedpod:v0.4.18.02
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args:
@@ -1359,7 +1360,7 @@ spec:
       - name: inst-id
       - name: model_pth
     container:
-      image: dwnusa/fedpod:v0.4.18.01
+      image: dwnusa/fedpod:v0.4.18.02
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
@@ -1439,7 +1440,7 @@ spec:
       - name: inst_root
       - name: input_channels
     container:
-      image: dwnusa/fedpod:v0.4.18.01
+      image: dwnusa/fedpod:v0.4.18.02
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
