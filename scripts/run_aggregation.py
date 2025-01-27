@@ -154,14 +154,14 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
         M = [el['model'] for el in local_models_with_dlen]
         aggregated_model = fedavg(W, M)
         for p, w, j in zip(P, W, JOB_NAME):
-            logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][J,P,W][{j},{p:.2f},{w:.2f}]")
+            logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][{j}][J,P,W][{p:.2f},{w:.2f}]")
     elif args.algorithm == "fedwavg":
         P = [el['P'] for el in local_models_with_dlen]
         W = [p/sum(P) for p in P]
         M = [el['model'] for el in local_models_with_dlen]
         aggregated_model = fedwavg(W, M)
         for p, w, j in zip(P, W, JOB_NAME):
-            logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][J,P,W][{j},{p:.2f},{w:.2f}]")
+            logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][{j}][J,P,W][{p:.2f},{w:.2f}]")
     elif args.algorithm == "fedpod":
         P = [el['P'] for el in local_models_with_dlen]
         I = [el['I'] for el in local_models_with_dlen]
@@ -171,13 +171,13 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
         gamma = 0.7
         if sum(I) == 0 or sum(D) == 0:
             W = [p/sum(P) for p in P]
-            logger.warn(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] I or D term is zero")
+            logger.warn(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][{j}] I or D term is zero")
         else:
             W = [alpha*p/sum(P) + beta*i/sum(I) + gamma*d/sum(D) for p, i, d in zip(P, I, D)]
         M = [el['model'] for el in local_models_with_dlen]
         aggregated_model = fedPOD(W, M)
         for p, i, d, w, j in zip(P, I, D, W, JOB_NAME):
-            logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][J,P,I,D,W][{j}{p:.2f},{i:.2f},{d:.2f},{w:.2f}]")
+            logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][{j}][P,I,D,W][{p:.2f},{i:.2f},{d:.2f},{w:.2f}]")
     else:
         raise NotImplementedError(f"{args.algorithm.upper()} is not implemented on Aggregator()")
 
