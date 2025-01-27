@@ -778,7 +778,7 @@ spec:
             value: "None"
           - name: algorithm
             value: "{{workflow.parameters.agg-algo}}"
-        dependencies: [train-12]k top 
+        dependencies: [train-12]
         # when: "{{tasks.agg-11.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       # Round 13
