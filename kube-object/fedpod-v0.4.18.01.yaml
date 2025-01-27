@@ -98,524 +98,524 @@ spec:
     dag:
       tasks:
       # Round 0
-      - name: train-00
-        template: train-job
-        arguments:
-          parameters:
-          - name: seed
-            value: "{{item.seed}}"
-          - name: train-script
-            value: "{{workflow.parameters.train-script}}"
-          - name: round
-            value: "{{workflow.parameters.initial-round}}"
-          - name: epochs
-            value: "000"
-          - name: epoch
-            value: "{{workflow.parameters.initial-epoch}}"
-          - name: inst-id
-            value: "{{item.inst}}"
-          - name: model_pth
-            value: "{{workflow.parameters.init_model}}"
-          - name: data_percentage
-            value: "{{item.data_percentage}}"
-        withItems:
-        - { seed: "10001", inst: "1", data_percentage: "{{workflow.parameters.inst_01_ratio_1}}"}
-        # - { seed: "10002", inst: "2", data_percentage: "{{workflow.parameters.inst_02_ratio_1}}"}
-        # - { seed: "10003", inst: "3", data_percentage: "{{workflow.parameters.inst_03_ratio_1}}"}
-        # - { seed: "10004", inst: "4", data_percentage: "{{workflow.parameters.inst_04_ratio_1}}"}
-        # - { seed: "10005", inst: "5", data_percentage: "{{workflow.parameters.inst_05_ratio_1}}"}
-        # - { seed: "10006", inst: "6", data_percentage: "{{workflow.parameters.inst_06_ratio_1}}"}
+      # - name: train-00
+      #   template: train-job
+      #   arguments:
+      #     parameters:
+      #     - name: seed
+      #       value: "{{item.seed}}"
+      #     - name: train-script
+      #       value: "{{workflow.parameters.train-script}}"
+      #     - name: round
+      #       value: "{{workflow.parameters.initial-round}}"
+      #     - name: epochs
+      #       value: "000"
+      #     - name: epoch
+      #       value: "{{workflow.parameters.initial-epoch}}"
+      #     - name: inst-id
+      #       value: "{{item.inst}}"
+      #     - name: model_pth
+      #       value: "{{workflow.parameters.init_model}}"
+      #     - name: data_percentage
+      #       value: "{{item.data_percentage}}"
+      #   withItems:
+      #   - { seed: "10001", inst: "1", data_percentage: "{{workflow.parameters.inst_01_ratio_1}}"}
+      #   # - { seed: "10002", inst: "2", data_percentage: "{{workflow.parameters.inst_02_ratio_1}}"}
+      #   # - { seed: "10003", inst: "3", data_percentage: "{{workflow.parameters.inst_03_ratio_1}}"}
+      #   # - { seed: "10004", inst: "4", data_percentage: "{{workflow.parameters.inst_04_ratio_1}}"}
+      #   # - { seed: "10005", inst: "5", data_percentage: "{{workflow.parameters.inst_05_ratio_1}}"}
+      #   # - { seed: "10006", inst: "6", data_percentage: "{{workflow.parameters.inst_06_ratio_1}}"}
 
-      - name: agg-00
-        template: aggregation-job
-        arguments:
-          parameters:
-          - name: agg-script
-            value: "{{workflow.parameters.agg-script}}"
-          - name: round
-            value: "{{workflow.parameters.initial-round}}"
-          - name: epochs
-            value: "000"
-          - name: epoch
-            value: "{{workflow.parameters.initial-epoch}}"
-          - name: inst-id
-            value: "0"
-          - name: model_pth
-            value: "None"
-          - name: algorithm
-            value: "{{workflow.parameters.agg-algo}}"
-        dependencies: [train-00]
+      # - name: agg-00
+      #   template: aggregation-job
+      #   arguments:
+      #     parameters:
+      #     - name: agg-script
+      #       value: "{{workflow.parameters.agg-script}}"
+      #     - name: round
+      #       value: "{{workflow.parameters.initial-round}}"
+      #     - name: epochs
+      #       value: "000"
+      #     - name: epoch
+      #       value: "{{workflow.parameters.initial-epoch}}"
+      #     - name: inst-id
+      #       value: "0"
+      #     - name: model_pth
+      #       value: "None"
+      #     - name: algorithm
+      #       value: "{{workflow.parameters.agg-algo}}"
+      #   dependencies: [train-00]
 
-      # Round 1
-      - name: train-01
-        template: train-job
-        arguments:
-          parameters:
-          - name: seed
-            value: "{{item.seed}}"
-          - name: train-script
-            value: "{{workflow.parameters.train-script}}"
-          - name: round
-            value: "{{tasks.agg-00.outputs.parameters.next-round}}"
-          - name: epochs
-            value: "003"
-          - name: epoch
-            value: "{{tasks.agg-00.outputs.parameters.next-epoch}}"
-          - name: inst-id
-            value: "{{item.inst}}"
-          - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}_agg.pth"
-          - name: data_percentage
-            value: "{{item.data_percentage}}"
-        withItems:
-        - { seed: "10101", inst: "1", data_percentage: "{{workflow.parameters.inst_01_ratio_1}}"}
-        # - { seed: "10102", inst: "2", data_percentage: "{{workflow.parameters.inst_02_ratio_1}}"}
-        # - { seed: "10103", inst: "3", data_percentage: "{{workflow.parameters.inst_03_ratio_1}}"}
-        # - { seed: "10104", inst: "4", data_percentage: "{{workflow.parameters.inst_04_ratio_1}}"}
-        # - { seed: "10105", inst: "5", data_percentage: "{{workflow.parameters.inst_05_ratio_1}}"}
-        # - { seed: "10106", inst: "6", data_percentage: "{{workflow.parameters.inst_06_ratio_1}}"}
-        dependencies: [agg-00]
-        # when: "{{tasks.agg-00.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+      # # Round 1
+      # - name: train-01
+      #   template: train-job
+      #   arguments:
+      #     parameters:
+      #     - name: seed
+      #       value: "{{item.seed}}"
+      #     - name: train-script
+      #       value: "{{workflow.parameters.train-script}}"
+      #     - name: round
+      #       value: "{{tasks.agg-00.outputs.parameters.next-round}}"
+      #     - name: epochs
+      #       value: "003"
+      #     - name: epoch
+      #       value: "{{tasks.agg-00.outputs.parameters.next-epoch}}"
+      #     - name: inst-id
+      #       value: "{{item.inst}}"
+      #     - name: model_pth
+      #       value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}_agg.pth"
+      #     - name: data_percentage
+      #       value: "{{item.data_percentage}}"
+      #   withItems:
+      #   - { seed: "10101", inst: "1", data_percentage: "{{workflow.parameters.inst_01_ratio_1}}"}
+      #   # - { seed: "10102", inst: "2", data_percentage: "{{workflow.parameters.inst_02_ratio_1}}"}
+      #   # - { seed: "10103", inst: "3", data_percentage: "{{workflow.parameters.inst_03_ratio_1}}"}
+      #   # - { seed: "10104", inst: "4", data_percentage: "{{workflow.parameters.inst_04_ratio_1}}"}
+      #   # - { seed: "10105", inst: "5", data_percentage: "{{workflow.parameters.inst_05_ratio_1}}"}
+      #   # - { seed: "10106", inst: "6", data_percentage: "{{workflow.parameters.inst_06_ratio_1}}"}
+      #   dependencies: [agg-00]
+      #   # when: "{{tasks.agg-00.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
-      - name: agg-01
-        template: aggregation-job
-        arguments:
-          parameters:
-          - name: agg-script
-            value: "{{workflow.parameters.agg-script}}"
-          - name: round
-            value: "{{tasks.agg-00.outputs.parameters.next-round}}"
-          - name: epochs
-            value: "003"
-          - name: epoch
-            value: "{{tasks.agg-00.outputs.parameters.next-epoch}}"
-          - name: inst-id
-            value: "0"
-          - name: model_pth
-            value: "None"
-          - name: algorithm
-            value: "{{workflow.parameters.agg-algo}}"
-        dependencies: [train-01]
-        # when: "{{tasks.agg-00.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+      # - name: agg-01
+      #   template: aggregation-job
+      #   arguments:
+      #     parameters:
+      #     - name: agg-script
+      #       value: "{{workflow.parameters.agg-script}}"
+      #     - name: round
+      #       value: "{{tasks.agg-00.outputs.parameters.next-round}}"
+      #     - name: epochs
+      #       value: "003"
+      #     - name: epoch
+      #       value: "{{tasks.agg-00.outputs.parameters.next-epoch}}"
+      #     - name: inst-id
+      #       value: "0"
+      #     - name: model_pth
+      #       value: "None"
+      #     - name: algorithm
+      #       value: "{{workflow.parameters.agg-algo}}"
+      #   dependencies: [train-01]
+      #   # when: "{{tasks.agg-00.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
-      # Round 2
-      - name: train-02
-        template: train-job
-        arguments:
-          parameters:
-          - name: seed
-            value: "{{item.seed}}"
-          - name: train-script
-            value: "{{workflow.parameters.train-script}}"
-          - name: round
-            value: "{{tasks.agg-01.outputs.parameters.next-round}}"
-          - name: epochs
-            value: "003"
-          - name: epoch
-            value: "{{tasks.agg-01.outputs.parameters.next-epoch}}"
-          - name: inst-id
-            value: "{{item.inst}}"
-          - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}_agg.pth"
-          - name: data_percentage
-            value: "{{item.data_percentage}}"
-        withItems:
-        - { seed: "10201", inst: "1", data_percentage: "{{workflow.parameters.inst_01_ratio_1}}"}
-        # - { seed: "10202", inst: "2", data_percentage: "{{workflow.parameters.inst_02_ratio_1}}"}
-        # - { seed: "10203", inst: "3", data_percentage: "{{workflow.parameters.inst_03_ratio_1}}"}
-        # - { seed: "10204", inst: "4", data_percentage: "{{workflow.parameters.inst_04_ratio_1}}"}
-        # - { seed: "10205", inst: "5", data_percentage: "{{workflow.parameters.inst_05_ratio_1}}"}
-        # - { seed: "10206", inst: "6", data_percentage: "{{workflow.parameters.inst_06_ratio_1}}"}
-        # - { seed: "10218", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_1}}"}
-        dependencies: [agg-01]
-        # when: "{{tasks.agg-01.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+      # # Round 2
+      # - name: train-02
+      #   template: train-job
+      #   arguments:
+      #     parameters:
+      #     - name: seed
+      #       value: "{{item.seed}}"
+      #     - name: train-script
+      #       value: "{{workflow.parameters.train-script}}"
+      #     - name: round
+      #       value: "{{tasks.agg-01.outputs.parameters.next-round}}"
+      #     - name: epochs
+      #       value: "003"
+      #     - name: epoch
+      #       value: "{{tasks.agg-01.outputs.parameters.next-epoch}}"
+      #     - name: inst-id
+      #       value: "{{item.inst}}"
+      #     - name: model_pth
+      #       value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}_agg.pth"
+      #     - name: data_percentage
+      #       value: "{{item.data_percentage}}"
+      #   withItems:
+      #   - { seed: "10201", inst: "1", data_percentage: "{{workflow.parameters.inst_01_ratio_1}}"}
+      #   # - { seed: "10202", inst: "2", data_percentage: "{{workflow.parameters.inst_02_ratio_1}}"}
+      #   # - { seed: "10203", inst: "3", data_percentage: "{{workflow.parameters.inst_03_ratio_1}}"}
+      #   # - { seed: "10204", inst: "4", data_percentage: "{{workflow.parameters.inst_04_ratio_1}}"}
+      #   # - { seed: "10205", inst: "5", data_percentage: "{{workflow.parameters.inst_05_ratio_1}}"}
+      #   # - { seed: "10206", inst: "6", data_percentage: "{{workflow.parameters.inst_06_ratio_1}}"}
+      #   # - { seed: "10218", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_1}}"}
+      #   dependencies: [agg-01]
+      #   # when: "{{tasks.agg-01.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
-      - name: agg-02
-        template: aggregation-job
-        arguments:
-          parameters:
-          - name: agg-script
-            value: "{{workflow.parameters.agg-script}}"
-          - name: round
-            value: "{{tasks.agg-01.outputs.parameters.next-round}}"
-          - name: epochs
-            value: "003"
-          - name: epoch
-            value: "{{tasks.agg-01.outputs.parameters.next-epoch}}"
-          - name: inst-id
-            value: "0"
-          - name: model_pth
-            value: "None"
-          - name: algorithm
-            value: "{{workflow.parameters.agg-algo}}"
-        dependencies: [train-02]
-        # when: "{{tasks.agg-01.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+      # - name: agg-02
+      #   template: aggregation-job
+      #   arguments:
+      #     parameters:
+      #     - name: agg-script
+      #       value: "{{workflow.parameters.agg-script}}"
+      #     - name: round
+      #       value: "{{tasks.agg-01.outputs.parameters.next-round}}"
+      #     - name: epochs
+      #       value: "003"
+      #     - name: epoch
+      #       value: "{{tasks.agg-01.outputs.parameters.next-epoch}}"
+      #     - name: inst-id
+      #       value: "0"
+      #     - name: model_pth
+      #       value: "None"
+      #     - name: algorithm
+      #       value: "{{workflow.parameters.agg-algo}}"
+      #   dependencies: [train-02]
+      #   # when: "{{tasks.agg-01.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
-      # Round 3
-      - name: train-03
-        template: train-job
-        # when: "{{tasks.agg-02.status}} != 'Skipped' && {{tasks.agg-02.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
-        arguments:
-          parameters:
-          - name: seed
-            value: "{{item.seed}}"
-          - name: train-script
-            value: "{{workflow.parameters.train-script}}"
-          - name: round
-            value: "{{tasks.agg-02.outputs.parameters.next-round}}"
-          - name: epochs
-            value: "003"
-          - name: epoch
-            value: "{{tasks.agg-02.outputs.parameters.next-epoch}}"
-          - name: inst-id
-            value: "{{item.inst}}"
-          - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-02.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-02.outputs.parameters.next-round}}_agg.pth"
-          - name: data_percentage
-            value: "{{item.data_percentage}}"
-        withItems:
-        - { seed: "10301", inst: "1", data_percentage: "{{workflow.parameters.inst_01_ratio_1}}"}
-        # - { seed: "10302", inst: "2", data_percentage: "{{workflow.parameters.inst_02_ratio_1}}"}
-        # - { seed: "10303", inst: "3", data_percentage: "{{workflow.parameters.inst_03_ratio_1}}"}
-        # - { seed: "10304", inst: "4", data_percentage: "{{workflow.parameters.inst_04_ratio_1}}"}
-        # - { seed: "10305", inst: "5", data_percentage: "{{workflow.parameters.inst_05_ratio_1}}"}
-        # - { seed: "10306", inst: "6", data_percentage: "{{workflow.parameters.inst_06_ratio_1}}"}
-        # - { seed: "10318", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_1}}"}
-        # dependencies: [agg-02]
-        dependencies: [agg-02]
+      # # Round 3
+      # - name: train-03
+      #   template: train-job
+      #   # when: "{{tasks.agg-02.status}} != 'Skipped' && {{tasks.agg-02.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+      #   arguments:
+      #     parameters:
+      #     - name: seed
+      #       value: "{{item.seed}}"
+      #     - name: train-script
+      #       value: "{{workflow.parameters.train-script}}"
+      #     - name: round
+      #       value: "{{tasks.agg-02.outputs.parameters.next-round}}"
+      #     - name: epochs
+      #       value: "003"
+      #     - name: epoch
+      #       value: "{{tasks.agg-02.outputs.parameters.next-epoch}}"
+      #     - name: inst-id
+      #       value: "{{item.inst}}"
+      #     - name: model_pth
+      #       value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-02.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-02.outputs.parameters.next-round}}_agg.pth"
+      #     - name: data_percentage
+      #       value: "{{item.data_percentage}}"
+      #   withItems:
+      #   - { seed: "10301", inst: "1", data_percentage: "{{workflow.parameters.inst_01_ratio_1}}"}
+      #   # - { seed: "10302", inst: "2", data_percentage: "{{workflow.parameters.inst_02_ratio_1}}"}
+      #   # - { seed: "10303", inst: "3", data_percentage: "{{workflow.parameters.inst_03_ratio_1}}"}
+      #   # - { seed: "10304", inst: "4", data_percentage: "{{workflow.parameters.inst_04_ratio_1}}"}
+      #   # - { seed: "10305", inst: "5", data_percentage: "{{workflow.parameters.inst_05_ratio_1}}"}
+      #   # - { seed: "10306", inst: "6", data_percentage: "{{workflow.parameters.inst_06_ratio_1}}"}
+      #   # - { seed: "10318", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_1}}"}
+      #   # dependencies: [agg-02]
+      #   dependencies: [agg-02]
 
-      - name: agg-03
-        template: aggregation-job
-        arguments:
-          parameters:
-          - name: agg-script
-            value: "{{workflow.parameters.agg-script}}"
-          - name: round
-            value: "{{tasks.agg-02.outputs.parameters.next-round}}"
-          - name: epochs
-            value: "003"
-          - name: epoch
-            value: "{{tasks.agg-02.outputs.parameters.next-epoch}}"
-          - name: inst-id
-            value: "0"
-          - name: model_pth
-            value: "None"
-          - name: algorithm
-            value: "{{workflow.parameters.agg-algo}}"
-        dependencies: [train-03]
-        # when: "{{tasks.agg-02.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+      # - name: agg-03
+      #   template: aggregation-job
+      #   arguments:
+      #     parameters:
+      #     - name: agg-script
+      #       value: "{{workflow.parameters.agg-script}}"
+      #     - name: round
+      #       value: "{{tasks.agg-02.outputs.parameters.next-round}}"
+      #     - name: epochs
+      #       value: "003"
+      #     - name: epoch
+      #       value: "{{tasks.agg-02.outputs.parameters.next-epoch}}"
+      #     - name: inst-id
+      #       value: "0"
+      #     - name: model_pth
+      #       value: "None"
+      #     - name: algorithm
+      #       value: "{{workflow.parameters.agg-algo}}"
+      #   dependencies: [train-03]
+      #   # when: "{{tasks.agg-02.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
-      # Round 4
-      - name: train-04
-        template: train-job
-        arguments:
-          parameters:
-          - name: seed
-            value: "{{item.seed}}"
-          - name: train-script
-            value: "{{workflow.parameters.train-script}}"
-          - name: round
-            value: "{{tasks.agg-03.outputs.parameters.next-round}}"
-          - name: epochs
-            value: "003"
-          - name: epoch
-            value: "{{tasks.agg-03.outputs.parameters.next-epoch}}"
-          - name: inst-id
-            value: "{{item.inst}}"
-          - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-03.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-03.outputs.parameters.next-round}}_agg.pth"
-          - name: data_percentage
-            value: "{{item.data_percentage}}"
-        withItems:
-        - { seed: "10401", inst: "1", data_percentage: "{{workflow.parameters.inst_01_ratio_1}}"}
-        # - { seed: "10402", inst: "2", data_percentage: "{{workflow.parameters.inst_02_ratio_1}}"}
-        # - { seed: "10403", inst: "3", data_percentage: "{{workflow.parameters.inst_03_ratio_1}}"}
-        # - { seed: "10404", inst: "4", data_percentage: "{{workflow.parameters.inst_04_ratio_1}}"}
-        # - { seed: "10405", inst: "5", data_percentage: "{{workflow.parameters.inst_05_ratio_1}}"}
-        # - { seed: "10406", inst: "6", data_percentage: "{{workflow.parameters.inst_06_ratio_1}}"}
-        dependencies: [agg-03]
-        # when: "{{tasks.agg-03.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+      # # Round 4
+      # - name: train-04
+      #   template: train-job
+      #   arguments:
+      #     parameters:
+      #     - name: seed
+      #       value: "{{item.seed}}"
+      #     - name: train-script
+      #       value: "{{workflow.parameters.train-script}}"
+      #     - name: round
+      #       value: "{{tasks.agg-03.outputs.parameters.next-round}}"
+      #     - name: epochs
+      #       value: "003"
+      #     - name: epoch
+      #       value: "{{tasks.agg-03.outputs.parameters.next-epoch}}"
+      #     - name: inst-id
+      #       value: "{{item.inst}}"
+      #     - name: model_pth
+      #       value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-03.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-03.outputs.parameters.next-round}}_agg.pth"
+      #     - name: data_percentage
+      #       value: "{{item.data_percentage}}"
+      #   withItems:
+      #   - { seed: "10401", inst: "1", data_percentage: "{{workflow.parameters.inst_01_ratio_1}}"}
+      #   # - { seed: "10402", inst: "2", data_percentage: "{{workflow.parameters.inst_02_ratio_1}}"}
+      #   # - { seed: "10403", inst: "3", data_percentage: "{{workflow.parameters.inst_03_ratio_1}}"}
+      #   # - { seed: "10404", inst: "4", data_percentage: "{{workflow.parameters.inst_04_ratio_1}}"}
+      #   # - { seed: "10405", inst: "5", data_percentage: "{{workflow.parameters.inst_05_ratio_1}}"}
+      #   # - { seed: "10406", inst: "6", data_percentage: "{{workflow.parameters.inst_06_ratio_1}}"}
+      #   dependencies: [agg-03]
+      #   # when: "{{tasks.agg-03.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
-      - name: agg-04
-        template: aggregation-job
-        arguments:
-          parameters:
-          - name: agg-script
-            value: "{{workflow.parameters.agg-script}}"
-          - name: round
-            value: "{{tasks.agg-03.outputs.parameters.next-round}}"
-          - name: epochs
-            value: "003"
-          - name: epoch
-            value: "{{tasks.agg-03.outputs.parameters.next-epoch}}"
-          - name: inst-id
-            value: "0"
-          - name: model_pth
-            value: "None"
-          - name: algorithm
-            value: "{{workflow.parameters.agg-algo}}"
-        dependencies: [train-04]
-        # when: "{{tasks.agg-03.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+      # - name: agg-04
+      #   template: aggregation-job
+      #   arguments:
+      #     parameters:
+      #     - name: agg-script
+      #       value: "{{workflow.parameters.agg-script}}"
+      #     - name: round
+      #       value: "{{tasks.agg-03.outputs.parameters.next-round}}"
+      #     - name: epochs
+      #       value: "003"
+      #     - name: epoch
+      #       value: "{{tasks.agg-03.outputs.parameters.next-epoch}}"
+      #     - name: inst-id
+      #       value: "0"
+      #     - name: model_pth
+      #       value: "None"
+      #     - name: algorithm
+      #       value: "{{workflow.parameters.agg-algo}}"
+      #   dependencies: [train-04]
+      #   # when: "{{tasks.agg-03.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
-      # Round 5
-      - name: train-05
-        template: train-job
-        arguments:
-          parameters:
-          - name: seed
-            value: "{{item.seed}}"
-          - name: train-script
-            value: "{{workflow.parameters.train-script}}"
-          - name: round
-            value: "{{tasks.agg-04.outputs.parameters.next-round}}"
-          - name: epochs
-            value: "003"
-          - name: epoch
-            value: "{{tasks.agg-04.outputs.parameters.next-epoch}}"
-          - name: inst-id
-            value: "{{item.inst}}"
-          - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-04.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-04.outputs.parameters.next-round}}_agg.pth"
-          - name: data_percentage
-            value: "{{item.data_percentage}}"
-        withItems:
-        - { seed: "10501", inst: "1", data_percentage: "{{workflow.parameters.inst_01_ratio_1}}"}
-        # - { seed: "10502", inst: "2", data_percentage: "{{workflow.parameters.inst_02_ratio_1}}"}
-        # - { seed: "10503", inst: "3", data_percentage: "{{workflow.parameters.inst_03_ratio_1}}"}
-        # - { seed: "10504", inst: "4", data_percentage: "{{workflow.parameters.inst_04_ratio_1}}"}
-        # - { seed: "10505", inst: "5", data_percentage: "{{workflow.parameters.inst_05_ratio_1}}"}
-        # - { seed: "10506", inst: "6", data_percentage: "{{workflow.parameters.inst_06_ratio_1}}"}
-        dependencies: [agg-04]
-        # when: "{{tasks.agg-04.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+      # # Round 5
+      # - name: train-05
+      #   template: train-job
+      #   arguments:
+      #     parameters:
+      #     - name: seed
+      #       value: "{{item.seed}}"
+      #     - name: train-script
+      #       value: "{{workflow.parameters.train-script}}"
+      #     - name: round
+      #       value: "{{tasks.agg-04.outputs.parameters.next-round}}"
+      #     - name: epochs
+      #       value: "003"
+      #     - name: epoch
+      #       value: "{{tasks.agg-04.outputs.parameters.next-epoch}}"
+      #     - name: inst-id
+      #       value: "{{item.inst}}"
+      #     - name: model_pth
+      #       value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-04.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-04.outputs.parameters.next-round}}_agg.pth"
+      #     - name: data_percentage
+      #       value: "{{item.data_percentage}}"
+      #   withItems:
+      #   - { seed: "10501", inst: "1", data_percentage: "{{workflow.parameters.inst_01_ratio_1}}"}
+      #   # - { seed: "10502", inst: "2", data_percentage: "{{workflow.parameters.inst_02_ratio_1}}"}
+      #   # - { seed: "10503", inst: "3", data_percentage: "{{workflow.parameters.inst_03_ratio_1}}"}
+      #   # - { seed: "10504", inst: "4", data_percentage: "{{workflow.parameters.inst_04_ratio_1}}"}
+      #   # - { seed: "10505", inst: "5", data_percentage: "{{workflow.parameters.inst_05_ratio_1}}"}
+      #   # - { seed: "10506", inst: "6", data_percentage: "{{workflow.parameters.inst_06_ratio_1}}"}
+      #   dependencies: [agg-04]
+      #   # when: "{{tasks.agg-04.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
-      - name: agg-05
-        template: aggregation-job
-        arguments:
-          parameters:
-          - name: agg-script
-            value: "{{workflow.parameters.agg-script}}"
-          - name: round
-            value: "{{tasks.agg-04.outputs.parameters.next-round}}"
-          - name: epochs
-            value: "003"
-          - name: epoch
-            value: "{{tasks.agg-04.outputs.parameters.next-epoch}}"
-          - name: inst-id
-            value: "0"
-          - name: model_pth
-            value: "None"
-          - name: algorithm
-            value: "{{workflow.parameters.agg-algo}}"
-        dependencies: [train-05]
-        # when: "{{tasks.agg-04.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+      # - name: agg-05
+      #   template: aggregation-job
+      #   arguments:
+      #     parameters:
+      #     - name: agg-script
+      #       value: "{{workflow.parameters.agg-script}}"
+      #     - name: round
+      #       value: "{{tasks.agg-04.outputs.parameters.next-round}}"
+      #     - name: epochs
+      #       value: "003"
+      #     - name: epoch
+      #       value: "{{tasks.agg-04.outputs.parameters.next-epoch}}"
+      #     - name: inst-id
+      #       value: "0"
+      #     - name: model_pth
+      #       value: "None"
+      #     - name: algorithm
+      #       value: "{{workflow.parameters.agg-algo}}"
+      #   dependencies: [train-05]
+      #   # when: "{{tasks.agg-04.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
         
-      # Round 6
-      - name: train-06
-        template: train-job
-        arguments:
-          parameters:
-          - name: seed
-            value: "{{item.seed}}"
-          - name: train-script
-            value: "{{workflow.parameters.train-script}}"
-          - name: round
-            value: "{{tasks.agg-05.outputs.parameters.next-round}}"
-          - name: epochs
-            value: "003"
-          - name: epoch
-            value: "{{tasks.agg-05.outputs.parameters.next-epoch}}"
-          - name: inst-id
-            value: "{{item.inst}}"
-          - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-05.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-05.outputs.parameters.next-round}}_agg.pth"
-          - name: data_percentage
-            value: "{{item.data_percentage}}"
-        withItems:
-        - { seed: "10601", inst: "1", data_percentage: "{{workflow.parameters.inst_01_ratio_2}}"}
-        # - { seed: "10602", inst: "2", data_percentage: "{{workflow.parameters.inst_02_ratio_2}}"}
-        # - { seed: "10603", inst: "3", data_percentage: "{{workflow.parameters.inst_03_ratio_2}}"}
-        # - { seed: "10604", inst: "4", data_percentage: "{{workflow.parameters.inst_04_ratio_2}}"}
-        # - { seed: "10605", inst: "5", data_percentage: "{{workflow.parameters.inst_05_ratio_2}}"}
-        # - { seed: "10606", inst: "6", data_percentage: "{{workflow.parameters.inst_06_ratio_2}}"}
-        dependencies: [agg-05]
-        # when: "{{tasks.agg-05.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+      # # Round 6
+      # - name: train-06
+      #   template: train-job
+      #   arguments:
+      #     parameters:
+      #     - name: seed
+      #       value: "{{item.seed}}"
+      #     - name: train-script
+      #       value: "{{workflow.parameters.train-script}}"
+      #     - name: round
+      #       value: "{{tasks.agg-05.outputs.parameters.next-round}}"
+      #     - name: epochs
+      #       value: "003"
+      #     - name: epoch
+      #       value: "{{tasks.agg-05.outputs.parameters.next-epoch}}"
+      #     - name: inst-id
+      #       value: "{{item.inst}}"
+      #     - name: model_pth
+      #       value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-05.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-05.outputs.parameters.next-round}}_agg.pth"
+      #     - name: data_percentage
+      #       value: "{{item.data_percentage}}"
+      #   withItems:
+      #   - { seed: "10601", inst: "1", data_percentage: "{{workflow.parameters.inst_01_ratio_2}}"}
+      #   # - { seed: "10602", inst: "2", data_percentage: "{{workflow.parameters.inst_02_ratio_2}}"}
+      #   # - { seed: "10603", inst: "3", data_percentage: "{{workflow.parameters.inst_03_ratio_2}}"}
+      #   # - { seed: "10604", inst: "4", data_percentage: "{{workflow.parameters.inst_04_ratio_2}}"}
+      #   # - { seed: "10605", inst: "5", data_percentage: "{{workflow.parameters.inst_05_ratio_2}}"}
+      #   # - { seed: "10606", inst: "6", data_percentage: "{{workflow.parameters.inst_06_ratio_2}}"}
+      #   dependencies: [agg-05]
+      #   # when: "{{tasks.agg-05.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
-      - name: agg-06
-        template: aggregation-job
-        arguments:
-          parameters:
-          - name: agg-script
-            value: "{{workflow.parameters.agg-script}}"
-          - name: round
-            value: "{{tasks.agg-05.outputs.parameters.next-round}}"
-          - name: epochs
-            value: "003"
-          - name: epoch
-            value: "{{tasks.agg-05.outputs.parameters.next-epoch}}"
-          - name: inst-id
-            value: "0"
-          - name: model_pth
-            value: "None"
-          - name: algorithm
-            value: "{{workflow.parameters.agg-algo}}"
-        dependencies: [train-06]
-        # when: "{{tasks.agg-05.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+      # - name: agg-06
+      #   template: aggregation-job
+      #   arguments:
+      #     parameters:
+      #     - name: agg-script
+      #       value: "{{workflow.parameters.agg-script}}"
+      #     - name: round
+      #       value: "{{tasks.agg-05.outputs.parameters.next-round}}"
+      #     - name: epochs
+      #       value: "003"
+      #     - name: epoch
+      #       value: "{{tasks.agg-05.outputs.parameters.next-epoch}}"
+      #     - name: inst-id
+      #       value: "0"
+      #     - name: model_pth
+      #       value: "None"
+      #     - name: algorithm
+      #       value: "{{workflow.parameters.agg-algo}}"
+      #   dependencies: [train-06]
+      #   # when: "{{tasks.agg-05.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
         
-      # Round 7
-      - name: train-07
-        template: train-job
-        arguments:
-          parameters:
-          - name: seed
-            value: "{{item.seed}}"
-          - name: train-script
-            value: "{{workflow.parameters.train-script}}"
-          - name: round
-            value: "{{tasks.agg-06.outputs.parameters.next-round}}"
-          - name: epochs
-            value: "003"
-          - name: epoch
-            value: "{{tasks.agg-06.outputs.parameters.next-epoch}}"
-          - name: inst-id
-            value: "{{item.inst}}"
-          - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-06.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-06.outputs.parameters.next-round}}_agg.pth"
-          - name: data_percentage
-            value: "{{item.data_percentage}}"
-        withItems:
-        - { seed: "10701", inst: "1", data_percentage: "{{workflow.parameters.inst_01_ratio_2}}"}
-        # - { seed: "10702", inst: "2", data_percentage: "{{workflow.parameters.inst_02_ratio_2}}"}
-        # - { seed: "10703", inst: "3", data_percentage: "{{workflow.parameters.inst_03_ratio_2}}"}
-        # - { seed: "10704", inst: "4", data_percentage: "{{workflow.parameters.inst_04_ratio_2}}"}
-        # - { seed: "10705", inst: "5", data_percentage: "{{workflow.parameters.inst_05_ratio_2}}"}
-        # - { seed: "10706", inst: "6", data_percentage: "{{workflow.parameters.inst_06_ratio_2}}"}
-        dependencies: [agg-06]
-        # when: "{{tasks.agg-06.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+      # # Round 7
+      # - name: train-07
+      #   template: train-job
+      #   arguments:
+      #     parameters:
+      #     - name: seed
+      #       value: "{{item.seed}}"
+      #     - name: train-script
+      #       value: "{{workflow.parameters.train-script}}"
+      #     - name: round
+      #       value: "{{tasks.agg-06.outputs.parameters.next-round}}"
+      #     - name: epochs
+      #       value: "003"
+      #     - name: epoch
+      #       value: "{{tasks.agg-06.outputs.parameters.next-epoch}}"
+      #     - name: inst-id
+      #       value: "{{item.inst}}"
+      #     - name: model_pth
+      #       value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-06.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-06.outputs.parameters.next-round}}_agg.pth"
+      #     - name: data_percentage
+      #       value: "{{item.data_percentage}}"
+      #   withItems:
+      #   - { seed: "10701", inst: "1", data_percentage: "{{workflow.parameters.inst_01_ratio_2}}"}
+      #   # - { seed: "10702", inst: "2", data_percentage: "{{workflow.parameters.inst_02_ratio_2}}"}
+      #   # - { seed: "10703", inst: "3", data_percentage: "{{workflow.parameters.inst_03_ratio_2}}"}
+      #   # - { seed: "10704", inst: "4", data_percentage: "{{workflow.parameters.inst_04_ratio_2}}"}
+      #   # - { seed: "10705", inst: "5", data_percentage: "{{workflow.parameters.inst_05_ratio_2}}"}
+      #   # - { seed: "10706", inst: "6", data_percentage: "{{workflow.parameters.inst_06_ratio_2}}"}
+      #   dependencies: [agg-06]
+      #   # when: "{{tasks.agg-06.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
-      - name: agg-07
-        template: aggregation-job
-        arguments:
-          parameters:
-          - name: agg-script
-            value: "{{workflow.parameters.agg-script}}"
-          - name: round
-            value: "{{tasks.agg-06.outputs.parameters.next-round}}"
-          - name: epochs
-            value: "003"
-          - name: epoch
-            value: "{{tasks.agg-06.outputs.parameters.next-epoch}}"
-          - name: inst-id
-            value: "0"
-          - name: model_pth
-            value: "None"
-          - name: algorithm
-            value: "{{workflow.parameters.agg-algo}}"
-        dependencies: [train-07]
-        # when: "{{tasks.agg-06.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+      # - name: agg-07
+      #   template: aggregation-job
+      #   arguments:
+      #     parameters:
+      #     - name: agg-script
+      #       value: "{{workflow.parameters.agg-script}}"
+      #     - name: round
+      #       value: "{{tasks.agg-06.outputs.parameters.next-round}}"
+      #     - name: epochs
+      #       value: "003"
+      #     - name: epoch
+      #       value: "{{tasks.agg-06.outputs.parameters.next-epoch}}"
+      #     - name: inst-id
+      #       value: "0"
+      #     - name: model_pth
+      #       value: "None"
+      #     - name: algorithm
+      #       value: "{{workflow.parameters.agg-algo}}"
+      #   dependencies: [train-07]
+      #   # when: "{{tasks.agg-06.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
         
-      # Round 8
-      - name: train-08
-        template: train-job
-        arguments:
-          parameters:
-          - name: seed
-            value: "{{item.seed}}"
-          - name: train-script
-            value: "{{workflow.parameters.train-script}}"
-          - name: round
-            value: "{{tasks.agg-07.outputs.parameters.next-round}}"
-          - name: epochs
-            value: "003"
-          - name: epoch
-            value: "{{tasks.agg-07.outputs.parameters.next-epoch}}"
-          - name: inst-id
-            value: "{{item.inst}}"
-          - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-07.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-07.outputs.parameters.next-round}}_agg.pth"
-          - name: data_percentage
-            value: "{{item.data_percentage}}"
-        withItems:
-        - { seed: "10801", inst: "1", data_percentage: "{{workflow.parameters.inst_01_ratio_2}}"}
-        # - { seed: "10802", inst: "2", data_percentage: "{{workflow.parameters.inst_02_ratio_2}}"}
-        # - { seed: "10803", inst: "3", data_percentage: "{{workflow.parameters.inst_03_ratio_2}}"}
-        # - { seed: "10804", inst: "4", data_percentage: "{{workflow.parameters.inst_04_ratio_2}}"}
-        # - { seed: "10805", inst: "5", data_percentage: "{{workflow.parameters.inst_05_ratio_2}}"}
-        # - { seed: "10806", inst: "6", data_percentage: "{{workflow.parameters.inst_06_ratio_2}}"}
-        dependencies: [agg-07]
-        # when: "{{tasks.agg-07.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+      # # Round 8
+      # - name: train-08
+      #   template: train-job
+      #   arguments:
+      #     parameters:
+      #     - name: seed
+      #       value: "{{item.seed}}"
+      #     - name: train-script
+      #       value: "{{workflow.parameters.train-script}}"
+      #     - name: round
+      #       value: "{{tasks.agg-07.outputs.parameters.next-round}}"
+      #     - name: epochs
+      #       value: "003"
+      #     - name: epoch
+      #       value: "{{tasks.agg-07.outputs.parameters.next-epoch}}"
+      #     - name: inst-id
+      #       value: "{{item.inst}}"
+      #     - name: model_pth
+      #       value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-07.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-07.outputs.parameters.next-round}}_agg.pth"
+      #     - name: data_percentage
+      #       value: "{{item.data_percentage}}"
+      #   withItems:
+      #   - { seed: "10801", inst: "1", data_percentage: "{{workflow.parameters.inst_01_ratio_2}}"}
+      #   # - { seed: "10802", inst: "2", data_percentage: "{{workflow.parameters.inst_02_ratio_2}}"}
+      #   # - { seed: "10803", inst: "3", data_percentage: "{{workflow.parameters.inst_03_ratio_2}}"}
+      #   # - { seed: "10804", inst: "4", data_percentage: "{{workflow.parameters.inst_04_ratio_2}}"}
+      #   # - { seed: "10805", inst: "5", data_percentage: "{{workflow.parameters.inst_05_ratio_2}}"}
+      #   # - { seed: "10806", inst: "6", data_percentage: "{{workflow.parameters.inst_06_ratio_2}}"}
+      #   dependencies: [agg-07]
+      #   # when: "{{tasks.agg-07.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
-      - name: agg-08
-        template: aggregation-job
-        arguments:
-          parameters:
-          - name: agg-script
-            value: "{{workflow.parameters.agg-script}}"
-          - name: round
-            value: "{{tasks.agg-07.outputs.parameters.next-round}}"
-          - name: epochs
-            value: "003"
-          - name: epoch
-            value: "{{tasks.agg-07.outputs.parameters.next-epoch}}"
-          - name: inst-id
-            value: "0"
-          - name: model_pth
-            value: "None"
-          - name: algorithm
-            value: "{{workflow.parameters.agg-algo}}"
-        dependencies: [train-08]
-        # when: "{{tasks.agg-07.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+      # - name: agg-08
+      #   template: aggregation-job
+      #   arguments:
+      #     parameters:
+      #     - name: agg-script
+      #       value: "{{workflow.parameters.agg-script}}"
+      #     - name: round
+      #       value: "{{tasks.agg-07.outputs.parameters.next-round}}"
+      #     - name: epochs
+      #       value: "003"
+      #     - name: epoch
+      #       value: "{{tasks.agg-07.outputs.parameters.next-epoch}}"
+      #     - name: inst-id
+      #       value: "0"
+      #     - name: model_pth
+      #       value: "None"
+      #     - name: algorithm
+      #       value: "{{workflow.parameters.agg-algo}}"
+      #   dependencies: [train-08]
+      #   # when: "{{tasks.agg-07.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
         
-      # Round 9
-      - name: train-09
-        template: train-job
-        arguments:
-          parameters:
-          - name: seed
-            value: "{{item.seed}}"
-          - name: train-script
-            value: "{{workflow.parameters.train-script}}"
-          - name: round
-            value: "{{tasks.agg-08.outputs.parameters.next-round}}"
-          - name: epochs
-            value: "003"
-          - name: epoch
-            value: "{{tasks.agg-08.outputs.parameters.next-epoch}}"
-          - name: inst-id
-            value: "{{item.inst}}"
-          - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-08.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-08.outputs.parameters.next-round}}_agg.pth"
-          - name: data_percentage
-            value: "{{item.data_percentage}}"
-        withItems:
-        - { seed: "10901", inst: "1", data_percentage: "{{workflow.parameters.inst_01_ratio_2}}"}
-        # - { seed: "10902", inst: "2", data_percentage: "{{workflow.parameters.inst_02_ratio_2}}"}
-        # - { seed: "10903", inst: "3", data_percentage: "{{workflow.parameters.inst_03_ratio_2}}"}
-        # - { seed: "10904", inst: "4", data_percentage: "{{workflow.parameters.inst_04_ratio_2}}"}
-        # - { seed: "10905", inst: "5", data_percentage: "{{workflow.parameters.inst_05_ratio_2}}"}
-        # - { seed: "10906", inst: "6", data_percentage: "{{workflow.parameters.inst_06_ratio_2}}"}
-        dependencies: [agg-08]
-        # when: "{{tasks.agg-08.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+      # # Round 9
+      # - name: train-09
+      #   template: train-job
+      #   arguments:
+      #     parameters:
+      #     - name: seed
+      #       value: "{{item.seed}}"
+      #     - name: train-script
+      #       value: "{{workflow.parameters.train-script}}"
+      #     - name: round
+      #       value: "{{tasks.agg-08.outputs.parameters.next-round}}"
+      #     - name: epochs
+      #       value: "003"
+      #     - name: epoch
+      #       value: "{{tasks.agg-08.outputs.parameters.next-epoch}}"
+      #     - name: inst-id
+      #       value: "{{item.inst}}"
+      #     - name: model_pth
+      #       value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-08.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-08.outputs.parameters.next-round}}_agg.pth"
+      #     - name: data_percentage
+      #       value: "{{item.data_percentage}}"
+      #   withItems:
+      #   - { seed: "10901", inst: "1", data_percentage: "{{workflow.parameters.inst_01_ratio_2}}"}
+      #   # - { seed: "10902", inst: "2", data_percentage: "{{workflow.parameters.inst_02_ratio_2}}"}
+      #   # - { seed: "10903", inst: "3", data_percentage: "{{workflow.parameters.inst_03_ratio_2}}"}
+      #   # - { seed: "10904", inst: "4", data_percentage: "{{workflow.parameters.inst_04_ratio_2}}"}
+      #   # - { seed: "10905", inst: "5", data_percentage: "{{workflow.parameters.inst_05_ratio_2}}"}
+      #   # - { seed: "10906", inst: "6", data_percentage: "{{workflow.parameters.inst_06_ratio_2}}"}
+      #   dependencies: [agg-08]
+      #   # when: "{{tasks.agg-08.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
-      - name: agg-09
-        template: aggregation-job
-        arguments:
-          parameters:
-          - name: agg-script
-            value: "{{workflow.parameters.agg-script}}"
-          - name: round
-            value: "{{tasks.agg-08.outputs.parameters.next-round}}"
-          - name: epochs
-            value: "003"
-          - name: epoch
-            value: "{{tasks.agg-08.outputs.parameters.next-epoch}}"
-          - name: inst-id
-            value: "0"
-          - name: model_pth
-            value: "None"
-          - name: algorithm
-            value: "{{workflow.parameters.agg-algo}}"
-        dependencies: [train-09]
-        # when: "{{tasks.agg-08.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+      # - name: agg-09
+      #   template: aggregation-job
+      #   arguments:
+      #     parameters:
+      #     - name: agg-script
+      #       value: "{{workflow.parameters.agg-script}}"
+      #     - name: round
+      #       value: "{{tasks.agg-08.outputs.parameters.next-round}}"
+      #     - name: epochs
+      #       value: "003"
+      #     - name: epoch
+      #       value: "{{tasks.agg-08.outputs.parameters.next-epoch}}"
+      #     - name: inst-id
+      #       value: "0"
+      #     - name: model_pth
+      #       value: "None"
+      #     - name: algorithm
+      #       value: "{{workflow.parameters.agg-algo}}"
+      #   dependencies: [train-09]
+      #   # when: "{{tasks.agg-08.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
         
       # Round 10
       - name: train-10
