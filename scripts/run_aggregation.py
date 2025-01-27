@@ -146,21 +146,22 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
         logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] local models are from {pth}...")
 
     local_models_with_dlen = [torch.load(m) for m in last_pth_path]
+    JOB_NAME = [el['args'].job_name for el in local_models_with_dlen]
 
     if args.algorithm == "fedavg":
         P = [1 for el in local_models_with_dlen]
         W = [p/sum(P) for p in P]
         M = [el['model'] for el in local_models_with_dlen]
         aggregated_model = fedavg(W, M)
-        for p, w, pth in zip(P, W, last_pth_path):
-            logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][P,W][{p:.2f},{w:.2f}]")
+        for p, w, j in zip(P, W, JOB_NAME):
+            logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][J,P,W][{j},{p:.2f},{w:.2f}]")
     elif args.algorithm == "fedwavg":
         P = [el['P'] for el in local_models_with_dlen]
         W = [p/sum(P) for p in P]
         M = [el['model'] for el in local_models_with_dlen]
         aggregated_model = fedwavg(W, M)
-        for p, w, pth in zip(P, W, last_pth_path):
-            logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][P,W][{p:.2f},{w:.2f}]")
+        for p, w, j in zip(P, W, JOB_NAME):
+            logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][J,P,W][{j},{p:.2f},{w:.2f}]")
     elif args.algorithm == "fedpod":
         P = [el['P'] for el in local_models_with_dlen]
         I = [el['I'] for el in local_models_with_dlen]
@@ -175,8 +176,8 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
             W = [alpha*p/sum(P) + beta*i/sum(I) + gamma*d/sum(D) for p, i, d in zip(P, I, D)]
         M = [el['model'] for el in local_models_with_dlen]
         aggregated_model = fedPOD(W, M)
-        for p, i, d, w, pth in zip(P, I, D, W, last_pth_path):
-            logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][P,I,D,W][{p:.2f},{i:.2f},{d:.2f},{w:.2f}]")
+        for p, i, d, w, j in zip(P, I, D, W, JOB_NAME):
+            logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][J,P,I,D,W][{j}{p:.2f},{i:.2f},{d:.2f},{w:.2f}]")
     else:
         raise NotImplementedError(f"{args.algorithm.upper()} is not implemented on Aggregator()")
 
