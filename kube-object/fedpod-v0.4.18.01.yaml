@@ -45,6 +45,8 @@ spec:
       value: "100"
     - name: inst_06_ratio_1
       value: "100"
+    - name: inst_18_ratio_1
+      value: "100"
     - name: inst_01_ratio_2
       value: "100"
     - name: inst_02_ratio_2
@@ -224,6 +226,7 @@ spec:
         # - { seed: "10204", inst: "4", data_percentage: "{{workflow.parameters.inst_04_ratio_1}}"}
         # - { seed: "10205", inst: "5", data_percentage: "{{workflow.parameters.inst_05_ratio_1}}"}
         # - { seed: "10206", inst: "6", data_percentage: "{{workflow.parameters.inst_06_ratio_1}}"}
+        - { seed: "10218", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_1}}"}
         dependencies: [agg-01]
         when: "{{tasks.agg-01.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -277,6 +280,7 @@ spec:
         # - { seed: "10304", inst: "4", data_percentage: "{{workflow.parameters.inst_04_ratio_1}}"}
         # - { seed: "10305", inst: "5", data_percentage: "{{workflow.parameters.inst_05_ratio_1}}"}
         # - { seed: "10306", inst: "6", data_percentage: "{{workflow.parameters.inst_06_ratio_1}}"}
+        - { seed: "10318", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_1}}"}
         # dependencies: [agg-02]
         dependencies: [agg-02]
 
