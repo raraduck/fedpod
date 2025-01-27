@@ -650,7 +650,7 @@ spec:
         # - { seed: "11005", inst: "5", data_percentage: "{{workflow.parameters.inst_05_ratio_2}}"}
         # - { seed: "11006", inst: "6", data_percentage: "{{workflow.parameters.inst_06_ratio_2}}"}
         - { seed: "11018", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_2}}"}
-        dependencies: [agg-09]
+        # dependencies: [agg-09]
         # when: "{{tasks.agg-09.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-10
