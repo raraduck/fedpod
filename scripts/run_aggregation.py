@@ -171,7 +171,7 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
         gamma = 0.7
         if sum(I) == 0 or sum(D) == 0:
             W = [p/sum(P) for p in P]
-            logger.warn(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][{j}] I or D term is zero")
+            logger.warn(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] I or D term is zero")
         else:
             W = [alpha*p/sum(P) + beta*i/sum(I) + gamma*d/sum(D) for p, i, d in zip(P, I, D)]
         M = [el['model'] for el in local_models_with_dlen]
