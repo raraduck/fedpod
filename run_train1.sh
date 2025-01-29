@@ -76,7 +76,7 @@ python3 scripts/run_train.py \
   \
   --weight_path $model_pth \
   --input_channel_names [t1,t1ce,t2,flair] \
-  --label_groups [[1,4,2]] \
+  --label_groups [[1,4],[2,2]] \
   --label_names [TC,ED] \
   --label_index [1,2] \
   --unet_arch unet \
