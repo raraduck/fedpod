@@ -61,7 +61,7 @@ python3 scripts/run_train.py \
   --epochs $epochs \
   --epoch $epoch \
   \
-  --resize 128 \
+  --resize 96 \
   --patch_size 96 \
   --zoom 1 \
   --flip_lr 0 \
