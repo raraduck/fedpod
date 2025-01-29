@@ -16,9 +16,10 @@ data_percentage=""
 data_root=""
 inst_root="inst_*"
 data_set=""
+intput_channels=""
 
 # 명령줄 옵션 처리
-while getopts S:s:f:m:g:J:R:r:E:e:i:c:M:p:D:d: option
+while getopts S:s:f:m:g:J:R:r:E:e:i:c:M:p:D:d:C: option
 do
     case "${option}"
     in
@@ -38,14 +39,15 @@ do
         p) data_percentage=${OPTARG};;
         D) data_root=${OPTARG};;
         d) data_set=${OPTARG};;
+        C) input_channels=${OPTARG};;
     esac
 done
-echo "seed: $seed, save_infer: $save_infer, eval_freq: $eval_freq, milestone: $milestone, gpu: $use_gpu, job: $job_name, rounds: $rounds, round: $round, epochs: $epochs, epoch: $epoch, inst: $inst_id, split_csv: $split_csv, model_pth: $model_pth, data_percentage: $data_percentage, data_root: $data_root, data_root: $data_set"
+echo "seed: $seed, save_infer: $save_infer, eval_freq: $eval_freq, milestone: $milestone, gpu: $use_gpu, job: $job_name, rounds: $rounds, round: $round, epochs: $epochs, epoch: $epoch, inst: $inst_id, split_csv: $split_csv, model_pth: $model_pth, data_percentage: $data_percentage, data_root: $data_root, data_root: $data_set, input_channels: $input_channels"
 
 # 필수 옵션 검사
-if [ -z "$seed" ] || [ -z "$save_infer" ] || [ -z "$eval_freq" ] || [ -z "$milestone" ] || [ -z "$use_gpu" ] || [ -z "$job_name" ] || [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$epochs" ] || [ -z "$epoch" ] || [ -z "$inst_id" ] || [ -z "$split_csv" ] || [ -z "$model_pth" ] || [ -z "$data_percentage" ] || [ -z "$data_root" ] || [ -z "$data_set" ]; then
+if [ -z "$seed" ] || [ -z "$save_infer" ] || [ -z "$eval_freq" ] || [ -z "$milestone" ] || [ -z "$use_gpu" ] || [ -z "$job_name" ] || [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$epochs" ] || [ -z "$epoch" ] || [ -z "$inst_id" ] || [ -z "$split_csv" ] || [ -z "$model_pth" ] || [ -z "$data_percentage" ] || [ -z "$data_root" ] || [ -z "$data_set" ] || [ -z "$input_channels" ]; then
     echo "Error: All parameters are required."
-    echo "Usage: $0 -S <seed> -s <save_infer> -f <eval_freq> -m <milestone> -g <use_gpu> -J <job_name> -R <rounds> -r <round> -E <epochs> -e <epoch> -i <inst_id> -c <split_csv> -M <model_pth> -p <data_percentage> -D <data_root> -d <data_set>"
+    echo "Usage: $0 -S <seed> -s <save_infer> -f <eval_freq> -m <milestone> -g <use_gpu> -J <job_name> -R <rounds> -r <round> -E <epochs> -e <epoch> -i <inst_id> -c <split_csv> -M <model_pth> -p <data_percentage> -D <data_root> -d <data_set> -C <input_channels>"
     exit 1
 fi
 
@@ -75,7 +77,7 @@ python3 scripts/run_train.py \
   --batch_size 1 \
   \
   --weight_path $model_pth \
-  --input_channel_names [t1,t1ce,t2,flair] \
+  --input_channel_names $input_channels \
   --label_groups [[1,2,4]] \
   --label_names [WT] \
   --label_index [1] \

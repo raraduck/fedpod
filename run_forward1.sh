@@ -12,7 +12,7 @@ test_mode=""
 data_root=""
 data_set=""
 inst_root="inst_*"
-# intput_channels="[t1]"
+intput_channels=""
 
 # 명령줄 옵션 처리
 while getopts s:g:J:R:r:e:i:c:M:t:D:d:n:C: option
@@ -53,8 +53,8 @@ python3 scripts/run_forward.py \
     --round $round \
     --epoch $curr_epoch \
     \
-    --resize 128 \
-    --patch_size 128 \
+    --resize 96 \
+    --patch_size 96 \
     --zoom 1 \
     --flip_lr 0 \
     --dataset $data_set \

@@ -1617,6 +1617,7 @@ spec:
           -p {{inputs.parameters.data_percentage}}
           -D {{workflow.parameters.data_root}} 
           -d {{workflow.parameters.data_set}}
+          -C {{workflow.parameters.input_channel_names}}
       resources:
         requests:
           cpu: "2"
