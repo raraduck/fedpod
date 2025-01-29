@@ -31,6 +31,12 @@ spec:
       value: "None"
     - name: input_channel_names
       value: "None"
+    - name: label_groups
+      value: "None"
+    - name: label_names
+      value: "None"
+    - name: label_index
+      value: "None"
     - name: agg-algo
       value: "fedavg"
     - name: inst_01_ratio_0_5
@@ -1574,6 +1580,12 @@ spec:
             value: "inst_00"
           - name: input_channels
             value: "{{workflow.parameters.input_channel_names}}"
+          - name: label_groups
+            value: "{{workflow.parameters.label_groups}}"
+          - name: label_names
+            value: "{{workflow.parameters.label_names}}"
+          - name: label_index
+            value: "{{workflow.parameters.label_index}}"
         withItems:
         - { job-name: "{{workflow.parameters.job-prefix}}_test", 
             rounds: "{{workflow.parameters.rounds}}", 
@@ -1618,6 +1630,9 @@ spec:
           -D {{workflow.parameters.data_root}} 
           -d {{workflow.parameters.data_set}}
           -C {{workflow.parameters.input_channel_names}}
+          -G {{workflow.parameters.label_groups}}
+          -N {{workflow.parameters.label_names}}
+          -I {{workflow.parameters.label_index}}
       resources:
         requests:
           cpu: "2"
@@ -1748,6 +1763,9 @@ spec:
       - name: data_set
       - name: inst_root
       - name: input_channels
+      - name: label_groups
+      - name: label_names
+      - name: label_index
     container:
       image: dwnusa/fedpod:v0.4.18.03
       imagePullPolicy: Always
@@ -1769,6 +1787,9 @@ spec:
           -d {{inputs.parameters.data_set}}
           -n {{inputs.parameters.inst_root}}
           -C {{inputs.parameters.input_channels}}
+          -G {{inputs.parameters.label_groups}}
+          -N {{inputs.parameters.label_names}}
+          -I {{inputs.parameters.label_index}}
       resources:
         requests:
           cpu: "2"
