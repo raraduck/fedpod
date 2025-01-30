@@ -91,7 +91,7 @@ python3 scripts/run_train.py \
   --channels_list [32,64,128,256] \
   --block res \
   --optim adamw \
-  --lr 1e-4 \
+  --lr 1e-3 \
   --ds_layer 1 \
   --kernel_size 3 \
   --norm instance \
