@@ -69,8 +69,8 @@ python3 scripts/run_train.py \
   --epochs $epochs \
   --epoch $epoch \
   \
-  --resize 96 \
-  --patch_size 96 \
+  --resize 128 \
+  --patch_size 128 \
   --zoom 1 \
   --flip_lr 0 \
   --dataset $data_set \
@@ -91,6 +91,7 @@ python3 scripts/run_train.py \
   --channels_list [32,64,128,256] \
   --block res \
   --optim adamw \
+  --lr 1e-4 \
   --ds_layer 1 \
   --kernel_size 3 \
   --norm instance \

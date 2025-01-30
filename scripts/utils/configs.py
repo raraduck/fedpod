@@ -49,7 +49,7 @@ def parse_args(argv):
     parser.add_argument('--batch_size', type=int, default=2)
     parser.add_argument('--optim', type=str, default='adam', help='optimizer',
         choices=['adam', 'adamw', 'sgd'])
-    parser.add_argument('--lr', type=float, default=1e-4, help='learning rate')
+    parser.add_argument('--lr', type=float, default=1e-3, help='learning rate')
     parser.add_argument('--clip_grad', type=int, choices=[0, 1], default=0, help='whether to clip gradient')
     parser.add_argument('--weight_decay', '--wd', default=1e-4, type=float, help='weight decay')
     parser.add_argument('--amp', type=int, choices=[0, 1], default=0, help='using mixed precision')
