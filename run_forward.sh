@@ -43,7 +43,7 @@ do
         p) seg_postfix=${OPTARG};;
     esac
 done
-echo "save_infer: $save_infer, gpu: $use_gpu, job: $job_name, rounds: $round, curr_epoch: $curr_epoch, inst: $inst_id, split_csv: $split_csv, model_pth: $model_pth, test_mode: $test_mode, data_root: $data_root, data_set: $data_set, inst_root: $inst_root, input_channels: $input_channels, label_groups: $label_groups, label_names: $label_names, label_index: $label_index"
+echo "save_infer: $save_infer, gpu: $use_gpu, job: $job_name, rounds: $round, curr_epoch: $curr_epoch, inst: $inst_id, split_csv: $split_csv, model_pth: $model_pth, test_mode: $test_mode, data_root: $data_root, data_set: $data_set, inst_root: $inst_root, input_channels: $input_channels, label_groups: $label_groups, label_names: $label_names, label_index: $label_index, seg_postfix: $seg_postfix"
 
 # 필수 옵션 검사
 if [ -z "$save_infer" ] || [ -z "$use_gpu" ] || [ -z "$job_name" ] ||  [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$curr_epoch" ] || [ -z "$inst_id" ] || [ -z "$split_csv" ] || [ -z "$inst_id" ] || [ -z "$test_mode" ] || [ -z "$data_set" ] || [ -z "$input_channels" ] || [ -z "$label_groups" ] || [ -z "$label_names" ] || [ -z "$label_index" ] || [ -z "$seg_postfix" ]; then

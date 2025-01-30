@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
-  generateName: fedavg-
+  generateName: fed-
 spec:
   entrypoint: parallel-dag
   onExit: infer-dag

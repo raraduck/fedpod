@@ -13,7 +13,7 @@ input_channel_names: "[t1,t1ce,t2,flair]"
 label_groups: "[[1,2,4]]"
 label_names: "[WT]"
 label_index: "[1]"
-# agg-algo: "fedavg"
+agg-algo: "fedavg"
 seg_postfix: "_seg"
 split_csv: "experiments/FETS1470_v1.csv"
 

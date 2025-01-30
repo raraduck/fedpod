@@ -1586,6 +1586,8 @@ spec:
             value: "{{workflow.parameters.label_names}}"
           - name: label_index
             value: "{{workflow.parameters.label_index}}"
+          - name: seg_postfix
+            value: "{{workflow.parameters.seg_postfix}}"
         withItems:
         - { job-name: "{{workflow.parameters.job-prefix}}_test", 
             rounds: "{{workflow.parameters.rounds}}", 
@@ -1766,6 +1768,7 @@ spec:
       - name: label_groups
       - name: label_names
       - name: label_index
+      - name: seg_postfix
     container:
       image: dwnusa/fedpod:v0.4.18.03
       imagePullPolicy: Always
@@ -1790,6 +1793,7 @@ spec:
           -G {{inputs.parameters.label_groups}}
           -N {{inputs.parameters.label_names}}
           -I {{inputs.parameters.label_index}}
+          -p {{inputs.parameters.seg_postfix}}
       resources:
         requests:
           cpu: "2"
