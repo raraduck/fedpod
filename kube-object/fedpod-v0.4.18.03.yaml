@@ -85,51 +85,97 @@ spec:
       value: "100"
     - name: inst_23_ratio_0_5
       value: "100"
-    - name: inst_01_ratio_6_14
+    - name: inst_01_ratio_6_10
       value: "100"
-    - name: inst_02_ratio_6_14
+    - name: inst_02_ratio_6_10
       value: "100"
-    - name: inst_03_ratio_6_14
+    - name: inst_03_ratio_6_10
       value: "100"
-    - name: inst_04_ratio_6_14
+    - name: inst_04_ratio_6_10
       value: "100"
-    - name: inst_05_ratio_6_14
+    - name: inst_05_ratio_6_10
       value: "100"
-    - name: inst_06_ratio_6_14
+    - name: inst_06_ratio_6_10
       value: "100"
-    - name: inst_07_ratio_6_14
+    - name: inst_07_ratio_6_10
       value: "100"
-    - name: inst_08_ratio_6_14
+    - name: inst_08_ratio_6_10
       value: "100"
-    - name: inst_09_ratio_6_14
+    - name: inst_09_ratio_6_10
       value: "100"
-    - name: inst_10_ratio_6_14
+    - name: inst_10_ratio_6_10
       value: "100"
-    - name: inst_11_ratio_6_14
+    - name: inst_11_ratio_6_10
       value: "100"
-    - name: inst_12_ratio_6_14
+    - name: inst_12_ratio_6_10
       value: "100"
-    - name: inst_13_ratio_6_14
+    - name: inst_13_ratio_6_10
       value: "100"
-    - name: inst_14_ratio_6_14
+    - name: inst_14_ratio_6_10
       value: "100"
-    - name: inst_15_ratio_6_14
+    - name: inst_15_ratio_6_10
       value: "100"
-    - name: inst_16_ratio_6_14
+    - name: inst_16_ratio_6_10
       value: "100"
-    - name: inst_17_ratio_6_14
+    - name: inst_17_ratio_6_10
       value: "100"
-    - name: inst_18_ratio_6_14
+    - name: inst_18_ratio_6_10
       value: "100"
-    - name: inst_19_ratio_6_14
+    - name: inst_19_ratio_6_10
       value: "100"
-    - name: inst_20_ratio_6_14
+    - name: inst_20_ratio_6_10
       value: "100"
-    - name: inst_21_ratio_6_14
+    - name: inst_21_ratio_6_10
       value: "100"
-    - name: inst_22_ratio_6_14
+    - name: inst_22_ratio_6_10
       value: "100"
-    - name: inst_23_ratio_6_14
+    - name: inst_23_ratio_6_10
+      value: "100"
+    - name: inst_01_ratio_11_14
+      value: "100"
+    - name: inst_02_ratio_11_14
+      value: "100"
+    - name: inst_03_ratio_11_14
+      value: "100"
+    - name: inst_04_ratio_11_14
+      value: "100"
+    - name: inst_05_ratio_11_14
+      value: "100"
+    - name: inst_06_ratio_11_14
+      value: "100"
+    - name: inst_07_ratio_11_14
+      value: "100"
+    - name: inst_08_ratio_11_14
+      value: "100"
+    - name: inst_09_ratio_11_14
+      value: "100"
+    - name: inst_10_ratio_11_14
+      value: "100"
+    - name: inst_11_ratio_11_14
+      value: "100"
+    - name: inst_12_ratio_11_14
+      value: "100"
+    - name: inst_13_ratio_11_14
+      value: "100"
+    - name: inst_14_ratio_11_14
+      value: "100"
+    - name: inst_15_ratio_11_14
+      value: "100"
+    - name: inst_16_ratio_11_14
+      value: "100"
+    - name: inst_17_ratio_11_14
+      value: "100"
+    - name: inst_18_ratio_11_14
+      value: "100"
+    - name: inst_19_ratio_11_14
+      value: "100"
+    - name: inst_20_ratio_11_14
+      value: "100"
+    - name: inst_21_ratio_11_14
+      value: "100"
+    - name: inst_22_ratio_11_14
+      value: "100"
+    - name: inst_23_ratio_11_14
       value: "100"
     - name: inst_01_ratio_15_19
       value: "100"
@@ -598,29 +644,29 @@ spec:
           - name: data_percentage
             value: "{{item.data_percentage}}"
         withItems:
-        - { seed: "10601", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_6_14}}"}
-        - { seed: "10602", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_6_14}}"}
-        - { seed: "10603", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_6_14}}"}
-        - { seed: "10604", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_6_14}}"}
-        - { seed: "10605", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_6_14}}"}
-        - { seed: "10606", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_6_14}}"}
-        - { seed: "10607", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_6_14}}"}
-        - { seed: "10608", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_6_14}}"}
-        - { seed: "10609", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_6_14}}"}
-        - { seed: "10610", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_6_14}}"}
-        - { seed: "10611", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_6_14}}"}
-        - { seed: "10612", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_6_14}}"}
-        - { seed: "10613", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_6_14}}"}
-        - { seed: "10614", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_6_14}}"}
-        - { seed: "10615", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_6_14}}"}
-        - { seed: "10616", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_6_14}}"}
-        - { seed: "10617", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_6_14}}"}
-        - { seed: "10618", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_6_14}}"}
-        - { seed: "10619", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_6_14}}"}
-        - { seed: "10620", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_6_14}}"}
-        - { seed: "10621", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_6_14}}"}
-        - { seed: "10622", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_6_14}}"}
-        - { seed: "10623", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_6_14}}"}
+        - { seed: "10601", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_6_10}}"}
+        - { seed: "10602", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_6_10}}"}
+        - { seed: "10603", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_6_10}}"}
+        - { seed: "10604", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_6_10}}"}
+        - { seed: "10605", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_6_10}}"}
+        - { seed: "10606", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_6_10}}"}
+        - { seed: "10607", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_6_10}}"}
+        - { seed: "10608", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_6_10}}"}
+        - { seed: "10609", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_6_10}}"}
+        - { seed: "10610", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_6_10}}"}
+        - { seed: "10611", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_6_10}}"}
+        - { seed: "10612", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_6_10}}"}
+        - { seed: "10613", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_6_10}}"}
+        - { seed: "10614", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_6_10}}"}
+        - { seed: "10615", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_6_10}}"}
+        - { seed: "10616", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_6_10}}"}
+        - { seed: "10617", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_6_10}}"}
+        - { seed: "10618", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_6_10}}"}
+        - { seed: "10619", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_6_10}}"}
+        - { seed: "10620", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_6_10}}"}
+        - { seed: "10621", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_6_10}}"}
+        - { seed: "10622", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_6_10}}"}
+        - { seed: "10623", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_6_10}}"}
         dependencies: [agg-05]
         # when: "{{tasks.agg-05.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -667,29 +713,29 @@ spec:
           - name: data_percentage
             value: "{{item.data_percentage}}"
         withItems:
-        - { seed: "10701", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_6_14}}"}
-        - { seed: "10702", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_6_14}}"}
-        - { seed: "10703", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_6_14}}"}
-        - { seed: "10704", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_6_14}}"}
-        - { seed: "10705", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_6_14}}"}
-        - { seed: "10706", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_6_14}}"}
-        - { seed: "10707", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_6_14}}"}
-        - { seed: "10708", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_6_14}}"}
-        - { seed: "10709", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_6_14}}"}
-        - { seed: "10710", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_6_14}}"}
-        - { seed: "10711", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_6_14}}"}
-        - { seed: "10712", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_6_14}}"}
-        - { seed: "10713", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_6_14}}"}
-        - { seed: "10714", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_6_14}}"}
-        - { seed: "10715", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_6_14}}"}
-        - { seed: "10716", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_6_14}}"}
-        - { seed: "10717", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_6_14}}"}
-        - { seed: "10718", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_6_14}}"}
-        - { seed: "10719", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_6_14}}"}
-        - { seed: "10720", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_6_14}}"}
-        - { seed: "10721", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_6_14}}"}
-        - { seed: "10722", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_6_14}}"}
-        - { seed: "10723", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_6_14}}"}
+        - { seed: "10701", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_6_10}}"}
+        - { seed: "10702", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_6_10}}"}
+        - { seed: "10703", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_6_10}}"}
+        - { seed: "10704", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_6_10}}"}
+        - { seed: "10705", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_6_10}}"}
+        - { seed: "10706", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_6_10}}"}
+        - { seed: "10707", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_6_10}}"}
+        - { seed: "10708", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_6_10}}"}
+        - { seed: "10709", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_6_10}}"}
+        - { seed: "10710", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_6_10}}"}
+        - { seed: "10711", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_6_10}}"}
+        - { seed: "10712", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_6_10}}"}
+        - { seed: "10713", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_6_10}}"}
+        - { seed: "10714", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_6_10}}"}
+        - { seed: "10715", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_6_10}}"}
+        - { seed: "10716", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_6_10}}"}
+        - { seed: "10717", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_6_10}}"}
+        - { seed: "10718", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_6_10}}"}
+        - { seed: "10719", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_6_10}}"}
+        - { seed: "10720", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_6_10}}"}
+        - { seed: "10721", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_6_10}}"}
+        - { seed: "10722", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_6_10}}"}
+        - { seed: "10723", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_6_10}}"}
         dependencies: [agg-06]
         # when: "{{tasks.agg-06.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -736,29 +782,29 @@ spec:
           - name: data_percentage
             value: "{{item.data_percentage}}"
         withItems:
-        - { seed: "10801", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_6_14}}"}
-        - { seed: "10802", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_6_14}}"}
-        - { seed: "10803", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_6_14}}"}
-        - { seed: "10804", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_6_14}}"}
-        - { seed: "10805", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_6_14}}"}
-        - { seed: "10806", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_6_14}}"}
-        - { seed: "10807", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_6_14}}"}
-        - { seed: "10808", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_6_14}}"}
-        - { seed: "10809", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_6_14}}"}
-        - { seed: "10810", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_6_14}}"}
-        - { seed: "10811", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_6_14}}"}
-        - { seed: "10812", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_6_14}}"}
-        - { seed: "10813", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_6_14}}"}
-        - { seed: "10814", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_6_14}}"}
-        - { seed: "10815", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_6_14}}"}
-        - { seed: "10816", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_6_14}}"}
-        - { seed: "10817", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_6_14}}"}
-        - { seed: "10818", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_6_14}}"}
-        - { seed: "10819", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_6_14}}"}
-        - { seed: "10820", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_6_14}}"}
-        - { seed: "10821", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_6_14}}"}
-        - { seed: "10822", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_6_14}}"}
-        - { seed: "10823", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_6_14}}"}
+        - { seed: "10801", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_6_10}}"}
+        - { seed: "10802", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_6_10}}"}
+        - { seed: "10803", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_6_10}}"}
+        - { seed: "10804", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_6_10}}"}
+        - { seed: "10805", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_6_10}}"}
+        - { seed: "10806", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_6_10}}"}
+        - { seed: "10807", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_6_10}}"}
+        - { seed: "10808", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_6_10}}"}
+        - { seed: "10809", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_6_10}}"}
+        - { seed: "10810", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_6_10}}"}
+        - { seed: "10811", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_6_10}}"}
+        - { seed: "10812", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_6_10}}"}
+        - { seed: "10813", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_6_10}}"}
+        - { seed: "10814", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_6_10}}"}
+        - { seed: "10815", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_6_10}}"}
+        - { seed: "10816", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_6_10}}"}
+        - { seed: "10817", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_6_10}}"}
+        - { seed: "10818", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_6_10}}"}
+        - { seed: "10819", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_6_10}}"}
+        - { seed: "10820", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_6_10}}"}
+        - { seed: "10821", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_6_10}}"}
+        - { seed: "10822", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_6_10}}"}
+        - { seed: "10823", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_6_10}}"}
         dependencies: [agg-07]
         # when: "{{tasks.agg-07.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -805,29 +851,29 @@ spec:
           - name: data_percentage
             value: "{{item.data_percentage}}"
         withItems:
-        - { seed: "10901", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_6_14}}"}
-        - { seed: "10902", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_6_14}}"}
-        - { seed: "10903", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_6_14}}"}
-        - { seed: "10904", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_6_14}}"}
-        - { seed: "10905", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_6_14}}"}
-        - { seed: "10906", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_6_14}}"}
-        - { seed: "10907", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_6_14}}"}
-        - { seed: "10908", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_6_14}}"}
-        - { seed: "10909", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_6_14}}"}
-        - { seed: "10910", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_6_14}}"}
-        - { seed: "10911", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_6_14}}"}
-        - { seed: "10912", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_6_14}}"}
-        - { seed: "10913", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_6_14}}"}
-        - { seed: "10914", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_6_14}}"}
-        - { seed: "10915", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_6_14}}"}
-        - { seed: "10916", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_6_14}}"}
-        - { seed: "10917", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_6_14}}"}
-        - { seed: "10918", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_6_14}}"}
-        - { seed: "10919", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_6_14}}"}
-        - { seed: "10920", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_6_14}}"}
-        - { seed: "10921", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_6_14}}"}
-        - { seed: "10922", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_6_14}}"}
-        - { seed: "10923", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_6_14}}"}
+        - { seed: "10901", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_6_10}}"}
+        - { seed: "10902", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_6_10}}"}
+        - { seed: "10903", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_6_10}}"}
+        - { seed: "10904", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_6_10}}"}
+        - { seed: "10905", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_6_10}}"}
+        - { seed: "10906", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_6_10}}"}
+        - { seed: "10907", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_6_10}}"}
+        - { seed: "10908", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_6_10}}"}
+        - { seed: "10909", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_6_10}}"}
+        - { seed: "10910", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_6_10}}"}
+        - { seed: "10911", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_6_10}}"}
+        - { seed: "10912", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_6_10}}"}
+        - { seed: "10913", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_6_10}}"}
+        - { seed: "10914", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_6_10}}"}
+        - { seed: "10915", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_6_10}}"}
+        - { seed: "10916", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_6_10}}"}
+        - { seed: "10917", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_6_10}}"}
+        - { seed: "10918", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_6_10}}"}
+        - { seed: "10919", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_6_10}}"}
+        - { seed: "10920", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_6_10}}"}
+        - { seed: "10921", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_6_10}}"}
+        - { seed: "10922", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_6_10}}"}
+        - { seed: "10923", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_6_10}}"}
         dependencies: [agg-08]
         # when: "{{tasks.agg-08.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -877,29 +923,29 @@ spec:
           - name: data_percentage
             value: "{{item.data_percentage}}"
         withItems:
-        - { seed: "11001", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_6_14}}"}
-        - { seed: "11002", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_6_14}}"}
-        - { seed: "11003", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_6_14}}"}
-        - { seed: "11004", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_6_14}}"}
-        - { seed: "11005", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_6_14}}"}
-        - { seed: "11006", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_6_14}}"}
-        - { seed: "11007", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_6_14}}"}
-        - { seed: "11008", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_6_14}}"}
-        - { seed: "11009", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_6_14}}"}
-        - { seed: "11010", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_6_14}}"}
-        - { seed: "11011", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_6_14}}"}
-        - { seed: "11012", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_6_14}}"}
-        - { seed: "11013", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_6_14}}"}
-        - { seed: "11014", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_6_14}}"}
-        - { seed: "11015", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_6_14}}"}
-        - { seed: "11016", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_6_14}}"}
-        - { seed: "11017", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_6_14}}"}
-        - { seed: "11018", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_6_14}}"}
-        - { seed: "11019", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_6_14}}"}
-        - { seed: "11020", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_6_14}}"}
-        - { seed: "11021", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_6_14}}"}
-        - { seed: "11022", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_6_14}}"}
-        - { seed: "11023", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_6_14}}"}
+        - { seed: "11001", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_6_10}}"}
+        - { seed: "11002", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_6_10}}"}
+        - { seed: "11003", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_6_10}}"}
+        - { seed: "11004", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_6_10}}"}
+        - { seed: "11005", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_6_10}}"}
+        - { seed: "11006", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_6_10}}"}
+        - { seed: "11007", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_6_10}}"}
+        - { seed: "11008", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_6_10}}"}
+        - { seed: "11009", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_6_10}}"}
+        - { seed: "11010", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_6_10}}"}
+        - { seed: "11011", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_6_10}}"}
+        - { seed: "11012", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_6_10}}"}
+        - { seed: "11013", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_6_10}}"}
+        - { seed: "11014", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_6_10}}"}
+        - { seed: "11015", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_6_10}}"}
+        - { seed: "11016", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_6_10}}"}
+        - { seed: "11017", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_6_10}}"}
+        - { seed: "11018", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_6_10}}"}
+        - { seed: "11019", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_6_10}}"}
+        - { seed: "11020", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_6_10}}"}
+        - { seed: "11021", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_6_10}}"}
+        - { seed: "11022", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_6_10}}"}
+        - { seed: "11023", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_6_10}}"}
         dependencies: [agg-09]
         # when: "{{tasks.agg-09.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -948,29 +994,29 @@ spec:
           - name: data_percentage
             value: "{{item.data_percentage}}"
         withItems:
-        - { seed: "11101", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_6_14}}"}
-        - { seed: "11102", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_6_14}}"}
-        - { seed: "11103", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_6_14}}"}
-        - { seed: "11104", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_6_14}}"}
-        - { seed: "11105", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_6_14}}"}
-        - { seed: "11106", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_6_14}}"}
-        - { seed: "11107", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_6_14}}"}
-        - { seed: "11108", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_6_14}}"}
-        - { seed: "11109", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_6_14}}"}
-        - { seed: "11110", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_6_14}}"}
-        - { seed: "11111", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_6_14}}"}
-        - { seed: "11112", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_6_14}}"}
-        - { seed: "11113", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_6_14}}"}
-        - { seed: "11114", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_6_14}}"}
-        - { seed: "11115", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_6_14}}"}
-        - { seed: "11116", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_6_14}}"}
-        - { seed: "11117", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_6_14}}"}
-        - { seed: "11118", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_6_14}}"}
-        - { seed: "11119", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_6_14}}"}
-        - { seed: "11120", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_6_14}}"}
-        - { seed: "11121", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_6_14}}"}
-        - { seed: "11122", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_6_14}}"}
-        - { seed: "11123", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_6_14}}"}
+        - { seed: "11101", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_11_14}}"}
+        - { seed: "11102", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_11_14}}"}
+        - { seed: "11103", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_11_14}}"}
+        - { seed: "11104", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_11_14}}"}
+        - { seed: "11105", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_11_14}}"}
+        - { seed: "11106", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_11_14}}"}
+        - { seed: "11107", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_11_14}}"}
+        - { seed: "11108", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_11_14}}"}
+        - { seed: "11109", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_11_14}}"}
+        - { seed: "11110", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_11_14}}"}
+        - { seed: "11111", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_11_14}}"}
+        - { seed: "11112", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_11_14}}"}
+        - { seed: "11113", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_11_14}}"}
+        - { seed: "11114", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_11_14}}"}
+        - { seed: "11115", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_11_14}}"}
+        - { seed: "11116", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_11_14}}"}
+        - { seed: "11117", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_11_14}}"}
+        - { seed: "11118", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_11_14}}"}
+        - { seed: "11119", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_11_14}}"}
+        - { seed: "11120", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_11_14}}"}
+        - { seed: "11121", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_11_14}}"}
+        - { seed: "11122", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_11_14}}"}
+        - { seed: "11123", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_11_14}}"}
         dependencies: [agg-10]
         # when: "{{tasks.agg-10.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -1017,29 +1063,29 @@ spec:
           - name: data_percentage
             value: "{{item.data_percentage}}"
         withItems:
-        - { seed: "11201", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_6_14}}"}
-        - { seed: "11202", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_6_14}}"}
-        - { seed: "11203", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_6_14}}"}
-        - { seed: "11204", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_6_14}}"}
-        - { seed: "11205", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_6_14}}"}
-        - { seed: "11206", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_6_14}}"}
-        - { seed: "11207", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_6_14}}"}
-        - { seed: "11208", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_6_14}}"}
-        - { seed: "11209", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_6_14}}"}
-        - { seed: "11210", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_6_14}}"}
-        - { seed: "11211", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_6_14}}"}
-        - { seed: "11212", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_6_14}}"}
-        - { seed: "11213", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_6_14}}"}
-        - { seed: "11214", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_6_14}}"}
-        - { seed: "11215", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_6_14}}"}
-        - { seed: "11216", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_6_14}}"}
-        - { seed: "11217", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_6_14}}"}
-        - { seed: "11218", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_6_14}}"}
-        - { seed: "11219", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_6_14}}"}
-        - { seed: "11220", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_6_14}}"}
-        - { seed: "11221", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_6_14}}"}
-        - { seed: "11222", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_6_14}}"}
-        - { seed: "11223", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_6_14}}"}
+        - { seed: "11201", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_11_14}}"}
+        - { seed: "11202", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_11_14}}"}
+        - { seed: "11203", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_11_14}}"}
+        - { seed: "11204", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_11_14}}"}
+        - { seed: "11205", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_11_14}}"}
+        - { seed: "11206", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_11_14}}"}
+        - { seed: "11207", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_11_14}}"}
+        - { seed: "11208", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_11_14}}"}
+        - { seed: "11209", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_11_14}}"}
+        - { seed: "11210", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_11_14}}"}
+        - { seed: "11211", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_11_14}}"}
+        - { seed: "11212", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_11_14}}"}
+        - { seed: "11213", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_11_14}}"}
+        - { seed: "11214", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_11_14}}"}
+        - { seed: "11215", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_11_14}}"}
+        - { seed: "11216", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_11_14}}"}
+        - { seed: "11217", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_11_14}}"}
+        - { seed: "11218", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_11_14}}"}
+        - { seed: "11219", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_11_14}}"}
+        - { seed: "11220", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_11_14}}"}
+        - { seed: "11221", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_11_14}}"}
+        - { seed: "11222", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_11_14}}"}
+        - { seed: "11223", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_11_14}}"}
         dependencies: [agg-11]
         # when: "{{tasks.agg-11.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -1086,29 +1132,29 @@ spec:
           - name: data_percentage
             value: "{{item.data_percentage}}"
         withItems:
-        - { seed: "11301", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_6_14}}"}
-        - { seed: "11302", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_6_14}}"}
-        - { seed: "11303", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_6_14}}"}
-        - { seed: "11304", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_6_14}}"}
-        - { seed: "11305", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_6_14}}"}
-        - { seed: "11306", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_6_14}}"}
-        - { seed: "11307", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_6_14}}"}
-        - { seed: "11308", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_6_14}}"}
-        - { seed: "11309", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_6_14}}"}
-        - { seed: "11310", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_6_14}}"}
-        - { seed: "11311", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_6_14}}"}
-        - { seed: "11312", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_6_14}}"}
-        - { seed: "11313", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_6_14}}"}
-        - { seed: "11314", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_6_14}}"}
-        - { seed: "11315", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_6_14}}"}
-        - { seed: "11316", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_6_14}}"}
-        - { seed: "11317", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_6_14}}"}
-        - { seed: "11318", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_6_14}}"}
-        - { seed: "11319", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_6_14}}"}
-        - { seed: "11320", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_6_14}}"}
-        - { seed: "11321", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_6_14}}"}
-        - { seed: "11322", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_6_14}}"}
-        - { seed: "11323", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_6_14}}"}
+        - { seed: "11301", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_11_14}}"}
+        - { seed: "11302", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_11_14}}"}
+        - { seed: "11303", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_11_14}}"}
+        - { seed: "11304", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_11_14}}"}
+        - { seed: "11305", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_11_14}}"}
+        - { seed: "11306", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_11_14}}"}
+        - { seed: "11307", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_11_14}}"}
+        - { seed: "11308", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_11_14}}"}
+        - { seed: "11309", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_11_14}}"}
+        - { seed: "11310", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_11_14}}"}
+        - { seed: "11311", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_11_14}}"}
+        - { seed: "11312", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_11_14}}"}
+        - { seed: "11313", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_11_14}}"}
+        - { seed: "11314", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_11_14}}"}
+        - { seed: "11315", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_11_14}}"}
+        - { seed: "11316", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_11_14}}"}
+        - { seed: "11317", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_11_14}}"}
+        - { seed: "11318", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_11_14}}"}
+        - { seed: "11319", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_11_14}}"}
+        - { seed: "11320", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_11_14}}"}
+        - { seed: "11321", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_11_14}}"}
+        - { seed: "11322", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_11_14}}"}
+        - { seed: "11323", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_11_14}}"}
         dependencies: [agg-12]
         # when: "{{tasks.agg-12.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -1155,29 +1201,29 @@ spec:
           - name: data_percentage
             value: "{{item.data_percentage}}"
         withItems:
-        - { seed: "11401", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_6_14}}"}
-        - { seed: "11402", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_6_14}}"}
-        - { seed: "11403", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_6_14}}"}
-        - { seed: "11404", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_6_14}}"}
-        - { seed: "11405", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_6_14}}"}
-        - { seed: "11406", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_6_14}}"}
-        - { seed: "11407", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_6_14}}"}
-        - { seed: "11408", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_6_14}}"}
-        - { seed: "11409", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_6_14}}"}
-        - { seed: "11410", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_6_14}}"}
-        - { seed: "11411", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_6_14}}"}
-        - { seed: "11412", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_6_14}}"}
-        - { seed: "11413", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_6_14}}"}
-        - { seed: "11414", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_6_14}}"}
-        - { seed: "11415", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_6_14}}"}
-        - { seed: "11416", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_6_14}}"}
-        - { seed: "11417", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_6_14}}"}
-        - { seed: "11418", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_6_14}}"}
-        - { seed: "11419", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_6_14}}"}
-        - { seed: "11420", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_6_14}}"}
-        - { seed: "11421", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_6_14}}"}
-        - { seed: "11422", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_6_14}}"}
-        - { seed: "11423", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_6_14}}"}
+        - { seed: "11401", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_11_14}}"}
+        - { seed: "11402", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_11_14}}"}
+        - { seed: "11403", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_11_14}}"}
+        - { seed: "11404", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_11_14}}"}
+        - { seed: "11405", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_11_14}}"}
+        - { seed: "11406", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_11_14}}"}
+        - { seed: "11407", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_11_14}}"}
+        - { seed: "11408", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_11_14}}"}
+        - { seed: "11409", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_11_14}}"}
+        - { seed: "11410", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_11_14}}"}
+        - { seed: "11411", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_11_14}}"}
+        - { seed: "11412", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_11_14}}"}
+        - { seed: "11413", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_11_14}}"}
+        - { seed: "11414", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_11_14}}"}
+        - { seed: "11415", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_11_14}}"}
+        - { seed: "11416", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_11_14}}"}
+        - { seed: "11417", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_11_14}}"}
+        - { seed: "11418", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_11_14}}"}
+        - { seed: "11419", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_11_14}}"}
+        - { seed: "11420", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_11_14}}"}
+        - { seed: "11421", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_11_14}}"}
+        - { seed: "11422", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_11_14}}"}
+        - { seed: "11423", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_11_14}}"}
         dependencies: [agg-13]
         # when: "{{tasks.agg-13.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -1618,7 +1664,7 @@ spec:
           -S {{inputs.parameters.seed}} 
           -s 0
           -f 10
-          -m 45
+          -m 30
           -g 0 
           -J {{workflow.parameters.job-prefix}}_{{inputs.parameters.inst-id}} 
           -R {{workflow.parameters.rounds}} 
