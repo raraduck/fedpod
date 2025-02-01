@@ -1659,7 +1659,7 @@ spec:
           -S {{inputs.parameters.seed}} 
           -s 0
           -f 10
-          -m 45
+          -m 20
           -g 0 
           -J {{workflow.parameters.job-prefix}}_{{inputs.parameters.inst-id}} 
           -R {{workflow.parameters.rounds}} 
