@@ -70,7 +70,7 @@ python3 scripts/run_train.py \
   --epoch $epoch \
   \
   --resize 128 \
-  --patch_size 128 \
+  --patch_size 96 \
   --zoom 1 \
   --flip_lr 0 \
   --dataset $data_set \
@@ -80,7 +80,7 @@ python3 scripts/run_train.py \
   \
   --cases_split $split_csv \
   --inst_ids [$inst_id] \
-  --batch_size 1 \
+  --batch_size 10 \
   \
   --weight_path $model_pth \
   --input_channel_names $input_channels \

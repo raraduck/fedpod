@@ -95,16 +95,15 @@ class FETS1470Dataset(Dataset):
             item = self.transforms(channels_dict)
             # Assume each item is a dictionary containing multiple samples
 
-            if False:
+            if True: # 배치로 모아서 작업하기
                 samples = []
                 for el in item:
                     image_shape = el['image'][0].shape
                     el['image'].affine[:3, 3] = torch.tensor(-np.array(image_shape) / 2 * np.diag(el['image'].affine)[:3])
                     samples.append((el['image'], el['label'], index, name, el['image'].affine, self.label_names))
                 return samples
-            else:
+            else: # 첫번째 샘플만 뽑아서 작업하기
                 el = item[0]  # [0] for RandCropByPosNegLabeld
-                # 첫번째 샘플만 뽑아서 작업하는중
                 # image_shape = el['image'][0].shape  # 이미지의 복셀 크기 가져오기
                 # # 이미지 중앙을 원점으로 설정하기
                 # el['image'].affine[:3, 3] = torch.tensor(-np.array(image_shape) / 2 * np.diag(el['image'].affine)[:3])
