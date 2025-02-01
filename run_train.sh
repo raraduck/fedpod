@@ -80,7 +80,7 @@ python3 scripts/run_train.py \
   \
   --cases_split $split_csv \
   --inst_ids [$inst_id] \
-  --batch_size 10 \
+  --batch_size 4 \
   \
   --weight_path $model_pth \
   --input_channel_names $input_channels \
