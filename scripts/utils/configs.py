@@ -33,9 +33,9 @@ def parse_args(argv):
     parser.add_argument('--flip_lr', type=int, choices=[0, 1], default=0, help='enable flip to left and right (default: False)')
     parser.add_argument('--resize', type=int, default=256, help='resize')
     parser.add_argument('--patch_size', type=int, default=256, help='patch size')
-    parser.add_argument('--pos_ratio', type=float, default=1.0,
+    parser.add_argument('--pos_ratio', type=float, default=0.6,
         help="prob of picking positive patch (center in foreground)")
-    parser.add_argument('--neg_ratio', type=float, default=0.1,
+    parser.add_argument('--neg_ratio', type=float, default=0.4,
         help="prob of picking negative patch (center in background)")
     parser.add_argument('--min_dlen', type=int, default=1)
     parser.add_argument('--max_dlen', type=int, default=99999)
