@@ -95,7 +95,7 @@ class FETS1470Dataset(Dataset):
             item = self.transforms(channels_dict)
             # Assume each item is a dictionary containing multiple samples
 
-            if True: # 배치로 모아서 작업하기
+            if False: # 배치로 모아서 작업하기
                 samples = []
                 for el in item:
                     image_shape = el['image'][0].shape

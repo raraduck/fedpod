@@ -114,9 +114,9 @@ class Unet3DApp:
 
         train_loader = DataLoader(
             train_dataset,
-            # batch_size=self.cli_args.multi_batch_size,
-            batch_size=1,
-            collate_fn=custom_collate,
+            batch_size=self.cli_args.multi_batch_size,
+            # batch_size=1,
+            # collate_fn=custom_collate,
             shuffle=True,
             drop_last=False,
             num_workers=self.cli_args.num_workers,
