@@ -16,7 +16,7 @@ services:
       -E 20
       -e 0
       -i ${INSTID1}
-      -c experiments/FETS1470_v1.csv
+      -c experiments/FETS1470_v0.csv
       -M ${MODEL}
       -p 100
       -D ${DATAROOT}
