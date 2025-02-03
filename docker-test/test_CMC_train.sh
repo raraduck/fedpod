@@ -8,7 +8,7 @@ export DATASET=FETS1470
 export INPUT_CHANNEL_NAMES="[t1,t1ce,t2,flair]"
 export LABEL_GROUPS="[[1,2,4],[1,4],[4,4]]"
 export LABEL_NAMES="[WT,TC,ET]"
-export LABEL_INDEX="[1,2,4]"
+export LABEL_INDEX="[2,1,4]"
 
 export JOBNAME1=centre01 INSTID1=1
 docker-compose -f compose-CMC-train.yaml up centre0-train1 && \
