@@ -4,7 +4,7 @@ services:
     image: dwnusa/fedpod:v0.4.17-test-cuda
     container_name: centre0-train1
     command: >
-      /bin/bash -c "/fedpod/run_train1_cmc.sh 
+      /bin/bash -c "/fedpod/run_train_cmc.sh 
       -S 10000
       -s 1 
       -f 5
@@ -16,10 +16,15 @@ services:
       -E 20
       -e 0
       -i ${INSTID1}
-      -c experiments/CC359PPMICMC_v0.csv
+      -c experiments/FETS1470_v1.csv
       -M ${MODEL}
       -p 100
-      -D ${DATAROOT}"
+      -D ${DATAROOT}
+      -d ${DATASET}
+      -C ${INPUT_CHANNEL_NAMES}
+      -G ${LABEL_GROUPS}
+      -N ${LABEL_NAMES}
+      -I ${LABEL_INDEX}"
     stdin_open: true
     tty: true
     volumes:
@@ -70,7 +75,7 @@ services:
     image: dwnusa/fedpod:v0.4.17-test-cuda
     container_name: solo1-train1
     command: >
-      /bin/bash -c "/fedpod/run_train1_cmc.sh 
+      /bin/bash -c "/fedpod/run_train_cmc.sh 
       -S 10000
       -s 1 
       -f 10
@@ -141,7 +146,7 @@ services:
     image: dwnusa/fedpod:v0.4.17-test-cuda
     container_name: solo2-train1
     command: >
-      /bin/bash -c "/fedpod/run_train1_cmc.sh 
+      /bin/bash -c "/fedpod/run_train_cmc.sh 
       -S 10000
       -s 1 
       -f 10
@@ -213,7 +218,7 @@ services:
     image: dwnusa/fedpod:v0.4.17-test-cuda
     container_name: solo3-train1
     command: >
-      /bin/bash -c "/fedpod/run_train1_cmc.sh 
+      /bin/bash -c "/fedpod/run_train_cmc.sh 
       -S 10000
       -s 1 
       -f 10
@@ -286,7 +291,7 @@ services:
     image: dwnusa/fedpod:v0.4.17-test-cuda
     container_name: solo4-train1
     command: >
-      /bin/bash -c "/fedpod/run_train1_cmc.sh 
+      /bin/bash -c "/fedpod/run_train_cmc.sh 
       -S 10000
       -s 1 
       -f 10
@@ -361,7 +366,7 @@ services:
     image: dwnusa/fedpod:v0.4.17-test-cuda
     container_name: solo5-train1
     command: >
-      /bin/bash -c "/fedpod/run_train1_cmc.sh 
+      /bin/bash -c "/fedpod/run_train_cmc.sh 
       -S 10000
       -s 1 
       -f 10
@@ -431,7 +436,7 @@ services:
     image: dwnusa/fedpod:v0.4.17-test-cuda
     container_name: solo6-train1
     command: >
-      /bin/bash -c "/fedpod/run_train1_cmc.sh 
+      /bin/bash -c "/fedpod/run_train_cmc.sh 
       -S 10000
       -s 1 
       -f 10
