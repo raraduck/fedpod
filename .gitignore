@@ -12,6 +12,7 @@ temp
 __pycache__
 
 # vscode
+.DS_Store
 .vscode
 
 # data
