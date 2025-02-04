@@ -445,6 +445,54 @@ class Unet3DApp:
             **case_metrics_meter.mean(),
         }
 
+    # def run_infer(self, inst_root, model: nn.Module, test_loader, mode: str, save_infer: bool = True):
+    def run_infer(self, infer_mode='val', TrainOrVal='val'):
+        val_dict = load_subjects_list(
+            self.cli_args.rounds, 
+            self.cli_args.round, 
+            # os.path.join("experiments", "FETS1470_v1_PREV.csv"), # self.cli_args.cases_split, 
+            self.cli_args.cases_split, 
+            self.cli_args.inst_ids, 
+            TrainOrVal=[TrainOrVal],
+            mode=infer_mode
+        )
+        
+        _, self.cli_args.weight_path = self.initModel(self.cli_args.weight_path, mode='INIT')
+
+        val_setup = self.initializer(val_dict, mode='val')
+
+        from_round  = self.cli_args.round
+        from_epoch  = self.cli_args.epoch
+        to_epoch    = self.cli_args.epoch + self.cli_args.epochs
+
+        # Pre-Validation
+        val_metrics = self.infer(
+            from_epoch,
+            val_setup['model'], 
+            val_setup['infer_loader'], 
+            val_setup['loss_fn'], 
+            mode='val',
+            save_infer=self.cli_args.save_infer
+        )
+        # VAL_LOSS = val_metrics['PVDC_AVG'] # PVDC_AVG vs. DSCL_AVG
+        # print(VAL_LOSS)
+
+        from_folder = os.path.join("states", self.job_name, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}",f"E{from_epoch:03}")
+        from_csv    = os.path.join(from_folder,"case_metrics.csv")
+        to_csv      = self.cli_args.cases_split
+        from_df = pd.read_csv(from_csv)
+        to_df = pd.read_csv(to_csv)
+
+        from_df['Average'] = from_df[['DICE_WT', 'DICE_TC', 'DICE_ET']].mean(axis=1)
+        result_df = from_df[['Unnamed: 0', 'Average']]
+        result_df.rename(columns={'Unnamed: 0': 'Subject_ID'}, inplace=True)
+        to_df = pd.merge(to_df, result_df, on='Subject_ID', how='left')
+        to_df[f"R{self.cli_args.round}"] = to_df['Average']
+        to_df.drop(columns=['Average'], inplace=True)
+        to_df.to_csv(os.path.join(from_folder, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}E{from_epoch:03}_case_metrics.csv"), index=False)
+
+        return
+
     def run_train(self):
         time_in_total = time.time()
         # select_all_inst = True if (self.cli_args.rounds == 0) else False
@@ -566,6 +614,7 @@ class Unet3DApp:
         os.makedirs(save_model_path, exist_ok=True)
         torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}_last.pth"))
         return
+    
 
     def forward(self, inst_root, model: nn.Module, test_loader, mode: str, save_infer: bool = True):
         model.eval()

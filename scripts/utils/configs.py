@@ -25,6 +25,7 @@ def parse_args(argv):
     parser.add_argument('--dataset', type=str, default='CC359PPMI', help='dataset list',
         choices=['FETS1470', 'iSeg-2019', 'gaain', 'CC359', 'CC359PPMI'])
     parser.add_argument('--data_root', type=str, default='data/', help='root dir of dataset')
+    # parser.add_argument('--data_root', type=str, default='data240_fets1470/', help='root dir of dataset')
     parser.add_argument('--inst_root', type=str, default='inst_01/', help='root dir of inst')
     parser.add_argument('--data_percentage', type=int, default=100, help='data percentage')
     

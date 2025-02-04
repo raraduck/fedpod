@@ -47,7 +47,7 @@ def get_dataset(args, case_names, _transforms, mode, label_names, custom_min_len
         return CC359PPMIDataset(
             args,
             # data_root=os.path.join(args.data_root, args.dataset),
-            data_root='data',
+            data_root='data', # args.data_root,
             inst_root=args.inst_root,
             mode=mode,
             case_names=case_names,
@@ -61,7 +61,7 @@ def get_dataset(args, case_names, _transforms, mode, label_names, custom_min_len
         return FETS1470Dataset(
             args,
             # data_root=os.path.join(args.data_root, args.dataset),
-            data_root='data',
+            data_root='data', # args.data_root,
             inst_root=args.inst_root,
             mode=mode,
             case_names=case_names,
