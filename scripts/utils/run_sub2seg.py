@@ -25,7 +25,7 @@ def main(src_base, postfix):
     active_data = np.zeros_like(data)
 
     active_data[data == 1] = 1 # LVS
-    active_data[data == 2] = 1 # LAC
+    # active_data[data == 2] = 1 # LAC
     active_data[data == 4] = 1 # LPC
     # active_data[data == 4] = 1 # LAP
     # active_data[data == 5] = 1 # LPP
