@@ -234,12 +234,12 @@ spec:
         template: train-job
         arguments:
           parameters:
-          - name: job-name
-            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}"
+
+
           - name: seed
             value: "{{item.seed}}"
-          - name: split_csv
-            value: "{{item.split_csv}}"
+
+
           - name: train-script
             value: "{{workflow.parameters.train-script}}"
           - name: round
@@ -255,7 +255,7 @@ spec:
           - name: data_percentage
             value: "{{item.data_percentage}}"
         withItems:
-        - { seed: "10001", inst: "1", split_csv: "{{workflow.parameters.split_csv}}", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}"}
+        - { seed: "10001", inst: "1", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}"}
 
       # - name: agg-00
       #   template: aggregation-job
