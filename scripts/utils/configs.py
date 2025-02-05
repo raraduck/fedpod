@@ -41,6 +41,7 @@ def parse_args(argv):
     parser.add_argument('--min_dlen', type=int, default=1)
     parser.add_argument('--max_dlen', type=int, default=99999)
 
+
     # train
     parser.add_argument('--rounds', type=int, default=5)
     parser.add_argument('--round', type=int, default=0)
@@ -64,12 +65,13 @@ def parse_args(argv):
     # parser.add_argument('--warmup_epochs', type=int, default=5, help='warm up epochs')
 
     # infer
+    # parser.add_argument('--trainorval', type=parse_1d_str_list, default=['val'], help='select train(set) or val(idationset) as [train,val]')
     parser.add_argument('--patch_overlap', type=float, default=0.5,
         help="overlap ratio between patches")
     parser.add_argument('--sw_batch_size', type=int, default=1, help="sliding window batch size")
     parser.add_argument('--sliding_window_mode', type=str, default='constant',
         choices=['constant', 'gaussian'], help='sliding window importance map mode')
-    parser.add_argument('--test_mode', type=str, default='test', help='test_mode is among val or test')
+    parser.add_argument('--sel_list', type=str, default=parse_1d_str_list, help='sel_list is for selecting train, val or test from TrainOrVal on csv (for example [train,val,test])')
     # parser.add_argument('--img_name', type=str, default='brain', help='img file name at test mode')
     parser.add_argument('--seg_postfix', type=str, default='_seg', help='seg postfix for saving file name at test mode')
     

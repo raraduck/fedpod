@@ -5,5 +5,5 @@ if __name__ == '__main__':
     args = sys.argv[1:]
     App_args = Unet3DApp(args)
     # App_args.run_infer()
-    App_args.run_infer(infer_mode=App_args.cli_args.test_mode, TrainOrVal='train')
+    App_args.run_infer(run_mode='val', sel_list=App_args.cli_args.sel_list)
 

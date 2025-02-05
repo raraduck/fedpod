@@ -52,7 +52,7 @@ if [ -z "$save_infer" ] || [ -z "$use_gpu" ] || [ -z "$job_name" ] ||  [ -z "$ro
     exit 1
 fi
 
-python3 scripts/run_forward.py \
+python3 scripts/run_infer.py \
     --sel_list $sel_list \
     --save_infer $save_infer \
     --use_gpu $use_gpu \

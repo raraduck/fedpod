@@ -4,7 +4,7 @@ metadata:
   generateName: fed-
 spec:
   entrypoint: parallel-dag
-  onExit: infer-dag
+  onExit: infer-test-dag
   arguments:
     parameters:
     - name: data_root
@@ -12,11 +12,13 @@ spec:
     - name: data_set
       value: ""
     - name: train-script
-      value: "run_train1.sh"
+      value: "run_train.sh"
     - name: agg-script
       value: "run_aggregation.sh"
     - name: infer-script
-      value: "run_forward1.sh"
+      value: "run_infer.sh"
+    - name: forward-script
+      value: "run_forward.sh"
     - name: rounds
       value: "20"
     - name: initial-round
@@ -616,7 +618,57 @@ spec:
             value: "{{workflow.parameters.agg-algo}}"
         dependencies: [train-05]
         # when: "{{tasks.agg-04.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
-        
+
+      # Round 6
+      # run_infer-train at Round 6
+      - name: infer-train-06
+        template: infer-job
+        arguments:
+          parameters:
+          - name: run-script
+            value: "{{workflow.parameters.infer-script}}"
+          - name: job-name
+            value: "{{item.job-name}}"
+          - name: rounds
+            value: "{{item.rounds}}"
+          - name: round
+            value: "{{item.round}}"
+          - name: epoch
+            value: "{{item.epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: split_csv
+            value: "{{item.split_csv}}"
+          - name: model_pth
+            value: "{{item.model_pth}}"
+          - name: data_root
+            value: "{{workflow.parameters.data_root}}"
+          - name: data_set
+            value: "{{workflow.parameters.data_set}}"
+          - name: inst_root
+            value: "inst_00"
+          - name: input_channels
+            value: "{{workflow.parameters.input_channel_names}}"
+          - name: label_groups
+            value: "{{workflow.parameters.label_groups}}"
+          - name: label_names
+            value: "{{workflow.parameters.label_names}}"
+          - name: label_index
+            value: "{{workflow.parameters.label_index}}"
+          - name: seg_postfix
+            value: "{{workflow.parameters.seg_postfix}}"
+          - name: sel_list
+            value: "[train]"
+        withItems:
+        - { job-name: "{{workflow.parameters.job-prefix}}_test",
+            rounds: "{{workflow.parameters.rounds}}",
+            round: "{{tasks.agg-05.outputs.parameters.next-round}}",
+            epoch: "000",
+            inst: "12",
+            split_csv: "{{workflow.parameters.split_csv}}",
+            model_pth: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-05.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-05.outputs.parameters.next-round}}_agg.pth"}
+        dependencies: [agg-05]
+
       # Round 6
       - name: train-06
         template: train-job
@@ -662,7 +714,7 @@ spec:
         - { seed: "10621", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_5_9}}"}
         - { seed: "10622", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_5_9}}"}
         - { seed: "10623", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_5_9}}"}
-        dependencies: [agg-05]
+        dependencies: [infer-train-06]
         # when: "{{tasks.agg-05.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-06
@@ -1590,15 +1642,15 @@ spec:
         # when: "{{tasks.agg-18.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
   # Round 20 (Inference)
-  - name: infer-dag
+  - name: infer-test-dag
     dag:
       tasks:
       - name: infer-20
         template: infer-job
         arguments:
           parameters:
-          - name: infer-script
-            value: "{{workflow.parameters.infer-script}}"
+          - name: run-script
+            value: "{{workflow.parameters.forward-script}}"
           - name: job-name
             value: "{{item.job-name}}"
           - name: rounds
@@ -1629,6 +1681,8 @@ spec:
             value: "{{workflow.parameters.label_index}}"
           - name: seg_postfix
             value: "{{workflow.parameters.seg_postfix}}"
+          - name: sel_list
+            value: "[test]"
         withItems:
         - { job-name: "{{workflow.parameters.job-prefix}}_test", 
             rounds: "{{workflow.parameters.rounds}}", 
@@ -1794,7 +1848,7 @@ spec:
   - name: infer-job
     inputs:
       parameters:
-      - name: infer-script
+      - name: run-script
       - name: job-name
       - name: rounds
       - name: round
@@ -1810,13 +1864,14 @@ spec:
       - name: label_names
       - name: label_index
       - name: seg_postfix
+      - name: sel_list
     container:
       image: dwnusa/fedpod:v0.4.18.06
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
         - >
-          ./{{inputs.parameters.infer-script}}
+          ./{{inputs.parameters.run-script}}
           -s 1
           -g 0
           -J {{inputs.parameters.job-name}}
@@ -1826,7 +1881,7 @@ spec:
           -e {{inputs.parameters.epoch}}
           -c {{inputs.parameters.split_csv}}
           -M {{inputs.parameters.model_pth}}
-          -t test
+          -t {{inputs.parameters.sel_list}}
           -D {{inputs.parameters.data_root}}
           -d {{inputs.parameters.data_set}}
           -n {{inputs.parameters.inst_root}}
