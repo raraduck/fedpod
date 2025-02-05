@@ -1814,13 +1814,13 @@ spec:
           -f 10
           -m 20
           -g 0 
-          -J {{inputs.parameters.job-name}} 
+          -J {{workflow.parameters.job-prefix}}_{{inputs.parameters.inst-id}} 
           -R {{workflow.parameters.rounds}} 
           -r {{inputs.parameters.round}} 
           -E {{inputs.parameters.epochs}} 
           -e {{inputs.parameters.epoch}} 
           -i {{inputs.parameters.inst-id}} 
-          -c {{inputs.parameters.split_csv}} 
+          -c {{workflow.parameters.split_csv}} 
           -M {{inputs.parameters.model_pth}}
           -p {{inputs.parameters.data_percentage}}
           -D {{workflow.parameters.data_root}} 
