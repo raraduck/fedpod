@@ -1792,9 +1792,9 @@ spec:
   - name: train-job
     inputs:
       parameters:
-      - name: job-name
+      # - name: job-name
       - name: seed
-      - name: split_csv
+      # - name: split_csv
       - name: train-script
       - name: round
       - name: epochs
