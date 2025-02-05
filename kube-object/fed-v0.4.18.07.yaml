@@ -1739,56 +1739,56 @@ spec:
   #       dependencies: [train-19]
   #       # when: "{{tasks.agg-18.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
-  # # Round 20 (Inference)
-  # - name: infer-test-dag
-  #   dag:
-  #     tasks:
-  #     - name: infer-20
-  #       template: infer-job
-  #       arguments:
-  #         parameters:
-  #         - name: run-script
-  #           value: "{{workflow.parameters.forward-script}}"
-  #         - name: job-name
-  #           value: "{{workflow.parameters.job-prefix}}_{{item.inst}}_test"
-  #         - name: rounds
-  #           value: "{{item.rounds}}"
-  #         - name: round
-  #           value: "{{item.round}}"
-  #         - name: epoch
-  #           value: "{{item.epoch}}"
-  #         - name: inst-id
-  #           value: "{{item.inst}}"
-  #         - name: split_csv
-  #           value: "{{item.split_csv}}"
-  #         - name: model_pth
-  #           value: "{{item.model_pth}}"
-  #         - name: data_root
-  #           value: "{{workflow.parameters.data_root}}"
-  #         - name: data_set
-  #           value: "{{workflow.parameters.data_set}}"
-  #         - name: inst_root
-  #           value: "inst_00"
-  #         - name: input_channels
-  #           value: "{{workflow.parameters.input_channel_names}}"
-  #         - name: label_groups
-  #           value: "{{workflow.parameters.label_groups}}"
-  #         - name: label_names
-  #           value: "{{workflow.parameters.label_names}}"
-  #         - name: label_index
-  #           value: "{{workflow.parameters.label_index}}"
-  #         - name: seg_postfix
-  #           value: "{{workflow.parameters.seg_postfix}}"
-  #         - name: sel_list
-  #           value: "[test]"
-  #       withItems:
-  #       - { # job-name: "{{workflow.parameters.job-prefix}}_test", 
-  #           rounds: "{{workflow.parameters.rounds}}", 
-  #           round: "20", 
-  #           epoch: "000", 
-  #           inst: "0", 
-  #           split_csv: "{{item.split_csv}}", 
-  #           model_pth: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R20r20/models/R20r20_agg.pth"}
+  # Round 20 (Inference)
+  - name: infer-test-dag
+    dag:
+      tasks:
+      - name: infer-20
+        template: infer-job
+        arguments:
+          parameters:
+          - name: run-script
+            value: "{{workflow.parameters.forward-script}}"
+          - name: job-name
+            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}_test"
+          - name: rounds
+            value: "{{item.rounds}}"
+          - name: round
+            value: "{{item.round}}"
+          - name: epoch
+            value: "{{item.epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: split_csv
+            value: "{{item.split_csv}}"
+          - name: model_pth
+            value: "{{item.model_pth}}"
+          - name: data_root
+            value: "{{workflow.parameters.data_root}}"
+          - name: data_set
+            value: "{{workflow.parameters.data_set}}"
+          - name: inst_root
+            value: "inst_00"
+          - name: input_channels
+            value: "{{workflow.parameters.input_channel_names}}"
+          - name: label_groups
+            value: "{{workflow.parameters.label_groups}}"
+          - name: label_names
+            value: "{{workflow.parameters.label_names}}"
+          - name: label_index
+            value: "{{workflow.parameters.label_index}}"
+          - name: seg_postfix
+            value: "{{workflow.parameters.seg_postfix}}"
+          - name: sel_list
+            value: "[test]"
+        withItems:
+        - { # job-name: "{{workflow.parameters.job-prefix}}_test", 
+            rounds: "{{workflow.parameters.rounds}}", 
+            round: "20", 
+            epoch: "000", 
+            inst: "0", 
+            split_csv: "{{item.split_csv}}", 
+            model_pth: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R20r20/models/R20r20_agg.pth"}
 
   - name: train-job
     inputs:
