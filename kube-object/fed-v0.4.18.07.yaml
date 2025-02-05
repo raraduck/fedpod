@@ -268,7 +268,7 @@ spec:
           - name: epochs
             value: "000"
           - name: epoch
-            value: "{{workflow.parameters.initial-epoch}}"inst_02_ratio_0_4
+            value: "{{workflow.parameters.initial-epoch}}"
           - name: inst-id
             value: "0"
           - name: model_pth
