@@ -768,7 +768,7 @@ spec:
         - { seed: "10621", inst: "21", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_21/R{{workflow.parameters.rounds}}r{{tasks.agg-05.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-05.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_21_ratio_5_9}}"}
         - { seed: "10622", inst: "22", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_22/R{{workflow.parameters.rounds}}r{{tasks.agg-05.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-05.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_22_ratio_5_9}}"}
         - { seed: "10623", inst: "23", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_23/R{{workflow.parameters.rounds}}r{{tasks.agg-05.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-05.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_23_ratio_5_9}}"}
-        dependencies: [infer-train-06]
+        dependencies: [agg-05]
         # when: "{{tasks.agg-05.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-06
