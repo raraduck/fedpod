@@ -59,7 +59,7 @@ def parse_args(argv):
                         choices=['warmup_cosine', 'cosine', 'step', 'poly', 'none'])
     parser.add_argument('--milestones', type=parse_1d_int_list, default=[20],
         help='milestones for multistep decay')
-    parser.add_argument('--lr_gamma', type=float, default=0.1,
+    parser.add_argument('--lr_gamma', type=float, default=0.5,
         help='decay factor for multistep decay')
     # parser.add_argument('--warmup_epochs', type=int, default=5, help='warm up epochs')
 
