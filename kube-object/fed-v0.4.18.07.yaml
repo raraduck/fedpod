@@ -695,7 +695,7 @@ spec:
         - { seed: "10521", inst: "21", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_21_ratio_5_9}}"}
         - { seed: "10522", inst: "22", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_22_ratio_5_9}}"}
         - { seed: "10523", inst: "23", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_23_ratio_5_9}}"}
-        dependencies: [agg-04]
+        dependencies: [infer-train-05]
         # when: "{{tasks.agg-04.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-05
