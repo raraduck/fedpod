@@ -399,7 +399,7 @@ spec:
         - { seed: "10221", inst: "21", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_21_ratio_0_4}}"}
         - { seed: "10222", inst: "22", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_22_ratio_0_4}}"}
         - { seed: "10223", inst: "23", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_23_ratio_0_4}}"}
-        dependencies: [infer-train-02]
+        dependencies: [agg-01]
         # when: "{{tasks.agg-01.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-02
