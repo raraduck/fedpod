@@ -610,7 +610,7 @@ spec:
             value: "{{workflow.parameters.seg_postfix}}"
           - name: sel_list
             value: "[train]"
-          - name: data_percentage:
+          - name: data_percentage
             value: "100"
         withItems:
         - { seed: "10601", inst:  "1"}
