@@ -589,7 +589,7 @@ spec:
           - name: inst-id
             value: "{{item.inst}}"
           - name: split_csv
-            value: "{{item.split_csv}}"
+            value: "{{workflow.parameters.split_csv}}"
           - name: model_pth
             value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-04.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-04.outputs.parameters.next-round}}_agg.pth"
           - name: data_root
