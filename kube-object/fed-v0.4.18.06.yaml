@@ -234,8 +234,12 @@ spec:
         template: train-job
         arguments:
           parameters:
+
+
           - name: seed
             value: "{{item.seed}}"
+
+            
           - name: train-script
             value: "{{workflow.parameters.train-script}}"
           - name: round
