@@ -117,7 +117,8 @@ class Unet3DApp:
             batch_size=self.cli_args.multi_batch_size,
             # batch_size=1,
             # collate_fn=custom_collate,
-            shuffle=True,
+            # shuffle=False,
+            shuffle=True if 'experiments' in self.cli_args.cases_split else False, # states\centre_val01\R20r03\E000\R20r03E000_case_metrics.csv
             drop_last=False,
             num_workers=self.cli_args.num_workers,
             pin_memory=self.use_cuda)
@@ -163,11 +164,11 @@ class Unet3DApp:
     def initializer(self, subjects_dict, mode='train'):
         if mode in ['train', 'TRN']:
             self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode.upper()}] Processing with train_loader and val_loader...")
-            train_cases = natsort.natsorted(subjects_dict['train'])
-            random.shuffle(train_cases)
+            train_cases = subjects_dict['train'] # natsort.natsorted(subjects_dict['train'])
+            # random.shuffle(train_cases)
             # train_dataset, train_loader = self.initTrainDl(train_cases)
             train_dataset, train_loader = self.initTrainDl(train_cases, index_filter=lambda x: x < self.cli_args.data_percentage)
-            val_cases = natsort.natsorted(subjects_dict['val'])
+            val_cases = subjects_dict['val'] # natsort.natsorted(subjects_dict['val'])
             val_dataset, val_loader = self.initValDl(val_cases, 'val')
 
             self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode.upper()}] Processing with model...")
@@ -191,7 +192,7 @@ class Unet3DApp:
             }
         elif mode in ['val']:
             self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode.upper()}] Processing with infer_loader...")
-            infer_cases = natsort.natsorted(subjects_dict['infer'])
+            infer_cases = subjects_dict['infer'] # natsort.natsorted(subjects_dict['infer'])
             infer_dataset, infer_loader = self.initValDl(infer_cases, mode)
 
             self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode.upper()}] Processing with model...")
@@ -207,7 +208,7 @@ class Unet3DApp:
             }
         elif mode in ['test']:
             self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode.upper()}] Processing with infer_loader...")
-            test_cases = natsort.natsorted(subjects_dict['infer'])
+            test_cases = subjects_dict['infer'] # natsort.natsorted(subjects_dict['infer'])
             test_dataset, test_loader = self.initTestDl(test_cases, mode)
 
             self.logger.info(f"[{self.cli_args.job_name.upper()}][{mode.upper()}] Processing with model...")

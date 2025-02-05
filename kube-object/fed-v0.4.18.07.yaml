@@ -705,7 +705,7 @@ spec:
           - name: data_percentage
             value: "{{item.data_percentage}}"
         withItems:
-        - { seed: "10601", inst:  "1", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_01_ratio_5_9}}"}
+        - { seed: "10601", inst:  "1", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_1/R{{workflow.parameters.rounds}}r06/E000/R{{workflow.parameters.rounds}}r06E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_01_ratio_5_9}}"}
         - { seed: "10602", inst:  "2", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_02_ratio_5_9}}"}
         - { seed: "10603", inst:  "3", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_03_ratio_5_9}}"}
         - { seed: "10604", inst:  "4", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_04_ratio_5_9}}"}

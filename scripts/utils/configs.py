@@ -71,7 +71,7 @@ def parse_args(argv):
     parser.add_argument('--sw_batch_size', type=int, default=1, help="sliding window batch size")
     parser.add_argument('--sliding_window_mode', type=str, default='constant',
         choices=['constant', 'gaussian'], help='sliding window importance map mode')
-    parser.add_argument('--sel_list', type=str, default=parse_1d_str_list, help='sel_list is for selecting train, val or test from TrainOrVal on csv (for example [train,val,test])')
+    parser.add_argument('--sel_list', type=parse_1d_str_list, default=['val'], help='sel_list is for selecting train, val or test from TrainOrVal on csv (for example [train,val,test])')
     # parser.add_argument('--img_name', type=str, default='brain', help='img file name at test mode')
     parser.add_argument('--seg_postfix', type=str, default='_seg', help='seg postfix for saving file name at test mode')
     

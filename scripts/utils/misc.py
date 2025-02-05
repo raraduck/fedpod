@@ -3,6 +3,7 @@ import sys
 import random
 import logging
 import os
+import natsort
 from os.path import join
 from collections import OrderedDict
 # from typing import Literal
@@ -22,7 +23,6 @@ def seed_everything(seed=42):
     
 def load_subjects_list(rounds: int, round: int, split_path: str, inst_ids: list, TrainOrVal: list, mode='train'):
     df = pd.read_csv(split_path)
-    Partition_round = f"R{round}"
     Partition_ID = f"Partition_ID"
     rounds_list = [el for el in df.columns.to_list() if 'R' in el]
     assert rounds > 0, f"Rounds must be bigger than 1 otherwise raise exception"
@@ -40,15 +40,22 @@ def load_subjects_list(rounds: int, round: int, split_path: str, inst_ids: list,
         unique_inst_ids = [el for el in unique_inst_ids if el in inst_ids]
         # unique_inst_ids = [el for el in unique_inst_ids if el not in [0]]
 
-        filtered_df = df[df[Partition_ID].isin(unique_inst_ids)]
-        train_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['train'])]['Subject_ID'])
+        Partition_round = f"R{round}"
+        # trainset 의 경우에는 손실값이 있으면 손실값 기준으로 정렬하도록 하기 (R0, R1, R2, R3 ...)
+        filtered_df = df[df[Partition_ID].isin(unique_inst_ids)] # [['Partition_ID','Subject_ID','TrainOrVal',f"{Partition_round}"]]
+        train_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['train'])].sort_values(by=Partition_round, ascending=True)['Subject_ID'])
         val_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['val'])]['Subject_ID'])
+        
+
+        # loss_list = filtered_df[Partition_round]
+        
+
         # assert train_list.__len__() > 0, 'train list empty'
         assert val_list.__len__() > 0, 'val list empty'
         train_val_dict = {
             'inst_ids': unique_inst_ids,
-            'train': train_list,
-            'val': val_list,
+            'train': train_list, # natsort (default)
+            'val': natsort.natsorted(val_list), # natsort (default)
         }
         return train_val_dict
     elif mode in ['val', 'test']: # in mode:
@@ -65,7 +72,7 @@ def load_subjects_list(rounds: int, round: int, split_path: str, inst_ids: list,
         infer_list = list(filtered_df[filtered_df['TrainOrVal'].isin(TrainOrVal)]['Subject_ID'])
         infer_dict = {
             'inst_ids': unique_inst_ids,
-            'infer': infer_list,
+            'infer': natsort.natsorted(infer_list), # natsort (default)
         }
         return infer_dict
     elif mode in ['quant']: # in mode:
@@ -82,7 +89,7 @@ def load_subjects_list(rounds: int, round: int, split_path: str, inst_ids: list,
         infer_list = list(filtered_df[filtered_df['TrainOrVal'].isin(TrainOrVal)]['Subject_ID'])
         infer_dict = {
             'inst_ids': unique_inst_ids,
-            'infer': infer_list,
+            'infer': natsort.natsorted(infer_list), # natsort (default)
         }
         return infer_dict
     else:
