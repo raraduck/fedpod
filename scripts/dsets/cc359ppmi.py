@@ -27,6 +27,7 @@ class CC359PPMIDataset(Dataset):
         self.transforms = transforms
         self.index_filter = index_filter  # 필터 저장
         # self.custom_len = min(max(custom_lower_bound, len(case_names)), custom_upper_bound)
+        
         # 필터링된 case_names 계산
         total_len = len(case_names)
         self.percentile_indices = [

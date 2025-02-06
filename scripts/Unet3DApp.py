@@ -167,7 +167,7 @@ class Unet3DApp:
             train_cases = subjects_dict['train'] # natsort.natsorted(subjects_dict['train'])
             # random.shuffle(train_cases)
             # train_dataset, train_loader = self.initTrainDl(train_cases)
-            train_dataset, train_loader = self.initTrainDl(train_cases, index_filter=lambda x: x < self.cli_args.data_percentage)
+            train_dataset, train_loader = self.initTrainDl(train_cases, index_filter=None)# lambda x: x < self.cli_args.data_percentage)
             val_cases = subjects_dict['val'] # natsort.natsorted(subjects_dict['val'])
             val_dataset, val_loader = self.initValDl(val_cases, 'val')
 
@@ -452,6 +452,7 @@ class Unet3DApp:
         # select_all_inst = True if (self.cli_args.rounds == 0) else False
         # partition_ids = 'Partition_ID' if select_all_inst else f"R{self.cli_args.round}"
         train_val_dict = load_subjects_list(
+            self.cli_args.data_percentage,
             self.cli_args.rounds,
             self.cli_args.round, 
             self.cli_args.cases_split, 
@@ -628,6 +629,7 @@ class Unet3DApp:
         if sel_list is None:
             sel_list = ['val']
         val_dict = load_subjects_list(
+            self.cli_args.data_percentage,
             self.cli_args.rounds,
             self.cli_args.round,
             # os.path.join("experiments", "FETS1470_v1_PREV.csv"), # self.cli_args.cases_split,
@@ -680,6 +682,7 @@ class Unet3DApp:
         if sel_list is None:
             sel_list = ['test']
         test_dict = load_subjects_list(
+            self.cli_args.data_percentage,
             self.cli_args.rounds, 
             self.cli_args.round, 
             self.cli_args.cases_split, 

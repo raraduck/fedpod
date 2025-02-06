@@ -21,7 +21,7 @@ def seed_everything(seed=42):
     torch.manual_seed(seed)
     torch.use_deterministic_algorithms(True)
     
-def load_subjects_list(rounds: int, round: int, split_path: str, inst_ids: list, TrainOrVal: list, mode='train'):
+def load_subjects_list(percentile: int, rounds: int, round: int, split_path: str, inst_ids: list, TrainOrVal: list, mode='train'):
     df = pd.read_csv(split_path)
     Partition_ID = f"Partition_ID"
     rounds_list = [el for el in df.columns.to_list() if 'R' in el]
@@ -44,6 +44,11 @@ def load_subjects_list(rounds: int, round: int, split_path: str, inst_ids: list,
         # trainset 의 경우에는 손실값이 있으면 손실값 기준으로 정렬하도록 하기 (R0, R1, R2, R3 ...)
         filtered_df = df[df[Partition_ID].isin(unique_inst_ids)] # [['Partition_ID','Subject_ID','TrainOrVal',f"{Partition_round}"]]
         train_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['train'])].sort_values(by=Partition_round, ascending=True)['Subject_ID'])
+        
+        total_len = len(train_list)
+        percentile_indice = int(total_len * (percentile / 100))
+        percentile_train_list = train_list[:percentile_indice]
+        print(f"from {train_list} to {percentile_train_list} in percentile ({percentile_indice}) out of total_len ({total_len})")
         val_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['val'])]['Subject_ID'])
         
 
@@ -54,7 +59,7 @@ def load_subjects_list(rounds: int, round: int, split_path: str, inst_ids: list,
         assert val_list.__len__() > 0, 'val list empty'
         train_val_dict = {
             'inst_ids': unique_inst_ids,
-            'train': train_list, # natsort (default)
+            'train': percentile_train_list, # natsort (default)
             'val': natsort.natsorted(val_list), # natsort (default)
         }
         return train_val_dict
