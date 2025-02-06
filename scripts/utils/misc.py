@@ -43,15 +43,25 @@ def load_subjects_list(percentile: int, rounds: int, round: int, split_path: str
         Partition_round = f"R{round}"
         # trainset 의 경우에는 손실값이 있으면 손실값 기준으로 정렬하도록 하기 (R0, R1, R2, R3 ...)
         filtered_df = df[df[Partition_ID].isin(unique_inst_ids)] # [['Partition_ID','Subject_ID','TrainOrVal',f"{Partition_round}"]]
-        train_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['train'])].sort_values(by=Partition_round, ascending=True)['Subject_ID'])
-        DSC_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['train'])].sort_values(by=Partition_round, ascending=True)[Partition_round])
-        
-        total_len = len(train_list)
-        percentile_indice = int(total_len * (percentile / 100))
-        percentile_train_list = train_list[:percentile_indice]
-        print(f"from {train_list} to {percentile_train_list} in percentile ({percentile_indice}) out of total_len ({total_len})")
-        print(f"TRAIN_LIST: {train_list[:percentile_indice]}")
-        print(f"DSC_LIST: {DSC_list[:percentile_indice]}")
+        if 'experiments' in split_path:
+            train_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['train'])]['Subject_ID'])
+            total_len = len(train_list)
+            percentile_indice = int(total_len * (percentile / 100))
+            random.shuffle(train_list)
+            percentile_train_list = train_list[:percentile_indice]
+        else:
+            train_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['train'])].sort_values(by=Partition_round, ascending=True)['Subject_ID'])
+            total_len = len(train_list)
+            percentile_indice = int(total_len * (percentile / 100))
+            percentile_train_list = train_list[:percentile_indice]
+            random.shuffle(percentile_train_list)
+        # for debugging
+        # DSC_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['train'])].sort_values(by=Partition_round, ascending=True)[Partition_round])
+        # print(f"from {train_list} to {percentile_train_list} in percentile ({percentile_indice}) out of total_len ({total_len})")
+        # print(f"TRAIN_LIST: {train_list[:percentile_indice]}")
+        # for debugging
+        # print(f"DSC_LIST: {DSC_list[:percentile_indice]}")
+
         val_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['val'])]['Subject_ID'])
         
 
