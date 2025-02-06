@@ -350,74 +350,6 @@ spec:
         dependencies: [train-01]
         # when: "{{tasks.agg-00.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
-      # Round 5
-      # run_infer-train at Round 5
-      - name: infer-train-02
-        template: infer-job
-        arguments:
-          parameters:
-          - name: run-script
-            value: "{{workflow.parameters.infer-script}}"
-          - name: job-name
-            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}"
-          - name: rounds
-            value: "{{workflow.parameters.rounds}}"
-          - name: round
-            value: "{{tasks.agg-01.outputs.parameters.next-round}}"
-          - name: epoch
-            value: "000"
-          - name: inst-id
-            value: "{{item.inst}}"
-          - name: split_csv
-            value: "{{item.split_csv}}"
-          - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}_agg.pth"
-          - name: data_root
-            value: "{{workflow.parameters.data_root}}"
-          - name: data_set
-            value: "{{workflow.parameters.data_set}}"
-          - name: inst_root
-            value: "inst_*"
-          - name: input_channels
-            value: "{{workflow.parameters.input_channel_names}}"
-          - name: label_groups
-            value: "{{workflow.parameters.label_groups}}"
-          - name: label_names
-            value: "{{workflow.parameters.label_names}}"
-          - name: label_index
-            value: "{{workflow.parameters.label_index}}"
-          - name: seg_postfix
-            value: "{{workflow.parameters.seg_postfix}}"
-          - name: sel_list
-            value: "[train]"
-          - name: data_percentage
-            value: "100"
-        withItems:
-        - { seed: "10601", inst:  "1", split_csv: "{{workflow.parameters.split_csv}}"}
-        - { seed: "10602", inst:  "2", split_csv: "{{workflow.parameters.split_csv}}"}
-        - { seed: "10603", inst:  "3", split_csv: "{{workflow.parameters.split_csv}}"}
-        - { seed: "10604", inst:  "4", split_csv: "{{workflow.parameters.split_csv}}"}
-        - { seed: "10605", inst:  "5", split_csv: "{{workflow.parameters.split_csv}}"}
-        - { seed: "10606", inst:  "6", split_csv: "{{workflow.parameters.split_csv}}"}
-        - { seed: "10607", inst:  "7", split_csv: "{{workflow.parameters.split_csv}}"}
-        - { seed: "10608", inst:  "8", split_csv: "{{workflow.parameters.split_csv}}"}
-        - { seed: "10609", inst:  "9", split_csv: "{{workflow.parameters.split_csv}}"}
-        - { seed: "10610", inst: "10", split_csv: "{{workflow.parameters.split_csv}}"}
-        - { seed: "10611", inst: "11", split_csv: "{{workflow.parameters.split_csv}}"}
-        - { seed: "10612", inst: "12", split_csv: "{{workflow.parameters.split_csv}}"}
-        - { seed: "10613", inst: "13", split_csv: "{{workflow.parameters.split_csv}}"}
-        - { seed: "10614", inst: "14", split_csv: "{{workflow.parameters.split_csv}}"}
-        - { seed: "10615", inst: "15", split_csv: "{{workflow.parameters.split_csv}}"}
-        - { seed: "10616", inst: "16", split_csv: "{{workflow.parameters.split_csv}}"}
-        - { seed: "10617", inst: "17", split_csv: "{{workflow.parameters.split_csv}}"}
-        - { seed: "10618", inst: "18", split_csv: "{{workflow.parameters.split_csv}}"}
-        - { seed: "10619", inst: "19", split_csv: "{{workflow.parameters.split_csv}}"}
-        - { seed: "10620", inst: "20", split_csv: "{{workflow.parameters.split_csv}}"}
-        - { seed: "10621", inst: "21", split_csv: "{{workflow.parameters.split_csv}}"}
-        - { seed: "10622", inst: "22", split_csv: "{{workflow.parameters.split_csv}}"}
-        - { seed: "10623", inst: "23", split_csv: "{{workflow.parameters.split_csv}}"}
-        dependencies: [agg-01]
-        
       # Round 2
       - name: train-02
         template: train-job
@@ -444,30 +376,30 @@ spec:
           - name: data_percentage
             value: "{{item.data_percentage}}"
         withItems:
-        - { seed: "10201", inst:  "1", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_1/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}"}
-        - { seed: "10202", inst:  "2", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_2/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}"}
-        - { seed: "10203", inst:  "3", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_3/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}"}
-        - { seed: "10204", inst:  "4", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_4/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}"}
-        - { seed: "10205", inst:  "5", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_5/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}"}
-        - { seed: "10206", inst:  "6", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_6/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}"}
-        - { seed: "10207", inst:  "7", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_7/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_07_ratio_0_4}}"}
-        - { seed: "10208", inst:  "8", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_8/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_08_ratio_0_4}}"}
-        - { seed: "10209", inst:  "9", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_9/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_09_ratio_0_4}}"}
-        - { seed: "10210", inst: "10", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_10/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_10_ratio_0_4}}"}
-        - { seed: "10211", inst: "11", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_11/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_11_ratio_0_4}}"}
-        - { seed: "10212", inst: "12", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_12/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_12_ratio_0_4}}"}
-        - { seed: "10213", inst: "13", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_13/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_13_ratio_0_4}}"}
-        - { seed: "10214", inst: "14", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_14/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_14_ratio_0_4}}"}
-        - { seed: "10215", inst: "15", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_15/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_15_ratio_0_4}}"}
-        - { seed: "10216", inst: "16", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_16/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_16_ratio_0_4}}"}
-        - { seed: "10217", inst: "17", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_17/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_17_ratio_0_4}}"}
-        - { seed: "10218", inst: "18", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_18/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_18_ratio_0_4}}"}
-        - { seed: "10219", inst: "19", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_19/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_19_ratio_0_4}}"}
-        - { seed: "10220", inst: "20", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_20/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_20_ratio_0_4}}"}
-        - { seed: "10221", inst: "21", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_21/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_21_ratio_0_4}}"}
-        - { seed: "10222", inst: "22", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_22/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_22_ratio_0_4}}"}
-        - { seed: "10223", inst: "23", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_23/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_23_ratio_0_4}}"}
-        dependencies: [infer-train-02] # agg-01]
+        - { seed: "10201", inst:  "1", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}"}
+        - { seed: "10202", inst:  "2", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}"}
+        - { seed: "10203", inst:  "3", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}"}
+        - { seed: "10204", inst:  "4", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}"}
+        - { seed: "10205", inst:  "5", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}"}
+        - { seed: "10206", inst:  "6", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}"}
+        - { seed: "10207", inst:  "7", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_07_ratio_0_4}}"}
+        - { seed: "10208", inst:  "8", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_08_ratio_0_4}}"}
+        - { seed: "10209", inst:  "9", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_09_ratio_0_4}}"}
+        - { seed: "10210", inst: "10", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_10_ratio_0_4}}"}
+        - { seed: "10211", inst: "11", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_11_ratio_0_4}}"}
+        - { seed: "10212", inst: "12", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_12_ratio_0_4}}"}
+        - { seed: "10213", inst: "13", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_13_ratio_0_4}}"}
+        - { seed: "10214", inst: "14", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_14_ratio_0_4}}"}
+        - { seed: "10215", inst: "15", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_15_ratio_0_4}}"}
+        - { seed: "10216", inst: "16", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_16_ratio_0_4}}"}
+        - { seed: "10217", inst: "17", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_17_ratio_0_4}}"}
+        - { seed: "10218", inst: "18", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_18_ratio_0_4}}"}
+        - { seed: "10219", inst: "19", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_19_ratio_0_4}}"}
+        - { seed: "10220", inst: "20", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_20_ratio_0_4}}"}
+        - { seed: "10221", inst: "21", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_21_ratio_0_4}}"}
+        - { seed: "10222", inst: "22", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_22_ratio_0_4}}"}
+        - { seed: "10223", inst: "23", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_23_ratio_0_4}}"}
+        dependencies: [agg-01]
         # when: "{{tasks.agg-01.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-02
@@ -518,29 +450,29 @@ spec:
           - name: data_percentage
             value: "{{item.data_percentage}}"
         withItems:
-        - { seed: "10301", inst:  "1", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_1/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}"}
-        - { seed: "10302", inst:  "2", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_2/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}"}
-        - { seed: "10303", inst:  "3", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_3/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}"}
-        - { seed: "10304", inst:  "4", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_4/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}"}
-        - { seed: "10305", inst:  "5", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_5/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}"}
-        - { seed: "10306", inst:  "6", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_6/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}"}
-        - { seed: "10307", inst:  "7", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_7/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_07_ratio_0_4}}"}
-        - { seed: "10308", inst:  "8", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_8/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_08_ratio_0_4}}"}
-        - { seed: "10309", inst:  "9", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_9/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_09_ratio_0_4}}"}
-        - { seed: "10310", inst: "10", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_10/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_10_ratio_0_4}}"}
-        - { seed: "10311", inst: "11", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_11/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_11_ratio_0_4}}"}
-        - { seed: "10312", inst: "12", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_12/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_12_ratio_0_4}}"}
-        - { seed: "10313", inst: "13", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_13/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_13_ratio_0_4}}"}
-        - { seed: "10314", inst: "14", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_14/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_14_ratio_0_4}}"}
-        - { seed: "10315", inst: "15", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_15/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_15_ratio_0_4}}"}
-        - { seed: "10316", inst: "16", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_16/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_16_ratio_0_4}}"}
-        - { seed: "10317", inst: "17", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_17/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_17_ratio_0_4}}"}
-        - { seed: "10318", inst: "18", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_18/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_18_ratio_0_4}}"}
-        - { seed: "10319", inst: "19", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_19/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_19_ratio_0_4}}"}
-        - { seed: "10320", inst: "20", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_20/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_20_ratio_0_4}}"}
-        - { seed: "10321", inst: "21", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_21/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_21_ratio_0_4}}"}
-        - { seed: "10322", inst: "22", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_22/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_22_ratio_0_4}}"}
-        - { seed: "10323", inst: "23", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_23/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_23_ratio_0_4}}"}
+        - { seed: "10301", inst:  "1", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}"}
+        - { seed: "10302", inst:  "2", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}"}
+        - { seed: "10303", inst:  "3", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}"}
+        - { seed: "10304", inst:  "4", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}"}
+        - { seed: "10305", inst:  "5", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}"}
+        - { seed: "10306", inst:  "6", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}"}
+        - { seed: "10307", inst:  "7", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_07_ratio_0_4}}"}
+        - { seed: "10308", inst:  "8", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_08_ratio_0_4}}"}
+        - { seed: "10309", inst:  "9", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_09_ratio_0_4}}"}
+        - { seed: "10310", inst: "10", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_10_ratio_0_4}}"}
+        - { seed: "10311", inst: "11", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_11_ratio_0_4}}"}
+        - { seed: "10312", inst: "12", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_12_ratio_0_4}}"}
+        - { seed: "10313", inst: "13", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_13_ratio_0_4}}"}
+        - { seed: "10314", inst: "14", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_14_ratio_0_4}}"}
+        - { seed: "10315", inst: "15", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_15_ratio_0_4}}"}
+        - { seed: "10316", inst: "16", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_16_ratio_0_4}}"}
+        - { seed: "10317", inst: "17", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_17_ratio_0_4}}"}
+        - { seed: "10318", inst: "18", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_18_ratio_0_4}}"}
+        - { seed: "10319", inst: "19", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_19_ratio_0_4}}"}
+        - { seed: "10320", inst: "20", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_20_ratio_0_4}}"}
+        - { seed: "10321", inst: "21", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_21_ratio_0_4}}"}
+        - { seed: "10322", inst: "22", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_22_ratio_0_4}}"}
+        - { seed: "10323", inst: "23", split_csv: "{{workflow.parameters.split_csv}}", data_percentage: "{{workflow.parameters.inst_23_ratio_0_4}}"}
         # dependencies: [agg-02]
         dependencies: [agg-02]
 
@@ -638,6 +570,73 @@ spec:
         dependencies: [train-04]
         # when: "{{tasks.agg-03.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
+      # Round 5
+      # run_infer-train at Round 5
+      - name: infer-train-05
+        template: infer-job
+        arguments:
+          parameters:
+          - name: run-script
+            value: "{{workflow.parameters.infer-script}}"
+          - name: job-name
+            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}"
+          - name: rounds
+            value: "{{workflow.parameters.rounds}}"
+          - name: round
+            value: "{{tasks.agg-04.outputs.parameters.next-round}}"
+          - name: epoch
+            value: "000"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: split_csv
+            value: "{{item.split_csv}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-04.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-04.outputs.parameters.next-round}}_agg.pth"
+          - name: data_root
+            value: "{{workflow.parameters.data_root}}"
+          - name: data_set
+            value: "{{workflow.parameters.data_set}}"
+          - name: inst_root
+            value: "inst_*"
+          - name: input_channels
+            value: "{{workflow.parameters.input_channel_names}}"
+          - name: label_groups
+            value: "{{workflow.parameters.label_groups}}"
+          - name: label_names
+            value: "{{workflow.parameters.label_names}}"
+          - name: label_index
+            value: "{{workflow.parameters.label_index}}"
+          - name: seg_postfix
+            value: "{{workflow.parameters.seg_postfix}}"
+          - name: sel_list
+            value: "[train]"
+          - name: data_percentage
+            value: "100"
+        withItems:
+        - { seed: "10601", inst:  "1", split_csv: "{{workflow.parameters.split_csv}}"}
+        - { seed: "10602", inst:  "2", split_csv: "{{workflow.parameters.split_csv}}"}
+        - { seed: "10603", inst:  "3", split_csv: "{{workflow.parameters.split_csv}}"}
+        - { seed: "10604", inst:  "4", split_csv: "{{workflow.parameters.split_csv}}"}
+        - { seed: "10605", inst:  "5", split_csv: "{{workflow.parameters.split_csv}}"}
+        - { seed: "10606", inst:  "6", split_csv: "{{workflow.parameters.split_csv}}"}
+        - { seed: "10607", inst:  "7", split_csv: "{{workflow.parameters.split_csv}}"}
+        - { seed: "10608", inst:  "8", split_csv: "{{workflow.parameters.split_csv}}"}
+        - { seed: "10609", inst:  "9", split_csv: "{{workflow.parameters.split_csv}}"}
+        - { seed: "10610", inst: "10", split_csv: "{{workflow.parameters.split_csv}}"}
+        - { seed: "10611", inst: "11", split_csv: "{{workflow.parameters.split_csv}}"}
+        - { seed: "10612", inst: "12", split_csv: "{{workflow.parameters.split_csv}}"}
+        - { seed: "10613", inst: "13", split_csv: "{{workflow.parameters.split_csv}}"}
+        - { seed: "10614", inst: "14", split_csv: "{{workflow.parameters.split_csv}}"}
+        - { seed: "10615", inst: "15", split_csv: "{{workflow.parameters.split_csv}}"}
+        - { seed: "10616", inst: "16", split_csv: "{{workflow.parameters.split_csv}}"}
+        - { seed: "10617", inst: "17", split_csv: "{{workflow.parameters.split_csv}}"}
+        - { seed: "10618", inst: "18", split_csv: "{{workflow.parameters.split_csv}}"}
+        - { seed: "10619", inst: "19", split_csv: "{{workflow.parameters.split_csv}}"}
+        - { seed: "10620", inst: "20", split_csv: "{{workflow.parameters.split_csv}}"}
+        - { seed: "10621", inst: "21", split_csv: "{{workflow.parameters.split_csv}}"}
+        - { seed: "10622", inst: "22", split_csv: "{{workflow.parameters.split_csv}}"}
+        - { seed: "10623", inst: "23", split_csv: "{{workflow.parameters.split_csv}}"}
+        dependencies: [agg-04]
 
       # Round 5
       - name: train-05
@@ -688,7 +687,7 @@ spec:
         - { seed: "10521", inst: "21", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_21/R{{workflow.parameters.rounds}}r{{tasks.agg-04.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-04.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_21_ratio_5_9}}"}
         - { seed: "10522", inst: "22", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_22/R{{workflow.parameters.rounds}}r{{tasks.agg-04.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-04.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_22_ratio_5_9}}"}
         - { seed: "10523", inst: "23", split_csv: "/fedpod/states/{{workflow.parameters.job-prefix}}_23/R{{workflow.parameters.rounds}}r{{tasks.agg-04.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-04.outputs.parameters.next-round}}E000_case_metrics.csv", data_percentage: "{{workflow.parameters.inst_23_ratio_5_9}}"}
-        dependencies: [agg-04] # [agg-04] # [infer-train-05]
+        dependencies: [infer-train-05] # [agg-04] # [infer-train-05]
         # when: "{{tasks.agg-04.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-05
