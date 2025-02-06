@@ -118,7 +118,7 @@ class Unet3DApp:
             # batch_size=1,
             # collate_fn=custom_collate,
             # shuffle=False,
-            shuffle=True if 'experiments' in self.cli_args.cases_split else False, # states\centre_val01\R20r03\E000\R20r03E000_case_metrics.csv
+            shuffle=True, # True if 'experiments' in self.cli_args.cases_split else False, # states\centre_val01\R20r03\E000\R20r03E000_case_metrics.csv
             drop_last=False,
             num_workers=self.cli_args.num_workers,
             pin_memory=self.use_cuda)
