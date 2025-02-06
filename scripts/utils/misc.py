@@ -43,8 +43,8 @@ def load_subjects_list(percentile: int, rounds: int, round: int, split_path: str
         Partition_round = f"R{round}"
         # trainset 의 경우에는 손실값이 있으면 손실값 기준으로 정렬하도록 하기 (R0, R1, R2, R3 ...)
         filtered_df = df[df[Partition_ID].isin(unique_inst_ids)] # [['Partition_ID','Subject_ID','TrainOrVal',f"{Partition_round}"]]
-        train_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['train'])].sort_values(by=Partition_round, ascending=True)[['Subject_ID']])
-        DSC_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['train'])].sort_values(by=Partition_round, ascending=True)[[Partition_round]])
+        train_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['train'])].sort_values(by=Partition_round, ascending=True)['Subject_ID'])
+        DSC_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['train'])].sort_values(by=Partition_round, ascending=True)[Partition_round])
         
         total_len = len(train_list)
         percentile_indice = int(total_len * (percentile / 100))
