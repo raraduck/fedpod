@@ -1819,7 +1819,7 @@ spec:
           - name: rounds
             value: "{{workflow.parameters.rounds}}"
           - name: round
-            value: "{{tasks.agg-18.outputs.parameters.next-round}}"
+            value: "{{tasks.agg-17.outputs.parameters.next-round}}"
           - name: epoch
             value: "000"
           - name: inst-id
@@ -1827,7 +1827,7 @@ spec:
           - name: split_csv
             value: "{{item.split_csv}}"
           - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-18.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-18.outputs.parameters.next-round}}_agg.pth"
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-17.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-17.outputs.parameters.next-round}}_agg.pth"
           - name: data_root
             value: "{{workflow.parameters.data_root}}"
           - name: data_set
@@ -1872,7 +1872,7 @@ spec:
         - { seed: "10621", inst: "21", split_csv: "{{workflow.parameters.split_csv}}"}
         - { seed: "10622", inst: "22", split_csv: "{{workflow.parameters.split_csv}}"}
         - { seed: "10623", inst: "23", split_csv: "{{workflow.parameters.split_csv}}"}
-        dependencies: [agg-18]
+        dependencies: [agg-17]
         # Infer END
 
       # Round 18
@@ -1885,7 +1885,7 @@ spec:
           - name: seed
             value: "{{item.seed}}"
           - name: split_csv
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_{{item.inst}}/R{{workflow.parameters.rounds}}r{{tasks.agg-18.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-18.outputs.parameters.next-round}}E000_case_metrics.csv"
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_{{item.inst}}/R{{workflow.parameters.rounds}}r{{tasks.agg-17.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-17.outputs.parameters.next-round}}E000_case_metrics.csv"
             # value: "{{workflow.parameters.split_csv}}"
           - name: train-script
             value: "{{workflow.parameters.train-script}}"
