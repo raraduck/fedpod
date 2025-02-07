@@ -632,11 +632,11 @@ spec:
           - name: agg-script
             value: "{{workflow.parameters.agg-script}}"
           - name: round
-            value: "{{tasks.agg-04.outputs.parameters.next-round}}"
+            value: "05" # "{{tasks.agg-04.outputs.parameters.next-round}}"
           - name: epochs
             value: "003"
           - name: epoch
-            value: "{{tasks.agg-04.outputs.parameters.next-epoch}}"
+            value: "012" # "{{tasks.agg-04.outputs.parameters.next-epoch}}"
           - name: inst-id
             value: "0"
           - name: model_pth
