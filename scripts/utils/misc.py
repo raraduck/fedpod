@@ -47,14 +47,15 @@ def load_subjects_list(percentile: int, rounds: int, round: int, split_path: str
             train_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['train'])]['Subject_ID'])
             total_len = len(train_list)
             percentile_indice = max(1,int(total_len * (percentile / 100)))
-            # random.shuffle(train_list)
-            train_list.sort()
+            random.shuffle(train_list)
+            # train_list.sort()
             percentile_train_list = train_list[:percentile_indice]
         else:
             train_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['train'])].sort_values(by=Partition_round, ascending=True)['Subject_ID'])
             total_len = len(train_list)
             percentile_indice = max(1,int(total_len * (percentile / 100)))
-            percentile_train_list = train_list[:percentile_indice]
+            # percentile_train_list = train_list[:percentile_indice]
+            percentile_train_list = train_list[-percentile_indice:]
             random.shuffle(percentile_train_list)
         # for debugging
         # DSC_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['train'])].sort_values(by=Partition_round, ascending=True)[Partition_round])
