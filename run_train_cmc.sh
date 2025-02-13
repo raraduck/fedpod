@@ -69,7 +69,7 @@ python3 scripts/run_train.py \
   --epochs $epochs \
   --epoch $epoch \
   \
-  --resize 128 \
+  --resize 192 \
   --patch_size 128 \
   --zoom 1 \
   --flip_lr 0 \
@@ -96,5 +96,5 @@ python3 scripts/run_train.py \
   --kernel_size 3 \
   --norm instance \
   --scheduler step \
-  --milestones [$milestone] \
+  --milestones $milestone \
   --lr_gamma 0.1
