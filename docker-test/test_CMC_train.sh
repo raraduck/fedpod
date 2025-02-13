@@ -9,6 +9,7 @@ if [ "$1" = "FETS1470" ]; then
     export LABEL_NAMES="[WT,TC,ET]"
     export LABEL_INDEX="[2,1,4]"
     export JOBNAME1=cen01fets INSTID1=1
+    export SPLIT_CSV="experiments/FETS1470_v0.csv"
 elif [ "$1" = "CC359PPMI" ]; then
     export DATAROOT=data256_cc359ppmicmc_newseg
     export DATASET=CC359PPMI
@@ -17,6 +18,7 @@ elif [ "$1" = "CC359PPMI" ]; then
     export LABEL_NAMES="[LS,RS]"                # Assuming different labels for CC359
     export LABEL_INDEX="[1,2]"                  # Assuming different label indices for CC359
     export JOBNAME1=cen01cc359 INSTID1=1          # Update as needed for CC359
+    export SPLIT_CSV="experiments/CC359PPMICMC_v0.csv"
 else
     echo "Invalid dataset specified"
     exit 1
