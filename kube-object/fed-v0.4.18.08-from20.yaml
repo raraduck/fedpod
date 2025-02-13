@@ -138,75 +138,6 @@ spec:
     dag:
       tasks:
       # Round 20
-      # run_infer-train at Round 20
-      - name: infer-train-20
-        template: infer-job
-        arguments:
-          parameters:
-          - name: run-script
-            value: "{{workflow.parameters.infer-script}}"
-          - name: job-name
-            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}"
-          - name: rounds
-            value: "{{workflow.parameters.rounds}}"
-          - name: round
-            value: "20" # "{{tasks.agg-04.outputs.parameters.next-round}}"
-          - name: epoch
-            value: "000"
-          - name: inst-id
-            value: "{{item.inst}}"
-          - name: split_csv
-            value: "{{workflow.parameters.split_csv}}"
-          - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R20r20/models/R20r20_agg.pth"
-          - name: data_root
-            value: "{{workflow.parameters.data_root}}"
-          - name: data_set
-            value: "{{workflow.parameters.data_set}}"
-          - name: inst_root
-            value: "inst_*"
-          - name: input_channels
-            value: "{{workflow.parameters.input_channel_names}}"
-          - name: label_groups
-            value: "{{workflow.parameters.label_groups}}"
-          - name: label_names
-            value: "{{workflow.parameters.label_names}}"
-          - name: label_index
-            value: "{{workflow.parameters.label_index}}"
-          - name: seg_postfix
-            value: "{{workflow.parameters.seg_postfix}}"
-          - name: sel_list
-            value: "[train]"
-          - name: data_percentage
-            value: "100"
-        withItems:
-        - { seed: "12001", inst:  "1"}
-        - { seed: "12002", inst:  "2"}
-        - { seed: "12003", inst:  "3"}
-        - { seed: "12004", inst:  "4"}
-        - { seed: "12005", inst:  "5"}
-        - { seed: "12006", inst:  "6"}
-        - { seed: "12007", inst:  "7"}
-        - { seed: "12008", inst:  "8"}
-        - { seed: "12009", inst:  "9"}
-        - { seed: "12010", inst: "10"}
-        - { seed: "12011", inst: "11"}
-        - { seed: "12012", inst: "12"}
-        - { seed: "12013", inst: "13"}
-        - { seed: "12014", inst: "14"}
-        - { seed: "12015", inst: "15"}
-        - { seed: "12016", inst: "16"}
-        - { seed: "12017", inst: "17"}
-        - { seed: "12018", inst: "18"}
-        - { seed: "12019", inst: "19"}
-        - { seed: "12020", inst: "20"}
-        - { seed: "12021", inst: "21"}
-        - { seed: "12022", inst: "22"}
-        - { seed: "12023", inst: "23"}
-        # dependencies: [agg-09]
-        # Infer END
-
-      # Round 20
       - name: train-20
         template: train-job
         arguments:
@@ -216,7 +147,8 @@ spec:
           - name: seed
             value: "{{item.seed}}"
           - name: split_csv
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_{{item.inst}}/R{{workflow.parameters.rounds}}r20/E000/R{{workflow.parameters.rounds}}r20E000_case_metrics.csv"
+            value: "{{workflow.parameters.split_csv}}"
+            # value: "/fedpod/states/{{workflow.parameters.job-prefix}}_{{item.inst}}/R{{workflow.parameters.rounds}}r{{tasks.agg-09.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-09.outputs.parameters.next-round}}E000_case_metrics.csv"
           - name: train-script
             value: "{{workflow.parameters.train-script}}"
           - name: round
@@ -255,7 +187,7 @@ spec:
         - { seed: "12021", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_20_24}}"}
         - { seed: "12022", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_20_24}}"}
         - { seed: "12023", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_20_24}}"}
-        dependencies: [infer-train-20]
+        # dependencies: [agg-09]
 
       - name: agg-20
         template: aggregation-job
@@ -350,74 +282,6 @@ spec:
         dependencies: [train-21]
 
       # Round 22
-      # run_infer-train at Round 22
-      - name: infer-train-22
-        template: infer-job
-        arguments:
-          parameters:
-          - name: run-script
-            value: "{{workflow.parameters.infer-script}}"
-          - name: job-name
-            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}"
-          - name: rounds
-            value: "{{workflow.parameters.rounds}}"
-          - name: round
-            value: "{{tasks.agg-21.outputs.parameters.next-round}}"
-          - name: epoch
-            value: "000"
-          - name: inst-id
-            value: "{{item.inst}}"
-          - name: split_csv
-            value: "{{workflow.parameters.split_csv}}"
-          - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-21.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-21.outputs.parameters.next-round}}_agg.pth"
-          - name: data_root
-            value: "{{workflow.parameters.data_root}}"
-          - name: data_set
-            value: "{{workflow.parameters.data_set}}"
-          - name: inst_root
-            value: "inst_*"
-          - name: input_channels
-            value: "{{workflow.parameters.input_channel_names}}"
-          - name: label_groups
-            value: "{{workflow.parameters.label_groups}}"
-          - name: label_names
-            value: "{{workflow.parameters.label_names}}"
-          - name: label_index
-            value: "{{workflow.parameters.label_index}}"
-          - name: seg_postfix
-            value: "{{workflow.parameters.seg_postfix}}"
-          - name: sel_list
-            value: "[train]"
-          - name: data_percentage
-            value: "100"
-        withItems:
-        - { seed: "12201", inst:  "1"}
-        - { seed: "12202", inst:  "2"}
-        - { seed: "12203", inst:  "3"}
-        - { seed: "12204", inst:  "4"}
-        - { seed: "12205", inst:  "5"}
-        - { seed: "12206", inst:  "6"}
-        - { seed: "12207", inst:  "7"}
-        - { seed: "12208", inst:  "8"}
-        - { seed: "12209", inst:  "9"}
-        - { seed: "12210", inst: "10"}
-        - { seed: "12211", inst: "11"}
-        - { seed: "12212", inst: "12"}
-        - { seed: "12213", inst: "13"}
-        - { seed: "12214", inst: "14"}
-        - { seed: "12215", inst: "15"}
-        - { seed: "12216", inst: "16"}
-        - { seed: "12217", inst: "17"}
-        - { seed: "12218", inst: "18"}
-        - { seed: "12219", inst: "19"}
-        - { seed: "12220", inst: "20"}
-        - { seed: "12221", inst: "21"}
-        - { seed: "12222", inst: "22"}
-        - { seed: "12223", inst: "23"}
-        dependencies: [agg-21]
-
-      # Round 22
       - name: train-22
         template: train-job
         arguments:
@@ -427,7 +291,8 @@ spec:
           - name: seed
             value: "{{item.seed}}"
           - name: split_csv
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_{{item.inst}}/R{{workflow.parameters.rounds}}r{{tasks.agg-21.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-21.outputs.parameters.next-round}}E000_case_metrics.csv"
+            value: "{{workflow.parameters.split_csv}}"
+            # value: "/fedpod/states/{{workflow.parameters.job-prefix}}_{{item.inst}}/R{{workflow.parameters.rounds}}r{{tasks.agg-21.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-21.outputs.parameters.next-round}}E000_case_metrics.csv"
           - name: train-script
             value: "{{workflow.parameters.train-script}}"
           - name: round
@@ -466,7 +331,7 @@ spec:
         - { seed: "12221", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_20_24}}"}
         - { seed: "12222", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_20_24}}"}
         - { seed: "12223", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_20_24}}"}
-        dependencies: [infer-train-22]
+        dependencies: [agg-21]
 
       - name: agg-22
         template: aggregation-job
@@ -487,6 +352,7 @@ spec:
           - name: algorithm
             value: "{{workflow.parameters.agg-algo}}"
         dependencies: [train-22]
+        # when: "{{tasks.agg-21.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       # Round 23
       - name: train-23
@@ -562,74 +428,6 @@ spec:
         # when: "{{tasks.agg-22.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       # Round 24
-      # run_infer-train at Round 24
-      - name: infer-train-24
-        template: infer-job
-        arguments:
-          parameters:
-          - name: run-script
-            value: "{{workflow.parameters.infer-script}}"
-          - name: job-name
-            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}"
-          - name: rounds
-            value: "{{workflow.parameters.rounds}}"
-          - name: round
-            value: "{{tasks.agg-23.outputs.parameters.next-round}}"
-          - name: epoch
-            value: "000"
-          - name: inst-id
-            value: "{{item.inst}}"
-          - name: split_csv
-            value: "{{workflow.parameters.split_csv}}"
-          - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-23.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-23.outputs.parameters.next-round}}_agg.pth"
-          - name: data_root
-            value: "{{workflow.parameters.data_root}}"
-          - name: data_set
-            value: "{{workflow.parameters.data_set}}"
-          - name: inst_root
-            value: "inst_*"
-          - name: input_channels
-            value: "{{workflow.parameters.input_channel_names}}"
-          - name: label_groups
-            value: "{{workflow.parameters.label_groups}}"
-          - name: label_names
-            value: "{{workflow.parameters.label_names}}"
-          - name: label_index
-            value: "{{workflow.parameters.label_index}}"
-          - name: seg_postfix
-            value: "{{workflow.parameters.seg_postfix}}"
-          - name: sel_list
-            value: "[train]"
-          - name: data_percentage
-            value: "100"
-        withItems:
-        - { seed: "12201", inst:  "1"}
-        - { seed: "12202", inst:  "2"}
-        - { seed: "12203", inst:  "3"}
-        - { seed: "12204", inst:  "4"}
-        - { seed: "12205", inst:  "5"}
-        - { seed: "12206", inst:  "6"}
-        - { seed: "12207", inst:  "7"}
-        - { seed: "12208", inst:  "8"}
-        - { seed: "12209", inst:  "9"}
-        - { seed: "12210", inst: "10"}
-        - { seed: "12211", inst: "11"}
-        - { seed: "12212", inst: "12"}
-        - { seed: "12213", inst: "13"}
-        - { seed: "12214", inst: "14"}
-        - { seed: "12215", inst: "15"}
-        - { seed: "12216", inst: "16"}
-        - { seed: "12217", inst: "17"}
-        - { seed: "12218", inst: "18"}
-        - { seed: "12219", inst: "19"}
-        - { seed: "12220", inst: "20"}
-        - { seed: "12221", inst: "21"}
-        - { seed: "12222", inst: "22"}
-        - { seed: "12223", inst: "23"}
-        dependencies: [agg-23]
-
-      # Round 24
       - name: train-24
         template: train-job
         arguments:
@@ -639,7 +437,8 @@ spec:
           - name: seed
             value: "{{item.seed}}"
           - name: split_csv
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_{{item.inst}}/R{{workflow.parameters.rounds}}r{{tasks.agg-23.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-23.outputs.parameters.next-round}}E000_case_metrics.csv"
+            # value: "/fedpod/states/{{workflow.parameters.job-prefix}}_{{item.inst}}/R{{workflow.parameters.rounds}}r{{tasks.agg-23.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-23.outputs.parameters.next-round}}E000_case_metrics.csv"
+            value: "{{workflow.parameters.split_csv}}"
           - name: train-script
             value: "{{workflow.parameters.train-script}}"
           - name: round
@@ -678,7 +477,7 @@ spec:
         - { seed: "12421", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_20_24}}"}
         - { seed: "12422", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_20_24}}"}
         - { seed: "12423", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_20_24}}"}
-        dependencies: [infer-train-24]
+        dependencies: [agg-23]
         # when: "{{tasks.agg-23.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-24
@@ -778,74 +577,6 @@ spec:
 
 
       # Round 26
-      # run_infer-train at Round 26
-      - name: infer-train-26
-        template: infer-job
-        arguments:
-          parameters:
-          - name: run-script
-            value: "{{workflow.parameters.infer-script}}"
-          - name: job-name
-            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}"
-          - name: rounds
-            value: "{{workflow.parameters.rounds}}"
-          - name: round
-            value: "{{tasks.agg-25.outputs.parameters.next-round}}"
-          - name: epoch
-            value: "000"
-          - name: inst-id
-            value: "{{item.inst}}"
-          - name: split_csv
-            value: "{{workflow.parameters.split_csv}}"
-          - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-25.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-25.outputs.parameters.next-round}}_agg.pth"
-          - name: data_root
-            value: "{{workflow.parameters.data_root}}"
-          - name: data_set
-            value: "{{workflow.parameters.data_set}}"
-          - name: inst_root
-            value: "inst_*"
-          - name: input_channels
-            value: "{{workflow.parameters.input_channel_names}}"
-          - name: label_groups
-            value: "{{workflow.parameters.label_groups}}"
-          - name: label_names
-            value: "{{workflow.parameters.label_names}}"
-          - name: label_index
-            value: "{{workflow.parameters.label_index}}"
-          - name: seg_postfix
-            value: "{{workflow.parameters.seg_postfix}}"
-          - name: sel_list
-            value: "[train]"
-          - name: data_percentage
-            value: "100"
-        withItems:
-        - { seed: "12201", inst:  "1"}
-        - { seed: "12202", inst:  "2"}
-        - { seed: "12203", inst:  "3"}
-        - { seed: "12204", inst:  "4"}
-        - { seed: "12205", inst:  "5"}
-        - { seed: "12206", inst:  "6"}
-        - { seed: "12207", inst:  "7"}
-        - { seed: "12208", inst:  "8"}
-        - { seed: "12209", inst:  "9"}
-        - { seed: "12210", inst: "10"}
-        - { seed: "12211", inst: "11"}
-        - { seed: "12212", inst: "12"}
-        - { seed: "12213", inst: "13"}
-        - { seed: "12214", inst: "14"}
-        - { seed: "12215", inst: "15"}
-        - { seed: "12216", inst: "16"}
-        - { seed: "12217", inst: "17"}
-        - { seed: "12218", inst: "18"}
-        - { seed: "12219", inst: "19"}
-        - { seed: "12220", inst: "20"}
-        - { seed: "12221", inst: "21"}
-        - { seed: "12222", inst: "22"}
-        - { seed: "12223", inst: "23"}
-        dependencies: [agg-25]
-
-      # Round 26
       - name: train-26
         template: train-job
         arguments:
@@ -855,7 +586,8 @@ spec:
           - name: seed
             value: "{{item.seed}}"
           - name: split_csv
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_{{item.inst}}/R{{workflow.parameters.rounds}}r{{tasks.agg-25.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-25.outputs.parameters.next-round}}E000_case_metrics.csv"
+            # value: "/fedpod/states/{{workflow.parameters.job-prefix}}_{{item.inst}}/R{{workflow.parameters.rounds}}r{{tasks.agg-25.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-25.outputs.parameters.next-round}}E000_case_metrics.csv"
+            value: "{{workflow.parameters.split_csv}}"
           - name: train-script
             value: "{{workflow.parameters.train-script}}"
           - name: round
@@ -894,7 +626,7 @@ spec:
         - { seed: "12621", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_25_29}}"}
         - { seed: "12622", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_25_29}}"}
         - { seed: "12623", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_25_29}}"}
-        dependencies: [infer-train-26]
+        dependencies: [agg-25]
 
       - name: agg-26
         template: aggregation-job
@@ -990,74 +722,6 @@ spec:
         # when: "{{tasks.agg-26.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       # Round 28
-      # run_infer-train at Round 28
-      - name: infer-train-28
-        template: infer-job
-        arguments:
-          parameters:
-          - name: run-script
-            value: "{{workflow.parameters.infer-script}}"
-          - name: job-name
-            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}"
-          - name: rounds
-            value: "{{workflow.parameters.rounds}}"
-          - name: round
-            value: "{{tasks.agg-27.outputs.parameters.next-round}}"
-          - name: epoch
-            value: "000"
-          - name: inst-id
-            value: "{{item.inst}}"
-          - name: split_csv
-            value: "{{workflow.parameters.split_csv}}"
-          - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-27.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-27.outputs.parameters.next-round}}_agg.pth"
-          - name: data_root
-            value: "{{workflow.parameters.data_root}}"
-          - name: data_set
-            value: "{{workflow.parameters.data_set}}"
-          - name: inst_root
-            value: "inst_*"
-          - name: input_channels
-            value: "{{workflow.parameters.input_channel_names}}"
-          - name: label_groups
-            value: "{{workflow.parameters.label_groups}}"
-          - name: label_names
-            value: "{{workflow.parameters.label_names}}"
-          - name: label_index
-            value: "{{workflow.parameters.label_index}}"
-          - name: seg_postfix
-            value: "{{workflow.parameters.seg_postfix}}"
-          - name: sel_list
-            value: "[train]"
-          - name: data_percentage
-            value: "100"
-        withItems:
-        - { seed: "12201", inst:  "1"}
-        - { seed: "12202", inst:  "2"}
-        - { seed: "12203", inst:  "3"}
-        - { seed: "12204", inst:  "4"}
-        - { seed: "12205", inst:  "5"}
-        - { seed: "12206", inst:  "6"}
-        - { seed: "12207", inst:  "7"}
-        - { seed: "12208", inst:  "8"}
-        - { seed: "12209", inst:  "9"}
-        - { seed: "12210", inst: "10"}
-        - { seed: "12211", inst: "11"}
-        - { seed: "12212", inst: "12"}
-        - { seed: "12213", inst: "13"}
-        - { seed: "12214", inst: "14"}
-        - { seed: "12215", inst: "15"}
-        - { seed: "12216", inst: "16"}
-        - { seed: "12217", inst: "17"}
-        - { seed: "12218", inst: "18"}
-        - { seed: "12219", inst: "19"}
-        - { seed: "12220", inst: "20"}
-        - { seed: "12221", inst: "21"}
-        - { seed: "12222", inst: "22"}
-        - { seed: "12223", inst: "23"}
-        dependencies: [agg-27]
-
-      # Round 28
       - name: train-28
         template: train-job
         arguments:
@@ -1067,8 +731,8 @@ spec:
           - name: seed
             value: "{{item.seed}}"
           - name: split_csv
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_{{item.inst}}/R{{workflow.parameters.rounds}}r{{tasks.agg-27.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-27.outputs.parameters.next-round}}E000_case_metrics.csv"
-            # value: "{{workflow.parameters.split_csv}}"
+            # value: "/fedpod/states/{{workflow.parameters.job-prefix}}_{{item.inst}}/R{{workflow.parameters.rounds}}r{{tasks.agg-27.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-27.outputs.parameters.next-round}}E000_case_metrics.csv"
+            value: "{{workflow.parameters.split_csv}}"
           - name: train-script
             value: "{{workflow.parameters.train-script}}"
           - name: round
@@ -1107,7 +771,7 @@ spec:
         - { seed: "12821", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_25_29}}"}
         - { seed: "12822", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_25_29}}"}
         - { seed: "12823", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_25_29}}"}
-        dependencies: [infer-train-28]
+        dependencies: [agg-27]
         # when: "{{tasks.agg-27.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
       - name: agg-28
