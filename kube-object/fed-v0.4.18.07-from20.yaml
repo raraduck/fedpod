@@ -941,7 +941,7 @@ spec:
           -S {{inputs.parameters.seed}} 
           -s 0
           -f 10
-          -m [20,90]
+          -m [20,60,90]
           -g 0 
           -J {{inputs.parameters.job-name}} 
           -R {{workflow.parameters.rounds}} 
