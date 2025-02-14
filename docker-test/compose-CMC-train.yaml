@@ -8,12 +8,12 @@ services:
       -S 10000
       -s 1 
       -f 5
-      -m [15]
+      -m [20,30]
       -g 1 
       -J ${JOBNAME1}
       -R ${ROUNDS}
       -r ${ROUND}
-      -E 20
+      -E 40
       -e 0
       -i ${INSTID1}
       -c ${SPLIT_CSV}
