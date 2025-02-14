@@ -20,7 +20,7 @@ spec:
     - name: forward-script
       value: "run_forward.sh"
     - name: rounds
-      value: "30"
+      value: "40"
     - name: initial-round
       value: "00"
     - name: initial-epoch
