@@ -264,11 +264,11 @@ spec:
           - name: agg-script
             value: "{{workflow.parameters.agg-script}}"
           - name: round
-            value: "20" # "{{tasks.agg-04.outputs.parameters.next-round}}"
+            value: "30" # "{{tasks.agg-04.outputs.parameters.next-round}}"
           - name: epochs
             value: "003"
           - name: epoch
-            value: "057" # "{{tasks.agg-04.outputs.parameters.next-epoch}}"
+            value: "087" # "{{tasks.agg-04.outputs.parameters.next-epoch}}"
           - name: inst-id
             value: "0"
           - name: model_pth
