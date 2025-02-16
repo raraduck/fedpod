@@ -1,0 +1,1508 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: fed-
+spec:
+  entrypoint: parallel-dag
+  # onExit: infer-test-dag
+  arguments:
+    parameters:
+    - name: data_root
+      value: "data_cc359ppmicmc256_dwnusa"
+    - name: data_set
+      value: ""
+    - name: train-script
+      value: "run_train.sh"
+    - name: agg-script
+      value: "run_aggregation.sh"
+    - name: infer-script
+      value: "run_infer.sh"
+    - name: forward-script
+      value: "run_forward.sh"
+    - name: rounds
+      value: "40"
+    - name: initial-round
+      value: "00"
+    - name: initial-epoch
+      value: "000"
+    - name: job-prefix
+      value: "undefined"
+    - name: split_csv
+      value: "undefined" # "cc359ppmi128/CC359PPMI_nj4r12v3.csv"
+    - name: init_model
+      value: "None"
+    - name: input_channel_names
+      value: "None"
+    - name: label_groups
+      value: "None"
+    - name: label_names
+      value: "None"
+    - name: label_index
+      value: "None"
+    - name: agg-algo
+      value: "fedavg"
+    - name: inst_01_ratio_30_34
+      value: "100"
+    - name: inst_02_ratio_30_34
+      value: "100"
+    - name: inst_03_ratio_30_34
+      value: "100"
+    - name: inst_04_ratio_30_34
+      value: "100"
+    - name: inst_05_ratio_30_34
+      value: "100"
+    - name: inst_06_ratio_30_34
+      value: "100"
+    - name: inst_07_ratio_30_34
+      value: "100"
+    - name: inst_08_ratio_30_34
+      value: "100"
+    - name: inst_09_ratio_30_34
+      value: "100"
+    - name: inst_10_ratio_30_34
+      value: "100"
+    - name: inst_11_ratio_30_34
+      value: "100"
+    - name: inst_12_ratio_30_34
+      value: "100"
+    - name: inst_13_ratio_30_34
+      value: "100"
+    - name: inst_14_ratio_30_34
+      value: "100"
+    - name: inst_15_ratio_30_34
+      value: "100"
+    - name: inst_16_ratio_30_34
+      value: "100"
+    - name: inst_17_ratio_30_34
+      value: "100"
+    - name: inst_18_ratio_30_34
+      value: "100"
+    - name: inst_19_ratio_30_34
+      value: "100"
+    - name: inst_20_ratio_30_34
+      value: "100"
+    - name: inst_21_ratio_30_34
+      value: "100"
+    - name: inst_22_ratio_30_34
+      value: "100"
+    - name: inst_23_ratio_30_34
+      value: "100"
+    - name: inst_01_ratio_35_39
+      value: "100"
+    - name: inst_02_ratio_35_39
+      value: "100"
+    - name: inst_03_ratio_35_39
+      value: "100"
+    - name: inst_04_ratio_35_39
+      value: "100"
+    - name: inst_05_ratio_35_39
+      value: "100"
+    - name: inst_06_ratio_35_39
+      value: "100"
+    - name: inst_07_ratio_35_39
+      value: "100"
+    - name: inst_08_ratio_35_39
+      value: "100"
+    - name: inst_09_ratio_35_39
+      value: "100"
+    - name: inst_10_ratio_35_39
+      value: "100"
+    - name: inst_11_ratio_35_39
+      value: "100"
+    - name: inst_12_ratio_35_39
+      value: "100"
+    - name: inst_13_ratio_35_39
+      value: "100"
+    - name: inst_14_ratio_35_39
+      value: "100"
+    - name: inst_15_ratio_35_39
+      value: "100"
+    - name: inst_16_ratio_35_39
+      value: "100"
+    - name: inst_17_ratio_35_39
+      value: "100"
+    - name: inst_18_ratio_35_39
+      value: "100"
+    - name: inst_19_ratio_35_39
+      value: "100"
+    - name: inst_20_ratio_35_39
+      value: "100"
+    - name: inst_21_ratio_35_39
+      value: "100"
+    - name: inst_22_ratio_35_39
+      value: "100"
+    - name: inst_23_ratio_35_39
+      value: "100"
+  templates:
+  - name: parallel-dag
+    dag:
+      tasks:
+      # Round 30
+      # run_infer-train at Round 30
+      - name: infer-train-30
+        template: infer-job
+        arguments:
+          parameters:
+          - name: run-script
+            value: "{{workflow.parameters.infer-script}}"
+          - name: job-name
+            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}"
+          - name: rounds
+            value: "{{workflow.parameters.rounds}}"
+          - name: round
+            value: "30" # "{{tasks.agg-04.outputs.parameters.next-round}}"
+          - name: epoch
+            value: "000"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: split_csv
+            value: "{{workflow.parameters.split_csv}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R30r30/models/R30r30_agg.pth"
+          - name: data_root
+            value: "{{workflow.parameters.data_root}}"
+          - name: data_set
+            value: "{{workflow.parameters.data_set}}"
+          - name: inst_root
+            value: "inst_*"
+          - name: input_channels
+            value: "{{workflow.parameters.input_channel_names}}"
+          - name: label_groups
+            value: "{{workflow.parameters.label_groups}}"
+          - name: label_names
+            value: "{{workflow.parameters.label_names}}"
+          - name: label_index
+            value: "{{workflow.parameters.label_index}}"
+          - name: seg_postfix
+            value: "{{workflow.parameters.seg_postfix}}"
+          - name: sel_list
+            value: "[train]"
+          - name: data_percentage
+            value: "100"
+        withItems:
+        - { seed: "13001", inst:  "1"}
+        - { seed: "13002", inst:  "2"}
+        - { seed: "13003", inst:  "3"}
+        - { seed: "13004", inst:  "4"}
+        - { seed: "13005", inst:  "5"}
+        - { seed: "13006", inst:  "6"}
+        - { seed: "13007", inst:  "7"}
+        - { seed: "13008", inst:  "8"}
+        - { seed: "13009", inst:  "9"}
+        - { seed: "13010", inst: "10"}
+        - { seed: "13011", inst: "11"}
+        - { seed: "13012", inst: "12"}
+        - { seed: "13013", inst: "13"}
+        - { seed: "13014", inst: "14"}
+        - { seed: "13015", inst: "15"}
+        - { seed: "13016", inst: "16"}
+        - { seed: "13017", inst: "17"}
+        - { seed: "13018", inst: "18"}
+        - { seed: "13019", inst: "19"}
+        - { seed: "13020", inst: "20"}
+        - { seed: "13021", inst: "21"}
+        - { seed: "13022", inst: "22"}
+        - { seed: "13023", inst: "23"}
+        # dependencies: [agg-09]
+        # Infer END
+
+      # Round 30
+      - name: train-30
+        template: train-job
+        arguments:
+          parameters:
+          - name: job-name
+            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}"
+          - name: seed
+            value: "{{item.seed}}"
+          - name: split_csv
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_{{item.inst}}/R{{workflow.parameters.rounds}}r30/E000/R{{workflow.parameters.rounds}}r30E000_case_metrics.csv"
+          - name: train-script
+            value: "{{workflow.parameters.train-script}}"
+          - name: round
+            value: "30" # "{{tasks.agg-04.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "003"
+          - name: epoch
+            value: "087" # "{{tasks.agg-04.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R30r30/models/R30r30_agg.pth"
+          - name: data_percentage
+            value: "{{item.data_percentage}}"
+        withItems:
+        - { seed: "13001", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_30_34}}"}
+        - { seed: "13002", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_30_34}}"}
+        - { seed: "13003", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_30_34}}"}
+        - { seed: "13004", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_30_34}}"}
+        - { seed: "13005", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_30_34}}"}
+        - { seed: "13006", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_30_34}}"}
+        - { seed: "13007", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_30_34}}"}
+        - { seed: "13008", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_30_34}}"}
+        - { seed: "13009", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_30_34}}"}
+        - { seed: "13010", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_30_34}}"}
+        - { seed: "13011", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_30_34}}"}
+        - { seed: "13012", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_30_34}}"}
+        - { seed: "13013", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_30_34}}"}
+        - { seed: "13014", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_30_34}}"}
+        - { seed: "13015", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_30_34}}"}
+        - { seed: "13016", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_30_34}}"}
+        - { seed: "13017", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_30_34}}"}
+        - { seed: "13018", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_30_34}}"}
+        - { seed: "13019", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_30_34}}"}
+        - { seed: "13020", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_30_34}}"}
+        - { seed: "13021", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_30_34}}"}
+        - { seed: "13022", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_30_34}}"}
+        - { seed: "13023", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_30_34}}"}
+        dependencies: [infer-train-30]
+
+      - name: agg-30
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: agg-script
+            value: "{{workflow.parameters.agg-script}}"
+          - name: round
+            value: "20" # "{{tasks.agg-04.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "003"
+          - name: epoch
+            value: "057" # "{{tasks.agg-04.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "0"
+          - name: model_pth
+            value: "None"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
+        dependencies: [train-30]
+        # when: "{{tasks.agg-09.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+        
+      # Round 31
+      - name: train-31
+        template: train-job
+        arguments:
+          parameters:
+          - name: job-name
+            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}"
+          - name: seed
+            value: "{{item.seed}}"
+          - name: split_csv
+            value: "{{workflow.parameters.split_csv}}"
+          - name: train-script
+            value: "{{workflow.parameters.train-script}}"
+          - name: round
+            value: "{{tasks.agg-30.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "003"
+          - name: epoch
+            value: "{{tasks.agg-30.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-30.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-30.outputs.parameters.next-round}}_agg.pth"
+          - name: data_percentage
+            value: "{{item.data_percentage}}"
+        withItems:
+        - { seed: "13101", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_30_34}}"}
+        - { seed: "13102", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_30_34}}"}
+        - { seed: "13103", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_30_34}}"}
+        - { seed: "13104", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_30_34}}"}
+        - { seed: "13105", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_30_34}}"}
+        - { seed: "13106", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_30_34}}"}
+        - { seed: "13107", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_30_34}}"}
+        - { seed: "13108", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_30_34}}"}
+        - { seed: "13109", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_30_34}}"}
+        - { seed: "13110", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_30_34}}"}
+        - { seed: "13111", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_30_34}}"}
+        - { seed: "13112", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_30_34}}"}
+        - { seed: "13113", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_30_34}}"}
+        - { seed: "13114", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_30_34}}"}
+        - { seed: "13115", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_30_34}}"}
+        - { seed: "13116", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_30_34}}"}
+        - { seed: "13117", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_30_34}}"}
+        - { seed: "13118", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_30_34}}"}
+        - { seed: "13119", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_30_34}}"}
+        - { seed: "13120", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_30_34}}"}
+        - { seed: "13121", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_30_34}}"}
+        - { seed: "13122", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_30_34}}"}
+        - { seed: "13123", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_30_34}}"}
+        dependencies: [agg-30]
+
+      - name: agg-31
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: agg-script
+            value: "{{workflow.parameters.agg-script}}"
+          - name: round
+            value: "{{tasks.agg-30.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "003"
+          - name: epoch
+            value: "{{tasks.agg-30.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "0"
+          - name: model_pth
+            value: "None"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
+        dependencies: [train-31]
+
+      # Round 32
+      # run_infer-train at Round 32
+      - name: infer-train-32
+        template: infer-job
+        arguments:
+          parameters:
+          - name: run-script
+            value: "{{workflow.parameters.infer-script}}"
+          - name: job-name
+            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}"
+          - name: rounds
+            value: "{{workflow.parameters.rounds}}"
+          - name: round
+            value: "{{tasks.agg-31.outputs.parameters.next-round}}"
+          - name: epoch
+            value: "000"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: split_csv
+            value: "{{workflow.parameters.split_csv}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-31.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-31.outputs.parameters.next-round}}_agg.pth"
+          - name: data_root
+            value: "{{workflow.parameters.data_root}}"
+          - name: data_set
+            value: "{{workflow.parameters.data_set}}"
+          - name: inst_root
+            value: "inst_*"
+          - name: input_channels
+            value: "{{workflow.parameters.input_channel_names}}"
+          - name: label_groups
+            value: "{{workflow.parameters.label_groups}}"
+          - name: label_names
+            value: "{{workflow.parameters.label_names}}"
+          - name: label_index
+            value: "{{workflow.parameters.label_index}}"
+          - name: seg_postfix
+            value: "{{workflow.parameters.seg_postfix}}"
+          - name: sel_list
+            value: "[train]"
+          - name: data_percentage
+            value: "100"
+        withItems:
+        - { seed: "13201", inst:  "1"}
+        - { seed: "13202", inst:  "2"}
+        - { seed: "13203", inst:  "3"}
+        - { seed: "13204", inst:  "4"}
+        - { seed: "13205", inst:  "5"}
+        - { seed: "13206", inst:  "6"}
+        - { seed: "13207", inst:  "7"}
+        - { seed: "13208", inst:  "8"}
+        - { seed: "13209", inst:  "9"}
+        - { seed: "13210", inst: "10"}
+        - { seed: "13211", inst: "11"}
+        - { seed: "13212", inst: "12"}
+        - { seed: "13213", inst: "13"}
+        - { seed: "13214", inst: "14"}
+        - { seed: "13215", inst: "15"}
+        - { seed: "13216", inst: "16"}
+        - { seed: "13217", inst: "17"}
+        - { seed: "13218", inst: "18"}
+        - { seed: "13219", inst: "19"}
+        - { seed: "13220", inst: "20"}
+        - { seed: "13221", inst: "21"}
+        - { seed: "13222", inst: "22"}
+        - { seed: "13223", inst: "23"}
+        dependencies: [agg-31]
+
+      # Round 32
+      - name: train-32
+        template: train-job
+        arguments:
+          parameters:
+          - name: job-name
+            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}"
+          - name: seed
+            value: "{{item.seed}}"
+          - name: split_csv
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_{{item.inst}}/R{{workflow.parameters.rounds}}r{{tasks.agg-31.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-31.outputs.parameters.next-round}}E000_case_metrics.csv"
+          - name: train-script
+            value: "{{workflow.parameters.train-script}}"
+          - name: round
+            value: "{{tasks.agg-31.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "003"
+          - name: epoch
+            value: "{{tasks.agg-31.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-31.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-31.outputs.parameters.next-round}}_agg.pth"
+          - name: data_percentage
+            value: "{{item.data_percentage}}"
+        withItems:
+        - { seed: "13201", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_30_34}}"}
+        - { seed: "13202", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_30_34}}"}
+        - { seed: "13203", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_30_34}}"}
+        - { seed: "13204", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_30_34}}"}
+        - { seed: "13205", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_30_34}}"}
+        - { seed: "13206", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_30_34}}"}
+        - { seed: "13207", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_30_34}}"}
+        - { seed: "13208", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_30_34}}"}
+        - { seed: "13209", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_30_34}}"}
+        - { seed: "13210", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_30_34}}"}
+        - { seed: "13211", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_30_34}}"}
+        - { seed: "13212", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_30_34}}"}
+        - { seed: "13213", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_30_34}}"}
+        - { seed: "13214", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_30_34}}"}
+        - { seed: "13215", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_30_34}}"}
+        - { seed: "13216", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_30_34}}"}
+        - { seed: "13217", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_30_34}}"}
+        - { seed: "13218", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_30_34}}"}
+        - { seed: "13219", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_30_34}}"}
+        - { seed: "13220", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_30_34}}"}
+        - { seed: "13221", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_30_34}}"}
+        - { seed: "13222", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_30_34}}"}
+        - { seed: "13223", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_30_34}}"}
+        dependencies: [infer-train-32]
+
+      - name: agg-32
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: agg-script
+            value: "{{workflow.parameters.agg-script}}"
+          - name: round
+            value: "{{tasks.agg-31.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "003"
+          - name: epoch
+            value: "{{tasks.agg-31.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "0"
+          - name: model_pth
+            value: "None"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
+        dependencies: [train-32]
+
+      # Round 33
+      - name: train-33
+        template: train-job
+        arguments:
+          parameters:
+          - name: job-name
+            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}"
+          - name: seed
+            value: "{{item.seed}}"
+          - name: split_csv
+            value: "{{workflow.parameters.split_csv}}"
+          - name: train-script
+            value: "{{workflow.parameters.train-script}}"
+          - name: round
+            value: "{{tasks.agg-32.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "003"
+          - name: epoch
+            value: "{{tasks.agg-32.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-32.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-32.outputs.parameters.next-round}}_agg.pth"
+          - name: data_percentage
+            value: "{{item.data_percentage}}"
+        withItems:
+        - { seed: "13301", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_30_34}}"}
+        - { seed: "13302", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_30_34}}"}
+        - { seed: "13303", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_30_34}}"}
+        - { seed: "13304", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_30_34}}"}
+        - { seed: "13305", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_30_34}}"}
+        - { seed: "13306", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_30_34}}"}
+        - { seed: "13307", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_30_34}}"}
+        - { seed: "13308", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_30_34}}"}
+        - { seed: "13309", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_30_34}}"}
+        - { seed: "13310", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_30_34}}"}
+        - { seed: "13311", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_30_34}}"}
+        - { seed: "13312", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_30_34}}"}
+        - { seed: "13313", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_30_34}}"}
+        - { seed: "13314", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_30_34}}"}
+        - { seed: "13315", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_30_34}}"}
+        - { seed: "13316", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_30_34}}"}
+        - { seed: "13317", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_30_34}}"}
+        - { seed: "13318", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_30_34}}"}
+        - { seed: "13319", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_30_34}}"}
+        - { seed: "13320", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_30_34}}"}
+        - { seed: "13321", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_30_34}}"}
+        - { seed: "13322", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_30_34}}"}
+        - { seed: "13323", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_30_34}}"}
+        dependencies: [agg-32]
+        # when: "{{tasks.agg-32.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+
+      - name: agg-33
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: agg-script
+            value: "{{workflow.parameters.agg-script}}"
+          - name: round
+            value: "{{tasks.agg-32.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "003"
+          - name: epoch
+            value: "{{tasks.agg-32.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "0"
+          - name: model_pth
+            value: "None"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
+        dependencies: [train-33]
+        # when: "{{tasks.agg-32.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+
+      # Round 34
+      # run_infer-train at Round 34
+      - name: infer-train-34
+        template: infer-job
+        arguments:
+          parameters:
+          - name: run-script
+            value: "{{workflow.parameters.infer-script}}"
+          - name: job-name
+            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}"
+          - name: rounds
+            value: "{{workflow.parameters.rounds}}"
+          - name: round
+            value: "{{tasks.agg-33.outputs.parameters.next-round}}"
+          - name: epoch
+            value: "000"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: split_csv
+            value: "{{workflow.parameters.split_csv}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-33.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-33.outputs.parameters.next-round}}_agg.pth"
+          - name: data_root
+            value: "{{workflow.parameters.data_root}}"
+          - name: data_set
+            value: "{{workflow.parameters.data_set}}"
+          - name: inst_root
+            value: "inst_*"
+          - name: input_channels
+            value: "{{workflow.parameters.input_channel_names}}"
+          - name: label_groups
+            value: "{{workflow.parameters.label_groups}}"
+          - name: label_names
+            value: "{{workflow.parameters.label_names}}"
+          - name: label_index
+            value: "{{workflow.parameters.label_index}}"
+          - name: seg_postfix
+            value: "{{workflow.parameters.seg_postfix}}"
+          - name: sel_list
+            value: "[train]"
+          - name: data_percentage
+            value: "100"
+        withItems:
+        - { seed: "13201", inst:  "1"}
+        - { seed: "13202", inst:  "2"}
+        - { seed: "13203", inst:  "3"}
+        - { seed: "13204", inst:  "4"}
+        - { seed: "13205", inst:  "5"}
+        - { seed: "13206", inst:  "6"}
+        - { seed: "13207", inst:  "7"}
+        - { seed: "13208", inst:  "8"}
+        - { seed: "13209", inst:  "9"}
+        - { seed: "13210", inst: "10"}
+        - { seed: "13211", inst: "11"}
+        - { seed: "13212", inst: "12"}
+        - { seed: "13213", inst: "13"}
+        - { seed: "13214", inst: "14"}
+        - { seed: "13215", inst: "15"}
+        - { seed: "13216", inst: "16"}
+        - { seed: "13217", inst: "17"}
+        - { seed: "13218", inst: "18"}
+        - { seed: "13219", inst: "19"}
+        - { seed: "13220", inst: "20"}
+        - { seed: "13221", inst: "21"}
+        - { seed: "13222", inst: "22"}
+        - { seed: "13223", inst: "23"}
+        dependencies: [agg-33]
+
+      # Round 34
+      - name: train-34
+        template: train-job
+        arguments:
+          parameters:
+          - name: job-name
+            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}"
+          - name: seed
+            value: "{{item.seed}}"
+          - name: split_csv
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_{{item.inst}}/R{{workflow.parameters.rounds}}r{{tasks.agg-33.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-33.outputs.parameters.next-round}}E000_case_metrics.csv"
+          - name: train-script
+            value: "{{workflow.parameters.train-script}}"
+          - name: round
+            value: "{{tasks.agg-33.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "003"
+          - name: epoch
+            value: "{{tasks.agg-33.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-33.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-33.outputs.parameters.next-round}}_agg.pth"
+          - name: data_percentage
+            value: "{{item.data_percentage}}"
+        withItems:
+        - { seed: "13401", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_30_34}}"}
+        - { seed: "13402", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_30_34}}"}
+        - { seed: "13403", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_30_34}}"}
+        - { seed: "13404", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_30_34}}"}
+        - { seed: "13405", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_30_34}}"}
+        - { seed: "13406", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_30_34}}"}
+        - { seed: "13407", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_30_34}}"}
+        - { seed: "13408", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_30_34}}"}
+        - { seed: "13409", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_30_34}}"}
+        - { seed: "13410", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_30_34}}"}
+        - { seed: "13411", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_30_34}}"}
+        - { seed: "13412", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_30_34}}"}
+        - { seed: "13413", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_30_34}}"}
+        - { seed: "13414", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_30_34}}"}
+        - { seed: "13415", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_30_34}}"}
+        - { seed: "13416", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_30_34}}"}
+        - { seed: "13417", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_30_34}}"}
+        - { seed: "13418", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_30_34}}"}
+        - { seed: "13419", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_30_34}}"}
+        - { seed: "13420", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_30_34}}"}
+        - { seed: "13421", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_30_34}}"}
+        - { seed: "13422", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_30_34}}"}
+        - { seed: "13423", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_30_34}}"}
+        dependencies: [infer-train-34]
+        # when: "{{tasks.agg-33.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+
+      - name: agg-34
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: agg-script
+            value: "{{workflow.parameters.agg-script}}"
+          - name: round
+            value: "{{tasks.agg-33.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "003"
+          - name: epoch
+            value: "{{tasks.agg-33.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "0"
+          - name: model_pth
+            value: "None"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
+        dependencies: [train-34]
+        # when: "{{tasks.agg-33.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+
+      # Round 35
+      - name: train-35
+        template: train-job
+        arguments:
+          parameters:
+          - name: job-name
+            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}"
+          - name: seed
+            value: "{{item.seed}}"
+          - name: split_csv
+            value: "{{workflow.parameters.split_csv}}"
+          - name: train-script
+            value: "{{workflow.parameters.train-script}}"
+          - name: round
+            value: "{{tasks.agg-34.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "003"
+          - name: epoch
+            value: "{{tasks.agg-34.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-34.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-34.outputs.parameters.next-round}}_agg.pth"
+          - name: data_percentage
+            value: "{{item.data_percentage}}"
+        withItems:
+        - { seed: "13501", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_35_39}}"}
+        - { seed: "13502", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_35_39}}"}
+        - { seed: "13503", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_35_39}}"}
+        - { seed: "13504", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_35_39}}"}
+        - { seed: "13505", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_35_39}}"}
+        - { seed: "13506", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_35_39}}"}
+        - { seed: "13507", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_35_39}}"}
+        - { seed: "13508", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_35_39}}"}
+        - { seed: "13509", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_35_39}}"}
+        - { seed: "13510", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_35_39}}"}
+        - { seed: "13511", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_35_39}}"}
+        - { seed: "13512", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_35_39}}"}
+        - { seed: "13513", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_35_39}}"}
+        - { seed: "13514", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_35_39}}"}
+        - { seed: "13515", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_35_39}}"}
+        - { seed: "13516", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_35_39}}"}
+        - { seed: "13517", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_35_39}}"}
+        - { seed: "13518", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_35_39}}"}
+        - { seed: "13519", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_35_39}}"}
+        - { seed: "13520", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_35_39}}"}
+        - { seed: "13521", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_35_39}}"}
+        - { seed: "13522", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_35_39}}"}
+        - { seed: "13523", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_35_39}}"}
+
+        dependencies: [agg-34]
+        # when: "{{tasks.agg-34.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+
+      - name: agg-35
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: agg-script
+            value: "{{workflow.parameters.agg-script}}"
+          - name: round
+            value: "{{tasks.agg-34.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "003"
+          - name: epoch
+            value: "{{tasks.agg-34.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "0"
+          - name: model_pth
+            value: "None"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
+        dependencies: [train-35]
+        # when: "{{tasks.agg-34.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+
+
+      # Round 36
+      # run_infer-train at Round 36
+      - name: infer-train-36
+        template: infer-job
+        arguments:
+          parameters:
+          - name: run-script
+            value: "{{workflow.parameters.infer-script}}"
+          - name: job-name
+            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}"
+          - name: rounds
+            value: "{{workflow.parameters.rounds}}"
+          - name: round
+            value: "{{tasks.agg-35.outputs.parameters.next-round}}"
+          - name: epoch
+            value: "000"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: split_csv
+            value: "{{workflow.parameters.split_csv}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-35.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-35.outputs.parameters.next-round}}_agg.pth"
+          - name: data_root
+            value: "{{workflow.parameters.data_root}}"
+          - name: data_set
+            value: "{{workflow.parameters.data_set}}"
+          - name: inst_root
+            value: "inst_*"
+          - name: input_channels
+            value: "{{workflow.parameters.input_channel_names}}"
+          - name: label_groups
+            value: "{{workflow.parameters.label_groups}}"
+          - name: label_names
+            value: "{{workflow.parameters.label_names}}"
+          - name: label_index
+            value: "{{workflow.parameters.label_index}}"
+          - name: seg_postfix
+            value: "{{workflow.parameters.seg_postfix}}"
+          - name: sel_list
+            value: "[train]"
+          - name: data_percentage
+            value: "100"
+        withItems:
+        - { seed: "13201", inst:  "1"}
+        - { seed: "13202", inst:  "2"}
+        - { seed: "13203", inst:  "3"}
+        - { seed: "13204", inst:  "4"}
+        - { seed: "13205", inst:  "5"}
+        - { seed: "13206", inst:  "6"}
+        - { seed: "13207", inst:  "7"}
+        - { seed: "13208", inst:  "8"}
+        - { seed: "13209", inst:  "9"}
+        - { seed: "13210", inst: "10"}
+        - { seed: "13211", inst: "11"}
+        - { seed: "13212", inst: "12"}
+        - { seed: "13213", inst: "13"}
+        - { seed: "13214", inst: "14"}
+        - { seed: "13215", inst: "15"}
+        - { seed: "13216", inst: "16"}
+        - { seed: "13217", inst: "17"}
+        - { seed: "13218", inst: "18"}
+        - { seed: "13219", inst: "19"}
+        - { seed: "13220", inst: "20"}
+        - { seed: "13221", inst: "21"}
+        - { seed: "13222", inst: "22"}
+        - { seed: "13223", inst: "23"}
+        dependencies: [agg-35]
+
+      # Round 36
+      - name: train-36
+        template: train-job
+        arguments:
+          parameters:
+          - name: job-name
+            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}"
+          - name: seed
+            value: "{{item.seed}}"
+          - name: split_csv
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_{{item.inst}}/R{{workflow.parameters.rounds}}r{{tasks.agg-35.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-35.outputs.parameters.next-round}}E000_case_metrics.csv"
+          - name: train-script
+            value: "{{workflow.parameters.train-script}}"
+          - name: round
+            value: "{{tasks.agg-35.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "003"
+          - name: epoch
+            value: "{{tasks.agg-35.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-35.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-35.outputs.parameters.next-round}}_agg.pth"
+          - name: data_percentage
+            value: "{{item.data_percentage}}"
+        withItems:
+        - { seed: "13601", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_35_39}}"}
+        - { seed: "13602", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_35_39}}"}
+        - { seed: "13603", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_35_39}}"}
+        - { seed: "13604", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_35_39}}"}
+        - { seed: "13605", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_35_39}}"}
+        - { seed: "13606", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_35_39}}"}
+        - { seed: "13607", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_35_39}}"}
+        - { seed: "13608", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_35_39}}"}
+        - { seed: "13609", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_35_39}}"}
+        - { seed: "13610", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_35_39}}"}
+        - { seed: "13611", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_35_39}}"}
+        - { seed: "13612", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_35_39}}"}
+        - { seed: "13613", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_35_39}}"}
+        - { seed: "13614", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_35_39}}"}
+        - { seed: "13615", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_35_39}}"}
+        - { seed: "13616", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_35_39}}"}
+        - { seed: "13617", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_35_39}}"}
+        - { seed: "13618", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_35_39}}"}
+        - { seed: "13619", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_35_39}}"}
+        - { seed: "13620", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_35_39}}"}
+        - { seed: "13621", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_35_39}}"}
+        - { seed: "13622", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_35_39}}"}
+        - { seed: "13623", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_35_39}}"}
+        dependencies: [infer-train-36]
+
+      - name: agg-36
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: agg-script
+            value: "{{workflow.parameters.agg-script}}"
+          - name: round
+            value: "{{tasks.agg-35.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "003"
+          - name: epoch
+            value: "{{tasks.agg-35.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "0"
+          - name: model_pth
+            value: "None"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
+        dependencies: [train-36]
+
+      # Round 37
+      - name: train-37
+        template: train-job
+        arguments:
+          parameters:
+          - name: job-name
+            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}"
+          - name: seed
+            value: "{{item.seed}}"
+          - name: split_csv
+            value: "{{workflow.parameters.split_csv}}"
+          - name: train-script
+            value: "{{workflow.parameters.train-script}}"
+          - name: round
+            value: "{{tasks.agg-36.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "003"
+          - name: epoch
+            value: "{{tasks.agg-36.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-36.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-36.outputs.parameters.next-round}}_agg.pth"
+          - name: data_percentage
+            value: "{{item.data_percentage}}"
+        withItems:
+        - { seed: "13701", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_35_39}}"}
+        - { seed: "13702", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_35_39}}"}
+        - { seed: "13703", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_35_39}}"}
+        - { seed: "13704", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_35_39}}"}
+        - { seed: "13705", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_35_39}}"}
+        - { seed: "13706", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_35_39}}"}
+        - { seed: "13707", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_35_39}}"}
+        - { seed: "13708", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_35_39}}"}
+        - { seed: "13709", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_35_39}}"}
+        - { seed: "13710", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_35_39}}"}
+        - { seed: "13711", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_35_39}}"}
+        - { seed: "13712", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_35_39}}"}
+        - { seed: "13713", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_35_39}}"}
+        - { seed: "13714", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_35_39}}"}
+        - { seed: "13715", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_35_39}}"}
+        - { seed: "13716", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_35_39}}"}
+        - { seed: "13717", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_35_39}}"}
+        - { seed: "13718", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_35_39}}"}
+        - { seed: "13719", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_35_39}}"}
+        - { seed: "13720", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_35_39}}"}
+        - { seed: "13721", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_35_39}}"}
+        - { seed: "13722", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_35_39}}"}
+        - { seed: "13723", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_35_39}}"}
+        dependencies: [agg-36]
+        # when: "{{tasks.agg-36.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+
+      - name: agg-37
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: agg-script
+            value: "{{workflow.parameters.agg-script}}"
+          - name: round
+            value: "{{tasks.agg-36.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "003"
+          - name: epoch
+            value: "{{tasks.agg-36.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "0"
+          - name: model_pth
+            value: "None"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
+        dependencies: [train-37]
+        # when: "{{tasks.agg-36.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+
+      # Round 38
+      # run_infer-train at Round 38
+      - name: infer-train-38
+        template: infer-job
+        arguments:
+          parameters:
+          - name: run-script
+            value: "{{workflow.parameters.infer-script}}"
+          - name: job-name
+            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}"
+          - name: rounds
+            value: "{{workflow.parameters.rounds}}"
+          - name: round
+            value: "{{tasks.agg-37.outputs.parameters.next-round}}"
+          - name: epoch
+            value: "000"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: split_csv
+            value: "{{workflow.parameters.split_csv}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-37.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-37.outputs.parameters.next-round}}_agg.pth"
+          - name: data_root
+            value: "{{workflow.parameters.data_root}}"
+          - name: data_set
+            value: "{{workflow.parameters.data_set}}"
+          - name: inst_root
+            value: "inst_*"
+          - name: input_channels
+            value: "{{workflow.parameters.input_channel_names}}"
+          - name: label_groups
+            value: "{{workflow.parameters.label_groups}}"
+          - name: label_names
+            value: "{{workflow.parameters.label_names}}"
+          - name: label_index
+            value: "{{workflow.parameters.label_index}}"
+          - name: seg_postfix
+            value: "{{workflow.parameters.seg_postfix}}"
+          - name: sel_list
+            value: "[train]"
+          - name: data_percentage
+            value: "100"
+        withItems:
+        - { seed: "13201", inst:  "1"}
+        - { seed: "13202", inst:  "2"}
+        - { seed: "13203", inst:  "3"}
+        - { seed: "13204", inst:  "4"}
+        - { seed: "13205", inst:  "5"}
+        - { seed: "13206", inst:  "6"}
+        - { seed: "13207", inst:  "7"}
+        - { seed: "13208", inst:  "8"}
+        - { seed: "13209", inst:  "9"}
+        - { seed: "13210", inst: "10"}
+        - { seed: "13211", inst: "11"}
+        - { seed: "13212", inst: "12"}
+        - { seed: "13213", inst: "13"}
+        - { seed: "13214", inst: "14"}
+        - { seed: "13215", inst: "15"}
+        - { seed: "13216", inst: "16"}
+        - { seed: "13217", inst: "17"}
+        - { seed: "13218", inst: "18"}
+        - { seed: "13219", inst: "19"}
+        - { seed: "13220", inst: "20"}
+        - { seed: "13221", inst: "21"}
+        - { seed: "13222", inst: "22"}
+        - { seed: "13223", inst: "23"}
+        dependencies: [agg-37]
+
+      # Round 38
+      - name: train-38
+        template: train-job
+        arguments:
+          parameters:
+          - name: job-name
+            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}"
+          - name: seed
+            value: "{{item.seed}}"
+          - name: split_csv
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_{{item.inst}}/R{{workflow.parameters.rounds}}r{{tasks.agg-37.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-37.outputs.parameters.next-round}}E000_case_metrics.csv"
+            # value: "{{workflow.parameters.split_csv}}"
+          - name: train-script
+            value: "{{workflow.parameters.train-script}}"
+          - name: round
+            value: "{{tasks.agg-37.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "003"
+          - name: epoch
+            value: "{{tasks.agg-37.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-37.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-37.outputs.parameters.next-round}}_agg.pth"
+          - name: data_percentage
+            value: "{{item.data_percentage}}"
+        withItems:
+        - { seed: "13801", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_35_39}}"}
+        - { seed: "13802", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_35_39}}"}
+        - { seed: "13803", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_35_39}}"}
+        - { seed: "13804", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_35_39}}"}
+        - { seed: "13805", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_35_39}}"}
+        - { seed: "13806", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_35_39}}"}
+        - { seed: "13807", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_35_39}}"}
+        - { seed: "13808", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_35_39}}"}
+        - { seed: "13809", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_35_39}}"}
+        - { seed: "13810", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_35_39}}"}
+        - { seed: "13811", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_35_39}}"}
+        - { seed: "13812", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_35_39}}"}
+        - { seed: "13813", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_35_39}}"}
+        - { seed: "13814", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_35_39}}"}
+        - { seed: "13815", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_35_39}}"}
+        - { seed: "13816", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_35_39}}"}
+        - { seed: "13817", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_35_39}}"}
+        - { seed: "13818", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_35_39}}"}
+        - { seed: "13819", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_35_39}}"}
+        - { seed: "13820", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_35_39}}"}
+        - { seed: "13821", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_35_39}}"}
+        - { seed: "13822", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_35_39}}"}
+        - { seed: "13823", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_35_39}}"}
+        dependencies: [infer-train-38]
+        # when: "{{tasks.agg-37.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+
+      - name: agg-38
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: agg-script
+            value: "{{workflow.parameters.agg-script}}"
+          - name: round
+            value: "{{tasks.agg-37.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "003"
+          - name: epoch
+            value: "{{tasks.agg-37.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "0"
+          - name: model_pth
+            value: "None"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
+        dependencies: [train-38]
+        # when: "{{tasks.agg-37.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+
+      # Round 39
+      - name: train-39
+        template: train-job
+        arguments:
+          parameters:
+          - name: job-name
+            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}"
+          - name: seed
+            value: "{{item.seed}}"
+          - name: split_csv
+            value: "{{workflow.parameters.split_csv}}"
+          - name: train-script
+            value: "{{workflow.parameters.train-script}}"
+          - name: round
+            value: "{{tasks.agg-38.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "003"
+          - name: epoch
+            value: "{{tasks.agg-38.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: model_pth
+            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-38.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-38.outputs.parameters.next-round}}_agg.pth"
+          - name: data_percentage
+            value: "{{item.data_percentage}}"
+        withItems:
+        - { seed: "13901", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_35_39}}"}
+        - { seed: "13902", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_35_39}}"}
+        - { seed: "13903", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_35_39}}"}
+        - { seed: "13904", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_35_39}}"}
+        - { seed: "13905", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_35_39}}"}
+        - { seed: "13906", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_35_39}}"}
+        - { seed: "13907", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_35_39}}"}
+        - { seed: "13908", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_35_39}}"}
+        - { seed: "13909", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_35_39}}"}
+        - { seed: "13910", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_35_39}}"}
+        - { seed: "13911", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_35_39}}"}
+        - { seed: "13912", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_35_39}}"}
+        - { seed: "13913", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_35_39}}"}
+        - { seed: "13914", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_35_39}}"}
+        - { seed: "13915", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_35_39}}"}
+        - { seed: "13916", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_35_39}}"}
+        - { seed: "13917", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_35_39}}"}
+        - { seed: "13918", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_35_39}}"}
+        - { seed: "13919", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_35_39}}"}
+        - { seed: "13920", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_35_39}}"}
+        - { seed: "13921", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_35_39}}"}
+        - { seed: "13922", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_35_39}}"}
+        - { seed: "13923", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_35_39}}"}
+        dependencies: [agg-38]
+        # when: "{{tasks.agg-38.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+
+      - name: agg-39
+        template: aggregation-job
+        arguments:
+          parameters:
+          - name: agg-script
+            value: "{{workflow.parameters.agg-script}}"
+          - name: round
+            value: "{{tasks.agg-38.outputs.parameters.next-round}}"
+          - name: epochs
+            value: "003"
+          - name: epoch
+            value: "{{tasks.agg-38.outputs.parameters.next-epoch}}"
+          - name: inst-id
+            value: "0"
+          - name: model_pth
+            value: "None"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
+        dependencies: [train-39]
+        # when: "{{tasks.agg-38.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
+
+  # Round 40 (Inference)
+  - name: infer-test-dag
+    dag:
+      tasks:
+      - name: infer-40
+        template: infer-job
+        arguments:
+          parameters:
+          - name: run-script
+            value: "{{workflow.parameters.forward-script}}"
+          - name: job-name
+            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}_test"
+          - name: rounds
+            value: "{{item.rounds}}"
+          - name: round
+            value: "{{item.round}}"
+          - name: epoch
+            value: "{{item.epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: split_csv
+            value: "{{item.split_csv}}"
+          - name: model_pth
+            value: "{{item.model_pth}}"
+          - name: data_root
+            value: "{{workflow.parameters.data_root}}"
+          - name: data_set
+            value: "{{workflow.parameters.data_set}}"
+          - name: inst_root
+            value: "inst_00"
+          - name: input_channels
+            value: "{{workflow.parameters.input_channel_names}}"
+          - name: label_groups
+            value: "{{workflow.parameters.label_groups}}"
+          - name: label_names
+            value: "{{workflow.parameters.label_names}}"
+          - name: label_index
+            value: "{{workflow.parameters.label_index}}"
+          - name: seg_postfix
+            value: "{{workflow.parameters.seg_postfix}}"
+          - name: sel_list
+            value: "[test]"
+        withItems:
+        - { rounds: "{{workflow.parameters.rounds}}", 
+            round: "40", 
+            epoch: "000", 
+            inst: "0", 
+            split_csv: "{{workflow.parameters.split_csv}}", 
+            model_pth: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R40r40/models/R40r40_agg.pth"}
+
+  - name: train-job
+    inputs:
+      parameters:
+      - name: job-name
+      - name: seed
+      - name: split_csv
+      - name: train-script
+      - name: round
+      - name: epochs
+      - name: epoch
+      - name: inst-id
+      - name: model_pth
+      - name: data_percentage
+    container:
+      image: dwnusa/fedpod:v0.4.18.08
+      imagePullPolicy: Always
+      command: ["/bin/sh", "-c"]
+      args:
+        - >
+          ./{{inputs.parameters.train-script}} 
+          -S {{inputs.parameters.seed}} 
+          -s 0
+          -f 10
+          -m [20,60,90]
+          -g 0 
+          -J {{inputs.parameters.job-name}} 
+          -R {{workflow.parameters.rounds}} 
+          -r {{inputs.parameters.round}} 
+          -E {{inputs.parameters.epochs}} 
+          -e {{inputs.parameters.epoch}} 
+          -i {{inputs.parameters.inst-id}} 
+          -c {{inputs.parameters.split_csv}} 
+          -M {{inputs.parameters.model_pth}}
+          -p {{inputs.parameters.data_percentage}}
+          -D {{workflow.parameters.data_root}} 
+          -d {{workflow.parameters.data_set}}
+          -C {{workflow.parameters.input_channel_names}}
+          -G {{workflow.parameters.label_groups}}
+          -N {{workflow.parameters.label_names}}
+          -I {{workflow.parameters.label_index}}
+      resources:
+        requests:
+          cpu: "2"
+          memory: "8G"
+      volumeMounts:
+      - name: csv-volume
+        mountPath: /fedpod/experiments
+      - name: cc359ppmi128-volume
+        mountPath: /fedpod/data
+      - name: states-volume
+        mountPath: /fedpod/states
+      - name: logs-volume
+        mountPath: /fedpod/logs
+      - name: runs-volume
+        mountPath: /fedpod/runs
+      stdin: true
+      tty: true
+    volumes:
+    - name: csv-volume
+      hostPath:
+        path: /fedpod/experiments  # 로컬 경로
+        type: Directory
+    - name: cc359ppmi128-volume
+      hostPath:
+        path: /fedpod/{{workflow.parameters.data_root}}  # 로컬 경로
+        type: Directory
+    - name: states-volume
+      hostPath:
+        path: /fedpod/states  # 로컬 경로
+        type: Directory
+    - name: logs-volume
+      hostPath:
+        path: /fedpod/logs  # 로컬 경로
+        type: Directory
+    - name: runs-volume
+      hostPath:
+        path: /fedpod/runs  # 로컬 경로
+        type: Directory
+
+
+  - name: aggregation-job
+    inputs:
+      parameters:
+      - name: agg-script
+      - name: round
+      - name: epochs
+      - name: epoch
+      - name: algorithm
+      - name: inst-id
+      - name: model_pth
+    container:
+      image: dwnusa/fedpod:v0.4.18.08
+      imagePullPolicy: Always
+      command: ["/bin/sh", "-c"]
+      args: 
+        - >
+          ./{{inputs.parameters.agg-script}} 
+          -R {{workflow.parameters.rounds}} 
+          -r {{inputs.parameters.round}} 
+          -E {{inputs.parameters.epochs}} 
+          -e {{inputs.parameters.epoch}} 
+          -j {{workflow.parameters.job-prefix}} 
+          -i {{inputs.parameters.inst-id}} 
+          -a {{inputs.parameters.algorithm}} 
+          -M {{inputs.parameters.model_pth}}
+      resources:
+        requests:
+          cpu: "2"
+          memory: "4G"
+      volumeMounts:
+      - name: csv-volume
+        mountPath: /fedpod/experiments
+      - name: cc359ppmi128-volume
+        mountPath: /fedpod/data
+      - name: states-volume
+        mountPath: /fedpod/states
+      - name: logs-volume
+        mountPath: /fedpod/logs
+      - name: runs-volume
+        mountPath: /fedpod/runs
+      stdin: true
+      tty: true
+    outputs:
+      parameters:
+      - name: next-round
+        valueFrom:
+          path: /tmp/next_round.txt  # Return the value from the temp file
+          default: "{{workflow.parameters.rounds}}"
+      - name: next-epoch
+        valueFrom:
+          path: /tmp/next_epoch.txt
+          default: "0"
+    volumes:
+    - name: csv-volume
+      hostPath:
+        path: /fedpod/experiments  # 로컬 경로
+        type: Directory
+    - name: cc359ppmi128-volume
+      hostPath:
+        path: /fedpod/{{workflow.parameters.data_root}}  # 로컬 경로
+        type: Directory
+    - name: states-volume
+      hostPath:
+        path: /fedpod/states  # 로컬 경로
+        type: Directory
+    - name: logs-volume
+      hostPath:
+        path: /fedpod/logs  # 로컬 경로
+        type: Directory
+    - name: runs-volume
+      hostPath:
+        path: /fedpod/runs  # 로컬 경로
+        type: Directory
+
+        
+  - name: infer-job
+    inputs:
+      parameters:
+      - name: run-script
+      - name: job-name
+      - name: rounds
+      - name: round
+      - name: epoch
+      - name: inst-id
+      - name: split_csv
+      - name: model_pth
+      - name: data_root
+      - name: data_set
+      - name: inst_root
+      - name: input_channels
+      - name: label_groups
+      - name: label_names
+      - name: label_index
+      - name: seg_postfix
+      - name: sel_list
+    container:
+      image: dwnusa/fedpod:v0.4.18.08
+      imagePullPolicy: Always
+      command: ["/bin/sh", "-c"]
+      args: 
+        - >
+          ./{{inputs.parameters.run-script}}
+          -s 1
+          -g 0
+          -J {{inputs.parameters.job-name}}
+          -i {{inputs.parameters.inst-id}}
+          -R {{inputs.parameters.rounds}}
+          -r {{inputs.parameters.round}}
+          -e {{inputs.parameters.epoch}}
+          -c {{inputs.parameters.split_csv}}
+          -M {{inputs.parameters.model_pth}}
+          -t {{inputs.parameters.sel_list}}
+          -D {{inputs.parameters.data_root}}
+          -d {{inputs.parameters.data_set}}
+          -n {{inputs.parameters.inst_root}}
+          -C {{inputs.parameters.input_channels}}
+          -G {{inputs.parameters.label_groups}}
+          -N {{inputs.parameters.label_names}}
+          -I {{inputs.parameters.label_index}}
+          -p {{inputs.parameters.seg_postfix}}
+      resources:
+        requests:
+          cpu: "2"
+          memory: "8G"
+      volumeMounts:
+      - name: csv-volume
+        mountPath: /fedpod/experiments
+      - name: cc359ppmi128-volume
+        mountPath: /fedpod/data
+      - name: states-volume
+        mountPath: /fedpod/states
+      - name: logs-volume
+        mountPath: /fedpod/logs
+      - name: runs-volume
+        mountPath: /fedpod/runs
+      stdin: true
+      tty: true
+    volumes:
+    - name: csv-volume
+      hostPath:
+        path: /fedpod/experiments  # 로컬 경로
+        type: Directory
+    - name: cc359ppmi128-volume
+      hostPath:
+        path: /fedpod/{{inputs.parameters.data_root}}  # 로컬 경로
+        type: Directory
+    - name: states-volume
+      hostPath:
+        path: /fedpod/states  # 로컬 경로
+        type: Directory
+    - name: logs-volume
+      hostPath:
+        path: /fedpod/logs  # 로컬 경로
+        type: Directory
+    - name: runs-volume
+      hostPath:
+        path: /fedpod/runs  # 로컬 경로
+        type: Directory
+
+  - name: dummy-task
+    container:
+      image: alpine:3.7
+      command: [sh, -c]
+      args: ["echo '12' > /tmp/next_round.txt; echo '0' > /tmp/next_epoch.txt"]
+    outputs:
+      parameters:
+      - name: next-round
+        valueFrom:
+          path: /tmp/next_round.txt
+      - name: next-epoch
+        valueFrom:
+          path: /tmp/next_epoch.txt
