@@ -12,6 +12,17 @@ if [ "$1" = "FETS1470" ]; then
     export SPLIT_CSV="experiments/FETS1470_v0.csv"
     export SEG_POSTFIX="_sub"
     export MODEL="/fedpod/states/cen01fets_0/R20r20/models/R20r20_agg.pth" 
+elif [ "$1" = "BRATS2023" ]; then
+    export DATAROOT=data240_brats2023_validation
+    export DATASET=FETS1470
+    export INPUT_CHANNEL_NAMES="[t1,t1ce,t2,flair]"
+    export LABEL_GROUPS="[[1,2,4],[1,4],[4,4]]"
+    export LABEL_NAMES="[WT,TC,ET]"
+    export LABEL_INDEX="[2,1,3]"
+    export JOBNAME1=cen01brats INSTID1=0
+    export SPLIT_CSV="experiments/BRATS2023_v0.csv"
+    export SEG_POSTFIX="_sub"
+    export MODEL="/fedpod/states/cen01fets_0/R20r20/models/R20r20_agg.pth" 
 elif [ "$1" = "CC359PPMI" ]; then
     export DATAROOT=data256_cc359ppmicmc_newseg
     export DATASET=CC359PPMI
