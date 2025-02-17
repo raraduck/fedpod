@@ -11,6 +11,7 @@ if [ "$1" = "FETS1470" ]; then
     export JOBNAME1=cen01fets INSTID1=0
     export SPLIT_CSV="experiments/FETS1470_v0.csv"
     export SEG_POSTFIX="_sub"
+    export MODEL="/fedpod/states/cen01fets_0/R20r20/models/R20r20_agg.pth" 
 elif [ "$1" = "CC359PPMI" ]; then
     export DATAROOT=data256_cc359ppmicmc_newseg
     export DATASET=CC359PPMI
@@ -21,13 +22,13 @@ elif [ "$1" = "CC359PPMI" ]; then
     export JOBNAME1=cen01cc359 INSTID1=0          # Update as needed for CC359
     export SPLIT_CSV="experiments/CC359PPMICMC_v0.csv"
     export SEG_POSTFIX="_sub"
+    export MODEL=None 
 else
     echo "Invalid dataset specified"
     exit 1
 fi
 
-export ROUNDS=1 ROUND=0 
-export MODEL=None 
+export ROUNDS=20 ROUND=20 
 
 docker-compose -f compose-CMC-train.yaml up centre0-forward && \
 docker-compose -f compose-CMC-train.yaml down
