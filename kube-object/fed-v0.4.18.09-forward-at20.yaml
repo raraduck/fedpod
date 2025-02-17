@@ -1,0 +1,494 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: fed-
+spec:
+  entrypoint: infer-test-dag
+  # entrypoint: parallel-dag
+  # onExit: infer-test-dag
+  arguments:
+    parameters:
+    - name: data_root
+      value: "data_cc359ppmicmc256_dwnusa"
+    - name: data_set
+      value: ""
+    - name: train-script
+      value: "run_train.sh"
+    - name: agg-script
+      value: "run_aggregation.sh"
+    - name: infer-script
+      value: "run_infer.sh"
+    - name: forward-script
+      value: "run_forward.sh"
+    - name: rounds
+      value: "30"
+    - name: initial-round
+      value: "00"
+    - name: initial-epoch
+      value: "000"
+    - name: job-prefix
+      value: "undefined"
+    - name: split_csv
+      value: "undefined" # "cc359ppmi128/CC359PPMI_nj4r12v3.csv"
+    - name: init_model
+      value: "None"
+    - name: input_channel_names
+      value: "None"
+    - name: label_groups
+      value: "None"
+    - name: label_names
+      value: "None"
+    - name: label_index
+      value: "None"
+    - name: agg-algo
+      value: "fedavg"
+    - name: inst_01_ratio_20_24
+      value: "100"
+    - name: inst_02_ratio_20_24
+      value: "100"
+    - name: inst_03_ratio_20_24
+      value: "100"
+    - name: inst_04_ratio_20_24
+      value: "100"
+    - name: inst_05_ratio_20_24
+      value: "100"
+    - name: inst_06_ratio_20_24
+      value: "100"
+    - name: inst_07_ratio_20_24
+      value: "100"
+    - name: inst_08_ratio_20_24
+      value: "100"
+    - name: inst_09_ratio_20_24
+      value: "100"
+    - name: inst_10_ratio_20_24
+      value: "100"
+    - name: inst_11_ratio_20_24
+      value: "100"
+    - name: inst_12_ratio_20_24
+      value: "100"
+    - name: inst_13_ratio_20_24
+      value: "100"
+    - name: inst_14_ratio_20_24
+      value: "100"
+    - name: inst_15_ratio_20_24
+      value: "100"
+    - name: inst_16_ratio_20_24
+      value: "100"
+    - name: inst_17_ratio_20_24
+      value: "100"
+    - name: inst_18_ratio_20_24
+      value: "100"
+    - name: inst_19_ratio_20_24
+      value: "100"
+    - name: inst_20_ratio_20_24
+      value: "100"
+    - name: inst_21_ratio_20_24
+      value: "100"
+    - name: inst_22_ratio_20_24
+      value: "100"
+    - name: inst_23_ratio_20_24
+      value: "100"
+    - name: inst_01_ratio_25_29
+      value: "100"
+    - name: inst_02_ratio_25_29
+      value: "100"
+    - name: inst_03_ratio_25_29
+      value: "100"
+    - name: inst_04_ratio_25_29
+      value: "100"
+    - name: inst_05_ratio_25_29
+      value: "100"
+    - name: inst_06_ratio_25_29
+      value: "100"
+    - name: inst_07_ratio_25_29
+      value: "100"
+    - name: inst_08_ratio_25_29
+      value: "100"
+    - name: inst_09_ratio_25_29
+      value: "100"
+    - name: inst_10_ratio_25_29
+      value: "100"
+    - name: inst_11_ratio_25_29
+      value: "100"
+    - name: inst_12_ratio_25_29
+      value: "100"
+    - name: inst_13_ratio_25_29
+      value: "100"
+    - name: inst_14_ratio_25_29
+      value: "100"
+    - name: inst_15_ratio_25_29
+      value: "100"
+    - name: inst_16_ratio_25_29
+      value: "100"
+    - name: inst_17_ratio_25_29
+      value: "100"
+    - name: inst_18_ratio_25_29
+      value: "100"
+    - name: inst_19_ratio_25_29
+      value: "100"
+    - name: inst_20_ratio_25_29
+      value: "100"
+    - name: inst_21_ratio_25_29
+      value: "100"
+    - name: inst_22_ratio_25_29
+      value: "100"
+    - name: inst_23_ratio_25_29
+      value: "100"
+  templates:
+  # - name: parallel-dag
+  #   dag:
+  #     tasks:
+  #     # Round 20
+  #     - name: train-20
+  #       template: train-job
+  #       arguments:
+  #         parameters:
+  #         - name: job-name
+  #           value: "{{workflow.parameters.job-prefix}}_{{item.inst}}"
+  #         - name: seed
+  #           value: "{{item.seed}}"
+  #         - name: split_csv
+  #           value: "{{workflow.parameters.split_csv}}"
+  #           # value: "/fedpod/states/{{workflow.parameters.job-prefix}}_{{item.inst}}/R{{workflow.parameters.rounds}}r{{tasks.agg-09.outputs.parameters.next-round}}/E000/R{{workflow.parameters.rounds}}r{{tasks.agg-09.outputs.parameters.next-round}}E000_case_metrics.csv"
+  #         - name: train-script
+  #           value: "{{workflow.parameters.train-script}}"
+  #         - name: round
+  #           value: "20" # "{{tasks.agg-04.outputs.parameters.next-round}}"
+  #         - name: epochs
+  #           value: "003"
+  #         - name: epoch
+  #           value: "057" # "{{tasks.agg-04.outputs.parameters.next-epoch}}"
+  #         - name: inst-id
+  #           value: "{{item.inst}}"
+  #         - name: model_pth
+  #           value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R20r20/models/R20r20_agg.pth"
+  #         - name: data_percentage
+  #           value: "{{item.data_percentage}}"
+  #       withItems:
+  #       - { seed: "12001", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_20_24}}"}
+  #       - { seed: "12002", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_20_24}}"}
+  #       - { seed: "12003", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_20_24}}"}
+  #       - { seed: "12004", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_20_24}}"}
+  #       - { seed: "12005", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_20_24}}"}
+  #       - { seed: "12006", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_20_24}}"}
+  #       - { seed: "12007", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_20_24}}"}
+  #       - { seed: "12008", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_20_24}}"}
+  #       - { seed: "12009", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_20_24}}"}
+  #       - { seed: "12010", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_20_24}}"}
+  #       - { seed: "12011", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_20_24}}"}
+  #       - { seed: "12012", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_20_24}}"}
+  #       - { seed: "12013", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_20_24}}"}
+  #       - { seed: "12014", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_20_24}}"}
+  #       - { seed: "12015", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_20_24}}"}
+  #       - { seed: "12016", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_20_24}}"}
+  #       - { seed: "12017", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_20_24}}"}
+  #       - { seed: "12018", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_20_24}}"}
+  #       - { seed: "12019", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_20_24}}"}
+  #       - { seed: "12020", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_20_24}}"}
+  #       - { seed: "12021", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_20_24}}"}
+  #       - { seed: "12022", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_20_24}}"}
+  #       - { seed: "12023", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_20_24}}"}
+  #       # dependencies: [agg-09]
+
+  # Round 20 (Inference)
+  - name: infer-test-dag
+    dag:
+      tasks:
+      - name: infer-20
+        template: infer-job
+        arguments:
+          parameters:
+          - name: run-script
+            value: "{{workflow.parameters.forward-script}}"
+          - name: job-name
+            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}_test"
+          - name: rounds
+            value: "{{item.rounds}}"
+          - name: round
+            value: "{{item.round}}"
+          - name: epoch
+            value: "{{item.epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: split_csv
+            value: "{{item.split_csv}}"
+          - name: model_pth
+            value: "{{item.model_pth}}"
+          - name: data_root
+            value: "{{workflow.parameters.data_root}}"
+          - name: data_set
+            value: "{{workflow.parameters.data_set}}"
+          - name: inst_root
+            value: "inst_00"
+          - name: input_channels
+            value: "{{workflow.parameters.input_channel_names}}"
+          - name: label_groups
+            value: "{{workflow.parameters.label_groups}}"
+          - name: label_names
+            value: "{{workflow.parameters.label_names}}"
+          - name: label_index
+            value: "{{workflow.parameters.label_index}}"
+          - name: seg_postfix
+            value: "{{workflow.parameters.seg_postfix}}"
+          - name: sel_list
+            value: "[test]"
+        withItems:
+        - { rounds: "{{workflow.parameters.rounds}}", 
+            round: "20", 
+            epoch: "000", 
+            inst: "0", 
+            split_csv: "{{workflow.parameters.split_csv}}", 
+            model_pth: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R20r20/models/R20r20_agg.pth"}
+
+  - name: train-job
+    inputs:
+      parameters:
+      - name: job-name
+      - name: seed
+      - name: split_csv
+      - name: train-script
+      - name: round
+      - name: epochs
+      - name: epoch
+      - name: inst-id
+      - name: model_pth
+      - name: data_percentage
+    container:
+      image: dwnusa/fedpod:v0.4.18.09
+      imagePullPolicy: Always
+      command: ["/bin/sh", "-c"]
+      args:
+        - >
+          ./{{inputs.parameters.train-script}} 
+          -S {{inputs.parameters.seed}} 
+          -s 0
+          -f 10
+          -m [20,60,90]
+          -g 0 
+          -J {{inputs.parameters.job-name}} 
+          -R {{workflow.parameters.rounds}} 
+          -r {{inputs.parameters.round}} 
+          -E {{inputs.parameters.epochs}} 
+          -e {{inputs.parameters.epoch}} 
+          -i {{inputs.parameters.inst-id}} 
+          -c {{inputs.parameters.split_csv}} 
+          -M {{inputs.parameters.model_pth}}
+          -p {{inputs.parameters.data_percentage}}
+          -D {{workflow.parameters.data_root}} 
+          -d {{workflow.parameters.data_set}}
+          -C {{workflow.parameters.input_channel_names}}
+          -G {{workflow.parameters.label_groups}}
+          -N {{workflow.parameters.label_names}}
+          -I {{workflow.parameters.label_index}}
+      resources:
+        requests:
+          cpu: "2"
+          memory: "8G"
+      volumeMounts:
+      - name: csv-volume
+        mountPath: /fedpod/experiments
+      - name: cc359ppmi128-volume
+        mountPath: /fedpod/data
+      - name: states-volume
+        mountPath: /fedpod/states
+      - name: logs-volume
+        mountPath: /fedpod/logs
+      - name: runs-volume
+        mountPath: /fedpod/runs
+      stdin: true
+      tty: true
+    volumes:
+    - name: csv-volume
+      hostPath:
+        path: /fedpod/experiments  # 로컬 경로
+        type: Directory
+    - name: cc359ppmi128-volume
+      hostPath:
+        path: /fedpod/{{workflow.parameters.data_root}}  # 로컬 경로
+        type: Directory
+    - name: states-volume
+      hostPath:
+        path: /fedpod/states  # 로컬 경로
+        type: Directory
+    - name: logs-volume
+      hostPath:
+        path: /fedpod/logs  # 로컬 경로
+        type: Directory
+    - name: runs-volume
+      hostPath:
+        path: /fedpod/runs  # 로컬 경로
+        type: Directory
+
+
+  - name: aggregation-job
+    inputs:
+      parameters:
+      - name: agg-script
+      - name: round
+      - name: epochs
+      - name: epoch
+      - name: algorithm
+      - name: inst-id
+      - name: model_pth
+    container:
+      image: dwnusa/fedpod:v0.4.18.09
+      imagePullPolicy: Always
+      command: ["/bin/sh", "-c"]
+      args: 
+        - >
+          ./{{inputs.parameters.agg-script}} 
+          -R {{workflow.parameters.rounds}} 
+          -r {{inputs.parameters.round}} 
+          -E {{inputs.parameters.epochs}} 
+          -e {{inputs.parameters.epoch}} 
+          -j {{workflow.parameters.job-prefix}} 
+          -i {{inputs.parameters.inst-id}} 
+          -a {{inputs.parameters.algorithm}} 
+          -M {{inputs.parameters.model_pth}}
+      resources:
+        requests:
+          cpu: "2"
+          memory: "4G"
+      volumeMounts:
+      - name: csv-volume
+        mountPath: /fedpod/experiments
+      - name: cc359ppmi128-volume
+        mountPath: /fedpod/data
+      - name: states-volume
+        mountPath: /fedpod/states
+      - name: logs-volume
+        mountPath: /fedpod/logs
+      - name: runs-volume
+        mountPath: /fedpod/runs
+      stdin: true
+      tty: true
+    outputs:
+      parameters:
+      - name: next-round
+        valueFrom:
+          path: /tmp/next_round.txt  # Return the value from the temp file
+          default: "{{workflow.parameters.rounds}}"
+      - name: next-epoch
+        valueFrom:
+          path: /tmp/next_epoch.txt
+          default: "0"
+    volumes:
+    - name: csv-volume
+      hostPath:
+        path: /fedpod/experiments  # 로컬 경로
+        type: Directory
+    - name: cc359ppmi128-volume
+      hostPath:
+        path: /fedpod/{{workflow.parameters.data_root}}  # 로컬 경로
+        type: Directory
+    - name: states-volume
+      hostPath:
+        path: /fedpod/states  # 로컬 경로
+        type: Directory
+    - name: logs-volume
+      hostPath:
+        path: /fedpod/logs  # 로컬 경로
+        type: Directory
+    - name: runs-volume
+      hostPath:
+        path: /fedpod/runs  # 로컬 경로
+        type: Directory
+
+        
+  - name: infer-job
+    inputs:
+      parameters:
+      - name: run-script
+      - name: job-name
+      - name: rounds
+      - name: round
+      - name: epoch
+      - name: inst-id
+      - name: split_csv
+      - name: model_pth
+      - name: data_root
+      - name: data_set
+      - name: inst_root
+      - name: input_channels
+      - name: label_groups
+      - name: label_names
+      - name: label_index
+      - name: seg_postfix
+      - name: sel_list
+    container:
+      image: dwnusa/fedpod:v0.4.18.09
+      imagePullPolicy: Always
+      command: ["/bin/sh", "-c"]
+      args: 
+        - >
+          ./{{inputs.parameters.run-script}}
+          -s 1
+          -g 0
+          -J {{inputs.parameters.job-name}}
+          -i {{inputs.parameters.inst-id}}
+          -R {{inputs.parameters.rounds}}
+          -r {{inputs.parameters.round}}
+          -e {{inputs.parameters.epoch}}
+          -c {{inputs.parameters.split_csv}}
+          -M {{inputs.parameters.model_pth}}
+          -t {{inputs.parameters.sel_list}}
+          -D {{inputs.parameters.data_root}}
+          -d {{inputs.parameters.data_set}}
+          -n {{inputs.parameters.inst_root}}
+          -C {{inputs.parameters.input_channels}}
+          -G {{inputs.parameters.label_groups}}
+          -N {{inputs.parameters.label_names}}
+          -I {{inputs.parameters.label_index}}
+          -p {{inputs.parameters.seg_postfix}}
+      resources:
+        requests:
+          cpu: "2"
+          memory: "8G"
+      volumeMounts:
+      - name: csv-volume
+        mountPath: /fedpod/experiments
+      - name: cc359ppmi128-volume
+        mountPath: /fedpod/data
+      - name: states-volume
+        mountPath: /fedpod/states
+      - name: logs-volume
+        mountPath: /fedpod/logs
+      - name: runs-volume
+        mountPath: /fedpod/runs
+      stdin: true
+      tty: true
+    volumes:
+    - name: csv-volume
+      hostPath:
+        path: /fedpod/experiments  # 로컬 경로
+        type: Directory
+    - name: cc359ppmi128-volume
+      hostPath:
+        path: /fedpod/{{inputs.parameters.data_root}}  # 로컬 경로
+        type: Directory
+    - name: states-volume
+      hostPath:
+        path: /fedpod/states  # 로컬 경로
+        type: Directory
+    - name: logs-volume
+      hostPath:
+        path: /fedpod/logs  # 로컬 경로
+        type: Directory
+    - name: runs-volume
+      hostPath:
+        path: /fedpod/runs  # 로컬 경로
+        type: Directory
+
+  - name: dummy-task
+    container:
+      image: alpine:3.7
+      command: [sh, -c]
+      args: ["echo '12' > /tmp/next_round.txt; echo '0' > /tmp/next_epoch.txt"]
+    outputs:
+      parameters:
+      - name: next-round
+        valueFrom:
+          path: /tmp/next_round.txt
+      - name: next-epoch
+        valueFrom:
+          path: /tmp/next_epoch.txt
