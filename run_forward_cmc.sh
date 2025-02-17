@@ -62,7 +62,7 @@ python3 scripts/run_forward.py \
     --epoch $curr_epoch \
     \
     --resize 192 \
-    --patch_size 128 \
+    --patch_size 192 \
     --zoom 0 \
     --flip_lr 0 \
     --dataset $data_set \
