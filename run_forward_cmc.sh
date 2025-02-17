@@ -61,9 +61,9 @@ python3 scripts/run_forward.py \
     --round $round \
     --epoch $curr_epoch \
     \
-    --resize 128 \
+    --resize 192 \
     --patch_size 128 \
-    --zoom 1 \
+    --zoom 0 \
     --flip_lr 0 \
     --dataset $data_set \
     --data_root $data_root \
