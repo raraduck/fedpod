@@ -21,8 +21,8 @@ elif [ "$1" = "CC359PPMI" ]; then
     export LABEL_INDEX="[1,2]"                  # Assuming different label indices for CC359
     export JOBNAME1=cen01cc359 INSTID1=0          # Update as needed for CC359
     export SPLIT_CSV="experiments/CC359PPMICMC_v0.csv"
-    export SEG_POSTFIX="_sub"
-    export MODEL=None 
+    export SEG_POSTFIX="_seg"
+    export MODEL="/fedpod/states/cen01cc359-192-192-E20_best/R01r00/models/R01r00_best.pth" 
 else
     echo "Invalid dataset specified"
     exit 1
