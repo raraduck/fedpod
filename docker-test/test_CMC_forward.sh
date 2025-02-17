@@ -30,8 +30,8 @@ fi
 
 export ROUNDS=20 ROUND=20 
 
-docker-compose -f compose-CMC-train.yaml up centre0-forward && \
-docker-compose -f compose-CMC-train.yaml down
+docker-compose -f compose-CMC-forward.yaml up centre0-forward && \
+docker-compose -f compose-CMC-forward.yaml down
 
 # export JOBNAME2=centre02 INSTID2=1
 # docker-compose -f compose-CMC-train.yaml up centre0-train2 && \
