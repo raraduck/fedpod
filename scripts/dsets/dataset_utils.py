@@ -12,7 +12,7 @@ def nib_load(file_name):
     if not os.path.exists(file_name):
         raise FileNotFoundError(file_name)
     proxy = nib.load(file_name)
-    proxy = nib.as_closest_canonical(proxy)
+    # proxy = nib.as_closest_canonical(proxy)
     data = proxy.get_fdata()
     affine = proxy.affine
     # image_shape = canonical_nii.header.get_data_shape()  # 이미지의 복셀 크기 가져오기
@@ -114,7 +114,7 @@ def get_base_transform(args):
     selected_keys = [*args.input_channel_names, 'label']
     base_transform_1 = [
         transforms.EnsureTyped(keys=selected_keys),  # 데이터를 MetaTensor로 변환
-        transforms.Orientationd(keys=selected_keys, axcodes="RAS"),
+        # transforms.Orientationd(keys=selected_keys, axcodes="RAS"),
     ]
     zoom_transform = [
         transforms.CropForegroundd(
