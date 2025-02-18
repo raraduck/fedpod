@@ -1,0 +1,141 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: fedpod-
+spec:
+  entrypoint: infer-dag
+  # onExit: infer-dag
+  arguments:
+    parameters:
+    - name: rounds
+      value: "20"
+    - name: selected-round
+      value: "20"
+    - name: selected-epoch
+      value: "00"
+
+    - name: data_root
+      value: "data_cc359ppmicmc256_dwnusa"
+    - name: infer-script
+      value: "run_forward2.sh"
+    - name: input_channel_names
+      value: "None"
+    - name: job-prefix
+      value: "undefined"
+    - name: split_csv
+      value: "undefined"
+
+    - name: model_pth
+      value: "None"
+      
+  templates:
+  - name: infer-dag
+    dag:
+      tasks:
+      - name: infer-2
+        template: infer-job
+        arguments:
+          parameters:
+          - name: infer-script
+            value: "{{workflow.parameters.infer-script}}"
+          - name: job-name
+            value: "{{item.job-name}}"
+          - name: rounds
+            value: "{{item.rounds}}"
+          - name: round
+            value: "{{item.round}}"
+          - name: epoch
+            value: "{{item.epoch}}"
+          - name: inst-id
+            value: "{{item.inst}}"
+          - name: split_csv
+            value: "{{item.split_csv}}"
+          - name: model_pth
+            value: "{{item.model_pth}}"
+          - name: data_root
+            value: "{{workflow.parameters.data_root}}"
+          - name: inst_root
+            value: "inst_00"
+          - name: input_channels
+            value: "{{workflow.parameters.input_channel_names}}"
+        withItems:
+        - { job-name: "{{workflow.parameters.job-prefix}}_forward",
+            rounds: "{{workflow.parameters.rounds}}",
+            round: "{{workflow.parameters.selected-round}}",
+            epoch: "{{workflow.parameters.selected-epoch}}",
+            inst: "0",
+            split_csv: "{{workflow.parameters.split_csv}}",
+            model_pth: "{{workflow.parameters.model_pth}}" }
+
+  - name: infer-job
+    inputs:
+      parameters:
+      - name: infer-script
+      - name: job-name
+      - name: rounds
+      - name: round
+      - name: epoch
+      - name: inst-id
+      - name: split_csv
+      - name: model_pth
+      - name: data_root
+      - name: inst_root
+      - name: input_channels
+    container:
+      image: dwnusa/fedpod:v0.4.17.23
+      imagePullPolicy: Always
+      command: ["/bin/sh", "-c"]
+      args: 
+        - >
+          ./{{inputs.parameters.infer-script}}
+          -s 1
+          -g 0
+          -J {{inputs.parameters.job-name}}
+          -i {{inputs.parameters.inst-id}}
+          -R {{inputs.parameters.rounds}}
+          -r {{inputs.parameters.round}}
+          -e {{inputs.parameters.epoch}}
+          -c {{inputs.parameters.split_csv}}
+          -M {{inputs.parameters.model_pth}}
+          -t test
+          -d {{inputs.parameters.data_root}}
+          -n {{inputs.parameters.inst_root}}
+          -C {{inputs.parameters.input_channels}}
+      resources:
+        requests:
+          cpu: "2"
+          memory: "8G"
+      volumeMounts:
+      - name: csv-volume
+        mountPath: /fedpod/experiments
+      - name: cc359ppmi128-volume
+        mountPath: /fedpod/data
+      - name: states-volume
+        mountPath: /fedpod/states
+      - name: logs-volume
+        mountPath: /fedpod/logs
+      - name: runs-volume
+        mountPath: /fedpod/runs
+      stdin: true
+      tty: true
+    volumes:
+    - name: csv-volume
+      hostPath:
+        path: /fedpod/experiments  # 로컬 경로
+        type: Directory
+    - name: cc359ppmi128-volume
+      hostPath:
+        path: /fedpod/{{inputs.parameters.data_root}}  # 로컬 경로
+        type: Directory
+    - name: states-volume
+      hostPath:
+        path: /fedpod/states  # 로컬 경로
+        type: Directory
+    - name: logs-volume
+      hostPath:
+        path: /fedpod/logs  # 로컬 경로
+        type: Directory
+    - name: runs-volume
+      hostPath:
+        path: /fedpod/runs  # 로컬 경로
+        type: Directory
