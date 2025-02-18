@@ -61,7 +61,7 @@ python3 scripts/run_forward.py \
   --round $round \
   --epoch $curr_epoch \
   \
-  --resize 192 \
+  --resize 240 \
   --patch_size 128 \
   --zoom 0 \
   --flip_lr 0 \
