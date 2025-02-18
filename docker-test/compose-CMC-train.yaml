@@ -8,12 +8,12 @@ services:
       -S 10000
       -s 1 
       -f 5
-      -m [10,20,30]
+      -m [10,20,25]
       -g 1 
       -J ${JOBNAME1}
       -R ${ROUNDS}
       -r ${ROUND}
-      -E 35
+      -E 30
       -e 0
       -i ${INSTID1}
       -c ${SPLIT_CSV}
@@ -46,12 +46,12 @@ services:
       -S 10000
       -s 1 
       -f 5
-      -m [10,20,30]
+      -m [10,20,25]
       -g 1 
       -J ${JOBNAME1}
       -R ${ROUNDS}
       -r ${ROUND}
-      -E 35
+      -E 30
       -e 0
       -i ${INSTID1}
       -c ${SPLIT_CSV}
