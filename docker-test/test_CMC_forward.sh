@@ -51,7 +51,7 @@ elif [ "$1" = "CC359PPMI2" ]; then
     export LABEL_INDEX="[1,2,3,4,5,6,7,8,9,10,11,12]"                  # Assuming different label indices for CC359
     export JOBNAME1=cen02cc359 INSTID1=0          # Update as needed for CC359
     export SPLIT_CSV="experiments/CC359PPMICMC_v0.csv"
-    export SEG_POSTFIX="_seg"
+    export SEG_POSTFIX="_sub"
     export MODEL="/fedpod/states/cen01cc359-192-192-E20_best/R01r00/models/R01r00_best.pth" 
     docker-compose -f compose-CMC-forward.yaml up run_forward_cc359 && \
     docker-compose -f compose-CMC-forward.yaml down
