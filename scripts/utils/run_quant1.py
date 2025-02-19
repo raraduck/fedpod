@@ -51,7 +51,7 @@ def main(src_base, trg_base):
     assert len(src_list) == len(trg_list), f"src_list and trg_list len must be same"
 
     seg_names = "[LS,RS]".strip("[]").split(",")
-    case_metrics_meter = CaseSegMetricsMeter(seg_names, metrics_list=['DICE','HD95','PVDC', 'SUV1', 'SUV2'])
+    case_metrics_meter = CaseSegMetricsMeter(seg_names, metrics_list=['DICE','HD95','PVDC', 'PRED', 'GOLD'])
     for pid in src_list:
         src_dir = os.path.join(src_path, pid)
         trg_dir = os.path.join(trg_path, pid)
@@ -70,7 +70,7 @@ def main(src_base, trg_base):
         src_seg_vol = torch.from_numpy(load_nii(src_seg_file)).long().unsqueeze(0)
         trg_seg_vol = torch.from_numpy(load_nii(trg_seg_file)).long().unsqueeze(0)
         trg_ref_vol = torch.from_numpy(nib.load(trg_ref_file).get_fdata()).bool().long().unsqueeze(0)
-        trg_pet_vol = torch.from_numpy(nib.load(trg_pet_file).get_fdata()).long().unsqueeze(0)
+        trg_pet_vol = torch.from_numpy(nib.load(trg_pet_file).get_fdata()).float().unsqueeze(0)
 
 
 
