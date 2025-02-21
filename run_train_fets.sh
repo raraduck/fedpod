@@ -69,9 +69,9 @@ python3 scripts/run_train.py \
   --epochs $epochs \
   --epoch $epoch \
   \
-  --resize 240 \
-  --patch_size 128 \
-  --zoom 0 \
+  --resize 128 \
+  --patch_size 96 \
+  --zoom 1 \
   --flip_lr 1 \
   --dataset $data_set \
   --data_root $data_root \
