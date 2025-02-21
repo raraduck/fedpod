@@ -2255,7 +2255,7 @@ spec:
       args: 
         - >
           ./{{inputs.parameters.run-script}}
-          -s 1
+          -s 0
           -g 0
           -J {{inputs.parameters.job-name}}
           -i {{inputs.parameters.inst-id}}
