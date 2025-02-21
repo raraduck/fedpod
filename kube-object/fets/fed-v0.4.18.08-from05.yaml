@@ -1744,7 +1744,7 @@ spec:
       - name: data_percentage
     container:
       image: dwnusa/fedpod:v0.4.18.08
-      imagePullPolicy: Always
+      # imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args:
         - >
@@ -1821,7 +1821,7 @@ spec:
       - name: model_pth
     container:
       image: dwnusa/fedpod:v0.4.18.08
-      imagePullPolicy: Always
+      # imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
         - >
@@ -1906,7 +1906,7 @@ spec:
       - name: sel_list
     container:
       image: dwnusa/fedpod:v0.4.18.08
-      imagePullPolicy: Always
+      # imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
         - >
