@@ -1772,7 +1772,7 @@ spec:
       resources:
         requests:
           cpu: "2"
-          memory: "8G"
+          memory: "4G"
       volumeMounts:
       - name: csv-volume
         mountPath: /fedpod/experiments
@@ -1932,7 +1932,7 @@ spec:
       resources:
         requests:
           cpu: "2"
-          memory: "8G"
+          memory: "4G"
       volumeMounts:
       - name: csv-volume
         mountPath: /fedpod/experiments
