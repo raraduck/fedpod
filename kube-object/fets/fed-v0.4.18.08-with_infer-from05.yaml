@@ -595,7 +595,7 @@ spec:
             value: "{{item.inst}}"
           - name: model_pth
             # value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-04.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-04.outputs.parameters.next-round}}_agg.pth"
-            value: "/fedpod/states/fedpodnsel16_0/R{{workflow.parameters.rounds}}r05/models/R{{workflow.parameters.rounds}}r05_agg.pth"
+            value: "/fedpod/states/fedinit01_0/R{{workflow.parameters.rounds}}r05/models/R{{workflow.parameters.rounds}}r05_agg.pth"
           - name: data_percentage
             value: "{{item.data_percentage}}"
         withItems:
@@ -2088,7 +2088,7 @@ spec:
       - name: data_percentage
     container:
       image: dwnusa/fedpod:v0.4.18.08
-      imagePullPolicy: Always
+      # imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args:
         - >
@@ -2165,7 +2165,7 @@ spec:
       - name: model_pth
     container:
       image: dwnusa/fedpod:v0.4.18.08
-      imagePullPolicy: Always
+      # imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
         - >
@@ -2250,12 +2250,12 @@ spec:
       - name: sel_list
     container:
       image: dwnusa/fedpod:v0.4.18.08
-      imagePullPolicy: Always
+      # imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
         - >
           ./{{inputs.parameters.run-script}}
-          -s 1
+          -s 0
           -g 0
           -J {{inputs.parameters.job-name}}
           -i {{inputs.parameters.inst-id}}
