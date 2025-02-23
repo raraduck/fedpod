@@ -51,12 +51,32 @@ def load_subjects_list(percentile: int, rounds: int, round: int, split_path: str
             # train_list.sort()
             percentile_train_list = train_list[:percentile_indice]
         else:
-            train_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['train'])].sort_values(by=Partition_round, ascending=True)['Subject_ID'])
+            train_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['train'])].sort_values(by=Partition_round, ascending=False)['Subject_ID'])
             total_len = len(train_list)
             percentile_indice = max(1,int(total_len * (percentile / 100)))
             # percentile_train_list = train_list[:percentile_indice]
-            percentile_train_list = train_list[-percentile_indice:]
+            percentile_train_list = train_list[:percentile_indice]
             random.shuffle(percentile_train_list)
+
+            # randomly change 20% of percentile_train_list with that of the rest of the train_list
+            num_to_replace = int(np.floor(0.2 * len(percentile_train_list)))
+
+            candidates_outside = train_list[percentile_indice:]
+            # 후보군에서 교체할 요소를 랜덤하게 선택 (num_to_replace개)
+            if len(candidates_outside) >= num_to_replace and num_to_replace > 0:
+                replacement_candidates = list(np.random.choice(candidates_outside, num_to_replace, replace=False))
+            else:
+                replacement_candidates = list(candidates_outside)  # 후보가 부족하면 가능한 만큼 사용
+
+            # percentile_train_list 내에서 랜덤하게 교체할 인덱스 선택 (num_to_replace개)
+            if num_to_replace > 0:
+                indices_to_replace = np.random.choice(range(len(percentile_train_list)), size=num_to_replace, replace=False)
+                for idx, new_val in zip(indices_to_replace, replacement_candidates):
+                    percentile_train_list[idx] = new_val
+
+            # 최종 리스트 섞기 (선택사항)
+            random.shuffle(percentile_train_list)
+            
         # for debugging
         # DSC_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['train'])].sort_values(by=Partition_round, ascending=True)[Partition_round])
         # print(f"from {train_list} to {percentile_train_list} in percentile ({percentile_indice}) out of total_len ({total_len})")
