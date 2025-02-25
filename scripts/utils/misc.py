@@ -51,7 +51,7 @@ def load_subjects_list(percentile: int, rounds: int, round: int, split_path: str
             # train_list.sort()
             percentile_train_list = train_list[:percentile_indice]
         else:
-            Partition_round = f"R10"
+            # Partition_round = f"R10"
             train_list = list(filtered_df[filtered_df['TrainOrVal'].isin(['train'])].sort_values(by=Partition_round, ascending=False)['Subject_ID'])
             total_len = len(train_list)
             percentile_indice = max(1,int(total_len * (percentile / 100)))
