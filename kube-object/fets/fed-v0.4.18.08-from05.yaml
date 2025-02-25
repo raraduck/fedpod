@@ -595,8 +595,8 @@ spec:
             value: "{{item.inst}}"
           - name: model_pth
             # value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-04.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-04.outputs.parameters.next-round}}_agg.pth"
-            # value: "/fedpod/states/fedinit01_0/R{{workflow.parameters.rounds}}r05/models/R{{workflow.parameters.rounds}}r05_agg.pth"
-            value: "/fedpod/states/fedinit01_0/R{{workflow.parameters.rounds}}r05/models/R{{workflow.parameters.rounds}}r05_prev.pth"
+            value: "/fedpod/states/fedinit01_0/R{{workflow.parameters.rounds}}r05/models/R{{workflow.parameters.rounds}}r05_agg.pth"
+            # value: "/fedpod/states/fedinit01_0/R{{workflow.parameters.rounds}}r05/models/R{{workflow.parameters.rounds}}r05_prev.pth"
           - name: data_percentage
             value: "{{item.data_percentage}}"
         withItems:
