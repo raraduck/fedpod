@@ -14,7 +14,7 @@ do
     # SUBJ=$(printf "VMAT%06d" $i);
     # echo $SUBJ;ROUND=$ROUND
     export MODEL=None 
-    export JOBNAME1=cen01fets INSTID1=1
+    export JOBNAME1=fed01fets INSTID1=1
     export SPLIT_CSV="experiments/FETS1470_v0.csv"
     docker-compose -f compose-CMC-train.yaml up run_train_fets && \
     docker-compose -f compose-CMC-train.yaml down
