@@ -13,6 +13,7 @@ for ROUND in $(seq 1 $ROUNDS);
 do
     # SUBJ=$(printf "VMAT%06d" $i);
     # echo $SUBJ;ROUND=$ROUND
+    export ROUND=$ROUND
     export MODEL=None 
     export JOBNAME1=fed01fets INSTID1=1
     export SPLIT_CSV="experiments/FETS1470_v0.csv"
