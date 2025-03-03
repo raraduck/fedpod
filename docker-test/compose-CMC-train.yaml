@@ -13,7 +13,7 @@ services:
       -J ${JOBNAME1}
       -R ${ROUNDS}
       -r ${ROUND}
-      -E 30
+      -E ${EPOCHS}
       -e 0
       -i ${INSTID1}
       -c ${SPLIT_CSV}
