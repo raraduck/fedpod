@@ -50,7 +50,7 @@ services:
       -j ${JOBPREFIX}
       -i ${INSTID}
       -a ${ALGO}
-      -M {{inputs.parameters.model_pth}}"
+      -M ${MODEL}"
     stdin_open: true
     tty: true
     volumes:
@@ -73,7 +73,7 @@ services:
     container_name: run_train_cc359
     command: >
       /bin/bash -c "/fedpod/run_train_cc359.sh 
-      -S {SEED}
+      -S ${SEED}
       -s 1 
       -f 5
       -m [10,20,25]
