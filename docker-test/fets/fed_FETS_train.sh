@@ -7,6 +7,17 @@ cleanup() {
     exit 1  # 스크립트 비정상 종료
 }
 
+get_data_percentage() {
+    local round=$1
+    local inst=$2
+
+    if [ "$inst" -eq 1 ]; then
+        echo 100
+    else
+        echo 0
+    fi
+}
+
 trap 'cleanup' SIGINT  # SIGINT 신호를 cleanup 함수로 처리
 
 export DATAROOT=data240_fets1470
@@ -30,8 +41,8 @@ do
         JobName=$(printf "%s_%d" $JobPrefix $Inst);
         Seed=$(($Seed + 1))  # SEED 환경변수를 계산하여 설정
         FromEpoch=0
-
-        echo Round/Rounds:$Round/$Rounds Epochs:$Epochs FromEpoch: $FromEpoch Inst:$Inst Seed:$Seed JobPrefix:$JobPrefix JobName:$JobName
+        DataPercentage=$(get_data_percentage $Round $Inst)
+        echo Round/Rounds:$Round/$Rounds Epochs:$Epochs FromEpoch: $FromEpoch Inst:$Inst DataPercentage:$DataPercentage Seed:$Seed JobPrefix:$JobPrefix JobName:$JobName
 
         export ROUND=$Round
         export EPOCHS=1
@@ -57,9 +68,8 @@ do
         JobName=$(printf "%s_%d" $JobPrefix $Inst);
         Seed=$(($Seed + 1))  # SEED 환경변수를 계산하여 설정
         FromEpoch=$(($Epochs*($Round-1) + 1))
-
-        echo Round/Rounds:$Round/$Rounds Epochs:$Epochs FromEpoch: $FromEpoch Inst:$Inst Seed:$Seed JobPrefix:$JobPrefix JobName:$JobName
-
+        DataPercentage=$(get_data_percentage $Round $Inst)
+        echo Round/Rounds:$Round/$Rounds Epochs:$Epochs FromEpoch: $FromEpoch Inst:$Inst DataPercentage:$DataPercentage Seed:$Seed JobPrefix:$JobPrefix JobName:$JobName
         
         export ROUND=$Round
         export EPOCHS=$Epochs

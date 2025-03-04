@@ -7,6 +7,17 @@ cleanup() {
     exit 1  # 스크립트 비정상 종료
 }
 
+get_data_percentage() {
+    local round=$1
+    local inst=$2
+
+    if [ "$inst" -eq 1 ]; then
+        echo 100
+    else
+        echo 0
+    fi
+}
+
 trap 'cleanup' SIGINT  # SIGINT 신호를 cleanup 함수로 처리
 
 export DATAROOT=data256_cc359ppmicmc_newseg
@@ -30,8 +41,8 @@ do
         JobName=$(printf "%s_%d" $JobPrefix $Inst);
         Seed=$(($Seed + 1))  # SEED 환경변수를 계산하여 설정
         FromEpoch=0
-
-        echo Round/Rounds:$Round/$Rounds Epochs:$Epochs FromEpoch: $FromEpoch Inst:$Inst Seed:$Seed JobPrefix:$JobPrefix JobName:$JobName
+        DataPercentage=$(get_data_percentage $Round $Inst)
+        echo Round/Rounds:$Round/$Rounds Epochs:$Epochs FromEpoch: $FromEpoch Inst:$Inst DataPercentage:$DataPercentage Seed:$Seed JobPrefix:$JobPrefix JobName:$JobName
 
         export ROUND=$Round
         export EPOCHS=0
@@ -40,6 +51,7 @@ do
         export JOBNAME=$JobName
         export INSTID=$Inst
         export MODEL=None
+        export DATA_PERCENTAGE=$DataPercentage
         docker-compose -f compose-CMC-train.yaml up run_train_cc359 && \
         docker-compose -f compose-CMC-train.yaml down
     done;
@@ -57,9 +69,8 @@ do
         JobName=$(printf "%s_%d" $JobPrefix $Inst);
         Seed=$(($Seed + 1))  # SEED 환경변수를 계산하여 설정
         FromEpoch=$(($Epochs*($Round-1)))
-
-        echo Round/Rounds:$Round/$Rounds Epochs:$Epochs FromEpoch: $FromEpoch Inst:$Inst Seed:$Seed JobPrefix:$JobPrefix JobName:$JobName
-
+        DataPercentage=$(get_data_percentage $Round $Inst)
+        echo Round/Rounds:$Round/$Rounds Epochs:$Epochs FromEpoch: $FromEpoch Inst:$Inst DataPercentage:$DataPercentage Seed:$Seed JobPrefix:$JobPrefix JobName:$JobName
         
         export ROUND=$Round
         export EPOCHS=$Epochs
@@ -70,6 +81,7 @@ do
         # export MODEL="/fedpod/states/${JobName}_1/R${Rounds}r${Round}/models/R${Rounds}r${Round}_agg.pth"
         export MODEL="/fedpod/states/${JobPrefix}_0/$(printf 'R%02dr%02d' $Rounds $Round)/models/$(printf 'R%02dr%02d_agg.pth' $Rounds $Round)"
         echo $MODEL
+        export DATA_PERCENTAGE=$DataPercentage
         docker-compose -f compose-CMC-train.yaml up run_train_cc359 && \
         docker-compose -f compose-CMC-train.yaml down
     done;
