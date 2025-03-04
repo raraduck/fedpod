@@ -5,18 +5,36 @@ export INPUT_CHANNEL_NAMES="[t1,t1ce,t2,flair]"
 export LABEL_GROUPS="[[1,2,4],[1,4],[4,4]]"
 export LABEL_NAMES="[WT,TC,ET]"
 export LABEL_INDEX="[2,1,4]"
-export EPOCHS=3
+export SPLIT_CSV="experiments/FETS1470_v3.csv"
 
-ROUNDS=2
-export ROUNDS=$ROUNDS 
-for ROUND in $(seq 1 $ROUNDS);
+Seed=10000
+Rounds=2
+Epochs=3
+JobPrefix=fedtest;
+export JOBPREFIX=$JobPrefix
+export ROUNDS=$Rounds
+export MODEL=None
+for Round in $(seq 1 $Rounds);
 do
-    # SUBJ=$(printf "VMAT%06d" $i);
-    # echo $SUBJ;ROUND=$ROUND
-    export ROUND=$ROUND
-    export MODEL=None 
-    export JOBNAME1=fed01fets INSTID1=1
-    export SPLIT_CSV="experiments/FETS1470_v0.csv"
-    docker-compose -f compose-CMC-train.yaml up run_train_fets && \
-    docker-compose -f compose-CMC-train.yaml down
+    for Inst in {1..3};
+    do
+        JobName=$(printf "%s_%d" $JobPrefix $Inst);
+        Seed=$(($Seed + 1))  # SEED 환경변수를 계산하여 설정
+
+        echo Round:$Round Epochs:$Epochs Inst:$Inst Seed:$Seed JobPrefix:$JobPrefix JobName:$JobName
+
+        
+        export ROUND=$Round
+        export EPOCHS=$Epochs
+        export SEED=$Seed
+        export JOBNAME=$JobName
+        export INSTID=$Inst
+        docker-compose -f compose-CMC-train.yaml up run_train_fets && \
+        docker-compose -f compose-CMC-train.yaml down
+    done;
+    # export INSTID=0
+    # export ALGO=fedavg
+    # export MODEL=None
+    # docker-compose -f compose-CMC-train.yaml up run_agg_fets && \
+    # docker-compose -f compose-CMC-train.yaml down
 done;
