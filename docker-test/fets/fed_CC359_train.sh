@@ -11,7 +11,7 @@ get_data_percentage() {
     local round=$1
     local inst=$2
 
-    if [ "$inst" -eq 1 ]; then
+    if [ "$inst" -eq 6 ]; then
         echo 100
     else
         echo 0
