@@ -29,9 +29,9 @@ export LABEL_INDEX="[2,1,4]"
 export SPLIT_CSV="experiments/FETS1470_v3.csv"
 
 Seed=10000
-Rounds=5
+Rounds=10
 Epochs=3
-JobPrefix=fedtest;
+JobPrefix=fedfets;
 export JOBPREFIX=$JobPrefix
 export ROUNDS=$Rounds
 for Round in 0;
@@ -45,12 +45,13 @@ do
         echo Round/Rounds:$Round/$Rounds Epochs:$Epochs FromEpoch: $FromEpoch Inst:$Inst DataPercentage:$DataPercentage Seed:$Seed JobPrefix:$JobPrefix JobName:$JobName
 
         export ROUND=$Round
-        export EPOCHS=1
+        export EPOCHS=0
         export EPOCH=$FromEpoch
         export SEED=$Seed
         export JOBNAME=$JobName
         export INSTID=$Inst
         export MODEL=None
+        export DATA_PERCENTAGE=100
         docker-compose -f compose-CMC-train.yaml up run_train_fets && \
         docker-compose -f compose-CMC-train.yaml down
     done;
@@ -63,11 +64,11 @@ done;
 
 for Round in $(seq 1 $Rounds);
 do
-    for Inst in {1..3};
+    for Inst in {1..23};
     do
         JobName=$(printf "%s_%d" $JobPrefix $Inst);
         Seed=$(($Seed + 1))  # SEED 환경변수를 계산하여 설정
-        FromEpoch=$(($Epochs*($Round-1) + 1))
+        FromEpoch=$(($Epochs*($Round-1)))
         DataPercentage=$(get_data_percentage $Round $Inst)
         echo Round/Rounds:$Round/$Rounds Epochs:$Epochs FromEpoch: $FromEpoch Inst:$Inst DataPercentage:$DataPercentage Seed:$Seed JobPrefix:$JobPrefix JobName:$JobName
         
@@ -77,9 +78,9 @@ do
         export SEED=$Seed
         export JOBNAME=$JobName
         export INSTID=$Inst
-        # export MODEL="/fedpod/states/${JobName}_1/R${Rounds}r${Round}/models/R${Rounds}r${Round}_agg.pth"
         export MODEL="/fedpod/states/${JobPrefix}_0/$(printf 'R%02dr%02d' $Rounds $Round)/models/$(printf 'R%02dr%02d_agg.pth' $Rounds $Round)"
-        echo $MODEL
+        # echo $MODEL
+        export DATA_PERCENTAGE=$DataPercentage
         docker-compose -f compose-CMC-train.yaml up run_train_fets && \
         docker-compose -f compose-CMC-train.yaml down
     done;

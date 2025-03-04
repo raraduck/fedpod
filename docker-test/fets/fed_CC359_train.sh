@@ -51,7 +51,7 @@ do
         export JOBNAME=$JobName
         export INSTID=$Inst
         export MODEL=None
-        export DATA_PERCENTAGE=$DataPercentage
+        export DATA_PERCENTAGE=100
         docker-compose -f compose-CMC-train.yaml up run_train_cc359 && \
         docker-compose -f compose-CMC-train.yaml down
     done;
@@ -78,9 +78,8 @@ do
         export SEED=$Seed
         export JOBNAME=$JobName
         export INSTID=$Inst
-        # export MODEL="/fedpod/states/${JobName}_1/R${Rounds}r${Round}/models/R${Rounds}r${Round}_agg.pth"
         export MODEL="/fedpod/states/${JobPrefix}_0/$(printf 'R%02dr%02d' $Rounds $Round)/models/$(printf 'R%02dr%02d_agg.pth' $Rounds $Round)"
-        echo $MODEL
+        # echo $MODEL
         export DATA_PERCENTAGE=$DataPercentage
         docker-compose -f compose-CMC-train.yaml up run_train_cc359 && \
         docker-compose -f compose-CMC-train.yaml down
