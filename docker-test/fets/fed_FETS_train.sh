@@ -64,7 +64,7 @@ do
     docker-compose -f compose-CMC-train.yaml down
 done;
 
-for Round in $(seq 1 $Rounds);
+for Round in $(seq 1 $(($Rounds - 1)));
 do
     for Inst in {1..23};
     do
