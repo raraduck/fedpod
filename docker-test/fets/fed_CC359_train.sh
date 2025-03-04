@@ -20,18 +20,29 @@ get_data_percentage() {
 
 trap 'cleanup' SIGINT  # SIGINT 신호를 cleanup 함수로 처리
 
-export DATAROOT=data256_cc359ppmicmc_newseg
-export DATASET=CC359PPMI
-export INPUT_CHANNEL_NAMES="[t1]"
-export LABEL_GROUPS="[[1,2,3,4,5,6],[7,8,9,10,11,12]]"
-export LABEL_NAMES="[LS,RS]"
-export LABEL_INDEX="[1,2]"
-export SPLIT_CSV="experiments/CC359PPMICMC_v3.csv"
 
+if [ "$2" = "STAGE1" ]; then
+    export INPUT_CHANNEL_NAMES="[t1]"
+    export LABEL_GROUPS="[[1,2,3,4,5,6],[7,8,9,10,11,12]]"
+    export LABEL_NAMES="[LS,RS]"
+    export LABEL_INDEX="[1,2]"
+elif [ "$2" = "STAGE2" ]; then
+    export INPUT_CHANNEL_NAMES="[t1,seg]"
+    export LABEL_GROUPS="[[1,1],[2,2],[3,3],[4,4],[5,5],[6,6],[7,7],[8,8],[9,9],[10,10],[11,11],[12,12]]"
+    export LABEL_NAMES="[LVS,LAC,LPC,LAP,LPP,LVP,RVS,RAC,RPC,RAP,RPP,RVP]"
+    export LABEL_INDEX="[1,2,3,4,5,6,7,8,9,10,11,12]"
+else
+    echo "Invalid STAGE specified"
+    exit 1
+fi
+JobPrefix=$1;
 Seed=10000
 Rounds=10
 Epochs=3
-JobPrefix=fedcc359;
+
+export DATAROOT=data256_cc359ppmicmc_newseg
+export DATASET=CC359PPMI
+export SPLIT_CSV="experiments/CC359PPMICMC_v3.csv"
 export JOBPREFIX=$JobPrefix
 export ROUNDS=$Rounds
 for Round in 0;

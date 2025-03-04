@@ -20,18 +20,20 @@ get_data_percentage() {
 
 trap 'cleanup' SIGINT  # SIGINT 신호를 cleanup 함수로 처리
 
-export DATAROOT=data240_fets1470
-export DATASET=FETS1470
 export INPUT_CHANNEL_NAMES="[t1,t1ce,t2,flair]"
 export LABEL_GROUPS="[[1,2,4],[1,4],[4,4]]"
 export LABEL_NAMES="[WT,TC,ET]"
 export LABEL_INDEX="[2,1,4]"
-export SPLIT_CSV="experiments/FETS1470_v3.csv"
 
+JobPrefix=$1;
+# JobPrefix=fedfets;
 Seed=10000
 Rounds=10
 Epochs=3
-JobPrefix=fedfets;
+
+export DATAROOT=data240_fets1470
+export DATASET=FETS1470
+export SPLIT_CSV="experiments/FETS1470_v3.csv"
 export JOBPREFIX=$JobPrefix
 export ROUNDS=$Rounds
 for Round in 0;
