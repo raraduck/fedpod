@@ -8,24 +8,26 @@ export LABEL_INDEX="[2,1,4]"
 export SPLIT_CSV="experiments/FETS1470_v3.csv"
 
 Seed=10000
-Rounds=2
+Rounds=5
 Epochs=3
 JobPrefix=fedtest;
 export JOBPREFIX=$JobPrefix
 export ROUNDS=$Rounds
 export MODEL=None
-for Round in $(seq 1 $Rounds);
+for Round in $(seq 0 $Rounds);
 do
     for Inst in {1..3};
     do
         JobName=$(printf "%s_%d" $JobPrefix $Inst);
         Seed=$(($Seed + 1))  # SEED 환경변수를 계산하여 설정
+        FromEpoch=$(($Epochs*$Round))
 
-        echo Round:$Round Epochs:$Epochs Inst:$Inst Seed:$Seed JobPrefix:$JobPrefix JobName:$JobName
+        echo Round/Rounds:$Round/$Rounds Epochs:$Epochs FromEpoch: $FromEpoch Inst:$Inst Seed:$Seed JobPrefix:$JobPrefix JobName:$JobName
 
         
         export ROUND=$Round
         export EPOCHS=$Epochs
+        export EPOCH=$FromEpoch
         export SEED=$Seed
         export JOBNAME=$JobName
         export INSTID=$Inst
