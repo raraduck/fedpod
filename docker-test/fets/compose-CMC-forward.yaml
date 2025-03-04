@@ -1,0 +1,73 @@
+version: '3'
+services:
+  run_forward_fets:
+    image: dwnusa/fedpod:v0.4.17-test-cuda
+    container_name: run_forward_fets
+    command: >
+      /bin/bash -c "/fedpod/run_forward_fets.sh 
+      -s 1
+      -g 1
+      -J ${JOBNAME}
+      -R ${ROUNDS}
+      -r ${ROUND}
+      -e 000
+      -i ${INSTID}
+      -c ${SPLIT_CSV}
+      -M ${MODEL}
+      -t [test]
+      -D ${DATAROOT}
+      -d ${DATASET}
+      -n inst_00
+      -C ${INPUT_CHANNEL_NAMES}
+      -G ${LABEL_GROUPS}
+      -N ${LABEL_NAMES}
+      -I ${LABEL_INDEX}
+      -p ${SEG_POSTFIX}"
+    stdin_open: true
+    tty: true
+    volumes:
+      - /home/cmc_admin/workspace/fedpod:/fedpod
+      - /home/cmc_admin/workspace/fedpod/${DATAROOT}:/fedpod/data
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  run_forward_cc359:
+    image: dwnusa/fedpod:v0.4.17-test-cuda
+    container_name: run_forward_cc359
+    command: >
+      /bin/bash -c "/fedpod/run_forward_cc359.sh 
+      -s 1
+      -g 1
+      -J ${JOBNAME}
+      -R ${ROUNDS}
+      -r ${ROUND}
+      -e 000
+      -i ${INSTID}
+      -c ${SPLIT_CSV}
+      -M ${MODEL}
+      -t [test]
+      -D ${DATAROOT}
+      -d ${DATASET}
+      -n inst_00
+      -C ${INPUT_CHANNEL_NAMES}
+      -G ${LABEL_GROUPS}
+      -N ${LABEL_NAMES}
+      -I ${LABEL_INDEX}
+      -p ${SEG_POSTFIX}"
+    stdin_open: true
+    tty: true
+    volumes:
+      - /home/cmc_admin/workspace/fedpod:/fedpod
+      - /home/cmc_admin/workspace/fedpod/${DATAROOT}:/fedpod/data
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
