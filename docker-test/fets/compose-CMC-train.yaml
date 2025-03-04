@@ -5,7 +5,7 @@ services:
     container_name: run_train_fets
     command: >
       /bin/bash -c "/fedpod/run_train_fets.sh 
-      -S {SEED}
+      -S ${SEED}
       -s 1 
       -f 5
       -m [10,20,25]
