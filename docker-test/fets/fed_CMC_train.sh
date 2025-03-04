@@ -34,7 +34,7 @@ do
         echo Round/Rounds:$Round/$Rounds Epochs:$Epochs FromEpoch: $FromEpoch Inst:$Inst Seed:$Seed JobPrefix:$JobPrefix JobName:$JobName
 
         export ROUND=$Round
-        export EPOCHS=$Epochs
+        export EPOCHS=1
         export EPOCH=$FromEpoch
         export SEED=$Seed
         export JOBNAME=$JobName
@@ -50,31 +50,32 @@ do
     docker-compose -f compose-CMC-train.yaml down
 done;
 
-# for Round in $(seq 1 $Rounds);
-# do
-#     for Inst in {1..3};
-#     do
-#         JobName=$(printf "%s_%d" $JobPrefix $Inst);
-#         Seed=$(($Seed + 1))  # SEED 환경변수를 계산하여 설정
-#         FromEpoch=$(($Epochs*($Round-1) + 1))
+for Round in $(seq 1 $Rounds);
+do
+    for Inst in {1..3};
+    do
+        JobName=$(printf "%s_%d" $JobPrefix $Inst);
+        Seed=$(($Seed + 1))  # SEED 환경변수를 계산하여 설정
+        FromEpoch=$(($Epochs*($Round-1) + 1))
 
-#         echo Round/Rounds:$Round/$Rounds Epochs:$Epochs FromEpoch: $FromEpoch Inst:$Inst Seed:$Seed JobPrefix:$JobPrefix JobName:$JobName
+        echo Round/Rounds:$Round/$Rounds Epochs:$Epochs FromEpoch: $FromEpoch Inst:$Inst Seed:$Seed JobPrefix:$JobPrefix JobName:$JobName
 
         
-#         export ROUND=$Round
-#         export EPOCHS=$Epochs
-#         export EPOCH=$FromEpoch
-#         export SEED=$Seed
-#         export JOBNAME=$JobName
-#         export INSTID=$Inst
-#         # export MODEL="/fedpod/states/${JobName}_1/R${Rounds}r${Round}/models/R${Rounds}r${Round}_agg.pth"
-#         export MODEL="/fedpod/states/${JobPrefix}_1/R0${Rounds}r00/models/R0${Rounds}r00_last.pth"
-#         docker-compose -f compose-CMC-train.yaml up run_train_fets && \
-#         docker-compose -f compose-CMC-train.yaml down
-#     done;
-#     # export INSTID=0
-#     # export ALGO=fedavg
-#     # export MODEL=None
-#     # docker-compose -f compose-CMC-train.yaml up run_agg_fets && \
-#     # docker-compose -f compose-CMC-train.yaml down
-# done;
+        export ROUND=$Round
+        export EPOCHS=$Epochs
+        export EPOCH=$FromEpoch
+        export SEED=$Seed
+        export JOBNAME=$JobName
+        export INSTID=$Inst
+        # export MODEL="/fedpod/states/${JobName}_1/R${Rounds}r${Round}/models/R${Rounds}r${Round}_agg.pth"
+        export MODEL="/fedpod/states/${JobPrefix}_0/$(printf 'R%02dr%02d' $Rounds $Round)/models/$(printf 'R%02dr%02d_agg.pth' $Rounds $Round)"
+        echo $MODEL
+        docker-compose -f compose-CMC-train.yaml up run_train_fets && \
+        docker-compose -f compose-CMC-train.yaml down
+    done;
+    export INSTID=0
+    export ALGO=fedavg
+    export MODEL=None
+    docker-compose -f compose-CMC-train.yaml up run_agg_fets && \
+    docker-compose -f compose-CMC-train.yaml down
+done;
