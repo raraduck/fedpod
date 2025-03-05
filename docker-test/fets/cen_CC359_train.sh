@@ -25,8 +25,8 @@ get_data_percentage() {
             echo 20
         fi
     else
-        if [ "$inst" -eq 6 ]; then
-            echo 20
+        if [ "$inst" -eq 1 ]; then
+            echo 4
         else
             echo 0
         fi
@@ -59,7 +59,7 @@ Algo=$3
 
 export DATAROOT=data256_cc359ppmicmc_newseg
 export DATASET=CC359PPMI
-export SPLIT_CSV="experiments/CC359PPMICMC_v3.csv"
+export SPLIT_CSV="experiments/CC359PPMICMC_v3_0.csv"
 export JOBPREFIX=$JobPrefix
 export ROUNDS=$Rounds
 for Round in 0;
