@@ -10,12 +10,27 @@ cleanup() {
 get_data_percentage() {
     local round=$1
     local inst=$2
+    local agg=$3
 
-    if [ "$inst" -eq 6 ]; then
-        echo 100
+    if [ "$agg" == "fedavg" ]; then
+        echo 20
+    elif [ "$agg" == "fedpod" ]; then
+        if [ "$round" -le 3 ]; then
+            if [ "$inst" -eq 1 ]; then
+                echo 100
+            else
+                echo 0
+            fi
+        else
+            echo 100
     else
-        echo 0
+        if [ "$inst" -eq 6 ]; then
+            echo 20
+        else
+            echo 0
+        fi
     fi
+
 }
 
 trap 'cleanup' SIGINT  # SIGINT 신호를 cleanup 함수로 처리
@@ -39,6 +54,7 @@ JobPrefix=$1;
 Seed=10000
 Rounds=10
 Epochs=3
+Algo=$3
 
 export DATAROOT=data256_cc359ppmicmc_newseg
 export DATASET=CC359PPMI
@@ -52,7 +68,7 @@ do
         JobName=$(printf "%s_%d" $JobPrefix $Inst);
         Seed=$(($Seed + 1))  # SEED 환경변수를 계산하여 설정
         FromEpoch=0
-        DataPercentage=$(get_data_percentage $Round $Inst)
+        # DataPercentage=$(get_data_percentage $Round $Inst)
         echo Round/Rounds:$Round/$Rounds Epochs:$Epochs FromEpoch: $FromEpoch Inst:$Inst DataPercentage:$DataPercentage Seed:$Seed JobPrefix:$JobPrefix JobName:$JobName
 
         export ROUND=$Round
@@ -80,7 +96,7 @@ do
         JobName=$(printf "%s_%d" $JobPrefix $Inst);
         Seed=$(($Seed + 1))  # SEED 환경변수를 계산하여 설정
         FromEpoch=$(($Epochs*($Round-1)))
-        DataPercentage=$(get_data_percentage $Round $Inst)
+        DataPercentage=$(get_data_percentage $Round $Inst $Algo)
         echo Round/Rounds:$Round/$Rounds Epochs:$Epochs FromEpoch: $FromEpoch Inst:$Inst DataPercentage:$DataPercentage Seed:$Seed JobPrefix:$JobPrefix JobName:$JobName
         
         export ROUND=$Round
@@ -96,7 +112,7 @@ do
         docker-compose -f compose-CMC-train.yaml down
     done;
     export INSTID=0
-    export ALGO=fedavg
+    export ALGO=$Algo
     export MODEL=None
     docker-compose -f compose-CMC-train.yaml up run_agg_cc359 && \
     docker-compose -f compose-CMC-train.yaml down

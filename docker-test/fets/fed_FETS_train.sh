@@ -10,9 +10,12 @@ cleanup() {
 get_data_percentage() {
     local round=$1
     local inst=$2
+    local agg=$3
 
     if [ "$inst" -eq 1 ]; then
-        echo 100
+        echo 5
+    elif [ "$inst" -eq 18 ]; then
+        echo 10
     else
         echo 0
     fi
@@ -30,6 +33,7 @@ JobPrefix=$1;
 Seed=10000
 Rounds=10
 Epochs=3
+Algo=$2
 
 export DATAROOT=data240_fets1470
 export DATASET=FETS1470
@@ -43,7 +47,7 @@ do
         JobName=$(printf "%s_%d" $JobPrefix $Inst);
         Seed=$(($Seed + 1))  # SEED 환경변수를 계산하여 설정
         FromEpoch=0
-        DataPercentage=$(get_data_percentage $Round $Inst)
+        # DataPercentage=$(get_data_percentage $Round $Inst)
         echo Round/Rounds:$Round/$Rounds Epochs:$Epochs FromEpoch: $FromEpoch Inst:$Inst DataPercentage:$DataPercentage Seed:$Seed JobPrefix:$JobPrefix JobName:$JobName
 
         export ROUND=$Round
@@ -87,7 +91,7 @@ do
         docker-compose -f compose-CMC-train.yaml down
     done;
     export INSTID=0
-    export ALGO=fedavg
+    export ALGO=$Algo
     export MODEL=None
     docker-compose -f compose-CMC-train.yaml up run_agg_fets && \
     docker-compose -f compose-CMC-train.yaml down
