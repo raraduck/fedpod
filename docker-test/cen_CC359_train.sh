@@ -92,7 +92,7 @@ done;
 
 for Round in $(seq 1 $(($Rounds - 1)));
 do
-    for Inst in {1..6};
+    for Inst in 1;
     do
         JobName=$(printf "%s_%d" $JobPrefix $Inst);
         Seed=$(($Seed + 1))  # SEED 환경변수를 계산하여 설정
