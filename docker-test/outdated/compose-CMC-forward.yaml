@@ -7,11 +7,11 @@ services:
       /bin/bash -c "/fedpod/run_forward_fets.sh 
       -s 1
       -g 1
-      -J ${JOBNAME}
+      -J ${JOBNAME1}
       -R ${ROUNDS}
       -r ${ROUND}
       -e 000
-      -i ${INSTID}
+      -i ${INSTID1}
       -c ${SPLIT_CSV}
       -M ${MODEL}
       -t [test]
@@ -43,11 +43,11 @@ services:
       /bin/bash -c "/fedpod/run_forward_cc359.sh 
       -s 1
       -g 1
-      -J ${JOBNAME}
+      -J ${JOBNAME1}
       -R ${ROUNDS}
       -r ${ROUND}
       -e 000
-      -i ${INSTID}
+      -i ${INSTID1}
       -c ${SPLIT_CSV}
       -M ${MODEL}
       -t [test]

@@ -1,0 +1,539 @@
+version: '3'
+services:
+  run_train_fets:
+    image: dwnusa/fedpod:v0.4.17-test-cuda
+    container_name: run_train_fets
+    command: >
+      /bin/bash -c "/fedpod/run_train_fets.sh 
+      -S 10000
+      -s 1 
+      -f 5
+      -m [10,20,25]
+      -g 1 
+      -J ${JOBNAME1}
+      -R ${ROUNDS}
+      -r ${ROUND}
+      -E 20
+      -e 0
+      -i ${INSTID1}
+      -c ${SPLIT_CSV}
+      -M ${MODEL}
+      -p 100
+      -D ${DATAROOT}
+      -d ${DATASET}
+      -C ${INPUT_CHANNEL_NAMES}
+      -G ${LABEL_GROUPS}
+      -N ${LABEL_NAMES}
+      -I ${LABEL_INDEX}"
+    stdin_open: true
+    tty: true
+    volumes:
+      - /home/cmc_admin/workspace/fedpod:/fedpod
+      - /home/cmc_admin/workspace/fedpod/${DATAROOT}:/fedpod/data
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  run_train_cc359:
+    image: dwnusa/fedpod:v0.4.17-test-cuda
+    container_name: run_train_cc359
+    command: >
+      /bin/bash -c "/fedpod/run_train_cc359.sh 
+      -S 10000
+      -s 1 
+      -f 5
+      -m [10,20,25]
+      -g 1 
+      -J ${JOBNAME1}
+      -R ${ROUNDS}
+      -r ${ROUND}
+      -E 30
+      -e 0
+      -i ${INSTID1}
+      -c ${SPLIT_CSV}
+      -M ${MODEL}
+      -p 100
+      -D ${DATAROOT}
+      -d ${DATASET}
+      -C ${INPUT_CHANNEL_NAMES}
+      -G ${LABEL_GROUPS}
+      -N ${LABEL_NAMES}
+      -I ${LABEL_INDEX}"
+    stdin_open: true
+    tty: true
+    volumes:
+      - /home/cmc_admin/workspace/fedpod:/fedpod
+      - /home/cmc_admin/workspace/fedpod/${DATAROOT}:/fedpod/data
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  # centre0-train2:
+  #   image: dwnusa/fedpod:v0.4.17-test-cuda
+  #   container_name: centre0-train2
+  #   command: >
+  #     /bin/bash -c "/fedpod/run_train2_cmc.sh 
+  #     -S 10000
+  #     -s 1 
+  #     -f 5
+  #     -m 15
+  #     -g 1 
+  #     -J ${JOBNAME2}
+  #     -R ${ROUNDS}
+  #     -r ${ROUND}
+  #     -E 20
+  #     -e 0
+  #     -i ${INSTID2}
+  #     -c experiments/CC359PPMICMC_v0.csv
+  #     -M ${MODEL}
+  #     -p 100
+  #     -D ${DATAROOT}"
+  #   stdin_open: true
+  #   tty: true
+  #   volumes:
+  #     - /home/cmc_admin/workspace/fedpod:/fedpod
+  #     - /home/cmc_admin/workspace/fedpod/${DATAROOT}:/fedpod/data
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: 1
+  #             capabilities: [gpu]
+
+  # solo1-train1:
+  #   image: dwnusa/fedpod:v0.4.17-test-cuda
+  #   container_name: solo1-train1
+  #   command: >
+  #     /bin/bash -c "/fedpod/run_train_cmc.sh 
+  #     -S 10000
+  #     -s 1 
+  #     -f 10
+  #     -m 15
+  #     -g 1 
+  #     -J ${JOBNAME1}
+  #     -R ${ROUNDS}
+  #     -r ${ROUND}
+  #     -E 20
+  #     -e 0
+  #     -i ${INSTID1}
+  #     -c experiments/CC359PPMICMC_v0n1.csv
+  #     -M ${MODEL}
+  #     -p 100
+  #     -D ${DATAROOT}"
+  #   stdin_open: true
+  #   tty: true
+  #   volumes:
+  #     - /home/cmc_admin/workspace/fedpod:/fedpod
+  #     - /home/cmc_admin/workspace/fedpod/${DATAROOT}:/fedpod/data
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: 1
+  #             capabilities: [gpu]
+
+
+  # solo1-train2:
+  #   image: dwnusa/fedpod:v0.4.17-test-cuda
+  #   container_name: solo1-train2
+  #   command: >
+  #     /bin/bash -c "/fedpod/run_train2_cmc.sh 
+  #     -S 10000
+  #     -s 1 
+  #     -f 10
+  #     -m 15
+  #     -g 1 
+  #     -J ${JOBNAME2}
+  #     -R ${ROUNDS}
+  #     -r ${ROUND}
+  #     -E 20
+  #     -e 0
+  #     -i ${INSTID2}
+  #     -c experiments/CC359PPMICMC_v0n1.csv
+  #     -M ${MODEL}
+  #     -p 100
+  #     -D ${DATAROOT}"
+  #   stdin_open: true
+  #   tty: true
+  #   volumes:
+  #     - /home/cmc_admin/workspace/fedpod:/fedpod
+  #     - /home/cmc_admin/workspace/fedpod/${DATAROOT}:/fedpod/data
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: 1
+  #             capabilities: [gpu]
+
+
+
+
+              
+  # solo2-train1:
+  #   image: dwnusa/fedpod:v0.4.17-test-cuda
+  #   container_name: solo2-train1
+  #   command: >
+  #     /bin/bash -c "/fedpod/run_train_cmc.sh 
+  #     -S 10000
+  #     -s 1 
+  #     -f 10
+  #     -m 15
+  #     -g 1 
+  #     -J ${JOBNAME1}
+  #     -R ${ROUNDS}
+  #     -r ${ROUND}
+  #     -E 20
+  #     -e 0
+  #     -i ${INSTID1}
+  #     -c experiments/CC359PPMICMC_v0n2.csv
+  #     -M ${MODEL}
+  #     -p 100
+  #     -D ${DATAROOT}"
+  #   stdin_open: true
+  #   tty: true
+  #   volumes:
+  #     - /home/cmc_admin/workspace/fedpod:/fedpod
+  #     - /home/cmc_admin/workspace/fedpod/${DATAROOT}:/fedpod/data
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: 1
+  #             capabilities: [gpu]
+
+
+  # solo2-train2:
+  #   image: dwnusa/fedpod:v0.4.17-test-cuda
+  #   container_name: solo2-train2
+  #   command: >
+  #     /bin/bash -c "/fedpod/run_train2_cmc.sh 
+  #     -S 10000
+  #     -s 1 
+  #     -f 10
+  #     -m 15
+  #     -g 1 
+  #     -J ${JOBNAME2}
+  #     -R ${ROUNDS}
+  #     -r ${ROUND}
+  #     -E 20
+  #     -e 0
+  #     -i ${INSTID2}
+  #     -c experiments/CC359PPMICMC_v0n2.csv
+  #     -M ${MODEL}
+  #     -p 100
+  #     -D ${DATAROOT}"
+  #   stdin_open: true
+  #   tty: true
+  #   volumes:
+  #     - /home/cmc_admin/workspace/fedpod:/fedpod
+  #     - /home/cmc_admin/workspace/fedpod/${DATAROOT}:/fedpod/data
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: 1
+  #             capabilities: [gpu]
+              
+
+
+
+
+              
+  # solo3-train1:
+  #   image: dwnusa/fedpod:v0.4.17-test-cuda
+  #   container_name: solo3-train1
+  #   command: >
+  #     /bin/bash -c "/fedpod/run_train_cmc.sh 
+  #     -S 10000
+  #     -s 1 
+  #     -f 10
+  #     -m 15
+  #     -g 1 
+  #     -J ${JOBNAME1}
+  #     -R ${ROUNDS}
+  #     -r ${ROUND}
+  #     -E 20
+  #     -e 0
+  #     -i ${INSTID1}
+  #     -c experiments/CC359PPMICMC_v0n3.csv
+  #     -M ${MODEL}
+  #     -p 100
+  #     -D ${DATAROOT}"
+  #   stdin_open: true
+  #   tty: true
+  #   volumes:
+  #     - /home/cmc_admin/workspace/fedpod:/fedpod
+  #     - /home/cmc_admin/workspace/fedpod/${DATAROOT}:/fedpod/data
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: 1
+  #             capabilities: [gpu]
+
+
+  # solo3-train2:
+  #   image: dwnusa/fedpod:v0.4.17-test-cuda
+  #   container_name: solo3-train2
+  #   command: >
+  #     /bin/bash -c "/fedpod/run_train2_cmc.sh 
+  #     -S 10000
+  #     -s 1 
+  #     -f 10
+  #     -m 15
+  #     -g 1 
+  #     -J ${JOBNAME2}
+  #     -R ${ROUNDS}
+  #     -r ${ROUND}
+  #     -E 20
+  #     -e 0
+  #     -i ${INSTID2}
+  #     -c experiments/CC359PPMICMC_v0n3.csv
+  #     -M ${MODEL}
+  #     -p 100
+  #     -D ${DATAROOT}"
+  #   stdin_open: true
+  #   tty: true
+  #   volumes:
+  #     - /home/cmc_admin/workspace/fedpod:/fedpod
+  #     - /home/cmc_admin/workspace/fedpod/${DATAROOT}:/fedpod/data
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: 1
+  #             capabilities: [gpu]
+              
+
+
+
+
+
+              
+  # solo4-train1:
+  #   image: dwnusa/fedpod:v0.4.17-test-cuda
+  #   container_name: solo4-train1
+  #   command: >
+  #     /bin/bash -c "/fedpod/run_train_cmc.sh 
+  #     -S 10000
+  #     -s 1 
+  #     -f 10
+  #     -m 15
+  #     -g 1 
+  #     -J ${JOBNAME1}
+  #     -R ${ROUNDS}
+  #     -r ${ROUND}
+  #     -E 20
+  #     -e 0
+  #     -i ${INSTID1}
+  #     -c experiments/CC359PPMICMC_v0n4.csv
+  #     -M ${MODEL}
+  #     -p 100
+  #     -D ${DATAROOT}"
+  #   stdin_open: true
+  #   tty: true
+  #   volumes:
+  #     - /home/cmc_admin/workspace/fedpod:/fedpod
+  #     - /home/cmc_admin/workspace/fedpod/${DATAROOT}:/fedpod/data
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: 1
+  #             capabilities: [gpu]
+
+
+  # solo4-train2:
+  #   image: dwnusa/fedpod:v0.4.17-test-cuda
+  #   container_name: solo4-train2
+  #   command: >
+  #     /bin/bash -c "/fedpod/run_train2_cmc.sh 
+  #     -S 10000
+  #     -s 1 
+  #     -f 10
+  #     -m 15
+  #     -g 1 
+  #     -J ${JOBNAME2}
+  #     -R ${ROUNDS}
+  #     -r ${ROUND}
+  #     -E 20
+  #     -e 0
+  #     -i ${INSTID2}
+  #     -c experiments/CC359PPMICMC_v0n4.csv
+  #     -M ${MODEL}
+  #     -p 100
+  #     -D ${DATAROOT}"
+  #   stdin_open: true
+  #   tty: true
+  #   volumes:
+  #     - /home/cmc_admin/workspace/fedpod:/fedpod
+  #     - /home/cmc_admin/workspace/fedpod/${DATAROOT}:/fedpod/data
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: 1
+  #             capabilities: [gpu]
+              
+
+
+
+
+
+
+
+              
+  # solo5-train1:
+  #   image: dwnusa/fedpod:v0.4.17-test-cuda
+  #   container_name: solo5-train1
+  #   command: >
+  #     /bin/bash -c "/fedpod/run_train_cmc.sh 
+  #     -S 10000
+  #     -s 1 
+  #     -f 10
+  #     -m 15
+  #     -g 1 
+  #     -J ${JOBNAME1}
+  #     -R ${ROUNDS}
+  #     -r ${ROUND}
+  #     -E 20
+  #     -e 0
+  #     -i ${INSTID1}
+  #     -c experiments/CC359PPMICMC_v0n5.csv
+  #     -M ${MODEL}
+  #     -p 100
+  #     -D ${DATAROOT}"
+  #   stdin_open: true
+  #   tty: true
+  #   volumes:
+  #     - /home/cmc_admin/workspace/fedpod:/fedpod
+  #     - /home/cmc_admin/workspace/fedpod/${DATAROOT}:/fedpod/data
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: 1
+  #             capabilities: [gpu]
+
+
+  # solo5-train2:
+  #   image: dwnusa/fedpod:v0.4.17-test-cuda
+  #   container_name: solo5-train2
+  #   command: >
+  #     /bin/bash -c "/fedpod/run_train2_cmc.sh 
+  #     -S 10000
+  #     -s 1 
+  #     -f 10
+  #     -m 15
+  #     -g 1 
+  #     -J ${JOBNAME2}
+  #     -R ${ROUNDS}
+  #     -r ${ROUND}
+  #     -E 20
+  #     -e 0
+  #     -i ${INSTID2}
+  #     -c experiments/CC359PPMICMC_v0n5.csv
+  #     -M ${MODEL}
+  #     -p 100
+  #     -D ${DATAROOT}"
+  #   stdin_open: true
+  #   tty: true
+  #   volumes:
+  #     - /home/cmc_admin/workspace/fedpod:/fedpod
+  #     - /home/cmc_admin/workspace/fedpod/${DATAROOT}:/fedpod/data
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: 1
+  #             capabilities: [gpu]
+              
+
+
+              
+  # solo6-train1:
+  #   image: dwnusa/fedpod:v0.4.17-test-cuda
+  #   container_name: solo6-train1
+  #   command: >
+  #     /bin/bash -c "/fedpod/run_train_cmc.sh 
+  #     -S 10000
+  #     -s 1 
+  #     -f 10
+  #     -m 15
+  #     -g 1 
+  #     -J ${JOBNAME1}
+  #     -R ${ROUNDS}
+  #     -r ${ROUND}
+  #     -E 20
+  #     -e 0
+  #     -i ${INSTID1}
+  #     -c experiments/CC359PPMICMC_v0n6.csv
+  #     -M ${MODEL}
+  #     -p 100
+  #     -D ${DATAROOT}"
+  #   stdin_open: true
+  #   tty: true
+  #   volumes:
+  #     - /home/cmc_admin/workspace/fedpod:/fedpod
+  #     - /home/cmc_admin/workspace/fedpod/${DATAROOT}:/fedpod/data
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: 1
+  #             capabilities: [gpu]
+
+
+  # solo6-train2:
+  #   image: dwnusa/fedpod:v0.4.17-test-cuda
+  #   container_name: solo6-train2
+  #   command: >
+  #     /bin/bash -c "/fedpod/run_train2_cmc.sh 
+  #     -S 10000
+  #     -s 1 
+  #     -f 10
+  #     -m 15
+  #     -g 1 
+  #     -J ${JOBNAME2}
+  #     -R ${ROUNDS}
+  #     -r ${ROUND}
+  #     -E 20
+  #     -e 0
+  #     -i ${INSTID2}
+  #     -c experiments/CC359PPMICMC_v0n6.csv
+  #     -M ${MODEL}
+  #     -p 100
+  #     -D ${DATAROOT}"
+  #   stdin_open: true
+  #   tty: true
+  #   volumes:
+  #     - /home/cmc_admin/workspace/fedpod:/fedpod
+  #     - /home/cmc_admin/workspace/fedpod/${DATAROOT}:/fedpod/data
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: 1
+  #             capabilities: [gpu]
+              
