@@ -4,7 +4,7 @@ initial-epoch: "00"
 
 data_set: "CC359PPMI"
 data_root: "data256_cc359ppmicmc_dwnusa"
-train-script: "run_train1.sh"
+train-script: "run_train.sh"
 agg-script: "run_aggregation.sh"
 infer-script: "run_infer.sh"
 forward-script: "run_forward.sh"
