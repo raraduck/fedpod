@@ -4,7 +4,7 @@ save_infer=""
 eval_freq=""
 milestone=""
 use_gpu=""
-flir_lr="1"
+flip_lr="1"
 job_name=""
 rounds=""
 round=""
@@ -32,7 +32,7 @@ do
         f) eval_freq=${OPTARG};;
         m) milestone=${OPTARG};;
         g) use_gpu=${OPTARG};;
-        L) flir_lr=${OPTARG};;
+        L) flip_lr=${OPTARG};;
         J) job_name=${OPTARG};;
         R) rounds=${OPTARG};;
         r) round=${OPTARG};;
