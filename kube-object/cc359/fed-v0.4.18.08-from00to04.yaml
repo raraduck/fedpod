@@ -254,8 +254,10 @@ spec:
             value: "{{workflow.parameters.init_model}}"
           - name: data_percentage
             value: "{{item.data_percentage}}"
+          - name: nodeLabel
+            value: "{{item.nodeLabel}}"
         withItems:
-        - { seed: "10001", inst: "1", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}"}
+        - { seed: "10001", inst: "1", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}", nodeLabel: "large"}
 
       - name: agg-00
         template: aggregation-job
@@ -302,30 +304,32 @@ spec:
             value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}_agg.pth"
           - name: data_percentage
             value: "{{item.data_percentage}}"
+          - name: nodeLabel
+            value: "{{item.nodeLabel}}"
         withItems:
-        - { seed: "10101", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}"}
-        - { seed: "10102", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}"}
-        - { seed: "10103", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}"}
-        - { seed: "10104", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}"}
-        - { seed: "10105", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}"}
-        - { seed: "10106", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}"}
-        - { seed: "10107", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_0_4}}"}
-        - { seed: "10108", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_0_4}}"}
-        - { seed: "10109", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_0_4}}"}
-        - { seed: "10110", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_0_4}}"}
-        - { seed: "10111", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_0_4}}"}
-        - { seed: "10112", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_0_4}}"}
-        - { seed: "10113", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_0_4}}"}
-        - { seed: "10114", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_0_4}}"}
-        - { seed: "10115", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_0_4}}"}
-        - { seed: "10116", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_0_4}}"}
-        - { seed: "10117", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_0_4}}"}
-        - { seed: "10118", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_0_4}}"}
-        - { seed: "10119", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_0_4}}"}
-        - { seed: "10120", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_0_4}}"}
-        - { seed: "10121", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_0_4}}"}
-        - { seed: "10122", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_0_4}}"}
-        - { seed: "10123", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_0_4}}"}
+        - { seed: "10101", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}", nodeLabel: "large"}
+        - { seed: "10102", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10103", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10104", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}", nodeLabel: "large"}
+        - { seed: "10105", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10106", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10107", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10108", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10109", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10110", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10111", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10112", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10113", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10114", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10115", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10116", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10117", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10118", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10119", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_0_4}}", nodeLabel: "small"}
+        - { seed: "10120", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_0_4}}", nodeLabel: "small"}
+        - { seed: "10121", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_0_4}}", nodeLabel: "small"}
+        - { seed: "10122", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_0_4}}", nodeLabel: "small"}
+        - { seed: "10123", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_0_4}}", nodeLabel: "small"}
         dependencies: [agg-00]
         # when: "{{tasks.agg-00.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -375,30 +379,32 @@ spec:
             value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-01.outputs.parameters.next-round}}_agg.pth"
           - name: data_percentage
             value: "{{item.data_percentage}}"
+          - name: nodeLabel
+            value: "{{item.nodeLabel}}"
         withItems:
-        - { seed: "10201", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}"}
-        - { seed: "10202", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}"}
-        - { seed: "10203", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}"}
-        - { seed: "10204", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}"}
-        - { seed: "10205", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}"}
-        - { seed: "10206", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}"}
-        - { seed: "10207", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_0_4}}"}
-        - { seed: "10208", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_0_4}}"}
-        - { seed: "10209", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_0_4}}"}
-        - { seed: "10210", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_0_4}}"}
-        - { seed: "10211", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_0_4}}"}
-        - { seed: "10212", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_0_4}}"}
-        - { seed: "10213", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_0_4}}"}
-        - { seed: "10214", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_0_4}}"}
-        - { seed: "10215", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_0_4}}"}
-        - { seed: "10216", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_0_4}}"}
-        - { seed: "10217", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_0_4}}"}
-        - { seed: "10218", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_0_4}}"}
-        - { seed: "10219", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_0_4}}"}
-        - { seed: "10220", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_0_4}}"}
-        - { seed: "10221", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_0_4}}"}
-        - { seed: "10222", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_0_4}}"}
-        - { seed: "10223", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_0_4}}"}
+        - { seed: "10201", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}", nodeLabel: "large"}
+        - { seed: "10202", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10203", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10204", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}", nodeLabel: "large"}
+        - { seed: "10205", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10206", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10207", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10208", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10209", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10210", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10211", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10212", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10213", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10214", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10215", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10216", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10217", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10218", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10219", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_0_4}}", nodeLabel: "small"}
+        - { seed: "10220", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_0_4}}", nodeLabel: "small"}
+        - { seed: "10221", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_0_4}}", nodeLabel: "small"}
+        - { seed: "10222", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_0_4}}", nodeLabel: "small"}
+        - { seed: "10223", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_0_4}}", nodeLabel: "small"}
         dependencies: [agg-01]
         # when: "{{tasks.agg-01.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -449,30 +455,32 @@ spec:
             value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-02.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-02.outputs.parameters.next-round}}_agg.pth"
           - name: data_percentage
             value: "{{item.data_percentage}}"
+          - name: nodeLabel
+            value: "{{item.nodeLabel}}"
         withItems:
-        - { seed: "10301", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}"}
-        - { seed: "10302", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}"}
-        - { seed: "10303", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}"}
-        - { seed: "10304", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}"}
-        - { seed: "10305", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}"}
-        - { seed: "10306", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}"}
-        - { seed: "10307", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_0_4}}"}
-        - { seed: "10308", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_0_4}}"}
-        - { seed: "10309", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_0_4}}"}
-        - { seed: "10310", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_0_4}}"}
-        - { seed: "10311", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_0_4}}"}
-        - { seed: "10312", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_0_4}}"}
-        - { seed: "10313", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_0_4}}"}
-        - { seed: "10314", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_0_4}}"}
-        - { seed: "10315", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_0_4}}"}
-        - { seed: "10316", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_0_4}}"}
-        - { seed: "10317", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_0_4}}"}
-        - { seed: "10318", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_0_4}}"}
-        - { seed: "10319", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_0_4}}"}
-        - { seed: "10320", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_0_4}}"}
-        - { seed: "10321", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_0_4}}"}
-        - { seed: "10322", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_0_4}}"}
-        - { seed: "10323", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_0_4}}"}
+        - { seed: "10301", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}", nodeLabel: "large"}
+        - { seed: "10302", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10303", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10304", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}", nodeLabel: "large"}
+        - { seed: "10305", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10306", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10307", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10308", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10309", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10310", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10311", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10312", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10313", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10314", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10315", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10316", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10317", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10318", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10319", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_0_4}}", nodeLabel: "small"}
+        - { seed: "10320", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_0_4}}", nodeLabel: "small"}
+        - { seed: "10321", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_0_4}}", nodeLabel: "small"}
+        - { seed: "10322", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_0_4}}", nodeLabel: "small"}
+        - { seed: "10323", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_0_4}}", nodeLabel: "small"}
         # dependencies: [agg-02]
         dependencies: [agg-02]
 
@@ -522,30 +530,32 @@ spec:
             value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-03.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-03.outputs.parameters.next-round}}_agg.pth"
           - name: data_percentage
             value: "{{item.data_percentage}}"
+          - name: nodeLabel
+            value: "{{item.nodeLabel}}"
         withItems:
-        - { seed: "10401", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}"}
-        - { seed: "10402", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}"}
-        - { seed: "10403", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}"}
-        - { seed: "10404", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}"}
-        - { seed: "10405", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}"}
-        - { seed: "10406", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}"}
-        - { seed: "10407", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_0_4}}"}
-        - { seed: "10408", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_0_4}}"}
-        - { seed: "10409", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_0_4}}"}
-        - { seed: "10410", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_0_4}}"}
-        - { seed: "10411", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_0_4}}"}
-        - { seed: "10412", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_0_4}}"}
-        - { seed: "10413", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_0_4}}"}
-        - { seed: "10414", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_0_4}}"}
-        - { seed: "10415", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_0_4}}"}
-        - { seed: "10416", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_0_4}}"}
-        - { seed: "10417", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_0_4}}"}
-        - { seed: "10418", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_0_4}}"}
-        - { seed: "10419", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_0_4}}"}
-        - { seed: "10420", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_0_4}}"}
-        - { seed: "10421", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_0_4}}"}
-        - { seed: "10422", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_0_4}}"}
-        - { seed: "10423", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_0_4}}"}
+        - { seed: "10401", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}", nodeLabel: "large"}
+        - { seed: "10402", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10403", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10404", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}", nodeLabel: "large"}
+        - { seed: "10405", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10406", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10407", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10408", inst:  "8", data_percentage: "{{workflow.parameters.inst_08_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10409", inst:  "9", data_percentage: "{{workflow.parameters.inst_09_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10410", inst: "10", data_percentage: "{{workflow.parameters.inst_10_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10411", inst: "11", data_percentage: "{{workflow.parameters.inst_11_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10412", inst: "12", data_percentage: "{{workflow.parameters.inst_12_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10413", inst: "13", data_percentage: "{{workflow.parameters.inst_13_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10414", inst: "14", data_percentage: "{{workflow.parameters.inst_14_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10415", inst: "15", data_percentage: "{{workflow.parameters.inst_15_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10416", inst: "16", data_percentage: "{{workflow.parameters.inst_16_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10417", inst: "17", data_percentage: "{{workflow.parameters.inst_17_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10418", inst: "18", data_percentage: "{{workflow.parameters.inst_18_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10419", inst: "19", data_percentage: "{{workflow.parameters.inst_19_ratio_0_4}}", nodeLabel: "small"}
+        - { seed: "10420", inst: "20", data_percentage: "{{workflow.parameters.inst_20_ratio_0_4}}", nodeLabel: "small"}
+        - { seed: "10421", inst: "21", data_percentage: "{{workflow.parameters.inst_21_ratio_0_4}}", nodeLabel: "small"}
+        - { seed: "10422", inst: "22", data_percentage: "{{workflow.parameters.inst_22_ratio_0_4}}", nodeLabel: "small"}
+        - { seed: "10423", inst: "23", data_percentage: "{{workflow.parameters.inst_23_ratio_0_4}}", nodeLabel: "small"}
         dependencies: [agg-03]
         # when: "{{tasks.agg-03.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -2086,6 +2096,24 @@ spec:
       - name: inst-id
       - name: model_pth
       - name: data_percentage
+      - name: nodeLabel
+    affinity:
+      nodeAffinity:
+        # requiredDuringSchedulingIgnoredDuringExecution:
+        #   nodeSelectorTerms:
+        #     - matchExpressions:
+        #       - key: cpu
+        #         operator: In
+        #         values:
+        #         - "{{inputs.parameters.nodeLabel}}"
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 30
+            preference:
+              matchExpressions:
+                - key: cpu
+                  operator: In
+                  values:
+                    - "{{inputs.parameters.nodeLabel}}"
     container:
       image: dwnusa/fedpod:v0.4.18.08
       imagePullPolicy: Always
@@ -2116,7 +2144,7 @@ spec:
       resources:
         requests:
           cpu: "2"
-          memory: "8G"
+          memory: "4G"
       volumeMounts:
       - name: csv-volume
         mountPath: /fedpod/experiments
@@ -2255,7 +2283,7 @@ spec:
       args: 
         - >
           ./{{inputs.parameters.run-script}}
-          -s 1
+          -s 0
           -g 0
           -J {{inputs.parameters.job-name}}
           -i {{inputs.parameters.inst-id}}
@@ -2276,7 +2304,7 @@ spec:
       resources:
         requests:
           cpu: "2"
-          memory: "8G"
+          memory: "4G"
       volumeMounts:
       - name: csv-volume
         mountPath: /fedpod/experiments
