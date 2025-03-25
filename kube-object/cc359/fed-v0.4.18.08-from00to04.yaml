@@ -2340,16 +2340,16 @@ spec:
         path: /fedpod/runs  # 로컬 경로
         type: Directory
 
-  - name: dummy-task
-    container:
-      image: alpine:3.7
-      command: [sh, -c]
-      args: ["echo '12' > /tmp/next_round.txt; echo '0' > /tmp/next_epoch.txt"]
-    outputs:
-      parameters:
-      - name: next-round
-        valueFrom:
-          path: /tmp/next_round.txt
-      - name: next-epoch
-        valueFrom:
-          path: /tmp/next_epoch.txt
+  # - name: dummy-task
+  #   container:
+  #     image: alpine:3.7
+  #     command: [sh, -c]
+  #     args: ["echo '12' > /tmp/next_round.txt; echo '0' > /tmp/next_epoch.txt"]
+  #   outputs:
+  #     parameters:
+  #     - name: next-round
+  #       valueFrom:
+  #         path: /tmp/next_round.txt
+  #     - name: next-epoch
+  #       valueFrom:
+  #         path: /tmp/next_epoch.txt
