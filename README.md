@@ -121,3 +121,9 @@ Kustomize Version: v4.5.4
 ```
 sudo apt-mark hold kubelet kubeadm kubectl
 ```
+
+##### 명령 실행 방법 (example)
+> cd ~/fedpod/kube-object/fets
+```
+argo -n argo submit fed-v0.4.18.08-from00to04.yaml --parameter-file params/FedPODnSel2.yaml -p job-prefix="fedpodnsel2"
+```
