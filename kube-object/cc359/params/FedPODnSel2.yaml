@@ -3,7 +3,7 @@ initial-round: "00"
 initial-epoch: "00"
 
 data_set: "CC359PPMI"
-data_root: "data256_cc359ppmicmc_dwnusa"
+data_root: "data256_cc359_newseg"
 train-script: "run_train.sh"
 agg-script: "run_aggregation.sh"
 infer-script: "run_infer.sh"
