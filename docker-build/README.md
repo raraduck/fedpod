@@ -1,5 +1,13 @@
 # build dockerfile
-
+```
+docker login -u dwnusa
+```
+``` (mac)
+docker buildx build --platform linux/amd64,linux/arm64 -t dwnusa/myapp:v0.5-multiarch --push .
+```
+``` (linux-amd64)
+docker build -t dwnusa/fedpod:v0.4.18.08 -f docker-build/Dockerfile-fedpod-v0.4.18 . && docker push dwnusa/fedpod:v0.4.18.08
+```
 
 # fsl flirt and fnirt
 
