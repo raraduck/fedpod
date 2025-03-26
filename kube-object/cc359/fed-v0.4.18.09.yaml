@@ -121,7 +121,7 @@ spec:
           - name: nodeLabel
             value: "{{item.nodeLabel}}"
         withItems:
-        - { seed: "10002", inst: "2", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10002", inst: "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "medium"}
         - { seed: "10006", inst: "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}", nodeLabel: "large"}
 
       - name: agg-00
