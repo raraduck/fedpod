@@ -1342,7 +1342,7 @@ spec:
         #         values:
         #         - "{{inputs.parameters.nodeLabel}}"
         preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 0
+          - weight: 1
             preference:
               matchExpressions:
                 - key: cpu
