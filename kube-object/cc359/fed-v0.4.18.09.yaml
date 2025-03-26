@@ -1342,7 +1342,7 @@ spec:
         #         values:
         #         - "{{inputs.parameters.nodeLabel}}"
         preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 10
+          - weight: 0
             preference:
               matchExpressions:
                 - key: cpu
@@ -1379,7 +1379,7 @@ spec:
           -I {{workflow.parameters.label_index}}
       resources:
         requests:
-          cpu: "2"
+          cpu: "8"
           memory: "4G"
       volumeMounts:
       - name: csv-volume
