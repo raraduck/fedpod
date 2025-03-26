@@ -121,8 +121,12 @@ spec:
           - name: nodeLabel
             value: "{{item.nodeLabel}}"
         withItems:
-        - { seed: "10002", inst: "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "medium"}
-        - { seed: "10006", inst: "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}", nodeLabel: "large"}
+        - { seed: "10001", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}", nodeLabel: "small"}
+        - { seed: "10002", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10003", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10004", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10005", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}", nodeLabel: "large"}
+        - { seed: "10006", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}", nodeLabel: "large"}
 
       - name: agg-00
         template: aggregation-job
