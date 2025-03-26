@@ -53,40 +53,6 @@ spec:
       value: "100"
     - name: inst_06_ratio_0_4
       value: "100"
-    # - name: inst_07_ratio_0_4
-    #   value: "100"
-    # - name: inst_08_ratio_0_4
-    #   value: "100"
-    # - name: inst_09_ratio_0_4
-    #   value: "100"
-    # - name: inst_10_ratio_0_4
-    #   value: "100"
-    # - name: inst_11_ratio_0_4
-    #   value: "100"
-    # - name: inst_12_ratio_0_4
-    #   value: "100"
-    # - name: inst_13_ratio_0_4
-    #   value: "100"
-    # - name: inst_14_ratio_0_4
-    #   value: "100"
-    # - name: inst_15_ratio_0_4
-    #   value: "100"
-    # - name: inst_16_ratio_0_4
-    #   value: "100"
-    # - name: inst_17_ratio_0_4
-    #   value: "100"
-    # - name: inst_18_ratio_0_4
-    #   value: "100"
-    # - name: inst_19_ratio_0_4
-    #   value: "100"
-    # - name: inst_20_ratio_0_4
-    #   value: "100"
-    # - name: inst_21_ratio_0_4
-    #   value: "100"
-    # - name: inst_22_ratio_0_4
-    #   value: "100"
-    # - name: inst_23_ratio_0_4
-    #   value: "100"
     - name: inst_01_ratio_5_9
       value: "100"
     - name: inst_02_ratio_5_9
@@ -99,40 +65,6 @@ spec:
       value: "100"
     - name: inst_06_ratio_5_9
       value: "100"
-    # - name: inst_07_ratio_5_9
-    #   value: "100"
-    # - name: inst_08_ratio_5_9
-    #   value: "100"
-    # - name: inst_09_ratio_5_9
-    #   value: "100"
-    # - name: inst_10_ratio_5_9
-    #   value: "100"
-    # - name: inst_11_ratio_5_9
-    #   value: "100"
-    # - name: inst_12_ratio_5_9
-    #   value: "100"
-    # - name: inst_13_ratio_5_9
-    #   value: "100"
-    # - name: inst_14_ratio_5_9
-    #   value: "100"
-    # - name: inst_15_ratio_5_9
-    #   value: "100"
-    # - name: inst_16_ratio_5_9
-    #   value: "100"
-    # - name: inst_17_ratio_5_9
-    #   value: "100"
-    # - name: inst_18_ratio_5_9
-    #   value: "100"
-    # - name: inst_19_ratio_5_9
-    #   value: "100"
-    # - name: inst_20_ratio_5_9
-    #   value: "100"
-    # - name: inst_21_ratio_5_9
-    #   value: "100"
-    # - name: inst_22_ratio_5_9
-    #   value: "100"
-    # - name: inst_23_ratio_5_9
-    #   value: "100"
     - name: inst_01_ratio_10_14
       value: "100"
     - name: inst_02_ratio_10_14
@@ -145,40 +77,6 @@ spec:
       value: "100"
     - name: inst_06_ratio_10_14
       value: "100"
-    # - name: inst_07_ratio_10_14
-    #   value: "100"
-    # - name: inst_08_ratio_10_14
-    #   value: "100"
-    # - name: inst_09_ratio_10_14
-    #   value: "100"
-    # - name: inst_10_ratio_10_14
-    #   value: "100"
-    # - name: inst_11_ratio_10_14
-    #   value: "100"
-    # - name: inst_12_ratio_10_14
-    #   value: "100"
-    # - name: inst_13_ratio_10_14
-    #   value: "100"
-    # - name: inst_14_ratio_10_14
-    #   value: "100"
-    # - name: inst_15_ratio_10_14
-    #   value: "100"
-    # - name: inst_16_ratio_10_14
-    #   value: "100"
-    # - name: inst_17_ratio_10_14
-    #   value: "100"
-    # - name: inst_18_ratio_10_14
-    #   value: "100"
-    # - name: inst_19_ratio_10_14
-    #   value: "100"
-    # - name: inst_20_ratio_10_14
-    #   value: "100"
-    # - name: inst_21_ratio_10_14
-    #   value: "100"
-    # - name: inst_22_ratio_10_14
-    #   value: "100"
-    # - name: inst_23_ratio_10_14
-    #   value: "100"
     - name: inst_01_ratio_15_19
       value: "100"
     - name: inst_02_ratio_15_19
@@ -191,40 +89,6 @@ spec:
       value: "100"
     - name: inst_06_ratio_15_19
       value: "100"
-    # - name: inst_07_ratio_15_19
-    #   value: "100"
-    # - name: inst_08_ratio_15_19
-    #   value: "100"
-    # - name: inst_09_ratio_15_19
-    #   value: "100"
-    # - name: inst_10_ratio_15_19
-    #   value: "100"
-    # - name: inst_11_ratio_15_19
-    #   value: "100"
-    # - name: inst_12_ratio_15_19
-    #   value: "100"
-    # - name: inst_13_ratio_15_19
-    #   value: "100"
-    # - name: inst_14_ratio_15_19
-    #   value: "100"
-    # - name: inst_15_ratio_15_19
-    #   value: "100"
-    # - name: inst_16_ratio_15_19
-    #   value: "100"
-    # - name: inst_17_ratio_15_19
-    #   value: "100"
-    # - name: inst_18_ratio_15_19
-    #   value: "100"
-    # - name: inst_19_ratio_15_19
-    #   value: "100"
-    # - name: inst_20_ratio_15_19
-    #   value: "100"
-    # - name: inst_21_ratio_15_19
-    #   value: "100"
-    # - name: inst_22_ratio_15_19
-    #   value: "100"
-    # - name: inst_23_ratio_15_19
-    #   value: "100"
   templates:
   - name: parallel-dag
     dag:
