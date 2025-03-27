@@ -1337,8 +1337,28 @@ spec:
       - name: model_pth
       - name: data_percentage
       - name: nodeLabel
-    affinity:
-      nodeAffinity:
+affinity:
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 30
+        preference:
+          matchExpressions:
+            - key: cpu
+              operator: In
+              values:
+                - "{{inputs.parameters.nodeLabel}}"  # 보통 large
+      # 조건 2: cpu key가 존재하기만 하면
+      - weight: 20
+        preference:
+          matchExpressions:
+            - key: cpu
+              operator: Exists
+      # 조건 3: cpu key가 아예 없는 경우
+      - weight: 10
+        preference:
+          matchExpressions:
+            - key: cpu
+              operator: DoesNotExist
         # requiredDuringSchedulingIgnoredDuringExecution:
         #   nodeSelectorTerms:
         #     - matchExpressions:
@@ -1346,14 +1366,6 @@ spec:
         #         operator: In
         #         values:
         #         - "{{inputs.parameters.nodeLabel}}"
-        preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 1
-            preference:
-              matchExpressions:
-                - key: cpu
-                  operator: In
-                  values:
-                    - "{{inputs.parameters.nodeLabel}}"
     container:
       image: dwnusa/fedpod:v0.4.18.09
       imagePullPolicy: Always
@@ -1384,7 +1396,7 @@ spec:
           -I {{workflow.parameters.label_index}}
       resources:
         requests:
-          cpu: "6"
+          cpu: "8"
           memory: "4G"
       volumeMounts:
       - name: csv-volume
