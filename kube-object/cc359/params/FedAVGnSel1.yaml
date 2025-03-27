@@ -14,7 +14,7 @@ input_channel_names: "[t1]"
 label_groups: "[[1,2,3,4,5,6],[7,8,9,10,11,12]]"
 label_names: "[LS,RS]"
 label_index: "[1,2]"
-agg-algo: "fedpod"
+agg-algo: "fedavg"
 seg_postfix: "_seg"
 split_csv: "experiments/CC359PPMICMC_v3.csv"
 
