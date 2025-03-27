@@ -69,7 +69,7 @@ def main(src_base, trg_base):
         # trg_pet_vol = trg_pet_vol.unsqueeze(0).to(torch.float)
 
         dice = metrics.dice(src_sub_vol, trg_sub_vol)
-        hd95 = metrics.hd95(src_sub_vol, trg_sub_vol)
+        # hd95 = metrics.hd95(src_sub_vol, trg_sub_vol)
         # hd95 = np.array([[3.        , 3.16227766, 3.16227766, 3.        , 2.23606798,
         # 1.77224319, 2.23606798, 4.12310563, 5.19615242, 3.60555128,
         # 3.16227766, 3.        ]])
@@ -80,7 +80,7 @@ def main(src_base, trg_base):
         # # print(suvr_src)
         # # print(suvr_trg)
 
-        case_metrics_meter.update(dice, hd95, pvdc, [pid], 1,
+        case_metrics_meter.update(dice, dice, pvdc, [pid], 1,
                                   suv1=dice, # suvr_src,
                                   suv2=dice, # suvr_trg
                                   )

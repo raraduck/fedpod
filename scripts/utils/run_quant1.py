@@ -57,39 +57,42 @@ def main(src_base, trg_base):
         trg_dir = os.path.join(trg_path, pid)
         # print(trg_dir)
         # check_list = os.listdir(trg_dir)
-        src_seg_file = os.path.join(src_dir, f"{pid}_seg.nii.gz")
+        src_seg_file = os.path.join(src_dir, f"{pid}_fnirt_seg.nii.gz")
         trg_seg_file = os.path.join(trg_dir, f"{pid}_seg.nii.gz")
-        trg_ref_file = os.path.join(trg_dir, f"{pid}_ref.nii.gz")
-        trg_pet_file = os.path.join(trg_dir, f"{pid}_pt.nii.gz")
+        # trg_ref_file = os.path.join(trg_dir, f"{pid}_ref.nii.gz")
+        # trg_pet_file = os.path.join(trg_dir, f"{pid}_pt.nii.gz")
 
         assert os.path.exists(src_seg_file), f"{src_seg_file} not exists."
         assert os.path.exists(trg_seg_file), f"{trg_seg_file} not exists."
-        assert os.path.exists(trg_ref_file), f"{trg_ref_file} not exists."
-        assert os.path.exists(trg_pet_file), f"{trg_pet_file} not exists."
+        # assert os.path.exists(trg_ref_file), f"{trg_ref_file} not exists."
+        # assert os.path.exists(trg_pet_file), f"{trg_pet_file} not exists."
 
         src_seg_vol = torch.from_numpy(load_nii(src_seg_file)).long().unsqueeze(0)
         trg_seg_vol = torch.from_numpy(load_nii(trg_seg_file)).long().unsqueeze(0)
-        trg_ref_vol = torch.from_numpy(nib.load(trg_ref_file).get_fdata()).bool().long().unsqueeze(0)
-        trg_pet_vol = torch.from_numpy(nib.load(trg_pet_file).get_fdata()).float().unsqueeze(0)
+        # trg_ref_vol = torch.from_numpy(nib.load(trg_ref_file).get_fdata()).bool().long().unsqueeze(0)
+        # trg_pet_vol = torch.from_numpy(nib.load(trg_pet_file).get_fdata()).float().unsqueeze(0)
 
 
 
         # 원-핫 인코딩 (num_classes=13, 라벨 1~12)
         src_seg_vol = F.one_hot(src_seg_vol, num_classes=len(seg_names)+1)[..., 1:].permute(0, 4, 1, 2, 3).to(torch.float)
         trg_seg_vol = F.one_hot(trg_seg_vol, num_classes=len(seg_names)+1)[..., 1:].permute(0, 4, 1, 2, 3).to(torch.float)
-        trg_ref_vol = F.one_hot(trg_ref_vol, num_classes=2)[..., 1:].permute(0, 4, 1, 2, 3).to(torch.float)
-        trg_pet_vol = trg_pet_vol.unsqueeze(0).to(torch.float)
+        # trg_ref_vol = F.one_hot(trg_ref_vol, num_classes=2)[..., 1:].permute(0, 4, 1, 2, 3).to(torch.float)
+        # trg_pet_vol = trg_pet_vol.unsqueeze(0).to(torch.float)
 
         dice = metrics.dice(src_seg_vol, trg_seg_vol)
-        hd95 = metrics.hd95(src_seg_vol, trg_seg_vol)
+        # hd95 = metrics.hd95(src_seg_vol, trg_seg_vol)
         pvdc = metrics.pvdc(src_seg_vol, trg_seg_vol)
-        norm_pet = get_suvr(trg_pet_vol, trg_ref_vol)
-        suvr_src = metrics.suvr(norm_pet, src_seg_vol)
-        suvr_trg = metrics.suvr(norm_pet, trg_seg_vol)
-        # print(suvr_src)
-        # print(suvr_trg)
+        # norm_pet = get_suvr(trg_pet_vol, trg_ref_vol)
+        # suvr_src = metrics.suvr(norm_pet, src_seg_vol)
+        # suvr_trg = metrics.suvr(norm_pet, trg_seg_vol)
+        # # print(suvr_src)
+        # # print(suvr_trg)
 
-        case_metrics_meter.update(dice, hd95, pvdc, [pid], 1, suv1=suvr_src, suv2=suvr_trg)
+        case_metrics_meter.update(dice, dice, pvdc, [pid], 1,
+                                  suv1=dice, # suvr_src,
+                                  suv2=dice, # suvr_trg
+                                  )
         print(pid, dice.mean())
     # save_val_path = os.path.join(src_path)
     # save_val_path = os.path.dirname(src_path)

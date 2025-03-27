@@ -9,7 +9,7 @@ def main(src_base, postfix):
     base = os.path.dirname(src_base)
     pid = os.path.basename(src_base)
     dst_folder = os.path.join(base, pid)
-    sub_file = f'{pid}_sub.nii.gz'
+    sub_file = f'{pid}_fnirt_sub.nii.gz'
     seg_file = f'{pid}_{postfix}.nii.gz'
     # print(os.path.join(dst_folder, sub_file))
     # print(f"{sub_file} not exists.")
@@ -25,18 +25,18 @@ def main(src_base, postfix):
     active_data = np.zeros_like(data)
 
     active_data[data == 1] = 1 # LVS
-    # active_data[data == 2] = 1 # LAC
-    active_data[data == 4] = 1 # LPC
-    # active_data[data == 4] = 1 # LAP
-    # active_data[data == 5] = 1 # LPP
-    # active_data[data == 6] = 1 # LVP
+    active_data[data == 2] = 1 # LAC
+    active_data[data == 3] = 1 # LPC
+    active_data[data == 4] = 1 # LAP
+    active_data[data == 5] = 1 # LPP
+    active_data[data == 6] = 1 # LVP
 
-    # active_data[data == 7] = 2 # RVS
-    # active_data[data == 8] = 2 # RAC
-    # active_data[data == 9] = 2 # RPC
-    # active_data[data ==10] = 2 # RAP
-    # active_data[data ==11] = 2 # RPP
-    # active_data[data ==12] = 2 # RVP
+    active_data[data == 7] = 2 # RVS
+    active_data[data == 8] = 2 # RAC
+    active_data[data == 9] = 2 # RPC
+    active_data[data ==10] = 2 # RAP
+    active_data[data ==11] = 2 # RPP
+    active_data[data ==12] = 2 # RVP
 
     final_img = nib.Nifti1Image(active_data, affine)
     nib.save(final_img, os.path.join(dst_folder, seg_file))
