@@ -22,6 +22,9 @@ def seed_everything(seed=42):
     torch.use_deterministic_algorithms(True)
     
 def load_subjects_list(percentile: int, rounds: int, round: int, split_path: str, inst_ids: list, TrainOrVal: list, mode='train'):
+    ## split csv 파일을 최초에는 split_path (= self.cli_args.cases_split) 경로에서 불러와야함
+    ## 이후에는, states/${job-name}/f"{split_path}" 경로에서 불러와서 갱신까지 하도록 해야함
+    ## 갱신해야하는 정보는 현재 Round 에서 추출하는 데이터를 기록하는 것
     df = pd.read_csv(split_path)
     Partition_ID = f"Partition_ID"
     rounds_list = [el for el in df.columns.to_list() if 'R' in el]
