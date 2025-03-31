@@ -1396,7 +1396,7 @@ spec:
           -I {{workflow.parameters.label_index}}
       resources:
         requests:
-          cpu: "12"
+          cpu: "10"
           memory: "4G"
       volumeMounts:
       - name: csv-volume
