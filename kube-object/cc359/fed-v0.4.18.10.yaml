@@ -1453,7 +1453,7 @@ spec:
                 - key: cpu
                   operator: In
                   values:
-                    - "small"  # 보통 large
+                    - "medium"  # 보통 large
           # 조건 2: cpu key가 존재하기만 하면
           - weight: 20
             preference:
