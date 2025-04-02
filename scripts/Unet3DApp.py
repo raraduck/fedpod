@@ -102,7 +102,7 @@ class Unet3DApp:
         return model, init_model_path
 
     def initTrainDl(self, case_names:list, mode='training', index_filter=None):
-        base_transform = get_base_transform(self.cli_args)
+        base_transform = get_base_transform(self.cli_args, label_groups=self.cli_args.label_groups_trn)
         aug_transform = get_aug_transform(self.cli_args)
         train_transforms = transforms.Compose(base_transform + aug_transform)
         train_dataset = get_dataset(self.cli_args, case_names, 
@@ -126,7 +126,7 @@ class Unet3DApp:
 
 
     def initValDl(self, case_names:list, mode:str):
-        base_transform  = get_base_transform(self.cli_args)
+        base_transform  = get_base_transform(self.cli_args, label_groups=None)
         aug_transform = [transforms.EnsureTyped(keys=["image", 'label'])]
         infer_transform = transforms.Compose(base_transform + aug_transform)
         infer_dataset = get_dataset(self.cli_args, case_names, infer_transform, 

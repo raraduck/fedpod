@@ -18,6 +18,7 @@ def parse_args(argv):
     # data
     parser.add_argument('--cases_split', type=str, default=None, help='file path for split csv')
     parser.add_argument('--inst_ids', type=parse_1d_int_list, default=[])
+    parser.add_argument('--label_groups_trn', type=parse_2d_int_list, default=[[11, 50],[12, 51]], help='2D list of label groups')
     parser.add_argument('--label_groups', type=parse_2d_int_list, default=[[11, 50],[12, 51]], help='2D list of label groups')
     parser.add_argument('--label_names', type=parse_1d_str_list, default=['caud', 'puta'], help='1D list of label names')
     parser.add_argument('--label_index', type=parse_1d_int_list, default=[10, 20], help='1D list of label index')

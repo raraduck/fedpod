@@ -110,7 +110,9 @@ def apply_spacing_transform(args, data, selected_keys):
 #     )
 #     return transform(data)
 
-def get_base_transform(args):
+def get_base_transform(args, label_groups=None):
+    if label_groups == None:
+        label_groups = args.label_groups
     selected_keys = [*args.input_channel_names, 'label']
     base_transform_1 = [
         transforms.EnsureTyped(keys=selected_keys),  # 데이터를 MetaTensor로 변환
@@ -133,7 +135,7 @@ def get_base_transform(args):
         RobustZScoreNormalization(keys=[el for el in args.input_channel_names if el not in MASKS]),
         transforms.ConcatItemsd(keys=args.input_channel_names, name='image', dim=0),
         transforms.DeleteItemsd(keys=args.input_channel_names),
-        ConvertToMultiChannel(keys=["label"], labels=args.label_groups)
+        ConvertToMultiChannel(keys=["label"], labels=label_groups)
     ]
     if args.zoom:
         return base_transform_1 + zoom_transform + base_transform_2
@@ -163,7 +165,6 @@ def get_forward_transform(args):
         RobustZScoreNormalization(keys=[el for el in args.input_channel_names if el not in MASKS]),
         transforms.ConcatItemsd(keys=args.input_channel_names, name='image', dim=0),
         transforms.DeleteItemsd(keys=args.input_channel_names),
-        # ConvertToMultiChannel(keys=["label"], labels=args.label_groups)
     ]
     if args.zoom:
         return base_transform_1 + zoom_transform + base_transform_2
