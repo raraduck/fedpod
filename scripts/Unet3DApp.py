@@ -384,7 +384,7 @@ class Unet3DApp:
 
                 dsc_loss_by_channels_np = dsc_loss_by_channels.cpu().numpy()
                 dice = metrics.dice(seg_map_th, label)
-                hd95 = metrics.hd95(seg_map_th, label)
+                hd95 = dice # metrics.hd95(seg_map_th, label)
                 pvdc = metrics.pvdc(seg_map_th, label)
                 batch_time.update(time.time() - end)
                 case_metrics_meter.update(dice, hd95, pvdc, name, bsz, dscloss=dsc_loss_by_channels_np)
