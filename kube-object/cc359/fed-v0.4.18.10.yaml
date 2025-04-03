@@ -126,7 +126,7 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "10001", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}", nodeLabel: "small"}
-        - { seed: "10002", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10002", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "large"}
         - { seed: "10003", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}", nodeLabel: "medium"}
         - { seed: "10004", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}", nodeLabel: "medium"}
         - { seed: "10005", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}", nodeLabel: "medium"}
@@ -183,7 +183,7 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "10101", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}", nodeLabel: "small"}
-        - { seed: "10102", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10102", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "large"}
         - { seed: "10103", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}", nodeLabel: "medium"}
         - { seed: "10104", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}", nodeLabel: "medium"}
         - { seed: "10105", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}", nodeLabel: "medium"}
@@ -243,7 +243,7 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "10201", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}", nodeLabel: "small"}
-        - { seed: "10202", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10202", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "large"}
         - { seed: "10203", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}", nodeLabel: "medium"}
         - { seed: "10204", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}", nodeLabel: "medium"}
         - { seed: "10205", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}", nodeLabel: "medium"}
@@ -304,7 +304,7 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "10301", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}", nodeLabel: "small"}
-        - { seed: "10302", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10302", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "large"}
         - { seed: "10303", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}", nodeLabel: "medium"}
         - { seed: "10304", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}", nodeLabel: "medium"}
         - { seed: "10305", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}", nodeLabel: "medium"}
@@ -364,7 +364,7 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "10401", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}", nodeLabel: "small"}
-        - { seed: "10402", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "medium"}
+        - { seed: "10402", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "large"}
         - { seed: "10403", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}", nodeLabel: "medium"}
         - { seed: "10404", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}", nodeLabel: "medium"}
         - { seed: "10405", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}", nodeLabel: "medium"}
@@ -429,7 +429,7 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "10501", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_5_9}}", nodeLabel: "small"}
-        - { seed: "10502", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_5_9}}", nodeLabel: "medium"}
+        - { seed: "10502", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_5_9}}", nodeLabel: "large"}
         - { seed: "10503", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_5_9}}", nodeLabel: "medium"}
         - { seed: "10504", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_5_9}}", nodeLabel: "medium"}
         - { seed: "10505", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_5_9}}", nodeLabel: "medium"}
@@ -491,7 +491,7 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "10601", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_5_9}}", nodeLabel: "small"}
-        - { seed: "10602", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_5_9}}", nodeLabel: "medium"}
+        - { seed: "10602", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_5_9}}", nodeLabel: "large"}
         - { seed: "10603", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_5_9}}", nodeLabel: "medium"}
         - { seed: "10604", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_5_9}}", nodeLabel: "medium"}
         - { seed: "10605", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_5_9}}", nodeLabel: "medium"}
@@ -551,7 +551,7 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "10701", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_5_9}}", nodeLabel: "small"}
-        - { seed: "10702", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_5_9}}", nodeLabel: "medium"}
+        - { seed: "10702", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_5_9}}", nodeLabel: "large"}
         - { seed: "10703", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_5_9}}", nodeLabel: "medium"}
         - { seed: "10704", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_5_9}}", nodeLabel: "medium"}
         - { seed: "10705", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_5_9}}", nodeLabel: "medium"}
@@ -611,7 +611,7 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "10801", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_5_9}}", nodeLabel: "small"}
-        - { seed: "10802", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_5_9}}", nodeLabel: "medium"}
+        - { seed: "10802", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_5_9}}", nodeLabel: "large"}
         - { seed: "10803", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_5_9}}", nodeLabel: "medium"}
         - { seed: "10804", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_5_9}}", nodeLabel: "medium"}
         - { seed: "10805", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_5_9}}", nodeLabel: "medium"}
@@ -671,7 +671,7 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "10901", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_5_9}}", nodeLabel: "small"}
-        - { seed: "10902", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_5_9}}", nodeLabel: "medium"}
+        - { seed: "10902", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_5_9}}", nodeLabel: "large"}
         - { seed: "10903", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_5_9}}", nodeLabel: "medium"}
         - { seed: "10904", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_5_9}}", nodeLabel: "medium"}
         - { seed: "10905", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_5_9}}", nodeLabel: "medium"}
@@ -735,7 +735,7 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "11001", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_10_14}}", nodeLabel: "small"}
-        - { seed: "11002", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_10_14}}", nodeLabel: "medium"}
+        - { seed: "11002", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_10_14}}", nodeLabel: "large"}
         - { seed: "11003", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_10_14}}", nodeLabel: "medium"}
         - { seed: "11004", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_10_14}}", nodeLabel: "medium"}
         - { seed: "11005", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_10_14}}", nodeLabel: "medium"}
@@ -797,7 +797,7 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "11101", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_10_14}}", nodeLabel: "small"}
-        - { seed: "11102", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_10_14}}", nodeLabel: "medium"}
+        - { seed: "11102", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_10_14}}", nodeLabel: "large"}
         - { seed: "11103", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_10_14}}", nodeLabel: "medium"}
         - { seed: "11104", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_10_14}}", nodeLabel: "medium"}
         - { seed: "11105", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_10_14}}", nodeLabel: "medium"}
@@ -858,7 +858,7 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "11201", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_10_14}}", nodeLabel: "small"}
-        - { seed: "11202", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_10_14}}", nodeLabel: "medium"}
+        - { seed: "11202", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_10_14}}", nodeLabel: "large"}
         - { seed: "11203", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_10_14}}", nodeLabel: "medium"}
         - { seed: "11204", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_10_14}}", nodeLabel: "medium"}
         - { seed: "11205", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_10_14}}", nodeLabel: "medium"}
@@ -919,7 +919,7 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "11301", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_10_14}}", nodeLabel: "small"}
-        - { seed: "11302", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_10_14}}", nodeLabel: "medium"}
+        - { seed: "11302", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_10_14}}", nodeLabel: "large"}
         - { seed: "11303", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_10_14}}", nodeLabel: "medium"}
         - { seed: "11304", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_10_14}}", nodeLabel: "medium"}
         - { seed: "11305", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_10_14}}", nodeLabel: "medium"}
@@ -980,7 +980,7 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "11401", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_10_14}}", nodeLabel: "small"}
-        - { seed: "11402", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_10_14}}", nodeLabel: "medium"}
+        - { seed: "11402", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_10_14}}", nodeLabel: "large"}
         - { seed: "11403", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_10_14}}", nodeLabel: "medium"}
         - { seed: "11404", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_10_14}}", nodeLabel: "medium"}
         - { seed: "11405", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_10_14}}", nodeLabel: "medium"}
@@ -1041,7 +1041,7 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "11501", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_15_19}}", nodeLabel: "small"}
-        - { seed: "11502", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_15_19}}", nodeLabel: "medium"}
+        - { seed: "11502", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_15_19}}", nodeLabel: "large"}
         - { seed: "11503", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_15_19}}", nodeLabel: "medium"}
         - { seed: "11504", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_15_19}}", nodeLabel: "medium"}
         - { seed: "11505", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_15_19}}", nodeLabel: "medium"}
@@ -1103,7 +1103,7 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "11601", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_15_19}}", nodeLabel: "small"}
-        - { seed: "11602", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_15_19}}", nodeLabel: "medium"}
+        - { seed: "11602", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_15_19}}", nodeLabel: "large"}
         - { seed: "11603", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_15_19}}", nodeLabel: "medium"}
         - { seed: "11604", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_15_19}}", nodeLabel: "medium"}
         - { seed: "11605", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_15_19}}", nodeLabel: "medium"}
@@ -1164,7 +1164,7 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "11701", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_15_19}}", nodeLabel: "small"}
-        - { seed: "11702", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_15_19}}", nodeLabel: "medium"}
+        - { seed: "11702", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_15_19}}", nodeLabel: "large"}
         - { seed: "11703", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_15_19}}", nodeLabel: "medium"}
         - { seed: "11704", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_15_19}}", nodeLabel: "medium"}
         - { seed: "11705", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_15_19}}", nodeLabel: "medium"}
@@ -1225,7 +1225,7 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "11801", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_15_19}}", nodeLabel: "small"}
-        - { seed: "11802", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_15_19}}", nodeLabel: "medium"}
+        - { seed: "11802", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_15_19}}", nodeLabel: "large"}
         - { seed: "11803", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_15_19}}", nodeLabel: "medium"}
         - { seed: "11804", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_15_19}}", nodeLabel: "medium"}
         - { seed: "11805", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_15_19}}", nodeLabel: "medium"}
@@ -1286,7 +1286,7 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "11901", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_15_19}}", nodeLabel: "small"}
-        - { seed: "11902", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_15_19}}", nodeLabel: "medium"}
+        - { seed: "11902", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_15_19}}", nodeLabel: "large"}
         - { seed: "11903", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_15_19}}", nodeLabel: "medium"}
         - { seed: "11904", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_15_19}}", nodeLabel: "medium"}
         - { seed: "11905", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_15_19}}", nodeLabel: "medium"}
