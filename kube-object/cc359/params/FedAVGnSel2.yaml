@@ -3,7 +3,7 @@ initial-round: "00"
 initial-epoch: "00"
 
 data_set: "CC359PPMI"
-data_root: "data256_cc359_fnirt"
+data_root: "data256_cc359_fnirt_low_quality"
 train-script: "run_train.sh"
 agg-script: "run_aggregation.sh"
 infer-script: "run_infer.sh"
