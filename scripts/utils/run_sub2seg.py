@@ -9,7 +9,7 @@ def main(src_base, postfix):
     base = os.path.dirname(src_base)
     pid = os.path.basename(src_base)
     dst_folder = os.path.join(base, pid)
-    sub_file = f'{pid}_fnirt_sub.nii.gz'
+    sub_file = f'{pid}_sub.nii.gz'
     seg_file = f'{pid}_{postfix}.nii.gz'
     # print(os.path.join(dst_folder, sub_file))
     # print(f"{sub_file} not exists.")
