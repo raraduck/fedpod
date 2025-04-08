@@ -69,9 +69,9 @@ python3 scripts/run_train.py \
   --epochs $epochs \
   --epoch $epoch \
   \
-  --resize 256 \
-  --patch_size 192 \
-  --zoom 0 \
+  --resize 128 \
+  --patch_size 128 \
+  --zoom 1 \
   --flip_lr 0 \
   --dataset $data_set \
   --data_root $data_root \
@@ -88,7 +88,7 @@ python3 scripts/run_train.py \
   --label_names $label_names \
   --label_index $label_index \
   --unet_arch unet \
-  --channels_list [64,128,256,256] \
+  --channels_list [32,64,128,256] \
   --block res \
   --optim adamw \
   --lr 1e-3 \
