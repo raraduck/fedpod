@@ -13,16 +13,16 @@ get_data_percentage() {
     local agg=$3
 
     if [ "$agg" == "fedavg" ]; then
-        echo 20
+        echo 60
     elif [ "$agg" == "fedpod" ]; then
-        if [ "$round" -le 3 ]; then
-            if [ "$inst" -eq 6 ]; then
-                echo 20
-            else
-                echo 0
-            fi
-        else
+        if [ "$round" -le 4 ]; then
+            echo 60
+        elif [ "$round" -le 9 ]; then
+            echo 30
+        elif [ "$round" -le 14 ]; then
             echo 20
+        else
+            echo 10
         fi
     else
         if [ "$inst" -eq 1 ]; then
@@ -53,13 +53,13 @@ else
 fi
 JobPrefix=$1;
 Seed=10000
-Rounds=10
+Rounds=19
 Epochs=3
 Algo=$3
 
-export DATAROOT=data256_cc359ppmicmc_newseg
+export DATAROOT=data256_cc359_fnirt_raw # data256_cc359ppmicmc_newseg
 export DATASET=CC359PPMI
-export SPLIT_CSV="experiments/CC359PPMICMC_v3_0.csv"
+export SPLIT_CSV="experiments/CC359PPMICMC_v5_1.csv"
 export JOBPREFIX=$JobPrefix
 export ROUNDS=$Rounds
 for Round in 0;

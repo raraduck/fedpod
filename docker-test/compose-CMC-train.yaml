@@ -8,7 +8,7 @@ services:
       -S ${SEED}
       -s 0
       -f 5
-      -m [10,20,25]
+      -m [20,60]
       -g 1 
       -J ${JOBNAME}
       -R ${ROUNDS}
@@ -76,7 +76,7 @@ services:
       -S ${SEED}
       -s 0
       -f 5
-      -m [10,20,25]
+      -m [20,60]
       -g 1 
       -J ${JOBNAME}
       -R ${ROUNDS}
