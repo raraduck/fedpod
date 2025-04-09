@@ -14,50 +14,32 @@ get_data_percentage() {
     local inst_selected=$4
 
     if [ "$agg" == "fedavg" ]; then
-        if [ "$round" -le 4 ]; then
-            echo 60
-        elif [ "$round" -le 9 ]; then
-            echo 30
-        elif [ "$round" -le 14 ]; then
-            echo 20
-        else
-            echo 10
-        fi
-    elif [ "$agg" == "fedwavg" ]; then
         if [ "$inst_selected" == "$inst" ]; then
             if [ "$round" -le 4 ]; then
-                echo 60
+                echo 60 # 30개
             elif [ "$round" -le 9 ]; then
-                echo 30
+                echo 30 # 15개
             elif [ "$round" -le 14 ]; then
-                echo 20
+                echo 20 # 10개
             else
-                echo 10
+                echo 10 # 5개
             fi
         else
-            echo 10
+            echo 0
         fi
     elif [ "$agg" == "fedpod" ]; then
         if [ "$inst_selected" == "$inst" ]; then
             if [ "$round" -le 4 ]; then
-                echo 60
+                echo 60 # 30개
             elif [ "$round" -le 9 ]; then
-                echo 30
+                echo 30 # 15개
             elif [ "$round" -le 14 ]; then
-                echo 20
+                echo 20 # 10개
             else
-                echo 10
+                echo 10 # 5개
             fi
         else
-            if [ "$round" -le 4 ]; then
-                echo 0
-            elif [ "$round" -le 9 ]; then
-                echo 30
-            elif [ "$round" -le 14 ]; then
-                echo 20
-            else
-                echo 10
-            fi
+            echo 0
         fi
     else
         if [ "$inst" -eq 1 ]; then
@@ -91,9 +73,9 @@ Rounds=19
 Epochs=3
 Algo=$3
 
-export DATAROOT=data256_cc359_fnirt_raw_seg
+export DATAROOT=data256_cc359_fnirt_raw_seg # data256_cc359ppmicmc_newseg
 export DATASET=CC359PPMI
-export SPLIT_CSV="experiments/CC359PPMICMC_v5.csv"
+export SPLIT_CSV="experiments/CC359PPMICMC_v5_$4.csv"
 export JOBPREFIX=$JobPrefix
 export ROUNDS=$Rounds
 for Round in 0;
@@ -113,7 +95,7 @@ do
         export JOBNAME=$JobName
         export INSTID=$Inst
         export MODEL=None
-        export DATA_PERCENTAGE=60
+        export DATA_PERCENTAGE=100
         docker-compose -f compose-CMC-train.yaml up run_train_cc359 && \
         docker-compose -f compose-CMC-train.yaml down
     done;
