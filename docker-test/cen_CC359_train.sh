@@ -13,24 +13,32 @@ get_data_percentage() {
     local agg=$3
 
     if [ "$agg" == "fedavg" ]; then
-        if [ "$round" -le 4 ]; then
-            echo 10 # 30개
-        elif [ "$round" -le 9 ]; then
-            echo 5 # 15개
-        elif [ "$round" -le 14 ]; then
-            echo 3 # 9개
+        if [ "$inst_selected" == "$inst" ]; then
+            if [ "$round" -le 4 ]; then
+                echo 10 # 30개
+            elif [ "$round" -le 9 ]; then
+                echo 5 # 15개
+            elif [ "$round" -le 14 ]; then
+                echo 3 # 9개
+            else
+                echo 2 # 6개
+            fi
         else
-            echo 2 # 6개
+            echo 0
         fi
     elif [ "$agg" == "fedpod" ]; then
-        if [ "$round" -le 4 ]; then
-            echo 60 # 30개
-        elif [ "$round" -le 9 ]; then
-            echo 30 # 15개
-        elif [ "$round" -le 14 ]; then
-            echo 20 # 10개
+        if [ "$inst_selected" == "$inst" ]; then
+            if [ "$round" -le 4 ]; then
+                echo 60 # 30개
+            elif [ "$round" -le 9 ]; then
+                echo 30 # 15개
+            elif [ "$round" -le 14 ]; then
+                echo 20 # 10개
+            else
+                echo 10 # 5개
+            fi
         else
-            echo 10 # 5개
+            echo 0
         fi
     else
         if [ "$inst" -eq 1 ]; then
@@ -71,7 +79,7 @@ export JOBPREFIX=$JobPrefix
 export ROUNDS=$Rounds
 for Round in 0;
 do
-    for Inst in $4;
+    for Inst in 1;
     do
         JobName=$(printf "%s_%d" $JobPrefix $Inst);
         Seed=$(($Seed + 1))  # SEED 환경변수를 계산하여 설정
@@ -99,7 +107,7 @@ done;
 
 for Round in $(seq 1 $(($Rounds - 1)));
 do
-    for Inst in $4;
+    for Inst in {1..6};
     do
         JobName=$(printf "%s_%d" $JobPrefix $Inst);
         Seed=$(($Seed + 1))  # SEED 환경변수를 계산하여 설정
