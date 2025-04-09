@@ -11,6 +11,7 @@ get_data_percentage() {
     local round=$1
     local inst=$2
     local agg=$3
+    local inst_selected=$4
 
     if [ "$agg" == "fedavg" ]; then
         if [ "$inst_selected" == "$inst" ]; then
@@ -112,7 +113,7 @@ do
         JobName=$(printf "%s_%d" $JobPrefix $Inst);
         Seed=$(($Seed + 1))  # SEED 환경변수를 계산하여 설정
         FromEpoch=$(($Epochs*($Round-1)))
-        DataPercentage=$(get_data_percentage $Round $Inst $Algo)
+        DataPercentage=$(get_data_percentage $Round $Inst $Algo $4)
         echo Round/Rounds:$Round/$Rounds Epochs:$Epochs FromEpoch: $FromEpoch Inst:$Inst DataPercentage:$DataPercentage Seed:$Seed JobPrefix:$JobPrefix JobName:$JobName
         
         export ROUND=$Round

@@ -6,7 +6,7 @@ services:
     command: >
       /bin/bash -c "/fedpod/run_train_fets.sh 
       -S ${SEED}
-      -s 0
+      -s 1
       -f 5
       -m [20,60]
       -g 1 
