@@ -79,7 +79,7 @@ export JOBPREFIX=$JobPrefix
 export ROUNDS=$Rounds
 for Round in 0;
 do
-    for Inst in 1;
+    for Inst in $4;
     do
         JobName=$(printf "%s_%d" $JobPrefix $Inst);
         Seed=$(($Seed + 1))  # SEED 환경변수를 계산하여 설정
