@@ -23,7 +23,7 @@ get_data_percentage() {
         else
             echo 10
         fi
-    elif [ "$agg" == "fedpod" ]; then
+    elif [ "$agg" == "fedwavg" ]; then
         if [ "$inst_selected" == "$inst" ]; then
             if [ "$round" -le 4 ]; then
                 echo 60
@@ -37,7 +37,7 @@ get_data_percentage() {
         else
             echo 10
         fi
-    elif [ "$agg" == "fedwavg" ]; then
+    elif [ "$agg" == "fedpod" ]; then
         if [ "$inst_selected" == "$inst" ]; then
             if [ "$round" -le 4 ]; then
                 echo 60
@@ -105,7 +105,7 @@ do
         export JOBNAME=$JobName
         export INSTID=$Inst
         export MODEL=None
-        export DATA_PERCENTAGE=0
+        export DATA_PERCENTAGE=60
         docker-compose -f compose-CMC-train.yaml up run_train_cc359 && \
         docker-compose -f compose-CMC-train.yaml down
     done;
