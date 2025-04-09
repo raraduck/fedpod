@@ -102,7 +102,7 @@ class Unet3DApp:
         return model, init_model_path
 
     def initTrainDl(self, case_names:list, mode='training', index_filter=None):
-        base_transform = get_base_transform(self.cli_args, label_groups=self.cli_args.label_groups_trn)
+        base_transform = get_base_transform(self.cli_args, label_groups=None)
         aug_transform = get_aug_transform(self.cli_args)
         train_transforms = transforms.Compose(base_transform + aug_transform)
         train_dataset = get_dataset(self.cli_args, case_names, 
