@@ -49,7 +49,15 @@ get_data_percentage() {
                 echo 10
             fi
         else
-            echo 10
+            if [ "$round" -le 4 ]; then
+                echo 0
+            elif [ "$round" -le 9 ]; then
+                echo 30
+            elif [ "$round" -le 14 ]; then
+                echo 20
+            else
+                echo 10
+            fi
         fi
     else
         if [ "$inst" -eq 1 ]; then
