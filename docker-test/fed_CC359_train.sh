@@ -11,27 +11,30 @@ get_data_percentage() {
     local round=$1
     local inst=$2
     local agg=$3
+    local inst_selected=$4
 
     if [ "$agg" == "fedavg" ]; then
-        echo 20
+        echo 60
     elif [ "$agg" == "fedpod" ]; then
-        if [ "$round" -le 3 ]; then
-            if [ "$inst" -eq 6 ]; then
+        if [ "$inst_selected" == "$inst" ]; then
+            if [ "$round" -le 4 ]; then
+                echo 60
+            elif [ "$round" -le 9 ]; then
+                echo 30
+            elif [ "$round" -le 14 ]; then
                 echo 20
             else
-                echo 0
+                echo 10
             fi
         else
-            echo 20
-        fi
+            echo 10
     else
-        if [ "$inst" -eq 6 ]; then
-            echo 20
+        if [ "$inst" -eq 1 ]; then
+            echo 4
         else
             echo 0
         fi
     fi
-
 }
 
 trap 'cleanup' SIGINT  # SIGINT 신호를 cleanup 함수로 처리
@@ -53,18 +56,18 @@ else
 fi
 JobPrefix=$1;
 Seed=10000
-Rounds=10
+Rounds=19
 Epochs=3
 Algo=$3
 
-export DATAROOT=data256_cc359ppmicmc_newseg
+export DATAROOT=data256_cc359_fnirt_raw
 export DATASET=CC359PPMI
-export SPLIT_CSV="experiments/CC359PPMICMC_v3.csv"
+export SPLIT_CSV="experiments/CC359PPMICMC_v5.csv"
 export JOBPREFIX=$JobPrefix
 export ROUNDS=$Rounds
 for Round in 0;
 do
-    for Inst in 1;
+    for Inst in $4;
     do
         JobName=$(printf "%s_%d" $JobPrefix $Inst);
         Seed=$(($Seed + 1))  # SEED 환경변수를 계산하여 설정
@@ -79,7 +82,7 @@ do
         export JOBNAME=$JobName
         export INSTID=$Inst
         export MODEL=None
-        export DATA_PERCENTAGE=100
+        export DATA_PERCENTAGE=0
         docker-compose -f compose-CMC-train.yaml up run_train_cc359 && \
         docker-compose -f compose-CMC-train.yaml down
     done;
@@ -97,7 +100,7 @@ do
         JobName=$(printf "%s_%d" $JobPrefix $Inst);
         Seed=$(($Seed + 1))  # SEED 환경변수를 계산하여 설정
         FromEpoch=$(($Epochs*($Round-1)))
-        DataPercentage=$(get_data_percentage $Round $Inst $Algo)
+        DataPercentage=$(get_data_percentage $Round $Inst $Algo $4)
         echo Round/Rounds:$Round/$Rounds Epochs:$Epochs FromEpoch: $FromEpoch Inst:$Inst DataPercentage:$DataPercentage Seed:$Seed JobPrefix:$JobPrefix JobName:$JobName
         
         export ROUND=$Round

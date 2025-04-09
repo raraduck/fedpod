@@ -31,7 +31,6 @@ get_data_percentage() {
             echo 0
         fi
     fi
-
 }
 
 trap 'cleanup' SIGINT  # SIGINT 신호를 cleanup 함수로 처리
@@ -59,12 +58,12 @@ Algo=$3
 
 export DATAROOT=data256_cc359_fnirt_raw # data256_cc359ppmicmc_newseg
 export DATASET=CC359PPMI
-export SPLIT_CSV="experiments/CC359PPMICMC_v5_1.csv"
+export SPLIT_CSV="experiments/CC359PPMICMC_v5_$4.csv"
 export JOBPREFIX=$JobPrefix
 export ROUNDS=$Rounds
 for Round in 0;
 do
-    for Inst in 1;
+    for Inst in $4;
     do
         JobName=$(printf "%s_%d" $JobPrefix $Inst);
         Seed=$(($Seed + 1))  # SEED 환경변수를 계산하여 설정
@@ -92,7 +91,7 @@ done;
 
 for Round in $(seq 1 $(($Rounds - 1)));
 do
-    for Inst in 1;
+    for Inst in $4;
     do
         JobName=$(printf "%s_%d" $JobPrefix $Inst);
         Seed=$(($Seed + 1))  # SEED 환경변수를 계산하여 설정
