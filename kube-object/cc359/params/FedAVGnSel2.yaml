@@ -3,7 +3,7 @@ initial-round: "00"
 initial-epoch: "00"
 
 data_set: "CC359PPMI"
-data_root: "data256_cc359_fnirt_low_quality"
+data_root: "data256_cc359_fnirt_raw_seg"
 train-script: "run_train.sh"
 agg-script: "run_aggregation.sh"
 infer-script: "run_infer.sh"
@@ -16,7 +16,7 @@ label_names: "[LVS,LAC,LPC,LAP,LPP,LVP,RVS,RAC,RPC,RAP,RPP,RVP]"
 label_index: "[1,2,3,4,5,6,7,8,9,10,11,12]"
 agg-algo: "fedwavg"
 seg_postfix: "_sub"
-split_csv: "experiments/CC359PPMICMC_v4.csv"
+split_csv: "experiments/CC359PPMICMC_v5.csv"
 
 init_model: "None"
 
