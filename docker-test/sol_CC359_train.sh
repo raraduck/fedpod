@@ -75,7 +75,7 @@ Algo=$3
 
 export DATAROOT=data256_cc359_fnirt_raw_seg # data256_cc359ppmicmc_newseg
 export DATASET=CC359PPMI
-export SPLIT_CSV="experiments/CC359PPMICMC_v5_$4.csv"
+export SPLIT_CSV="experiments/CC359PPMICMC_v5.csv"
 export JOBPREFIX=$JobPrefix
 export ROUNDS=$Rounds
 for Round in 0;
