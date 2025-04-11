@@ -88,7 +88,6 @@ python3 scripts/run_train.py \
   \
   --weight_path $model_pth \
   --input_channel_names $input_channels \
-#   --label_groups_trn $label_groups_trn \
   --label_groups $label_groups \
   --label_names $label_names \
   --label_index $label_index \
