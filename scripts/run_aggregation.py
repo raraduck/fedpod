@@ -177,8 +177,8 @@ def fed_processing(args, base_dir, curr_round, next_round, logger):
                 W = [alpha*p/sum(P) + beta*i/sum(I) for p, i, d in zip(P, I, D)]
                 logger.warn(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] D term is zero")
         else:
-            alpha = 0.1
-            beta = 0.1
+            alpha = 0.2
+            beta = 0.0
             gamma = 0.8
             W = [alpha*p/sum(P) + beta*i/sum(I) + gamma*d/sum(D) for p, i, d in zip(P, I, D)]
         M = [el['model'] for el in local_models_with_dlen]
