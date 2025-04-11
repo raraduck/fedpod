@@ -22,11 +22,11 @@ init_model: "None"
 
 # non-iid
 inst_01_ratio_0_4: "60"
-inst_02_ratio_0_4: "0"
-inst_03_ratio_0_4: "0"
-inst_04_ratio_0_4: "0"
-inst_05_ratio_0_4: "0"
-inst_06_ratio_0_4: "0"
+inst_02_ratio_0_4: "30"
+inst_03_ratio_0_4: "30"
+inst_04_ratio_0_4: "30"
+inst_05_ratio_0_4: "30"
+inst_06_ratio_0_4: "30"
 
 inst_01_ratio_5_9: "30"
 inst_02_ratio_5_9: "30"
