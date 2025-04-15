@@ -6,6 +6,7 @@ import sys
 import glob
 import natsort
 import json
+import re
 from torch.utils.tensorboard import SummaryWriter
 from utils.tools import *
 from Aggregator import *
@@ -49,7 +50,34 @@ def fed_round_to_json(args, logger, local_dict, filename):
     # 로깅 정보 출력
     logger.info(f"Updated metrics saved to {metrics_file}")
 
-def fed_processing(args, base_dir, curr_round, next_round, logger):
+def fed_processing(args, base_dir, base_logs_dir, curr_round, next_round, logger):
+    # config for log files
+    inst_logs_dir = os.path.join(base_dir, f"{args.job_prefix}") # inst0 also included 
+    curr_inst_pattern = os.path.join(inst_logs_dir, f"{args.job_prefix}_*_R{args.rounds:02}r{curr_round:02}.log")
+    curr_inst_log_path = natsort.natsorted(glob.glob(curr_inst_pattern))
+    trn_pattern = re.compile(r'\[TRN\].*?N:\((.*?)\)')
+
+    for log_file_path in curr_inst_log_path:
+        file_list = []
+        log_file_name = os.path.basename(log_file_path)
+        with open(log_file_path, 'r', encoding='utf-8') as f:
+            for line in f:
+                if '[TRN]' in line:
+                    match = trn_pattern.search(line)
+                    if match:
+                        # 리스트 안의 파일들을 ,로 구분된 문자열로 간주하고 따옴표 제거
+                        filenames = [name.strip().strip("'\"") for name in match.group(1).split(',')]
+                        file_list.extend(filenames)
+        # 중복 제거 (선택사항)
+        file_list = sorted(set(file_list))
+        logger.info(f"[{args.job_prefix.upper()}][{log_file_name}] trained files {file_list}...")
+        # JSON으로 저장
+        head_of_log_file_name = log_file_name.split('.log')
+        with open(os.path.join(inst_logs_dir, f"{head_of_log_file_name}.json"), 'w', encoding='utf-8') as f:
+            json.dump(file_list, f, indent=2)
+    
+
+    # config for pth files
     inst_dir = os.path.join(base_dir, f"{args.job_prefix}_*") # inst0 also included 
     curr_round_dir = os.path.join(inst_dir, f"R{args.rounds:02}r{curr_round:02}")
     
@@ -223,13 +251,14 @@ def main(args):
     curr_round = args.round
     next_round = args.round + 1
     base_dir = os.path.join('/','fedpod','states')
+    base_logs_dir = os.path.join('/','fedpod','logs')
     args.weight_path = None if args.weight_path == "None" else args.weight_path
 
     if args.weight_path:
         assert curr_round == 0, f"init_processing must be called at round 0, currently it is {curr_round}"
         init_processing(args, base_dir, curr_round, logger)
     else:
-        fed_processing(args, base_dir, curr_round, next_round, logger)
+        fed_processing(args, base_dir, base_logs_dir, curr_round, next_round, logger)
 
     # 현재 라운드를 가져오고 1을 더한 후 두 자리 형식으로 변환
     next_round_formatted = f"{next_round:02d}"
