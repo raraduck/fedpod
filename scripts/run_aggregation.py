@@ -72,7 +72,7 @@ def fed_processing(args, base_dir, base_logs_dir, curr_round, next_round, logger
         file_list = sorted(set(file_list))
         logger.info(f"[{args.job_prefix.upper()}][{log_file_name}] trained files {file_list}...")
         # JSON으로 저장
-        head_of_log_file_name = log_file_name.split('.log')
+        head_of_log_file_name = log_file_name.split('.log')[0]
         with open(os.path.join(inst_logs_dir, f"{head_of_log_file_name}.json"), 'w', encoding='utf-8') as f:
             json.dump(file_list, f, indent=2)
     
@@ -206,8 +206,8 @@ def fed_processing(args, base_dir, base_logs_dir, curr_round, next_round, logger
                 logger.warn(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] D term is zero")
         else:
             alpha = 0.2
-            beta = 0.0
-            gamma = 0.8
+            beta = 0.1
+            gamma = 0.7
             W = [alpha*p/sum(P) + beta*i/sum(I) + gamma*d/sum(D) for p, i, d in zip(P, I, D)]
         M = [el['model'] for el in local_models_with_dlen]
         aggregated_model = fedPOD(W, M)
