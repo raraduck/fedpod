@@ -14,14 +14,26 @@ get_data_percentage() {
     local inst_selected=$4
 
     if [ "$agg" == "fedavg" ]; then
-        if [ "$round" -le 4 ]; then
-            echo 60
-        elif [ "$round" -le 9 ]; then
-            echo 30
-        elif [ "$round" -le 14 ]; then
-            echo 20
+        if [ "$inst_selected" == "$inst" ]; then
+            if [ "$round" -le 4 ]; then
+                echo 60
+            elif [ "$round" -le 9 ]; then
+                echo 30
+            elif [ "$round" -le 14 ]; then
+                echo 20
+            else
+                echo 10
+            fi
         else
-            echo 10
+            if [ "$round" -le 4 ]; then
+                echo 0
+            elif [ "$round" -le 9 ]; then
+                echo 30
+            elif [ "$round" -le 14 ]; then
+                echo 20
+            else
+                echo 10
+            fi
         fi
     elif [ "$agg" == "fedwavg" ]; then
         if [ "$inst_selected" == "$inst" ]; then

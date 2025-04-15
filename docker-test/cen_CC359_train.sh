@@ -20,9 +20,9 @@ get_data_percentage() {
             elif [ "$round" -le 9 ]; then
                 echo 5 # 15개
             elif [ "$round" -le 14 ]; then
-                echo 3 # 9개
+                echo 4 # 9개
             else
-                echo 2 # 6개
+                echo 3 # 6개
             fi
         else
             echo 0
@@ -34,9 +34,9 @@ get_data_percentage() {
             elif [ "$round" -le 9 ]; then
                 echo 5 # 15개
             elif [ "$round" -le 14 ]; then
-                echo 3 # 9개
+                echo 4 # 9개
             else
-                echo 2 # 6개
+                echo 3 # 6개
             fi
         else
             echo 0
