@@ -57,9 +57,19 @@ def fed_processing(args, base_dir, base_logs_dir, curr_round, next_round, logger
     curr_inst_log_path = natsort.natsorted(glob.glob(curr_inst_pattern))
     trn_pattern = re.compile(r'\[TRN\].*?N:\((.*?)\)')
 
+    trn_files_json_path = os.path.join(inst_logs_dir, f"{args.job_prefix}.json")
+    # 기존 JSON 파일 불러오기 (없으면 빈 dict로 시작)
+    if os.path.exists(trn_files_json_path):
+        with open(trn_files_json_path, 'r', encoding='utf-8') as f:
+            preserved_dict = json.load(f)
+    else:
+        preserved_dict = {}
+
+    # trn_files_dict = {}
     for log_file_path in curr_inst_log_path:
         file_list = []
         log_file_name = os.path.basename(log_file_path)
+        head_of_log_file_name = log_file_name.split('.log')[0]
         with open(log_file_path, 'r', encoding='utf-8') as f:
             for line in f:
                 if '[TRN]' in line:
@@ -70,11 +80,12 @@ def fed_processing(args, base_dir, base_logs_dir, curr_round, next_round, logger
                         file_list.extend(filenames)
         # 중복 제거 (선택사항)
         file_list = sorted(set(file_list))
+        preserved_dict[head_of_log_file_name] = file_list
+        # trn_files_dict.update(f"{head_of_log_file_name}", file_list)
         logger.info(f"[{args.job_prefix.upper()}][{log_file_name}] trained files {file_list}...")
-        # JSON으로 저장
-        head_of_log_file_name = log_file_name.split('.log')[0]
-        with open(os.path.join(inst_logs_dir, f"{head_of_log_file_name}.json"), 'w', encoding='utf-8') as f:
-            json.dump(file_list, f, indent=2)
+    # JSON으로 저장
+    with open(trn_files_json_path, 'w', encoding='utf-8') as f:
+        json.dump(preserved_dict, f, indent=2)
     
 
     # config for pth files
