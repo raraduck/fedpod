@@ -1480,6 +1480,15 @@ spec:
       - name: algorithm
       - name: inst-id
       - name: model_pth
+    # affinity:
+    #   nodeAffinity:
+    #     requiredDuringSchedulingIgnoredDuringExecution:
+    #       nodeSelectorTerms:
+    #       - matchExpressions:
+    #         - key: kubernetes.io/hostname
+    #           operator: In
+    #           values:
+    #           - controlplane1
     container:
       image: dwnusa/fedpod:v0.4.18.12
       # imagePullPolicy: Always
