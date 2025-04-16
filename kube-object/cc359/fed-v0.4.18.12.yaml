@@ -1402,16 +1402,9 @@ spec:
               matchExpressions:
                 - key: cpu
                   operator: DoesNotExist
-            # requiredDuringSchedulingIgnoredDuringExecution:
-            #   nodeSelectorTerms:
-            #     - matchExpressions:
-            #       - key: cpu
-            #         operator: In
-            #         values:
-            #         - "{{inputs.parameters.nodeLabel}}"
     container:
       image: dwnusa/fedpod:v0.4.18.12
-      imagePullPolicy: Always
+      # imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args:
         - >
@@ -1487,31 +1480,9 @@ spec:
       - name: algorithm
       - name: inst-id
       - name: model_pth
-    # affinity:
-    #   nodeAffinity:
-    #     preferredDuringSchedulingIgnoredDuringExecution:
-    #       - weight: 30
-    #         preference:
-    #           matchExpressions:
-    #             - key: cpu
-    #               operator: In
-    #               values:
-    #                 - "medium"  # 보통 medium
-    #       # 조건 2: cpu key가 존재하기만 하면
-    #       - weight: 20
-    #         preference:
-    #           matchExpressions:
-    #             - key: cpu
-    #               operator: Exists
-    #       # 조건 3: cpu key가 아예 없는 경우
-    #       - weight: 10
-    #         preference:
-    #           matchExpressions:
-    #             - key: cpu
-    #               operator: DoesNotExist
     container:
       image: dwnusa/fedpod:v0.4.18.12
-      imagePullPolicy: Always
+      # imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
         - >
@@ -1520,6 +1491,7 @@ spec:
           -r {{inputs.parameters.round}} 
           -E {{inputs.parameters.epochs}} 
           -e {{inputs.parameters.epoch}} 
+          -c {{workflow.parameters.split_csv}}
           -j {{workflow.parameters.job-prefix}} 
           -i {{inputs.parameters.inst-id}} 
           -a {{inputs.parameters.algorithm}} 
@@ -1595,7 +1567,7 @@ spec:
       - name: sel_list
     container:
       image: dwnusa/fedpod:v0.4.18.12
-      imagePullPolicy: Always
+      # imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
         - >
@@ -1656,17 +1628,3 @@ spec:
       hostPath:
         path: /fedpod/runs  # 로컬 경로
         type: Directory
-
-  # - name: dummy-task
-  #   container:
-  #     image: alpine:3.7
-  #     command: [sh, -c]
-  #     args: ["echo '12' > /tmp/next_round.txt; echo '0' > /tmp/next_epoch.txt"]
-  #   outputs:
-  #     parameters:
-  #     - name: next-round
-  #       valueFrom:
-  #         path: /tmp/next_round.txt
-  #     - name: next-epoch
-  #       valueFrom:
-  #         path: /tmp/next_epoch.txt

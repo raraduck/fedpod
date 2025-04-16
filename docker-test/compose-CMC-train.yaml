@@ -47,6 +47,7 @@ services:
       -r ${ROUND}
       -E ${EPOCHS}
       -e ${EPOCH}
+      -c ${SPLIT_CSV}
       -j ${JOBPREFIX}
       -i ${INSTID}
       -a ${ALGO}
@@ -115,6 +116,7 @@ services:
       -r ${ROUND}
       -E ${EPOCHS}
       -e ${EPOCH}
+      -c ${SPLIT_CSV}
       -j ${JOBPREFIX}
       -i ${INSTID}
       -a ${ALGO}

@@ -18,6 +18,7 @@ parser.add_argument('--rounds', type=int, default=5)
 parser.add_argument('--round', type=int, default=0)
 parser.add_argument('--epochs', type=int, default=0)
 parser.add_argument('--epoch', type=int, default=0)
+parser.add_argument('--cases_split', type=str, default=None, help='file path for split csv')
 parser.add_argument('--algorithm', type=str, default="fedavg", 
     choices=['fedavg', 'fedwavg', 'fedpid', 'fedpod'], help='type of avg')
 parser.add_argument('--job_prefix', type=str, default="")
@@ -50,7 +51,7 @@ def fed_round_to_json(args, logger, local_dict, filename):
     # 로깅 정보 출력
     logger.info(f"Updated metrics saved to {metrics_file}")
 
-def fed_processing(args, base_dir, base_logs_dir, curr_round, next_round, logger):
+def fed_processing(args, base_dir, base_logs_dir, curr_round, next_round, logger, final_status):
     # config for log files
     inst_logs_dir = os.path.join(base_logs_dir, f"{args.job_prefix}") # inst0 also included 
     curr_inst_pattern = os.path.join(inst_logs_dir, f"{args.job_prefix}_*_R{args.rounds:02}r{curr_round:02}.log")
@@ -86,6 +87,27 @@ def fed_processing(args, base_dir, base_logs_dir, curr_round, next_round, logger
     # JSON으로 저장
     with open(trn_files_json_path, 'w', encoding='utf-8') as f:
         json.dump(preserved_dict, f, indent=2)
+
+    if final_status:
+        logger.info(f"[{args.job_prefix.upper()}][{head_of_log_file_name}] final_statues is TRUE and save json to csv...")
+        # args.cases_split 경로에서 csv 파일을 읽어서 R1...마지막 Round까지 csv 에 채워서 logs 경로에 csv 새로 저장하기
+        split_path = args.cases_split
+        df = pd.read_csv(split_path)
+        #  "fedavgniid2-node6-0415_6_R20r01
+        # Update the DataFrame based on the JSON
+        df["Subject_ID"] = df["Subject_ID"].astype(str).str.strip()
+        for key, subject_list in preserved_dict.items():
+            match = re.search(r'_R\d{2}r(\d+)', key)
+            if match:
+                round_idx = int(match.group(1))
+                col_name = f"R{round_idx}"
+                for subject_id in subject_list:
+                    subject_id = subject_id.strip()
+                    if subject_id:
+                        df.loc[df["Subject_ID"] == subject_id, col_name] = subject_id
+        # Save the updated DataFrame to a new CSV file
+        output_path = os.path.join(inst_logs_dir, f"{args.job_prefix}.csv")
+        df.to_csv(output_path, index=False)
     
 
     # config for pth files
@@ -261,6 +283,7 @@ def main(args):
 
     curr_round = args.round
     next_round = args.round + 1
+    final_status = (args.rounds == next_round)
     base_dir = os.path.join('/','fedpod','states')
     base_logs_dir = os.path.join('/','fedpod','logs')
     args.weight_path = None if args.weight_path == "None" else args.weight_path
@@ -269,7 +292,7 @@ def main(args):
         assert curr_round == 0, f"init_processing must be called at round 0, currently it is {curr_round}"
         init_processing(args, base_dir, curr_round, logger)
     else:
-        fed_processing(args, base_dir, base_logs_dir, curr_round, next_round, logger)
+        fed_processing(args, base_dir, base_logs_dir, curr_round, next_round, logger, final_status)
 
     # 현재 라운드를 가져오고 1을 더한 후 두 자리 형식으로 변환
     next_round_formatted = f"{next_round:02d}"
