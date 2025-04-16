@@ -55,7 +55,7 @@ def fed_processing(args, base_dir, base_logs_dir, curr_round, next_round, logger
     inst_logs_dir = os.path.join(base_logs_dir, f"{args.job_prefix}") # inst0 also included 
     curr_inst_pattern = os.path.join(inst_logs_dir, f"{args.job_prefix}_*_R{args.rounds:02}r{curr_round:02}.log")
     curr_inst_log_path = natsort.natsorted(glob.glob(curr_inst_pattern))
-    trn_pattern = re.compile(r'\[TRN\].*?N:\s*[\(\[]](.*?)[\)\]]]')
+    trn_pattern = re.compile(r'\[TRN\].*?N:\s*[\(\[](.*?)[\)\]]')
 
     trn_files_json_path = os.path.join(inst_logs_dir, f"{args.job_prefix}.json")
     # 기존 JSON 파일 불러오기 (없으면 빈 dict로 시작)
