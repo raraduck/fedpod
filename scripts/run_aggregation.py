@@ -33,7 +33,7 @@ def fed_round_to_json(args, logger, local_dict, filename):
     os.makedirs(job_dir, exist_ok=True)
 
     # last-metrics 파일 작성
-    metrics_file = os.path.join(job_dir, filename)
+    metrics_file = os.path.join(job_dir, filename) # f'{args.job_prefix}.json'
 
     # 기존 데이터 로드 또는 초기화
     if os.path.exists(metrics_file):
@@ -50,6 +50,7 @@ def fed_round_to_json(args, logger, local_dict, filename):
 
     # 로깅 정보 출력
     logger.info(f"Updated metrics saved to {metrics_file}")
+    return json_metrics_dict
 
 def fed_processing(args, base_dir, base_logs_dir, curr_round, next_round, logger, final_status):
     # config for log files
@@ -193,7 +194,7 @@ def fed_processing(args, base_dir, base_logs_dir, curr_round, next_round, logger
         #     }
         # }
 
-    fed_round_to_json(args, logger, local_dict, f'{args.job_prefix}.json')
+    json_metrics_dict = fed_round_to_json(args, logger, local_dict, f'{args.job_prefix}.json')
     
     for jobname, job_dict in local_dict.items():
         writer = SummaryWriter(os.path.join('runs', args.job_prefix, jobname))
@@ -207,7 +208,30 @@ def fed_processing(args, base_dir, base_logs_dir, curr_round, next_round, logger
         logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] local models are from {pth}...")
 
     local_models_with_dlen = [torch.load(m) for m in last_pth_path]
+    ## TODO: 이 부분을 local_models_with_dlen에 의존하지 않고 
+    ## json_metrics_dict[str(args.round)]의 key 만 list로 추출하여 사용할 수 있음
     JOB_NAME = [el['args'].job_name for el in local_models_with_dlen]
+    ## TODO: 또한 PID 정보를 이전 round 에서도 추출할 수 있음
+    ## 예를 들면, json_metrics_dict[str(args.round-1)] 으로 접근하면 이전 post와 현재 post의 PID 추출 가능
+    ## 하지만, round 1일 때에는 하면 안되고, round 2부터 해야함
+    ## FedPID의 경우에는 기존 PID를 추출하면 안됨, (기존 PID는 post-prev 와 같이 이미 계산이 완료된 것들임)
+    ## 
+    ## fedpid 일 경우에만 
+    # json_metrics_dict[str(args.round)], json_metrics_dict[str(args.round-1)] 접근하여 
+    # post 정보 추출하기
+    # 참고용 정보
+    # state = {
+    #         'model': train_setup['model'].state_dict(), 
+    #         'args': self.cli_args,
+    #         'train_tb_dict': train_tb_dict,
+    #         'pre_metrics': pre_metrics,
+    #         'post_metrics': post_metrics,
+    #         'P': train_setup['train_loader'].dataset.__len__(),
+    #         'I': (Pre_LOSS + Post_LOSS)/2,
+    #         'D': (Pre_LOSS - Post_LOSS),
+    #         'time': time.time() - time_in_total,
+    #     }
+    # torch.save(state, os.path.join(save_model_path, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}_last.pth"))
 
     if args.algorithm == "fedavg":
         P = [1 for el in local_models_with_dlen]
@@ -244,6 +268,33 @@ def fed_processing(args, base_dir, base_logs_dir, curr_round, next_round, logger
             W = [alpha*p/sum(P) + beta*i/sum(I) + gamma*d/sum(D) for p, i, d in zip(P, I, D)]
         M = [el['model'] for el in local_models_with_dlen]
         aggregated_model = fedPOD(W, M)
+        for p, i, d, w, j in zip(P, I, D, W, JOB_NAME):
+            logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][{j}][P,I,D,W][{p:.2f},{i:.2f},{d:.2f},{w:.2f}]")
+    elif args.algorithm == "fedpid":
+        local_metric_at_round_prev = json_metrics_dict[str(args.round-1)]
+        local_metric_at_round_post = json_metrics_dict[str(args.round)]
+        DSCL_AVG_prev  = [el['post']['DSCL_AVG'] for el in local_metric_at_round_prev]
+        DSCL_AVG_post  = [el['post']['DSCL_AVG'] for el in local_metric_at_round_post]
+        P = [el['P'] for el in local_models_with_dlen]
+        I = (DSCL_AVG_prev + DSCL_AVG_post)/2
+        D = max(0, DSCL_AVG_prev - DSCL_AVG_post)
+        if sum(D) == 0:
+            if sum(I) == 0:
+                W = [p/sum(P) for p in P]
+                logger.warn(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] I or D term is zero")
+            else:
+                alpha = 0.8
+                beta = 0.2
+                # gamma = 0.7
+                W = [alpha*p/sum(P) + beta*i/sum(I) for p, i, d in zip(P, I, D)]
+                logger.warn(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] D term is zero")
+        else:
+            alpha = 0.2
+            beta = 0.1
+            gamma = 0.7
+            W = [alpha*p/sum(P) + beta*i/sum(I) + gamma*d/sum(D) for p, i, d in zip(P, I, D)]
+        M = [el['model'] for el in local_models_with_dlen]
+        aggregated_model = fedPID(W, M)
         for p, i, d, w, j in zip(P, I, D, W, JOB_NAME):
             logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][{j}][P,I,D,W][{p:.2f},{i:.2f},{d:.2f},{w:.2f}]")
     else:

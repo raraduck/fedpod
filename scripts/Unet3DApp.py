@@ -551,8 +551,8 @@ class Unet3DApp:
             train_setup['model'] = train_setup['model'].module  # Extract original model from DataParallel wrapper
         train_setup['model'] = train_setup['model'].to('cpu')  # Move model back to CPU
 
-        Pre_LOSS = pre_metrics['PVDC_AVG'] # PVDC_AVG vs. DSCL_AVG
-        Post_LOSS = post_metrics['PVDC_AVG'] # PVDC_AVG vs. DSCL_AVG
+        Pre_LOSS = pre_metrics['DSCL_AVG'] # PVDC_AVG vs. DSCL_AVG
+        Post_LOSS = post_metrics['DSCL_AVG'] # PVDC_AVG vs. DSCL_AVG
         Post_LOSS = Post_LOSS if Post_LOSS < Pre_LOSS else Pre_LOSS # np.min([Pre_LOSS, Post_LOSS])
         state = {
             'model': train_setup['model'].state_dict(), 
