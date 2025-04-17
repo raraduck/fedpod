@@ -271,28 +271,32 @@ def fed_processing(args, base_dir, base_logs_dir, curr_round, next_round, logger
         for p, i, d, w, j in zip(P, I, D, W, JOB_NAME):
             logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][{j}][P,I,D,W][{p:.2f},{i:.2f},{d:.2f},{w:.2f}]")
     elif args.algorithm == "fedpid":
-        local_metric_at_round_prev = json_metrics_dict[str(args.round-1)]
-        local_metric_at_round_post = json_metrics_dict[str(args.round)]
-        DSCL_AVG_prev  = [el['post']['DSCL_AVG'] for el in local_metric_at_round_prev]
-        DSCL_AVG_post  = [el['post']['DSCL_AVG'] for el in local_metric_at_round_post]
-        P = [el['P'] for el in local_models_with_dlen]
-        I = (DSCL_AVG_prev + DSCL_AVG_post)/2
-        D = max(0, DSCL_AVG_prev - DSCL_AVG_post)
-        if sum(D) == 0:
-            if sum(I) == 0:
-                W = [p/sum(P) for p in P]
-                logger.warn(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] I or D term is zero")
-            else:
-                alpha = 0.8
-                beta = 0.2
-                # gamma = 0.7
-                W = [alpha*p/sum(P) + beta*i/sum(I) for p, i, d in zip(P, I, D)]
-                logger.warn(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] D term is zero")
+        if args.round < 2:
+            P = [el['P'] for el in local_models_with_dlen]
+            W = [p/sum(P) for p in P]
         else:
-            alpha = 0.2
-            beta = 0.1
-            gamma = 0.7
-            W = [alpha*p/sum(P) + beta*i/sum(I) + gamma*d/sum(D) for p, i, d in zip(P, I, D)]
+            local_metric_at_round_prev = json_metrics_dict[str(args.round-1)]
+            local_metric_at_round_post = json_metrics_dict[str(args.round)]
+            DSCL_AVG_prev  = [el['post']['DSCL_AVG'] for el in local_metric_at_round_prev]
+            DSCL_AVG_post  = [el['post']['DSCL_AVG'] for el in local_metric_at_round_post]
+            P = [el['P'] for el in local_models_with_dlen]
+            I = (DSCL_AVG_prev + DSCL_AVG_post)/2
+            D = max(0, DSCL_AVG_prev - DSCL_AVG_post)
+            if sum(D) == 0:
+                if sum(I) == 0:
+                    W = [p/sum(P) for p in P]
+                    logger.warn(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] I or D term is zero")
+                else:
+                    alpha = 0.8
+                    beta = 0.2
+                    # gamma = 0.7
+                    W = [alpha*p/sum(P) + beta*i/sum(I) for p, i, d in zip(P, I, D)]
+                    logger.warn(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}] D term is zero")
+            else:
+                alpha = 0.2
+                beta = 0.1
+                gamma = 0.7
+                W = [alpha*p/sum(P) + beta*i/sum(I) + gamma*d/sum(D) for p, i, d in zip(P, I, D)]
         M = [el['model'] for el in local_models_with_dlen]
         aggregated_model = fedPID(W, M)
         for p, i, d, w, j in zip(P, I, D, W, JOB_NAME):
