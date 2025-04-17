@@ -281,8 +281,8 @@ def fed_processing(args, base_dir, base_logs_dir, curr_round, next_round, logger
         else:
             local_metric_at_round_prev = json_metrics_dict[str(args.round-1)]
             local_metric_at_round_post = json_metrics_dict[str(args.round)]
-            DSCL_AVG_prev  = [el['post']['DSCL_AVG'] for el in local_metric_at_round_prev]
-            DSCL_AVG_post  = [el['post']['DSCL_AVG'] for el in local_metric_at_round_post]
+            DSCL_AVG_prev  = [el['post']['DSCL_AVG'] for (job_name, el) in local_metric_at_round_prev.items()]
+            DSCL_AVG_post  = [el['post']['DSCL_AVG'] for (job_name, el) in local_metric_at_round_post.items()]
             P = [el['P'] for el in local_models_with_dlen]
             I = (DSCL_AVG_prev + DSCL_AVG_post)/2
             D = max(0, DSCL_AVG_prev - DSCL_AVG_post)
