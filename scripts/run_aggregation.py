@@ -281,11 +281,11 @@ def fed_processing(args, base_dir, base_logs_dir, curr_round, next_round, logger
         else:
             local_metric_at_round_prev = json_metrics_dict[str(args.round-1)]
             local_metric_at_round_post = json_metrics_dict[str(args.round)]
-            DSCL_AVG_prev  = [el['post']['DSCL_AVG'] for (job_name, el) in local_metric_at_round_prev.items()]
-            DSCL_AVG_post  = [el['post']['DSCL_AVG'] for (job_name, el) in local_metric_at_round_post.items()]
+            DSCL_AVG_prev  = [float(el['post']['DSCL_AVG']) for (job_name, el) in local_metric_at_round_prev.items()]
+            DSCL_AVG_post  = [float(el['post']['DSCL_AVG']) for (job_name, el) in local_metric_at_round_post.items()]
             P = [el['P'] for el in local_models_with_dlen]
-            I = (DSCL_AVG_prev + DSCL_AVG_post)/2
-            D = max(0, DSCL_AVG_prev - DSCL_AVG_post)
+            I = [(prev+post)/2 for (prev, post) in zip(DSCL_AVG_prev, DSCL_AVG_post)] # (DSCL_AVG_prev + DSCL_AVG_post)/2
+            D = [max(0, prev - post) for (prev, post) in zip(DSCL_AVG_prev, DSCL_AVG_post)] # max(0, DSCL_AVG_prev - DSCL_AVG_post)
             if sum(D) == 0:
                 if sum(I) == 0:
                     W = [p/sum(P) for p in P]
