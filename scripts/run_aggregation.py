@@ -274,6 +274,10 @@ def fed_processing(args, base_dir, base_logs_dir, curr_round, next_round, logger
         if args.round < 2:
             P = [el['P'] for el in local_models_with_dlen]
             W = [p/sum(P) for p in P]
+            M = [el['model'] for el in local_models_with_dlen]
+            aggregated_model = fedwavg(W, M)
+            for p, w, j in zip(P, W, JOB_NAME):
+                logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][{j}][P,W][{p:.2f},{w:.2f}]")
         else:
             local_metric_at_round_prev = json_metrics_dict[str(args.round-1)]
             local_metric_at_round_post = json_metrics_dict[str(args.round)]
@@ -297,10 +301,10 @@ def fed_processing(args, base_dir, base_logs_dir, curr_round, next_round, logger
                 beta = 0.1
                 gamma = 0.7
                 W = [alpha*p/sum(P) + beta*i/sum(I) + gamma*d/sum(D) for p, i, d in zip(P, I, D)]
-        M = [el['model'] for el in local_models_with_dlen]
-        aggregated_model = fedPID(W, M)
-        for p, i, d, w, j in zip(P, I, D, W, JOB_NAME):
-            logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][{j}][P,I,D,W][{p:.2f},{i:.2f},{d:.2f},{w:.2f}]")
+            M = [el['model'] for el in local_models_with_dlen]
+            aggregated_model = fedPID(W, M)
+            for p, i, d, w, j in zip(P, I, D, W, JOB_NAME):
+                logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][{j}][P,I,D,W][{p:.2f},{i:.2f},{d:.2f},{w:.2f}]")
     else:
         raise NotImplementedError(f"{args.algorithm.upper()} is not implemented on Aggregator()")
 
