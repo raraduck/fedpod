@@ -271,7 +271,11 @@ def fed_processing(args, base_dir, base_logs_dir, curr_round, next_round, logger
         for p, i, d, w, j in zip(P, I, D, W, JOB_NAME):
             logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][{j}][P,I,D,W][{p:.2f},{i:.2f},{d:.2f},{w:.2f}]")
     elif args.algorithm == "fedpid":
-        if args.round < 2:
+        # json_metrics_dict[str(args.round-1)]
+        # json_metrics_dict[str(args.round)]
+        # 에서 Client Selection을 적용한 경우에는 client 수가 변했을 때 문제가 발생함
+        # 따라서 pid 는 all client participation 상황이어야함
+        if args.round < 2: # round 1일 때는 round 0에서 PID를 추출할 수 없으므로 round 2부터 FedPID를 적용해야함
             P = [el['P'] for el in local_models_with_dlen]
             W = [p/sum(P) for p in P]
             M = [el['model'] for el in local_models_with_dlen]
