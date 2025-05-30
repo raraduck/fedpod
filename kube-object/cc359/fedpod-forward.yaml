@@ -97,7 +97,7 @@ spec:
           -e {{inputs.parameters.epoch}}
           -c {{inputs.parameters.split_csv}}
           -M {{inputs.parameters.model_pth}}
-          -t test
+          -t train
           -d {{inputs.parameters.data_root}}
           -n {{inputs.parameters.inst_root}}
           -C {{inputs.parameters.input_channels}}
