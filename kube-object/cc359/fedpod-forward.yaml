@@ -41,7 +41,7 @@ spec:
           - name: run-script
             value: "{{workflow.parameters.forward-script}}"
           - name: job-name
-            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}_forward"
+            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}_infer"
           - name: rounds
             value: "{{item.rounds}}"
           - name: round
