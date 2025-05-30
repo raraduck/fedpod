@@ -580,7 +580,7 @@ class Unet3DApp:
 
         with torch.no_grad():
             for i, (image, _, _, name, affine, label_names) in enumerate(test_loader):
-                # label_name = [el[0] for el in label_names]
+                label_name = [el[0] for el in label_names]
                 if self.cli_args.use_gpu:
                     image = image.float().cuda()
                 else:
@@ -621,6 +621,7 @@ class Unet3DApp:
                     # img_name = self.cli_args.img_name
                     # seg_name = self.cli_args.seg_name
                     save_img_nifti(image,      "", "",                        affine, modality,    save_val_path, name)
+                    save_img_nifti(seg_map,    "", "_prb",                    affine, label_name,  save_val_path, name) #[f"{mode[:4]}_prb"]*len(name))
                     save_seg_nifti(seg_map_th, "", self.cli_args.seg_postfix, affine, label_map,   save_val_path, name)
         return
 
