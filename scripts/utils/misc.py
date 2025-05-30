@@ -165,7 +165,8 @@ def save_img_nifti(image: Tensor, prefix: str, postfix: str, affine_src: str, mo
                 scale = 255
                 # Normalize the image data to 0-255 or 0-100
                 image_modality -= image_modality.min()  # Shift data to 0
-                image_modality /= image_modality.max()  # Normalize to 1
+                # image_modality /= image_modality.max()  # Normalize to 1
+                image_modality = np.clip(image_modality, 0, 1)
                 image_modality = (image_modality * scale).astype(np.uint8)  # Scale to 0-255 and convert to uint8
 
             nib.save(
