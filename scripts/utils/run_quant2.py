@@ -47,7 +47,7 @@ def main(src_base, trg_base):
         trg_dir = os.path.join(trg_path, pid)
         # print(trg_dir)
         # check_list = os.listdir(trg_dir)
-        src_sub_file = os.path.join(src_dir, f"{pid}_fnirt_sub.nii.gz")
+        src_sub_file = os.path.join(src_dir, f"{pid}_sub.nii.gz")
         trg_sub_file = os.path.join(trg_dir, f"{pid}_sub.nii.gz")
         # trg_ref_file = os.path.join(trg_dir, f"{pid}_ref.nii.gz")
         # trg_pet_file = os.path.join(trg_dir, f"{pid}_pt.nii.gz")
@@ -69,7 +69,7 @@ def main(src_base, trg_base):
         # trg_pet_vol = trg_pet_vol.unsqueeze(0).to(torch.float)
 
         dice = metrics.dice(src_sub_vol, trg_sub_vol)
-        # hd95 = metrics.hd95(src_sub_vol, trg_sub_vol)
+        hd95 = metrics.hd95(src_sub_vol, trg_sub_vol)
         # hd95 = np.array([[3.        , 3.16227766, 3.16227766, 3.        , 2.23606798,
         # 1.77224319, 2.23606798, 4.12310563, 5.19615242, 3.60555128,
         # 3.16227766, 3.        ]])
