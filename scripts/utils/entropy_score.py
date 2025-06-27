@@ -48,13 +48,10 @@ def main():
         "sol1-node5_0_forward", 
         "sol1-node6_0_forward"
     ]
-    # node_paths = [os.path.join(base_path, 'data', 'sol1', f'sol1-{node_name}_0_forward') for node_name in node_names]
-    # node_path = lambda node_name: os.path.join(base_path, 'data', 'sol1', f'sol1-{node_name}_0_forward')
     case_names = os.listdir(os.path.join(node_path, node_names[0]))
-    # case_name = case_names[0]
-    # for node_name in node_names:
+    case_names = ['cc0182', 'cc0183', 'cc0184', 'cc0185']
 
-    seg_names = [lambda x: f"{x}_LS_prb.nii.gz",  lambda x: f"{case_name}_RS_prb.nii.gz"]
+    seg_names = [lambda x: f"{x}_LS_prb.nii.gz",  lambda x: f"{x}_RS_prb.nii.gz"]
     for seg_name in seg_names:
         for idx, case_name in enumerate(case_names):
             if idx < 50:
@@ -87,7 +84,7 @@ def main():
 
             # 저장 경로 생성
             os.makedirs(save_path, exist_ok=True)
-            save_file = os.path.join(save_path, f"{case_name}_LS_prb_avg.nii.gz")
+            save_file = os.path.join(save_path, f"avg_{seg_name(case_name)}")
             nib.save(seg_nii, save_file)
             # print(f"Averaged segmentation saved to: {save_file}")
 
