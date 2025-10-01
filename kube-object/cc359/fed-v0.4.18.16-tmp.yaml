@@ -1493,23 +1493,23 @@ spec:
     volumes:
     - name: csv-volume
       hostPath:
-        path: /home2/dwnusa/mk01/fedpod/experiments  # 로컬 경로
+        path: /fedpod/experiments  # 로컬 경로
         type: Directory
     - name: cc359ppmi128-volume
       hostPath:
-        path: /home2/dwnusa/mk01/fedpod/{{workflow.parameters.data_root}}  # 로컬 경로
+        path: /fedpod/{{workflow.parameters.data_root}}  # 로컬 경로
         type: Directory
     - name: states-volume
       hostPath:
-        path: /home2/dwnusa/mk01/fedpod/states  # 로컬 경로
+        path: /fedpod/states  # 로컬 경로
         type: Directory
     - name: logs-volume
       hostPath:
-        path: /home2/dwnusa/mk01/fedpod/logs  # 로컬 경로
+        path: /fedpod/logs  # 로컬 경로
         type: Directory
     - name: runs-volume
       hostPath:
-        path: /home2/dwnusa/mk01/fedpod/runs  # 로컬 경로
+        path: /fedpod/runs  # 로컬 경로
         type: Directory
 
 
@@ -1588,23 +1588,23 @@ spec:
     volumes:
     - name: csv-volume
       hostPath:
-        path: /home2/dwnusa/mk01/fedpod/experiments  # 로컬 경로
+        path: /fedpod/experiments  # 로컬 경로
         type: Directory
     - name: cc359ppmi128-volume
       hostPath:
-        path: /home2/dwnusa/mk01/fedpod/{{workflow.parameters.data_root}}  # 로컬 경로
+        path: /fedpod/{{workflow.parameters.data_root}}  # 로컬 경로
         type: Directory
     - name: states-volume
       hostPath:
-        path: /home2/dwnusa/mk01/fedpod/states  # 로컬 경로
+        path: /fedpod/states  # 로컬 경로
         type: Directory
     - name: logs-volume
       hostPath:
-        path: /home2/dwnusa/mk01/fedpod/logs  # 로컬 경로
+        path: /fedpod/logs  # 로컬 경로
         type: Directory
     - name: runs-volume
       hostPath:
-        path: /home2/dwnusa/mk01/fedpod/runs  # 로컬 경로
+        path: /fedpod/runs  # 로컬 경로
         type: Directory
 
   - name: infer-job
@@ -1672,21 +1672,21 @@ spec:
     volumes:
     - name: csv-volume
       hostPath:
-        path: /home2/dwnusa/mk01/fedpod/experiments  # 로컬 경로
+        path: /fedpod/experiments  # 로컬 경로
         type: Directory
     - name: cc359ppmi128-volume
       hostPath:
-        path: /home2/dwnusa/mk01/fedpod/{{inputs.parameters.data_root}}  # 로컬 경로
+        path: /fedpod/{{inputs.parameters.data_root}}  # 로컬 경로
         type: Directory
     - name: states-volume
       hostPath:
-        path: /home2/dwnusa/mk01/fedpod/states  # 로컬 경로
+        path: /fedpod/states  # 로컬 경로
         type: Directory
     - name: logs-volume
       hostPath:
-        path: /home2/dwnusa/mk01/fedpod/logs  # 로컬 경로
+        path: /fedpod/logs  # 로컬 경로
         type: Directory
     - name: runs-volume
       hostPath:
-        path: /home2/dwnusa/mk01/fedpod/runs  # 로컬 경로
+        path: /fedpod/runs  # 로컬 경로
         type: Directory
