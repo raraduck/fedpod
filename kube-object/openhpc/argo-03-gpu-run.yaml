@@ -1456,8 +1456,8 @@ spec:
       volumeMounts:
       - name: fedpod-volume
         mountPath: /fedpod
-      # - name: cc359ppmi128-volume
-      #   mountPath: /fedpod/data
+      - name: cc359ppmi128-volume
+        mountPath: /fedpod/data
       # - name: states-volume
       #   mountPath: /fedpod/states
       # - name: logs-volume
@@ -1471,10 +1471,10 @@ spec:
       hostPath:
         path: /fedpod  # 로컬 경로
         type: Directory
-    # - name: cc359ppmi128-volume
-    #   hostPath:
-    #     path: /fedpod/{{workflow.parameters.data_root}}  # 로컬 경로
-    #     type: Directory
+    - name: cc359ppmi128-volume
+      hostPath:
+        path: /fedpod/{{workflow.parameters.data_root}}  # 로컬 경로
+        type: Directory
     # - name: states-volume
     #   hostPath:
     #     path: /fedpod/states  # 로컬 경로
@@ -1523,8 +1523,8 @@ spec:
       volumeMounts:
       - name: fedpod-volume
         mountPath: /fedpod
-      # - name: cc359ppmi128-volume
-      #   mountPath: /fedpod/data
+      - name: cc359ppmi128-volume
+        mountPath: /fedpod/data
       # - name: states-volume
       #   mountPath: /fedpod/states
       # - name: logs-volume
@@ -1548,10 +1548,10 @@ spec:
       hostPath:
         path: /fedpod  # 로컬 경로
         type: Directory
-    # - name: cc359ppmi128-volume
-    #   hostPath:
-    #     path: /fedpod/{{workflow.parameters.data_root}}  # 로컬 경로
-    #     type: Directory
+    - name: cc359ppmi128-volume
+      hostPath:
+        path: /fedpod/{{workflow.parameters.data_root}}  # 로컬 경로
+        type: Directory
     # - name: states-volume
     #   hostPath:
     #     path: /fedpod/states  # 로컬 경로
@@ -1619,8 +1619,8 @@ spec:
       volumeMounts:
       - name: fedpod-volume
         mountPath: /fedpod
-      # - name: cc359ppmi128-volume
-      #   mountPath: /fedpod/data
+      - name: cc359ppmi128-volume
+        mountPath: /fedpod/data
       # - name: states-volume
       #   mountPath: /fedpod/states
       # - name: logs-volume
@@ -1634,10 +1634,10 @@ spec:
       hostPath:
         path: /fedpod  # 로컬 경로
         type: Directory
-    # - name: cc359ppmi128-volume
-    #   hostPath:
-    #     path: /fedpod/{{inputs.parameters.data_root}}  # 로컬 경로
-    #     type: Directory
+    - name: cc359ppmi128-volume
+      hostPath:
+        path: /fedpod/{{inputs.parameters.data_root}}  # 로컬 경로
+        type: Directory
     # - name: states-volume
     #   hostPath:
     #     path: /fedpod/states  # 로컬 경로
