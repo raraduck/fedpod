@@ -1448,6 +1448,8 @@ spec:
           -N {{workflow.parameters.label_names}}
           -I {{workflow.parameters.label_index}}
       resources:
+        limits:
+          nvidia.com/gpu: 1   # GPU 1개 요청
         requests:
           cpu: "8"
           memory: "4G"
@@ -1609,6 +1611,8 @@ spec:
           -I {{inputs.parameters.label_index}}
           -p {{inputs.parameters.seg_postfix}}
       resources:
+        limits:
+          nvidia.com/gpu: 1   # GPU 1개 요청
         requests:
           cpu: "2"
           memory: "4G"
