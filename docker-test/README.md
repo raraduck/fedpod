@@ -53,20 +53,19 @@ sudo sysctl -p
 ## 3. install docker for NVIDIA Container Toolkit (With apt: Ubuntu, Debian) [link][docker1]
 ### 3.1. Configure the production repository: 
 ```bash
-$ curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey \
-    | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
-    && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list \
-    | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' \ 
-    | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
+  && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
+    sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
+    sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
 ```
 ### 3.2. Update the packages list from the repository:
 ```bash
-$ sudo apt-get update
+sudo apt-get update
 ```
 ### 3.3. Install the NVIDIA Container Toolkit packages:
 ```bash
-$ export NVIDIA_CONTAINER_TOOLKIT_VERSION=1.17.8-1
-$ sudo apt-get install -y \
+export NVIDIA_CONTAINER_TOOLKIT_VERSION=1.17.8-1
+sudo apt-get install -y \
       nvidia-container-toolkit=${NVIDIA_CONTAINER_TOOLKIT_VERSION} \
       nvidia-container-toolkit-base=${NVIDIA_CONTAINER_TOOLKIT_VERSION} \
       libnvidia-container-tools=${NVIDIA_CONTAINER_TOOLKIT_VERSION} \
@@ -74,16 +73,16 @@ $ sudo apt-get install -y \
 ```
 ### 3.4. Configure the container runtime by using the nvidia-ctk command:
 ```bash
-$ sudo nvidia-ctk runtime configure --runtime=docker
+sudo nvidia-ctk runtime configure --runtime=docker
 ```
 The **nvidia-ctk** command modifies the **/etc/docker/daemon.json** file on the host. The file is updated so that Docker can use the NVIDIA Container Runtime.
 ### 3.5. Restart the Docker daemon:
 ```bash
-$ sudo systemctl restart docker
+sudo systemctl restart docker
 ```
 ### 3.6. Run a sample CUDA container:
 ```bash
-$ sudo docker run --rm --runtime=nvidia --gpus all ubuntu nvidia-smi
+sudo docker run --rm --runtime=nvidia --gpus all ubuntu nvidia-smi
 ```
 
 ## 4. Install Minikube (v1.32.0-beta.0 or later)
@@ -91,13 +90,6 @@ To install the latest minikube **stable** release on **x86-64 Linux** using **De
 ```bash
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
 sudo dpkg -i minikube_latest_amd64.deb
-```
-in ~/.bashrc
-```bash
-alias kubectl="minikube kubectl --"
-```
-```bash
-kubectl start --driver docker --container-runtime docker --gpus all
 ```
 
 ## 5. Run minikube with gpu and mount disk
@@ -108,6 +100,11 @@ minikube start --driver=docker \
   --container-runtime=docker \
   --gpus=all \
   --mount --mount-string="/home2/dwnusa/mk01/fedpod:/fedpod"
+```
+
+in ~/.bashrc
+```bash
+alias kubectl="minikube kubectl --"
 ```
 
 ## 6. Install Argo Workflow
