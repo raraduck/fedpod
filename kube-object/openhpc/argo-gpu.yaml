@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: gpu-test-
+spec:
+  entrypoint: gpu-test
+  templates:
+  - name: gpu-test
+    container:
+      image: dwnusa/fedpod:v0.4.17-test-cuda # nvidia/cuda:12.2.0-base-ubuntu22.04
+      command: ["/bin/bash", "-c"]
+      args: ["nvidia-smi || echo 'No GPU detected'"]
+      resources:
+        limits:
+          nvidia.com/gpu: 1   # GPU 1개 요청
