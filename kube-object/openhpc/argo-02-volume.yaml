@@ -1,0 +1,47 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: gpu-test-
+spec:
+  entrypoint: main
+  volumes:
+    - name: fedpod-volume
+      hostPath:
+        path: /home/cmc_admin/workspace/fedpod   # 호스트 경로
+        type: Directory
+  templates:
+  - name: main
+    steps:
+    - - name: check-gpu
+        template: gpu-test
+    - - name: check-folders
+        template: folder-check
+
+  - name: gpu-test
+    container:
+      image: dwnusa/fedpod:v0.4.17-test-cuda
+      command: ["/bin/bash", "-c"]
+      args: ["nvidia-smi || echo 'No GPU detected'"]
+      resources:
+        limits:
+          nvidia.com/gpu: 1
+      volumeMounts:
+        - name: fedpod-volume
+          mountPath: /fedpod
+
+  - name: folder-check
+    container:
+      image: dwnusa/fedpod:v0.4.17-test-cuda
+      command: ["/bin/bash", "-c"]
+      args:
+        - |
+          for d in /fedpod/logs /fedpod/states /fedpod/runs; do
+            if [ -d "$d" ]; then
+              echo "[OK] $d exists."
+            else
+              echo "[WARN] $d does not exist."
+            fi
+          done
+      volumeMounts:
+        - name: fedpod-volume
+          mountPath: /fedpod
