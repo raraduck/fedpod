@@ -35,7 +35,7 @@ spec:
       command: ["/bin/bash", "-c"]
       args:
         - |
-          for d in /fedpod/logs /fedpod/states /fedpod/runs; do
+          for d in /fedpod/logs /fedpod/states /fedpod/runs /fedpod/run_train.sh; do
             if [ -d "$d" ]; then
               echo "[OK] $d exists."
             else
