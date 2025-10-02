@@ -36,7 +36,7 @@ spec:
       args:
         - |
           for d in /fedpod/logs /fedpod/states /fedpod/runs /fedpod/run_train.sh; do
-            if [ -d "$d" ]; then
+            if [ -e "$d" ]; then
               echo "[OK] $d exists."
             else
               echo "[WARN] $d does not exist."
