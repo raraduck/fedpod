@@ -99,3 +99,38 @@ alias kubectl="minikube kubectl --"
 ```bash
 kubectl start --driver docker --container-runtime docker --gpus all
 ```
+
+## 5. Run minikube with gpu and mount disk
+```bash
+minikube start --driver=docker \
+  --cpus=24 \
+  --memory=200g \
+  --container-runtime=docker \
+  --gpus=all \
+  --mount --mount-string="/home2/dwnusa/mk01/fedpod:/fedpod"
+```
+
+## 6. Install Argo Workflow
+```bash
+ARGO_WORKFLOWS_VERSION="v3.5.8"
+kubectl create namespace argo
+kubectl apply -n argo -f "https://github.com/argoproj/argo-workflows/releases/download/${ARGO_WORKFLOWS_VERSION}/quick-start-minimal.yaml"
+or
+kubectl apply -n argo -f https://github.com/argoproj/argo-workflows/releases/latest/download/install.yaml
+```
+```bash
+# Download the binary
+curl -sLO https://github.com/argoproj/argo-workflows/releases/download/v3.4.8/argo-linux-amd64.gz
+
+# Unzip
+gunzip argo-linux-amd64.gz
+
+# Make binary executable
+chmod +x argo-linux-amd64
+
+# Move binary to path
+mv ./argo-linux-amd64 /usr/local/bin/argo
+
+# Test installation
+argo version
+```
