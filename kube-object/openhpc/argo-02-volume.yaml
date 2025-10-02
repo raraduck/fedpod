@@ -7,7 +7,7 @@ spec:
   volumes:
     - name: fedpod-volume
       hostPath:
-        path: /home/cmc_admin/workspace/fedpod   # 호스트 경로
+        path: /home2/dwnusa/mk01/fedpod   # 호스트 경로
         type: Directory
   templates:
   - name: main
