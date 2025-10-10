@@ -131,3 +131,63 @@ sudo mv ./argo-linux-amd64 /usr/local/bin/argo
 # Test installation
 argo version
 ```
+
+## 7. Open Argo-server
+Open Port on minikube cluster side.
+```bash
+minikube kubectl edit svc argo-server
+type: ClusterIP --> NodePort
+```
+Port-forwarding for host access.
+```bash
+minikube service argo-server -n argo
+minikube service list
+#  argo        │ argo-server │ web/2746     │ http://192.168.*.*:32634
+```
+```bash
+curl https://192.168.*.*:32634 -k
+```
+or
+browser access: https://192.168.*.*:32634
+
+## 8. Configure reverse proxy using Nginx
+### 8.1. routing to https
+```bash
+sudo apt update
+sudo apt install -y nginx
+sudo vim /etc/nginx/sites-available/argo.conf
+```
+in /etc/nginx/sites-available/argo.conf
+```bash
+server {
+    listen 8080;
+    server_name _;
+
+    location / {
+        proxy_pass https://192.168.49.2:32634;
+        proxy_ssl_verify off;           # self-signed TLS 무시
+        proxy_ssl_server_name on;
+        proxy_ssl_protocols TLSv1.2 TLSv1.3;
+
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+}
+```
+```bash
+sudo ln -s /etc/nginx/sites-available/argo.conf /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl reload nginx
+```
+### 8.2. check and open firewall
+```bash
+sudo ufw status verbose
+sudo ufw allow 8080/tcp
+sudo ufw reload
+sudo ufw status
+```
