@@ -158,13 +158,13 @@ argo version
 ## 7. Open Argo-server
 Open Port on minikube cluster side.
 ```bash
-minikube kubectl edit svc argo-server
+minikube --profile=<context> kubectl edit svc argo-server
 type: ClusterIP --> NodePort
 ```
 Port-forwarding for host access.
 ```bash
-minikube service argo-server -n argo
-minikube service list
+minikube --profile=<context> service argo-server -n argo
+minikube --profile=<context> service list
 #  argo        │ argo-server │ web/2746     │ http://192.168.*.*:32634
 ```
 ```bash
