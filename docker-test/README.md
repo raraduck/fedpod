@@ -105,9 +105,22 @@ minikube start --driver=docker \
   --memory=200g \
   --container-runtime=docker \
   --gpus=all \
-  --mount --mount-string="/home2/dwnusa/{workspace}/fedpod:/fedpod"
+  --mount --mount-string="/home2/dwnusa/{workspace}/fedpod:/fedpod" \
+  --profile={minikube-context-name} # if minikube context is required
 ```
+### 5.1. Minikube and Kubectl Context with Config and Env
+```bash
+<kubectl context for k3d or minikube>
+kubectl config view --minify --raw > ~/.kube/config-<context> # for minikube
+k3d kubeconfig get mycluster > ~/.kube/config-<context> # for k3d
+export KUBECONFIG=~/.kube/config-<context>
+kubectl get nodes
 
+<minikube context>
+kubectl config view --minify --raw > ~/.kube/config-<context> # for minikube
+export MINIKUBE_HOME=~/.minikube-<context>
+minikube status --profile=<context>
+```
 in ~/.bashrc
 ```bash
 alias kubectl="minikube kubectl --"
