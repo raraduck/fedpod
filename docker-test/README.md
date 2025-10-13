@@ -102,7 +102,7 @@ minikube start --driver=docker \
   --memory=200g \
   --container-runtime=docker \
   --gpus=all \
-  --mount --mount-string="/home2/dwnusa/mk01/fedpod:/fedpod"
+  --mount --mount-string="/home2/dwnusa/{workspace}/fedpod:/fedpod"
 ```
 
 in ~/.bashrc
