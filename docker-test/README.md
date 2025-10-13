@@ -77,6 +77,9 @@ sudo apt-get install -y \
 ### 3.4. Configure the container runtime by using the nvidia-ctk command:
 ```bash
 sudo nvidia-ctk runtime configure --runtime=docker
+# INFO[0000] Config file does not exist; using empty config
+# INFO[0000] Wrote updated config to /etc/docker/daemon.json
+# INFO[0000] It is recommended that docker daemon be restarted.
 ```
 The **nvidia-ctk** command modifies the **/etc/docker/daemon.json** file on the host. The file is updated so that Docker can use the NVIDIA Container Runtime.
 ### 3.5. Restart the Docker daemon:
