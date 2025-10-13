@@ -117,10 +117,22 @@ alias kubectl="minikube kubectl --"
 ```
 
 ### 5.2. Kubectl Context and Minikube Profile with Config (KUBECONFIG) and Env(MINIKUBE_HOME)
-<Official>
+
+정석적인 방법은 context와 profile 을 이용하는 방법!
+
 kubectl:
+
 - kubectl config get-contexts
+
 - kubectl config use-context <context_name>
+
+Minikube:
+
+- minikube -p <profile_name> status
+- minikube start -p <profile_name>
+- minikube delete -p <profile_name>
+
+아래 방법은 환경변수로 구분하는 방법!
 
 ```bash
 <kubectl context for k3d or minikube>
