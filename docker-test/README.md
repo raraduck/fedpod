@@ -116,18 +116,18 @@ in ~/.bashrc
 alias kubectl="minikube kubectl --"
 ```
 
-### 5.2. Minikube and Kubectl Context with Config and Env
+### 5.2. Kubectl Context and Minikube Profile with Config (KUBECONFIG) and Env(MINIKUBE_HOME)
 ```bash
 <kubectl context for k3d or minikube>
-kubectl config view --minify --raw > ~/.kube/config-<context> # for minikube
-k3d kubeconfig get mycluster > ~/.kube/config-<context> # for k3d
-export KUBECONFIG=~/.kube/config-<context>
+kubectl config view --minify --raw > ~/.kube/config-<context_name> # for minikube
+k3d kubeconfig get mycluster > ~/.kube/config-<context_name> # for k3d
+export KUBECONFIG=~/.kube/config-<context_name>
 kubectl get nodes
 
 <minikube context>
-kubectl config view --minify --raw > ~/.kube/config-<context> # for minikube
-export MINIKUBE_HOME=~/.minikube-<context>
-minikube status --profile=<context>
+kubectl config view --minify --raw > ~/.kube/config-<context_name> # for minikube
+export MINIKUBE_HOME=~/.minikube-<profile_name>
+minikube status --profile=<profile_name>
 ```
 
 ## 6. Install Argo Workflow
