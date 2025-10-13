@@ -108,7 +108,15 @@ minikube start --driver=docker \
   --mount --mount-string="/home2/dwnusa/{workspace}/fedpod:/fedpod" \
   --profile={minikube-context-name} # if minikube context is required
 ```
-### 5.1. Minikube and Kubectl Context with Config and Env
+
+### 5.1. Install kubectl
+ref: https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+in ~/.bashrc
+```bash
+alias kubectl="minikube kubectl --"
+```
+
+### 5.2. Minikube and Kubectl Context with Config and Env
 ```bash
 <kubectl context for k3d or minikube>
 kubectl config view --minify --raw > ~/.kube/config-<context> # for minikube
@@ -120,10 +128,6 @@ kubectl get nodes
 kubectl config view --minify --raw > ~/.kube/config-<context> # for minikube
 export MINIKUBE_HOME=~/.minikube-<context>
 minikube status --profile=<context>
-```
-in ~/.bashrc
-```bash
-alias kubectl="minikube kubectl --"
 ```
 
 ## 6. Install Argo Workflow
