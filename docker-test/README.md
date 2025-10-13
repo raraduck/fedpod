@@ -117,6 +117,11 @@ alias kubectl="minikube kubectl --"
 ```
 
 ### 5.2. Kubectl Context and Minikube Profile with Config (KUBECONFIG) and Env(MINIKUBE_HOME)
+<Official>
+kubectl:
+- kubectl config get-contexts
+- kubectl config use-context <context_name>
+
 ```bash
 <kubectl context for k3d or minikube>
 kubectl config view --minify --raw > ~/.kube/config-<context_name> # for minikube
