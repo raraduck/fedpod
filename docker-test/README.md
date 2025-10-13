@@ -4,7 +4,10 @@
 - Linux
 - Latest NVIDIA GPU drivers
 - minikube v1.32.0-beta.0 or later (docker driver only)
-
+## 0. 보안업데이트 중단 (apt lock 방지)
+```bash
+sudo systemctl disable --now unattended-upgrades apt-daily.timer apt-daily-upgrade.timer
+```
 ## 1. Install Docker using the apt repository
 ### 1.1. Set up Docker's apt repository.
 ```bash
