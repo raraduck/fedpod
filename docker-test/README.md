@@ -123,7 +123,6 @@ alias kubectl="minikube kubectl --"
 kubectl:
 
 - kubectl config get-contexts
-
 - kubectl config use-context <context_name>
 
 Minikube:
