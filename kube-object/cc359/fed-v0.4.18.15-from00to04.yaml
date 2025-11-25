@@ -1456,7 +1456,7 @@ spec:
           -s 0
           -f 10
           -m [20,60]
-          -g 0 
+          -g 1 
           -L 0 
           -J {{inputs.parameters.job-name}} 
           -R {{workflow.parameters.rounds}} 
@@ -1635,7 +1635,7 @@ spec:
         - >
           ./{{inputs.parameters.run-script}}
           -s 0
-          -g 0
+          -g 1
           -J {{inputs.parameters.job-name}}
           -i {{inputs.parameters.inst-id}}
           -R {{inputs.parameters.rounds}}
