@@ -104,6 +104,8 @@ minikube start --driver=docker \
   --cpus=24 \
   --memory=200g \
   --container-runtime=docker \
+  --docker-opt="default-runtime=nvidia" \
+  --docker-opt="runtime-nvidia=/usr/bin/nvidia-container-runtime" \
   --gpus=all \
   --mount --mount-string="/home2/dwnusa/{workspace}/fedpod:/fedpod" \
   --profile={minikube-context-name} # if minikube context is required
