@@ -60,6 +60,11 @@ class FETS1470Dataset(Dataset):
             # t1, affine = nib_load(join(base_dir, 'brain.nii.gz'))
             channels_dict['t1'] = np.array(t1, dtype='float32')
 
+        if 't1mni' in self.input_channel_names:
+            t1mni, _ = nib_load(join(base_dir, f'{name}_t1mni.nii.gz'))
+            # t1ce, _ = nib_load(join(base_dir, 'orig.nii.gz'))
+            channels_dict['t1mni'] = np.array(t1mni, dtype='float32')
+
         if 't1ce' in self.input_channel_names:
             t1ce, _ = nib_load(join(base_dir, f'{name}_t1ce.nii.gz'))
             # t1ce, _ = nib_load(join(base_dir, 'orig.nii.gz'))
@@ -75,14 +80,36 @@ class FETS1470Dataset(Dataset):
             # flair, _ = nib_load(join(base_dir, 'brain.nii.gz'))
             channels_dict['flair'] = np.array(flair, dtype='float32')
 
+        if 'pt' in self.input_channel_names:
+            pet, _ = nib_load(join(base_dir, f'{name}_pt.nii.gz'))
+            # pet, _ = nib_load(join(base_dir, 'pet.nii.gz'))
+            channels_dict['pt'] = np.array(pet, dtype='float32')
+
         if 'seg' in self.input_channel_names:
             striatum, _ = nib_load(join(base_dir, f'{name}_seg.nii.gz'))
             # striatum, _ = nib_load(join(base_dir, 'striatum_orig.nii.gz'))
             _mask = np.array(striatum, dtype='float32')
             # _mask = np.where(_mask != 0, 100, 0)
             channels_dict['seg'] = _mask
+            
+        if 'sub' in self.input_channel_names:
+            striatum, _ = nib_load(join(base_dir, f'{name}_sub.nii.gz'))
+            # striatum, _ = nib_load(join(base_dir, 'striatum_orig.nii.gz'))
+            _mask = np.array(striatum, dtype='float32')
+            # _mask = np.where(_mask != 0, 100, 0)
+            channels_dict['sub'] = _mask
+
+        if 'ref' in self.input_channel_names:
+            striatum, _ = nib_load(join(base_dir, f'{name}_ref.nii.gz'))
+            # striatum, _ = nib_load(join(base_dir, 'striatum_orig.nii.gz'))
+            _mask = np.array(striatum, dtype='float32')
+            # _mask = np.where(_mask != 0, 100, 0)
+            channels_dict['ref'] = _mask
 
         if self.mode.lower() == 'test':
+            # pet = np.array(nib_load(join(base_dir, f'{name}_pt.nii.gz'))[0], dtype='uint8')  # ground truth
+            # channels_dict['label'] = pet
+            
             item = self.transforms(channels_dict)
             if self.args.zoom or (item['image'][0].shape != t1[0].shape):
                 temp_affine = affine
@@ -95,15 +122,16 @@ class FETS1470Dataset(Dataset):
             item = self.transforms(channels_dict)
             # Assume each item is a dictionary containing multiple samples
 
-            if False: # 배치로 모아서 작업하기
+            if False:
                 samples = []
                 for el in item:
                     image_shape = el['image'][0].shape
                     el['image'].affine[:3, 3] = torch.tensor(-np.array(image_shape) / 2 * np.diag(el['image'].affine)[:3])
                     samples.append((el['image'], el['label'], index, name, el['image'].affine, self.label_names))
                 return samples
-            else: # 첫번째 샘플만 뽑아서 작업하기
+            else:
                 el = item[0]  # [0] for RandCropByPosNegLabeld
+                # 첫번째 샘플만 뽑아서 작업하는중
                 # image_shape = el['image'][0].shape  # 이미지의 복셀 크기 가져오기
                 # # 이미지 중앙을 원점으로 설정하기
                 # el['image'].affine[:3, 3] = torch.tensor(-np.array(image_shape) / 2 * np.diag(el['image'].affine)[:3])
