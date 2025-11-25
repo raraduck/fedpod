@@ -1774,7 +1774,7 @@ spec:
         requests:
           cpu: "12" # "8"
           memory: "16G" # "4G"
-          # nvidia.com/gpu: "1"
+          nvidia.com/gpu: "1"
         limits:
           nvidia.com/gpu: "1"
       volumeMounts:
