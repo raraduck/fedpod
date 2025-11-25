@@ -1449,7 +1449,7 @@ spec:
       resources:
         requests:
           cpu: "12" # "8"
-          memory: "16g" # "4G"
+          memory: "16G" # "4G"
       volumeMounts:
       - name: fedpod-volume
         mountPath: /fedpod   # 컨테이너 내부
@@ -1490,7 +1490,7 @@ spec:
       resources:
         requests:
           cpu: "2"
-          memory: "4g"
+          memory: "4G"
       volumeMounts:
       - name: fedpod-volume
         mountPath: /fedpod   # 컨테이너 내부
@@ -1559,7 +1559,7 @@ spec:
       resources:
         requests:
           cpu: "8" # "2"
-          memory: "16g" #"4G"
+          memory: "16G" #"4G"
       volumeMounts:
       - name: fedpod-volume
         mountPath: /fedpod   # 컨테이너 내부
