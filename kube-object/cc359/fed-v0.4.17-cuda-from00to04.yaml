@@ -1478,40 +1478,15 @@ spec:
           cpu: "8"
           memory: "4G"
       volumeMounts:
-      - name: csv-volume
-        mountPath: /fedpod/experiments
-      - name: cc359ppmi128-volume
-        mountPath: /fedpod/data
-      - name: states-volume
-        mountPath: /fedpod/states
-      - name: logs-volume
-        mountPath: /fedpod/logs
-      - name: runs-volume
-        mountPath: /fedpod/runs
+      - name: fedpod-volume
+        mountPath: /fedpod   # 컨테이너 내부
       stdin: true
       tty: true
     volumes:
-    - name: csv-volume
+    - name: fedpod-volume
       hostPath:
-        path: /fedpod/experiments  # 로컬 경로
+        path: /home2/dwnusa/mk01/fedpod   # 호스트 경로
         type: Directory
-    - name: cc359ppmi128-volume
-      hostPath:
-        path: /fedpod/{{workflow.parameters.data_root}}  # 로컬 경로
-        type: Directory
-    - name: states-volume
-      hostPath:
-        path: /fedpod/states  # 로컬 경로
-        type: Directory
-    - name: logs-volume
-      hostPath:
-        path: /fedpod/logs  # 로컬 경로
-        type: Directory
-    - name: runs-volume
-      hostPath:
-        path: /fedpod/runs  # 로컬 경로
-        type: Directory
-
 
   - name: aggregation-job
     inputs:
@@ -1563,16 +1538,8 @@ spec:
           cpu: "2"
           memory: "4G"
       volumeMounts:
-      - name: csv-volume
-        mountPath: /fedpod/experiments
-      - name: cc359ppmi128-volume
-        mountPath: /fedpod/data
-      - name: states-volume
-        mountPath: /fedpod/states
-      - name: logs-volume
-        mountPath: /fedpod/logs
-      - name: runs-volume
-        mountPath: /fedpod/runs
+      - name: fedpod-volume
+        mountPath: /fedpod   # 컨테이너 내부
       stdin: true
       tty: true
     outputs:
@@ -1586,25 +1553,9 @@ spec:
           path: /tmp/next_epoch.txt
           default: "0"
     volumes:
-    - name: csv-volume
+    - name: fedpod-volume
       hostPath:
-        path: /fedpod/experiments  # 로컬 경로
-        type: Directory
-    - name: cc359ppmi128-volume
-      hostPath:
-        path: /fedpod/{{workflow.parameters.data_root}}  # 로컬 경로
-        type: Directory
-    - name: states-volume
-      hostPath:
-        path: /fedpod/states  # 로컬 경로
-        type: Directory
-    - name: logs-volume
-      hostPath:
-        path: /fedpod/logs  # 로컬 경로
-        type: Directory
-    - name: runs-volume
-      hostPath:
-        path: /fedpod/runs  # 로컬 경로
+        path: /home2/dwnusa/mk01/fedpod   # 호스트 경로
         type: Directory
 
   - name: infer-job
@@ -1657,36 +1608,12 @@ spec:
           cpu: "2"
           memory: "4G"
       volumeMounts:
-      - name: csv-volume
-        mountPath: /fedpod/experiments
-      - name: cc359ppmi128-volume
-        mountPath: /fedpod/data
-      - name: states-volume
-        mountPath: /fedpod/states
-      - name: logs-volume
-        mountPath: /fedpod/logs
-      - name: runs-volume
-        mountPath: /fedpod/runs
+      - name: fedpod-volume
+        mountPath: /fedpod   # 컨테이너 내부
       stdin: true
       tty: true
     volumes:
-    - name: csv-volume
+    - name: fedpod-volume
       hostPath:
-        path: /fedpod/experiments  # 로컬 경로
-        type: Directory
-    - name: cc359ppmi128-volume
-      hostPath:
-        path: /fedpod/{{inputs.parameters.data_root}}  # 로컬 경로
-        type: Directory
-    - name: states-volume
-      hostPath:
-        path: /fedpod/states  # 로컬 경로
-        type: Directory
-    - name: logs-volume
-      hostPath:
-        path: /fedpod/logs  # 로컬 경로
-        type: Directory
-    - name: runs-volume
-      hostPath:
-        path: /fedpod/runs  # 로컬 경로
+        path: /home2/dwnusa/mk01/fedpod   # 호스트 경로
         type: Directory
