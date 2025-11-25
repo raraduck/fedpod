@@ -185,11 +185,11 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "10101", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}", nodeLabel: "inst01"}
-        # - { seed: "10102", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "inst02"}
-        # - { seed: "10103", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}", nodeLabel: "inst03"}
-        # - { seed: "10104", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}", nodeLabel: "inst01"}
-        # - { seed: "10105", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}", nodeLabel: "inst02"}
-        # - { seed: "10106", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}", nodeLabel: "inst03"}
+        - { seed: "10102", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "inst02"}
+        - { seed: "10103", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}", nodeLabel: "inst03"}
+        - { seed: "10104", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}", nodeLabel: "inst01"}
+        - { seed: "10105", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}", nodeLabel: "inst02"}
+        - { seed: "10106", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}", nodeLabel: "inst03"}
         dependencies: [agg-00]
         # when: "{{tasks.agg-00.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -247,11 +247,11 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "10201", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}", nodeLabel: "inst01"}
-        # - { seed: "10202", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "inst02"}
-        # - { seed: "10203", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}", nodeLabel: "inst03"}
-        # - { seed: "10204", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}", nodeLabel: "inst01"}
-        # - { seed: "10205", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}", nodeLabel: "inst02"}
-        # - { seed: "10206", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}", nodeLabel: "inst03"}
+        - { seed: "10202", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "inst02"}
+        - { seed: "10203", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}", nodeLabel: "inst03"}
+        - { seed: "10204", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}", nodeLabel: "inst01"}
+        - { seed: "10205", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}", nodeLabel: "inst02"}
+        - { seed: "10206", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}", nodeLabel: "inst03"}
         dependencies: [agg-01]
         # when: "{{tasks.agg-01.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -310,11 +310,11 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "10301", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}", nodeLabel: "inst01"}
-        # - { seed: "10302", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "inst02"}
-        # - { seed: "10303", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}", nodeLabel: "inst03"}
-        # - { seed: "10304", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}", nodeLabel: "inst01"}
-        # - { seed: "10305", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}", nodeLabel: "inst02"}
-        # - { seed: "10306", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}", nodeLabel: "inst03"}
+        - { seed: "10302", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "inst02"}
+        - { seed: "10303", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}", nodeLabel: "inst03"}
+        - { seed: "10304", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}", nodeLabel: "inst01"}
+        - { seed: "10305", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}", nodeLabel: "inst02"}
+        - { seed: "10306", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}", nodeLabel: "inst03"}
         # dependencies: [agg-02]
         dependencies: [agg-02]
 
@@ -372,11 +372,11 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "10401", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}", nodeLabel: "inst01"}
-        # - { seed: "10402", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "inst02"}
-        # - { seed: "10403", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}", nodeLabel: "inst03"}
-        # - { seed: "10404", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}", nodeLabel: "inst01"}
-        # - { seed: "10405", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}", nodeLabel: "inst02"}
-        # - { seed: "10406", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}", nodeLabel: "inst03"}
+        - { seed: "10402", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "inst02"}
+        - { seed: "10403", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}", nodeLabel: "inst03"}
+        - { seed: "10404", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}", nodeLabel: "inst01"}
+        - { seed: "10405", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}", nodeLabel: "inst02"}
+        - { seed: "10406", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}", nodeLabel: "inst03"}
         dependencies: [agg-03]
         # when: "{{tasks.agg-03.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -1419,41 +1419,14 @@ spec:
       - name: model_pth
       - name: data_percentage
       - name: nodeLabel
-      # - name: label_groups_trn
-    # affinity:
-    #   nodeAffinity:
-    #     requiredDuringSchedulingIgnoredDuringExecution:
-    #       nodeSelectorTerms:
-    #         - matchExpressions:
-    #     # preferredDuringSchedulingIgnoredDuringExecution:
-    #     #   - weight: 30
-    #     #     preference:
-    #     #       matchExpressions:
-    #             - key: cpu
-    #               operator: In
-    #               values:
-    #                 - "{{inputs.parameters.nodeLabel}}"  # 보통 medium
-          # # 조건 2: cpu key가 존재하기만 하면
-          # - weight: 20
-          #   preference:
-          #     matchExpressions:
-          #       - key: cpu
-          #         operator: Exists
-          # # 조건 3: cpu key가 아예 없는 경우
-          # - weight: 10
-          #   preference:
-          #     matchExpressions:
-          #       - key: cpu
-          #         operator: DoesNotExist
     container:
       image: dwnusa/fedpod:v0.4.17-test-cuda
-      # imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args:
         - >
           ./{{inputs.parameters.train-script}} 
           -S {{inputs.parameters.seed}} 
-          -s 0
+          -s 1
           -f 10
           -m [20,60]
           -g 1 
@@ -1475,13 +1448,11 @@ spec:
           -I {{workflow.parameters.label_index}}
       resources:
         requests:
-          cpu: "8"
-          memory: "4G"
+          cpu: "12" # "8"
+          memory: "16g" # "4G"
       volumeMounts:
       - name: fedpod-volume
         mountPath: /fedpod   # 컨테이너 내부
-      # - name: data-volume
-      #   mountPath: /fedpod/data
       stdin: true
       tty: true
     volumes:
@@ -1489,10 +1460,6 @@ spec:
       hostPath:
         path: /fedpod   # 호스트 경로
         type: Directory
-    # - name: data-volume
-    #   hostPath:
-    #     path: /fedpod/{{workflow.parameters.data_root}}  # 로컬 경로
-    #     type: Directory
 
   - name: aggregation-job
     inputs:
@@ -1505,27 +1472,8 @@ spec:
       - name: inst-id
       - name: model_pth
       - name: nodeLabel
-    # affinity:
-    #   nodeAffinity:
-    #     requiredDuringSchedulingIgnoredDuringExecution:
-    #       nodeSelectorTerms:
-    #         - matchExpressions:
-    #             - key: cpu
-    #               operator: In
-    #               values:
-    #                 - "{{inputs.parameters.nodeLabel}}"  # 보통 medium
-    # affinity:
-    #   nodeAffinity:
-    #     requiredDuringSchedulingIgnoredDuringExecution:
-    #       nodeSelectorTerms:
-    #       - matchExpressions:
-    #         - key: kubernetes.io/hostname
-    #           operator: In
-    #           values:
-    #           - controlplane1
     container:
       image: dwnusa/fedpod:v0.4.17-test-cuda
-      # imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
         - >
@@ -1591,7 +1539,7 @@ spec:
       args: 
         - >
           ./{{inputs.parameters.run-script}}
-          -s 0
+          -s 1
           -g 1
           -J {{inputs.parameters.job-name}}
           -i {{inputs.parameters.inst-id}}
@@ -1611,8 +1559,8 @@ spec:
           -p {{inputs.parameters.seg_postfix}}
       resources:
         requests:
-          cpu: "2"
-          memory: "4G"
+          cpu: "8" # "2"
+          memory: "16g" #"4G"
       volumeMounts:
       - name: fedpod-volume
         mountPath: /fedpod   # 컨테이너 내부
