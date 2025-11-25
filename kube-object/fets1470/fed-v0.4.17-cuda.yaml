@@ -185,11 +185,11 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "10101", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}", nodeLabel: "inst01"}
-        - { seed: "10102", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "inst02"}
-        - { seed: "10103", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}", nodeLabel: "inst03"}
-        - { seed: "10104", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}", nodeLabel: "inst01"}
-        - { seed: "10105", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}", nodeLabel: "inst02"}
-        - { seed: "10106", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}", nodeLabel: "inst03"}
+        # - { seed: "10102", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "inst02"}
+        # - { seed: "10103", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}", nodeLabel: "inst03"}
+        # - { seed: "10104", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}", nodeLabel: "inst01"}
+        # - { seed: "10105", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}", nodeLabel: "inst02"}
+        # - { seed: "10106", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}", nodeLabel: "inst03"}
         dependencies: [agg-00]
         # when: "{{tasks.agg-00.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -247,11 +247,11 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "10201", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}", nodeLabel: "inst01"}
-        - { seed: "10202", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "inst02"}
-        - { seed: "10203", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}", nodeLabel: "inst03"}
-        - { seed: "10204", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}", nodeLabel: "inst01"}
-        - { seed: "10205", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}", nodeLabel: "inst02"}
-        - { seed: "10206", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}", nodeLabel: "inst03"}
+        # - { seed: "10202", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "inst02"}
+        # - { seed: "10203", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}", nodeLabel: "inst03"}
+        # - { seed: "10204", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}", nodeLabel: "inst01"}
+        # - { seed: "10205", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}", nodeLabel: "inst02"}
+        # - { seed: "10206", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}", nodeLabel: "inst03"}
         dependencies: [agg-01]
         # when: "{{tasks.agg-01.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
@@ -310,11 +310,11 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "10301", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}", nodeLabel: "inst01"}
-        - { seed: "10302", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "inst02"}
-        - { seed: "10303", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}", nodeLabel: "inst03"}
-        - { seed: "10304", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}", nodeLabel: "inst01"}
-        - { seed: "10305", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}", nodeLabel: "inst02"}
-        - { seed: "10306", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}", nodeLabel: "inst03"}
+        # - { seed: "10302", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "inst02"}
+        # - { seed: "10303", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}", nodeLabel: "inst03"}
+        # - { seed: "10304", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}", nodeLabel: "inst01"}
+        # - { seed: "10305", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}", nodeLabel: "inst02"}
+        # - { seed: "10306", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}", nodeLabel: "inst03"}
         # dependencies: [agg-02]
         dependencies: [agg-02]
 
@@ -372,11 +372,11 @@ spec:
           #   value: "{{item.label_groups_trn}}"
         withItems:
         - { seed: "10401", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}", nodeLabel: "inst01"}
-        - { seed: "10402", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "inst02"}
-        - { seed: "10403", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}", nodeLabel: "inst03"}
-        - { seed: "10404", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}", nodeLabel: "inst01"}
-        - { seed: "10405", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}", nodeLabel: "inst02"}
-        - { seed: "10406", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}", nodeLabel: "inst03"}
+        # - { seed: "10402", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_0_4}}", nodeLabel: "inst02"}
+        # - { seed: "10403", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_0_4}}", nodeLabel: "inst03"}
+        # - { seed: "10404", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_0_4}}", nodeLabel: "inst01"}
+        # - { seed: "10405", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_0_4}}", nodeLabel: "inst02"}
+        # - { seed: "10406", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_0_4}}", nodeLabel: "inst03"}
         dependencies: [agg-03]
         # when: "{{tasks.agg-03.outputs.parameters.next-round}} < {{workflow.parameters.rounds}}"
 
