@@ -1534,7 +1534,6 @@ spec:
       - name: sel_list
     container:
       image: dwnusa/fedpod:v0.4.17-test-cuda
-      # imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
         - >
