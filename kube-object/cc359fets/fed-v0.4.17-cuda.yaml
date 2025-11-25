@@ -1426,7 +1426,7 @@ spec:
         - >
           ./{{inputs.parameters.train-script}} 
           -S {{inputs.parameters.seed}} 
-          -s 1
+          -s 0
           -f 10
           -m [20,60]
           -g 1 
@@ -1538,7 +1538,7 @@ spec:
       args: 
         - >
           ./{{inputs.parameters.run-script}}
-          -s 1
+          -s 0
           -g 1
           -J {{inputs.parameters.job-name}}
           -i {{inputs.parameters.inst-id}}
