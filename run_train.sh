@@ -75,7 +75,7 @@ python3 scripts/run_train.py \
   \
   --resize 128 \
   --patch_size 128 \
-  --zoom 2 \
+  --zoom 1 \
   --flip_lr $flip_lr \
   --dataset $data_set \
   --data_root $data_root \
