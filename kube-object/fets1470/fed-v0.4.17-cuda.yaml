@@ -1792,9 +1792,9 @@ spec:
         requests:
           cpu: "8" # "8"
           memory: "16G" # "4G"
-          nvidia.com/gpu: "{{inputs.parameters.gpu}}"
+          nvidia.com/gpu: {{inputs.parameters.gpu}}
         limits:
-          nvidia.com/gpu: "{{inputs.parameters.gpu}}"
+          nvidia.com/gpu: {{inputs.parameters.gpu}}
       volumeMounts:
       - name: fedpod-volume
         mountPath: /fedpod   # 컨테이너 내부
@@ -1906,9 +1906,9 @@ spec:
         requests:
           cpu: "8" # "2"
           memory: "16G" #"4G"
-          nvidia.com/gpu: "{{inputs.parameters.gpu}}"
+          nvidia.com/gpu: {{inputs.parameters.gpu}}
         limits:
-          nvidia.com/gpu: "{{inputs.parameters.gpu}}"
+          nvidia.com/gpu: {{inputs.parameters.gpu}}
       volumeMounts:
       - name: fedpod-volume
         mountPath: /fedpod   # 컨테이너 내부
