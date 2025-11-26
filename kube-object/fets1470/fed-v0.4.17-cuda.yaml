@@ -1745,8 +1745,8 @@ spec:
   #           inst: "0", 
   #           split_csv: "{{workflow.parameters.split_csv}}", 
   #           model_pth: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R20r20/models/R20r20_agg.pth"}
-
-  - name: train-job
+# GPU 사용 작업 템플릿
+  - name: train-job-gpu
     inputs:
       parameters:
       - name: job-name
@@ -1768,8 +1768,8 @@ spec:
         - >
           ./{{inputs.parameters.train-script}} 
           -S {{inputs.parameters.seed}} 
-          -s 0
-          -f 10
+          -s 0 
+          -f 10 
           -m [20,60]
           -g {{inputs.parameters.gpu}} 
           -L 0 
@@ -1790,11 +1790,11 @@ spec:
           -I {{workflow.parameters.label_index}}
       resources:
         requests:
-          cpu: "8" # "8"
-          memory: "16G" # "4G"
-          nvidia.com/gpu: "{{= int(inputs.parameters.gpu) }}"
+          cpu: "8"
+          memory: "16G"
+          nvidia.com/gpu: "{{inputs.parameters.gpu}}"
         limits:
-          nvidia.com/gpu: "{{= int(inputs.parameters.gpu) }}"
+          nvidia.com/gpu: "{{inputs.parameters.gpu}}"
       volumeMounts:
       - name: fedpod-volume
         mountPath: /fedpod   # 컨테이너 내부
@@ -1805,6 +1805,201 @@ spec:
       hostPath:
         path: /fedpod   # 호스트 경로
         type: Directory
+
+# CPU 전용 작업 템플릿
+  - name: train-job-cpu
+    inputs:
+      parameters:
+      - name: job-name
+      - name: seed
+      - name: split_csv
+      - name: train-script
+      - name: round
+      - name: epochs
+      - name: epoch
+      - name: inst-id
+      - name: model_pth
+      - name: data_percentage
+      - name: nodeLabel
+      - name: gpu
+    container:
+      image: dwnusa/fedpod:v0.4.17-test-cuda
+      command: ["/bin/sh", "-c"]
+      args:
+        - >
+          ./{{inputs.parameters.train-script}} 
+          -S {{inputs.parameters.seed}} 
+          -s 0 
+          -f 10 
+          -m [20,60]
+          -g 0
+          -L 0 
+          -J {{inputs.parameters.job-name}} 
+          -R {{workflow.parameters.rounds}} 
+          -r {{inputs.parameters.round}} 
+          -E {{inputs.parameters.epochs}} 
+          -e {{inputs.parameters.epoch}} 
+          -i {{inputs.parameters.inst-id}} 
+          -c {{inputs.parameters.split_csv}} 
+          -M {{inputs.parameters.model_pth}}
+          -p {{inputs.parameters.data_percentage}}
+          -D {{workflow.parameters.data_root}} 
+          -d {{workflow.parameters.data_set}}
+          -C {{workflow.parameters.input_channel_names}}
+          -G {{workflow.parameters.label_groups}}
+          -N {{workflow.parameters.label_names}}
+          -I {{workflow.parameters.label_index}}
+      resources:
+        requests:
+          cpu: "8"
+          memory: "16G"
+        # nvidia.com/gpu 제거됨
+      volumeMounts:
+      - name: fedpod-volume
+        mountPath: /fedpod   # 컨테이너 내부
+      stdin: true
+      tty: true
+    volumes:
+    - name: fedpod-volume
+      hostPath:
+        path: /fedpod   # 호스트 경로
+        type: Directory
+
+# 조건부 실행을 위한 wrapper 템플릿
+  - name: train-job
+    inputs:
+      parameters:
+      - name: job-name
+      - name: seed
+      - name: split_csv
+      - name: train-script
+      - name: round
+      - name: epochs
+      - name: epoch
+      - name: inst-id
+      - name: model_pth
+      - name: data_percentage
+      - name: nodeLabel
+      - name: gpu
+    steps:
+    - - name: run-with-gpu
+        template: train-job-gpu
+        arguments:
+          parameters:
+          - name: job-name
+            value: "{{inputs.parameters.job-name}}"
+          - name: seed
+            value: "{{inputs.parameters.seed}}"
+          - name: split_csv
+            value: "{{inputs.parameters.split_csv}}"
+          - name: train-script
+            value: "{{inputs.parameters.train-script}}"
+          - name: round
+            value: "{{inputs.parameters.round}}"
+          - name: epochs
+            value: "{{inputs.parameters.epochs}}"
+          - name: epoch
+            value: "{{inputs.parameters.epoch}}"
+          - name: inst-id
+            value: "{{inputs.parameters.inst-id}}"
+          - name: model_pth
+            value: "{{inputs.parameters.model_pth}}"
+          - name: data_percentage
+            value: "{{inputs.parameters.data_percentage}}"
+          - name: nodeLabel
+            value: "{{inputs.parameters.nodeLabel}}"
+          - name: gpu
+            value: "{{inputs.parameters.gpu}}"
+        when: "{{inputs.parameters.gpu}} != 0"
+      - name: run-with-cpu
+        template: train-job-cpu
+        arguments:
+          parameters:
+          - name: job-name
+            value: "{{inputs.parameters.job-name}}"
+          - name: seed
+            value: "{{inputs.parameters.seed}}"
+          - name: split_csv
+            value: "{{inputs.parameters.split_csv}}"
+          - name: train-script
+            value: "{{inputs.parameters.train-script}}"
+          - name: round
+            value: "{{inputs.parameters.round}}"
+          - name: epochs
+            value: "{{inputs.parameters.epochs}}"
+          - name: epoch
+            value: "{{inputs.parameters.epoch}}"
+          - name: inst-id
+            value: "{{inputs.parameters.inst-id}}"
+          - name: model_pth
+            value: "{{inputs.parameters.model_pth}}"
+          - name: data_percentage
+            value: "{{inputs.parameters.data_percentage}}"
+          - name: nodeLabel
+            value: "{{inputs.parameters.nodeLabel}}"
+          - name: gpu
+            value: "0"
+        when: "{{inputs.parameters.gpu}} == 0"
+
+  # - name: train-job
+  #   inputs:
+  #     parameters:
+  #     - name: job-name
+  #     - name: seed
+  #     - name: split_csv
+  #     - name: train-script
+  #     - name: round
+  #     - name: epochs
+  #     - name: epoch
+  #     - name: inst-id
+  #     - name: model_pth
+  #     - name: data_percentage
+  #     - name: nodeLabel
+  #     - name: gpu
+  #   container:
+  #     image: dwnusa/fedpod:v0.4.17-test-cuda
+  #     command: ["/bin/sh", "-c"]
+  #     args:
+  #       - >
+  #         ./{{inputs.parameters.train-script}} 
+  #         -S {{inputs.parameters.seed}} 
+  #         -s 0
+  #         -f 10
+  #         -m [20,60]
+  #         -g {{inputs.parameters.gpu}} 
+  #         -L 0 
+  #         -J {{inputs.parameters.job-name}} 
+  #         -R {{workflow.parameters.rounds}} 
+  #         -r {{inputs.parameters.round}} 
+  #         -E {{inputs.parameters.epochs}} 
+  #         -e {{inputs.parameters.epoch}} 
+  #         -i {{inputs.parameters.inst-id}} 
+  #         -c {{inputs.parameters.split_csv}} 
+  #         -M {{inputs.parameters.model_pth}}
+  #         -p {{inputs.parameters.data_percentage}}
+  #         -D {{workflow.parameters.data_root}} 
+  #         -d {{workflow.parameters.data_set}}
+  #         -C {{workflow.parameters.input_channel_names}}
+  #         -G {{workflow.parameters.label_groups}}
+  #         -N {{workflow.parameters.label_names}}
+  #         -I {{workflow.parameters.label_index}}
+  #     resources:
+  #       requests:
+  #         cpu: "8" # "8"
+  #         memory: "16G" # "4G"
+  #         nvidia.com/gpu: "{{inputs.parameters.gpu}}"
+  #       limits:
+  #         nvidia.com/gpu: "{{inputs.parameters.gpu}}"
+  #     volumeMounts:
+  #     - name: fedpod-volume
+  #       mountPath: /fedpod   # 컨테이너 내부
+  #     stdin: true
+  #     tty: true
+  #   volumes:
+  #   - name: fedpod-volume
+  #     hostPath:
+  #       path: /fedpod   # 호스트 경로
+  #       type: Directory
 
   - name: aggregation-job
     inputs:
@@ -1885,7 +2080,7 @@ spec:
         - >
           ./{{inputs.parameters.run-script}}
           -s 1
-          -g {{inputs.parameters.gpu}}
+          -g 0
           -J {{inputs.parameters.job-name}}
           -i {{inputs.parameters.inst-id}}
           -R {{inputs.parameters.rounds}}
@@ -1906,9 +2101,6 @@ spec:
         requests:
           cpu: "8" # "2"
           memory: "16G" #"4G"
-          nvidia.com/gpu: "{{= int(inputs.parameters.gpu) }}"
-        limits:
-          nvidia.com/gpu: "{{= int(inputs.parameters.gpu) }}"
       volumeMounts:
       - name: fedpod-volume
         mountPath: /fedpod   # 컨테이너 내부
