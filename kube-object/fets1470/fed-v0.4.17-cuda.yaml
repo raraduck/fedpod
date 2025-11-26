@@ -122,6 +122,8 @@ spec:
             value: "{{item.data_percentage}}"
           - name: nodeLabel
             value: "{{item.nodeLabel}}"
+          - name: gpu
+            value: "{{item.gpu}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -198,6 +200,8 @@ spec:
             value: "{{item.data_percentage}}"
           - name: nodeLabel
             value: "{{item.nodeLabel}}"
+          - name: gpu
+            value: "{{item.gpu}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -278,6 +282,8 @@ spec:
             value: "{{item.data_percentage}}"
           - name: nodeLabel
             value: "{{item.nodeLabel}}"
+          - name: gpu
+            value: "{{item.gpu}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -358,6 +364,8 @@ spec:
             value: "{{item.data_percentage}}"
           - name: nodeLabel
             value: "{{item.nodeLabel}}"
+          - name: gpu
+            value: "{{item.gpu}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -437,6 +445,8 @@ spec:
             value: "{{item.data_percentage}}"
           - name: nodeLabel
             value: "{{item.nodeLabel}}"
+          - name: gpu
+            value: "{{item.gpu}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -521,6 +531,8 @@ spec:
             value: "{{item.data_percentage}}"
           - name: nodeLabel
             value: "{{item.nodeLabel}}"
+          - name: gpu
+            value: "{{item.gpu}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -602,6 +614,8 @@ spec:
             value: "{{item.data_percentage}}"
           - name: nodeLabel
             value: "{{item.nodeLabel}}"
+          - name: gpu
+            value: "{{item.gpu}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -681,6 +695,8 @@ spec:
             value: "{{item.data_percentage}}"
           - name: nodeLabel
             value: "{{item.nodeLabel}}"
+          - name: gpu
+            value: "{{item.gpu}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -760,6 +776,8 @@ spec:
             value: "{{item.data_percentage}}"
           - name: nodeLabel
             value: "{{item.nodeLabel}}"
+          - name: gpu
+            value: "{{item.gpu}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -839,6 +857,8 @@ spec:
             value: "{{item.data_percentage}}"
           - name: nodeLabel
             value: "{{item.nodeLabel}}"
+          - name: gpu
+            value: "{{item.gpu}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -922,6 +942,8 @@ spec:
             value: "{{item.data_percentage}}"
           - name: nodeLabel
             value: "{{item.nodeLabel}}"
+          - name: gpu
+            value: "{{item.gpu}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -1003,6 +1025,8 @@ spec:
             value: "{{item.data_percentage}}"
           - name: nodeLabel
             value: "{{item.nodeLabel}}"
+          - name: gpu
+            value: "{{item.gpu}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -1083,6 +1107,8 @@ spec:
             value: "{{item.data_percentage}}"
           - name: nodeLabel
             value: "{{item.nodeLabel}}"
+          - name: gpu
+            value: "{{item.gpu}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -1163,6 +1189,8 @@ spec:
             value: "{{item.data_percentage}}"
           - name: nodeLabel
             value: "{{item.nodeLabel}}"
+          - name: gpu
+            value: "{{item.gpu}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -1243,6 +1271,8 @@ spec:
             value: "{{item.data_percentage}}"
           - name: nodeLabel
             value: "{{item.nodeLabel}}"
+          - name: gpu
+            value: "{{item.gpu}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -1323,6 +1353,8 @@ spec:
             value: "{{item.data_percentage}}"
           - name: nodeLabel
             value: "{{item.nodeLabel}}"
+          - name: gpu
+            value: "{{item.gpu}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -1404,6 +1436,8 @@ spec:
             value: "{{item.data_percentage}}"
           - name: nodeLabel
             value: "{{item.nodeLabel}}"
+          - name: gpu
+            value: "{{item.gpu}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -1484,6 +1518,8 @@ spec:
             value: "{{item.data_percentage}}"
           - name: nodeLabel
             value: "{{item.nodeLabel}}"
+          - name: gpu
+            value: "{{item.gpu}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -1564,6 +1600,8 @@ spec:
             value: "{{item.data_percentage}}"
           - name: nodeLabel
             value: "{{item.nodeLabel}}"
+          - name: gpu
+            value: "{{item.gpu}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -1644,6 +1682,8 @@ spec:
             value: "{{item.data_percentage}}"
           - name: nodeLabel
             value: "{{item.nodeLabel}}"
+          - name: gpu
+            value: "{{item.gpu}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
