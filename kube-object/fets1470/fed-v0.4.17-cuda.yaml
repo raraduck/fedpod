@@ -950,7 +950,7 @@ spec:
         - { seed: "11001", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_10_14}}", nodeLabel: "round10", gpu: "1"}
         - { seed: "11002", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_10_14}}", nodeLabel: "round10", gpu: "0"}
         - { seed: "11003", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_10_14}}", nodeLabel: "round10", gpu: "0"}
-        - { seed: "11004", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_10_14}}", nodeLabel: "round10", gpu: "0"}
+        - { seed: "11004", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_10_14}}", nodeLabel: "round10", gpu: "1"}
         - { seed: "11005", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_10_14}}", nodeLabel: "round10", gpu: "0"}
         - { seed: "11006", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_10_14}}", nodeLabel: "round10", gpu: "0"}
         - { seed: "11007", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_10_14}}", nodeLabel: "round10", gpu: "0"}
@@ -1033,7 +1033,7 @@ spec:
         - { seed: "11101", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_10_14}}", nodeLabel: "round11", gpu: "1"}
         - { seed: "11102", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_10_14}}", nodeLabel: "round11", gpu: "0"}
         - { seed: "11103", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_10_14}}", nodeLabel: "round11", gpu: "0"}
-        - { seed: "11104", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_10_14}}", nodeLabel: "round11", gpu: "0"}
+        - { seed: "11104", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_10_14}}", nodeLabel: "round11", gpu: "1"}
         - { seed: "11105", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_10_14}}", nodeLabel: "round11", gpu: "0"}
         - { seed: "11106", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_10_14}}", nodeLabel: "round11", gpu: "0"}
         - { seed: "11107", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_10_14}}", nodeLabel: "round11", gpu: "0"}
@@ -1115,7 +1115,7 @@ spec:
         - { seed: "11201", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_10_14}}", nodeLabel: "round12", gpu: "1"}
         - { seed: "11202", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_10_14}}", nodeLabel: "round12", gpu: "0"}
         - { seed: "11203", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_10_14}}", nodeLabel: "round12", gpu: "0"}
-        - { seed: "11204", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_10_14}}", nodeLabel: "round12", gpu: "0"}
+        - { seed: "11204", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_10_14}}", nodeLabel: "round12", gpu: "1"}
         - { seed: "11205", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_10_14}}", nodeLabel: "round12", gpu: "0"}
         - { seed: "11206", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_10_14}}", nodeLabel: "round12", gpu: "0"}
         - { seed: "11207", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_10_14}}", nodeLabel: "round12", gpu: "0"}
@@ -1197,7 +1197,7 @@ spec:
         - { seed: "11301", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_10_14}}", nodeLabel: "round13", gpu: "1"}
         - { seed: "11302", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_10_14}}", nodeLabel: "round13", gpu: "0"}
         - { seed: "11303", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_10_14}}", nodeLabel: "round13", gpu: "0"}
-        - { seed: "11304", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_10_14}}", nodeLabel: "round13", gpu: "0"}
+        - { seed: "11304", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_10_14}}", nodeLabel: "round13", gpu: "1"}
         - { seed: "11305", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_10_14}}", nodeLabel: "round13", gpu: "0"}
         - { seed: "11306", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_10_14}}", nodeLabel: "round13", gpu: "0"}
         - { seed: "11307", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_10_14}}", nodeLabel: "round13", gpu: "0"}
@@ -1279,7 +1279,7 @@ spec:
         - { seed: "11401", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_10_14}}", nodeLabel: "round14", gpu: "1"}
         - { seed: "11402", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_10_14}}", nodeLabel: "round14", gpu: "0"}
         - { seed: "11403", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_10_14}}", nodeLabel: "round14", gpu: "0"}
-        - { seed: "11404", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_10_14}}", nodeLabel: "round14", gpu: "0"}
+        - { seed: "11404", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_10_14}}", nodeLabel: "round14", gpu: "1"}
         - { seed: "11405", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_10_14}}", nodeLabel: "round14", gpu: "0"}
         - { seed: "11406", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_10_14}}", nodeLabel: "round14", gpu: "0"}
         - { seed: "11407", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_10_14}}", nodeLabel: "round14", gpu: "0"}
@@ -1361,7 +1361,7 @@ spec:
         - { seed: "11501", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_15_19}}", nodeLabel: "round15", gpu: "1"}
         - { seed: "11502", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_15_19}}", nodeLabel: "round15", gpu: "0"}
         - { seed: "11503", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_15_19}}", nodeLabel: "round15", gpu: "0"}
-        - { seed: "11504", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_15_19}}", nodeLabel: "round15", gpu: "0"}
+        - { seed: "11504", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_15_19}}", nodeLabel: "round15", gpu: "1"}
         - { seed: "11505", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_15_19}}", nodeLabel: "round15", gpu: "0"}
         - { seed: "11506", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_15_19}}", nodeLabel: "round15", gpu: "0"}
         - { seed: "11507", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_15_19}}", nodeLabel: "round15", gpu: "0"}
@@ -1444,7 +1444,7 @@ spec:
         - { seed: "11601", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_15_19}}", nodeLabel: "round16", gpu: "1"}
         - { seed: "11602", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_15_19}}", nodeLabel: "round16", gpu: "0"}
         - { seed: "11603", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_15_19}}", nodeLabel: "round16", gpu: "0"}
-        - { seed: "11604", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_15_19}}", nodeLabel: "round16", gpu: "0"}
+        - { seed: "11604", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_15_19}}", nodeLabel: "round16", gpu: "1"}
         - { seed: "11605", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_15_19}}", nodeLabel: "round16", gpu: "0"}
         - { seed: "11606", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_15_19}}", nodeLabel: "round16", gpu: "0"}
         - { seed: "11607", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_15_19}}", nodeLabel: "round16", gpu: "0"}
@@ -1526,7 +1526,7 @@ spec:
         - { seed: "11701", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_15_19}}", nodeLabel: "round17", gpu: "1"}
         - { seed: "11702", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_15_19}}", nodeLabel: "round17", gpu: "0"}
         - { seed: "11703", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_15_19}}", nodeLabel: "round17", gpu: "0"}
-        - { seed: "11704", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_15_19}}", nodeLabel: "round17", gpu: "0"}
+        - { seed: "11704", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_15_19}}", nodeLabel: "round17", gpu: "1"}
         - { seed: "11705", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_15_19}}", nodeLabel: "round17", gpu: "0"}
         - { seed: "11706", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_15_19}}", nodeLabel: "round17", gpu: "0"}
         - { seed: "11707", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_15_19}}", nodeLabel: "round17", gpu: "0"}
@@ -1608,7 +1608,7 @@ spec:
         - { seed: "11801", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_15_19}}", nodeLabel: "round18", gpu: "1"}
         - { seed: "11802", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_15_19}}", nodeLabel: "round18", gpu: "0"}
         - { seed: "11803", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_15_19}}", nodeLabel: "round18", gpu: "0"}
-        - { seed: "11804", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_15_19}}", nodeLabel: "round18", gpu: "0"}
+        - { seed: "11804", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_15_19}}", nodeLabel: "round18", gpu: "1"}
         - { seed: "11805", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_15_19}}", nodeLabel: "round18", gpu: "0"}
         - { seed: "11806", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_15_19}}", nodeLabel: "round18", gpu: "0"}
         - { seed: "11807", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_15_19}}", nodeLabel: "round18", gpu: "0"}
@@ -1690,7 +1690,7 @@ spec:
         - { seed: "11901", inst:  "1", data_percentage: "{{workflow.parameters.inst_01_ratio_15_19}}", nodeLabel: "round19", gpu: "1"}
         - { seed: "11902", inst:  "2", data_percentage: "{{workflow.parameters.inst_02_ratio_15_19}}", nodeLabel: "round19", gpu: "0"}
         - { seed: "11903", inst:  "3", data_percentage: "{{workflow.parameters.inst_03_ratio_15_19}}", nodeLabel: "round19", gpu: "0"}
-        - { seed: "11904", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_15_19}}", nodeLabel: "round19", gpu: "0"}
+        - { seed: "11904", inst:  "4", data_percentage: "{{workflow.parameters.inst_04_ratio_15_19}}", nodeLabel: "round19", gpu: "1"}
         - { seed: "11905", inst:  "5", data_percentage: "{{workflow.parameters.inst_05_ratio_15_19}}", nodeLabel: "round19", gpu: "0"}
         - { seed: "11906", inst:  "6", data_percentage: "{{workflow.parameters.inst_06_ratio_15_19}}", nodeLabel: "round19", gpu: "0"}
         - { seed: "11907", inst:  "7", data_percentage: "{{workflow.parameters.inst_07_ratio_15_19}}", nodeLabel: "round19", gpu: "0"}
@@ -1830,7 +1830,7 @@ spec:
           -I {{workflow.parameters.label_index}}
       resources:
         requests:
-          cpu: "8"
+          cpu: "4"
           memory: "16G"
           nvidia.com/gpu: "1"
         limits:
@@ -1891,7 +1891,7 @@ spec:
           -I {{workflow.parameters.label_index}}
       resources:
         requests:
-          cpu: "8"
+          cpu: "4"
           memory: "16G"
         # nvidia.com/gpu 제거됨
       volumeMounts:
