@@ -19,3 +19,5 @@ seg_postfix: "_seg"
 split_csv: "experiments/FETS1470_v4_cen_test.csv"
 
 init_model: "None"
+
+inst_01_ratio_0_4: "100"
