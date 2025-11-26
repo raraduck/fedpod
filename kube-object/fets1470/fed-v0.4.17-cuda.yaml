@@ -1792,9 +1792,9 @@ spec:
         requests:
           cpu: "8"
           memory: "16G"
-          nvidia.com/gpu: "{{inputs.parameters.gpu}}"
+          nvidia.com/gpu: "1"
         limits:
-          nvidia.com/gpu: "{{inputs.parameters.gpu}}"
+          nvidia.com/gpu: "1"
       volumeMounts:
       - name: fedpod-volume
         mountPath: /fedpod   # 컨테이너 내부
