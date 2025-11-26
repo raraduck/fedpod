@@ -26,7 +26,8 @@ spec:
       value: "undefined"
     - name: split_csv
       value: "undefined"
-
+    - name: data_root
+      value: "inst_00"
     - name: model_pth
       value: "None"
       
@@ -59,7 +60,7 @@ spec:
           - name: data_set
             value: "{{workflow.parameters.data_set}}"
           - name: inst_root
-            value: "inst_00"
+            value: "{{workflow.parameters.inst_root}}"
           - name: input_channels
             value: "{{workflow.parameters.input_channel_names}}"
           - name: label_groups
