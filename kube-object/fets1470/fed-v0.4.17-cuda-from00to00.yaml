@@ -127,63 +127,63 @@ spec:
         withItems:
         - { seed: "10001", inst:  "0", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}", nodeLabel: "round00", gpu: "1"}
 
-      - name: agg-00
-        template: aggregation-job
-        arguments:
-          parameters:
-          - name: agg-script
-            value: "{{workflow.parameters.agg-script}}"
-          - name: round
-            value: "{{workflow.parameters.initial-round}}"
-          - name: epochs
-            value: "000"
-          - name: epoch
-            value: "{{workflow.parameters.initial-epoch}}"
-          - name: inst-id
-            value: "0"
-          - name: model_pth
-            value: "None"
-          - name: nodeLabel
-            value: "inst00"
-          - name: algorithm
-            value: "{{workflow.parameters.agg-algo}}"
-        dependencies: [train-00]
+      # - name: agg-00
+      #   template: aggregation-job
+      #   arguments:
+      #     parameters:
+      #     - name: agg-script
+      #       value: "{{workflow.parameters.agg-script}}"
+      #     - name: round
+      #       value: "{{workflow.parameters.initial-round}}"
+      #     - name: epochs
+      #       value: "000"
+      #     - name: epoch
+      #       value: "{{workflow.parameters.initial-epoch}}"
+      #     - name: inst-id
+      #       value: "0"
+      #     - name: model_pth
+      #       value: "None"
+      #     - name: nodeLabel
+      #       value: "inst00"
+      #     - name: algorithm
+      #       value: "{{workflow.parameters.agg-algo}}"
+      #   dependencies: [train-00]
 
-      # Round 1
-      - name: train-01
-        template: train-job
-        arguments:
-          parameters:
-          - name: job-name
-            value: "{{workflow.parameters.job-prefix}}_{{item.inst}}"
-          - name: seed
-            value: "{{item.seed}}"
-          - name: split_csv
-            value: "{{workflow.parameters.split_csv}}"
-          - name: train-script
-            value: "{{workflow.parameters.train-script}}"
-          - name: round
-            value: "{{tasks.agg-00.outputs.parameters.next-round}}"
-          - name: epochs
-            value: "003"
-          - name: epoch
-            value: "{{tasks.agg-00.outputs.parameters.next-epoch}}"
-          - name: inst-id
-            value: "{{item.inst}}"
-          - name: model_pth
-            value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}_agg.pth"
-          - name: data_percentage
-            value: "{{item.data_percentage}}"
-          - name: nodeLabel
-            value: "{{item.nodeLabel}}"
-          - name: gpu
-            value: "{{item.gpu}}"
-          # - name: label_groups_trn
-          #   value: "{{item.label_groups_trn}}"
-        withItems:
-        - { seed: "10101", inst:  "0", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}", nodeLabel: "round01", gpu: "1"}
+      # # Round 1
+      # - name: train-01
+      #   template: train-job
+      #   arguments:
+      #     parameters:
+      #     - name: job-name
+      #       value: "{{workflow.parameters.job-prefix}}_{{item.inst}}"
+      #     - name: seed
+      #       value: "{{item.seed}}"
+      #     - name: split_csv
+      #       value: "{{workflow.parameters.split_csv}}"
+      #     - name: train-script
+      #       value: "{{workflow.parameters.train-script}}"
+      #     - name: round
+      #       value: "{{tasks.agg-00.outputs.parameters.next-round}}"
+      #     - name: epochs
+      #       value: "003"
+      #     - name: epoch
+      #       value: "{{tasks.agg-00.outputs.parameters.next-epoch}}"
+      #     - name: inst-id
+      #       value: "{{item.inst}}"
+      #     - name: model_pth
+      #       value: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}/models/R{{workflow.parameters.rounds}}r{{tasks.agg-00.outputs.parameters.next-round}}_agg.pth"
+      #     - name: data_percentage
+      #       value: "{{item.data_percentage}}"
+      #     - name: nodeLabel
+      #       value: "{{item.nodeLabel}}"
+      #     - name: gpu
+      #       value: "{{item.gpu}}"
+      #     # - name: label_groups_trn
+      #     #   value: "{{item.label_groups_trn}}"
+      #   withItems:
+      #   - { seed: "10101", inst:  "0", data_percentage: "{{workflow.parameters.inst_01_ratio_0_4}}", nodeLabel: "round01", gpu: "1"}
 
-        dependencies: [agg-00]
+      #   dependencies: [agg-00]
   # # Round 20 (Inference)
   # - name: infer-test-dag
   #   dag:
