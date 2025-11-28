@@ -1830,7 +1830,7 @@ spec:
           -I {{workflow.parameters.label_index}}
       resources:
         requests:
-          cpu: "4"
+          cpu: "2"
           memory: "16G"
           nvidia.com/gpu: "1"
         limits:
