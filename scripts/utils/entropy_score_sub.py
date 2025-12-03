@@ -1,78 +1,95 @@
 import os
-import shutil
-import nibabel as nib
 import sys
+import csv
 import numpy as np
-import torch
-import torch.nn.functional as F
-import glob
-import metrics as metrics
-from misc import *
-import math
+import nibabel as nib
 
-seg_names_left  = "LVS,LAC,LPC,LAP,LPP,LVP".split(",")
-seg_names_right = "RVS,RAC,RPC,RAP,RPP,RVP".split(",")
 
-def multiclass_entropy_from_rois(pid_dir, pid, roi_names, thr=0.01, eps=1e-10):
-    prob_maps = []
-    for roi in roi_names:
-        fname = os.path.join(pid_dir, f"{pid}_{roi}_prb.nii.gz")
-        vol = nib.load(fname).get_fdata() / 255.0  # [0,1]로 스케일
-        prob_maps.append(vol)
+# --------------------
+#  ENTROPY FUNCTION
+# --------------------
+def compute_entropy_from_volume(seg_mean, lower=30, upper=255, max_value=255.0):
+    """Intensity-distribution entropy (현재 사용 중인 방식)"""
+    seg_mean = seg_mean / max_value
 
-    # shape: (K, H, W, D)
-    probs = np.stack(prob_maps, axis=0)
+    # intensity 범위 기반 ROI 선택
+    mask = (seg_mean >= lower / max_value) & (seg_mean <= upper / max_value)
+    roi_values = seg_mean[mask]
 
-    # 혹시 합이 1이 안 될 수도 있으니 정규화
-    sum_probs = np.sum(probs, axis=0, keepdims=True) + eps
-    probs = probs / sum_probs
-
-    # foreground mask: 어느 클래스든 thr 이상인 voxel만
-    fg_mask = np.any(probs > thr, axis=0)
-
-    if not np.any(fg_mask):
+    total = np.sum(roi_values)
+    if total == 0:
         return 0.0
 
-    p_sel = probs[:, fg_mask]  # (K, N_fg)
-
-    # multi-class entropy: -sum_k p_k log p_k
-    entropy_vox = -np.sum(p_sel * np.log(p_sel + eps), axis=0)  # (N_fg,)
-
-    # log(K)로 나서 [0,1]로 정규화 (해석용)
-    H_norm = entropy_vox / math.log(probs.shape[0])
-
-    return float(np.mean(H_norm))
+    probs = roi_values / total
+    entropy = -np.sum(probs * np.log(probs + 1e-10))
+    return float(entropy)
 
 
+def load_nii(path):
+    return nib.load(path).get_fdata()
+
+
+# --------------------
+#  MAIN
+# --------------------
 def main(src_base):
+
+    # 12개 태그 정의
+    tags_L = ["LVS","LAC","LPC","LAP","LPP","LVP"]
+    tags_R = ["RVS","RAC","RPC","RAP","RPP","RVP"]
+    tags_all = tags_L + tags_R   # 12개
+
     base_path = os.path.join(os.getcwd(), src_base)
     pid_list = sorted(os.listdir(base_path))
 
-    print(f"=== Multi-class normalized entropy (0~1) for {len(pid_list)} subjects ===\n")
+    # CSV 출력 파일명
+    out_csv = os.path.join(os.getcwd(), "entropy_table.csv")
+
+    # CSV Header
+    header = ["PID"] + [f"ENT_{t}" for t in tags_all]
+
+    rows = []
+
+    print(f"=== Computing ENTROPY for {len(pid_list)} subjects ===")
 
     for pid in pid_list:
         pid_dir = os.path.join(base_path, pid)
 
-        H_L = multiclass_entropy_from_rois(pid_dir, pid, seg_names_left)
-        H_R = multiclass_entropy_from_rois(pid_dir, pid, seg_names_right)
+        row = [pid]   # 첫 컬럼 = PID
 
-        print(f"[{pid}] LS H_mc: {H_L:.3f} | RS H_mc: {H_R:.3f}")
+        # -------------------------
+        # 12개 ROI 각각 ENT 계산
+        # -------------------------
+        for tag in tags_all:
+            nii_path = os.path.join(pid_dir, f"{pid}_{tag}_prb.nii.gz")
+
+            if os.path.exists(nii_path):
+                vol = load_nii(nii_path)
+                ent = compute_entropy_from_volume(vol, lower=30, upper=200)
+            else:
+                ent = None
+
+            row.append(ent)
+
+        rows.append(row)
+
+    # -------------------------
+    # CSV 저장
+    # -------------------------
+    with open(out_csv, "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(header)
+        writer.writerows(rows)
+
+    print(f"\nCSV 저장 완료 → {out_csv}")
 
 
-# def entropy_from_probmap_uncertain(vol, low=0.1, high=0.9, eps=1e-10):
-#     p = np.clip(vol, eps, 1 - eps)
-#     mask = (p > low) & (p < high)
-#     p_sel = p[mask]
-#     if p_sel.size == 0:
-#         return 0.0
-#     ent = -p_sel * np.log(p_sel) - (1 - p_sel) * np.log(1 - p_sel)
-#     return float(np.mean(ent))
-
-
+# --------------------
+# ENTRY POINT
+# --------------------
 if __name__ == '__main__':
     if len(sys.argv) == 2:
         src_base = os.path.normpath(str(sys.argv[1]))
-        # merge_roi_probmaps(src_base)
         main(src_base)
     else:
         print("Usage: python script.py <src_base_path>")
