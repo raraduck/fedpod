@@ -20,6 +20,8 @@ __pycache__
 data*
 case_metrics.csv
 case_metrics_summary.txt
+entropy_*
+~$*
 
 cc359ppmi_first
 cc359ppmicmc

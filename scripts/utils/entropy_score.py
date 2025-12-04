@@ -36,20 +36,24 @@ def case_load(filename, case_dir):
     src_vol = load_nii(src_file)
     return src_vol
 
-def main():
-    base_path = os.path.dirname(os.path.abspath(__file__))
-    node_path = os.path.join(base_path, 'data', 'sol1')
-    save_path = os.path.join(node_path, "sol1-output")
+def main(src_base):
+    c_path = os.getcwd()
+    src_path = os.path.join(c_path, src_base)
+    # src_list = os.listdir(src_path)
+    # base_path = os.path.dirname(os.path.abspath(__file__))
+    # node_path = os.path.join(base_path, 'data', 'sol1')
+    # save_path = os.path.join(node_path, "sol1-output")
     node_names = [
-        "sol1-node1_0_forward", 
-        "sol1-node2_0_forward", 
-        "sol1-node3_0_forward", 
-        "sol1-node4_0_forward", 
-        "sol1-node5_0_forward", 
-        "sol1-node6_0_forward"
+        # "sol1-node1_0_forward",
+        # "sol1-node2_0_forward",
+        # "sol1-node3_0_forward",
+        "sol1-node1-round20_0_infer",
+        "sol1-node4-round20_0_infer",
+        "sol1-node18-round20_0_infer"
     ]
-    case_names = os.listdir(os.path.join(node_path, node_names[0]))
-    case_names = ['cc0182', 'cc0183', 'cc0184', 'cc0185']
+
+    case_names = os.listdir(os.path.join(src_path, node_names[0]))
+    # case_names = ['cc0182', 'cc0183', 'cc0184', 'cc0185']
 
     seg_names = [lambda x: f"{x}_LS_prb.nii.gz",  lambda x: f"{x}_RS_prb.nii.gz"]
     for seg_name in seg_names:
@@ -92,4 +96,8 @@ def main():
             print(f"{seg_name(case_name)}: Entropy of ROI: {entropy_score:.4f}")
     
 if __name__ == '__main__':
-    main()
+    if len(sys.argv) == 2:
+        src_base = os.path.normpath(str(sys.argv[1]))
+        main(src_base)
+    else:
+        print("Usage: python script.py <src_base_path>")
