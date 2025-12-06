@@ -26,7 +26,7 @@ spec:
     - name: initial-epoch
       value: "000"
     - name: epochs-per-round
-      value: "012"
+      value: "004"
     - name: job-prefix
       value: "undefined"
     - name: split_csv
