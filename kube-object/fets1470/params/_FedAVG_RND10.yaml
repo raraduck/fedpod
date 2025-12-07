@@ -14,7 +14,7 @@ input_channel_names: "[t1,t1ce,t2,flair,seg]"
 label_groups: "[[1,1],[2,2],[4,4]]"
 label_names: "[TC,ED,ET]"
 label_index: "[1,2,4]"
-agg-algo: "fedwavg"
+agg-algo: "fedavg"
 seg_postfix: "_sub"
 split_csv: "experiments/FETS1470_v5_rnd10.csv"
 
