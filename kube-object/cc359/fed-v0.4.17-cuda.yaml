@@ -1814,7 +1814,7 @@ spec:
           -f 10 
           -m [20,60]
           -g {{inputs.parameters.gpu}} 
-          -L 1 
+          -L 0
           -J {{inputs.parameters.job-name}} 
           -R {{workflow.parameters.rounds}} 
           -r {{inputs.parameters.round}} 
@@ -1875,7 +1875,7 @@ spec:
           -f 10 
           -m [20,60]
           -g 0
-          -L 1
+          -L 0
           -J {{inputs.parameters.job-name}} 
           -R {{workflow.parameters.rounds}} 
           -r {{inputs.parameters.round}} 
