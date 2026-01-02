@@ -27,7 +27,7 @@ echo \
 ### 1.2. Install the Docker packages.
 ```bash
 sudo apt-get update
-sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io=1.7.27-1 docker-buildx-plugin docker-compose-plugin
 sudo systemctl status docker
 sudo systemctl start docker
 
