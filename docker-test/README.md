@@ -44,7 +44,7 @@ fi
 
 # 디렉토리 자동 생성
 mkdir -p "$MINIKUBE_HOME"
-mkdir -p "$(dirname "$KUBECONFIG")"
+# mkdir -p "$(dirname "$KUBECONFIG")"
 ```
 
 
