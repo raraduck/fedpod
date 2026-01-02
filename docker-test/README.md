@@ -1,7 +1,7 @@
 # Install Minikube
 
 ## Setting .bashrc for different hostname with same username
-```
+```bash
 # User specific aliases and functions
 export HISTSIZE=100000       # 현재 세션에서 저장할 명령어 개수 (기본값 500~1000)
 export HISTFILESIZE=200000   # ~/.bash_history 파일에 저장할 명령어 개수
