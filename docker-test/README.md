@@ -1,5 +1,53 @@
 # Install Minikube
 
+## Setting .bashrc for different hostname with same username
+```
+# User specific aliases and functions
+export HISTSIZE=100000       # 현재 세션에서 저장할 명령어 개수 (기본값 500~1000)
+export HISTFILESIZE=200000   # ~/.bash_history 파일에 저장할 명령어 개수
+
+export HISTCONTROL=ignoredups:erasedups  # 중복된 명령어 제거 (최근 것만 유지)
+
+export HISTIGNORE="ls:cd:cd -:pwd:exit:clear"
+
+export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+
+shopt -s histappend
+
+
+alias k='kubectl'
+alias ka='kubectl -n argo'
+# alias mk="minikube kubectl -- -n argo"
+alias aa="argo -n argo"
+
+# export MINIKUBE_HOME=/home2/dwnusa/.minikube
+# export KUBECONFIG=/home2/dwnusa/.kube/config
+
+
+HOSTNAME=$(hostname)
+
+if [[ "$HOSTNAME" == "MK01" ]]; then
+    # MK01 환경 설정
+    export MINIKUBE_HOME="$HOME/.minikube-mk01"
+    export KUBECONFIG="$HOME/.kube/config-mk01"
+
+elif [[ "$HOSTNAME" == "MK02" ]]; then
+    # MK02 환경 설정
+    export MINIKUBE_HOME="$HOME/.minikube-mk02"
+    export KUBECONFIG="$HOME/.kube/config-mk02"
+
+else
+    # 기본 설정 (다른 머신)
+    export MINIKUBE_HOME="$HOME/.minikube"
+    export KUBECONFIG="$HOME/.kube/config"
+fi
+
+# 디렉토리 자동 생성
+mkdir -p "$MINIKUBE_HOME"
+mkdir -p "$(dirname "$KUBECONFIG")"
+```
+
+
 ## Prerequisites
 - Linux
 - Latest NVIDIA GPU drivers
