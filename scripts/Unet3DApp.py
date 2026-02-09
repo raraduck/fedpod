@@ -34,12 +34,6 @@ from utils.scheduler import get_scheduler
 # import torchvision.transforms as tf
 # ToPILImage 변환timestamp기 초기화
 # to_pil = tf.ToPILImage()
-import torch.multiprocessing
-
-# [중요] 이 코드를 import torch 바로 아래에 추가하세요.
-# 공유 메모리 제한을 우회하여 파일 시스템을 사용합니다.
-torch.multiprocessing.set_sharing_strategy('file_system')
-
 MASKS=['seg','ref','sub','label']
 class Unet3DApp:
     def __init__(self, sys_argv=None):
