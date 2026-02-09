@@ -1805,6 +1805,9 @@ spec:
       - name: gpu
     container:
       image: dwnusa/fedpod:v0.4.17-test-cuda
+      env:
+      - name: LD_LIBRARY_PATH
+        value: "/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/usr/local/cuda/lib64"
       command: ["/bin/sh", "-c"]
       args:
         - >

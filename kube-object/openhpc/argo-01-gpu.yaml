@@ -6,6 +6,11 @@ spec:
   entrypoint: gpu-test
   templates:
   - name: gpu-test
+    # ---------------------------------------------------
+    # [핵심] 로그 저장을 비활성화하는 설정
+    archiveLocation:
+      archiveLogs: false
+    # ---------------------------------------------------
     container:
       image: dwnusa/fedpod:v0.4.17-test-cuda # nvidia/cuda:12.2.0-base-ubuntu22.04
       command: ["/bin/bash", "-c"]
