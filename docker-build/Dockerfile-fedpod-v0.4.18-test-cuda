@@ -1,0 +1,41 @@
+# [수정 1] Base Image 버전 변경 (12.6 -> 12.4.1)
+# 이유: 호스트 드라이버(550.x)와 버전을 맞춰서 "Forward Compatibility"가 발동하지 않게 함
+# Ubuntu 버전도 22.04로 올리는 것을 권장 (최신 패키지 호환성)
+FROM nvidia/cuda:12.4.1-base-ubuntu22.04
+
+# [수정 2] 환경변수 고정 (K8s YAML 수정 불필요하게 만듦)
+# compat 경로를 제외하고, 시스템 드라이버(nvidia)를 우선순위로 둡니다.
+ENV LD_LIBRARY_PATH=/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/usr/local/cuda/lib64
+ENV NVIDIA_VISIBLE_DEVICES=all
+ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
+
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# [수정 3] 문제의 호환성 폴더 삭제 (확인사살)
+# GeForce에서 충돌을 일으키는 폴더를 물리적으로 제거합니다.
+RUN rm -rf /usr/local/cuda/compat
+
+# Pip 업그레이드 (Ubuntu 22.04 호환성)
+RUN python3 -m pip install --upgrade pip
+
+# Python 패키지 설치
+# (torch 버전을 명시하지 않으면 최신(CUDA 12.x 호환)이 깔리므로 그대로 두셔도 됩니다)
+RUN pip3 install --no-cache-dir \
+    SimpleITK==2.2.1 \
+    medpy \
+    matplotlib \
+    natsort \
+    nibabel \
+    numpy \
+    pandas \
+    pillow \
+    tensorboard \
+    torch \
+    monai
+
+WORKDIR /fedpod
+
+CMD ["python3", "--version"]
