@@ -120,6 +120,7 @@ class Unet3DApp:
             # shuffle=False,
             shuffle=True, # True if 'experiments' in self.cli_args.cases_split else False, # states\centre_val01\R20r03\E000\R20r03E000_case_metrics.csv
             drop_last=False,
+            persistent_workers=True,
             num_workers=self.cli_args.num_workers,
             pin_memory=self.use_cuda)
         return train_dataset, train_loader
@@ -139,6 +140,7 @@ class Unet3DApp:
             batch_size=self.cli_args.multi_batch_size,
             shuffle=False,
             drop_last=False,
+            persistent_workers=True,
             num_workers=self.cli_args.num_workers,
             pin_memory=self.use_cuda)
         return infer_dataset, infer_loader
