@@ -32,8 +32,8 @@ class RobustZScoreNormalization(MapTransform):
             lower = np.percentile(d[key][mask], 0.2)
             upper = np.percentile(d[key][mask], 99.8)
 
-            d[key][mask & (d[key] < lower)] = lower
-            d[key][mask & (d[key] > upper)] = upper
+            d[key][mask & (d[key] < lower)] = float(lower)
+            d[key][mask & (d[key] > upper)] = float(upper)
 
             y = d[key][mask]
             d[key] -= y.mean()
