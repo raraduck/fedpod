@@ -1804,7 +1804,7 @@ spec:
       - name: nodeLabel
       - name: gpu
     container:
-      image: dwnusa/fedpod:v0.4.18-test-cuda
+      image: dwnusa/fedpod:v0.4.18.1-test-cuda
       env:
       - name: LD_LIBRARY_PATH
         value: "/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/usr/local/cuda/lib64"
@@ -1868,7 +1868,7 @@ spec:
       - name: nodeLabel
       - name: gpu
     container:
-      image: dwnusa/fedpod:v0.4.18-test-cuda
+      image: dwnusa/fedpod:v0.4.18.1-test-cuda
       command: ["/bin/sh", "-c"]
       args:
         - >
@@ -2002,7 +2002,7 @@ spec:
   #     - name: nodeLabel
   #     - name: gpu
   #   container:
-  #     image: dwnusa/fedpod:v0.4.18-test-cuda
+  #     image: dwnusa/fedpod:v0.4.18.1-test-cuda
   #     command: ["/bin/sh", "-c"]
   #     args:
   #       - >
@@ -2058,7 +2058,7 @@ spec:
       - name: model_pth
       - name: nodeLabel
     container:
-      image: dwnusa/fedpod:v0.4.18-test-cuda
+      image: dwnusa/fedpod:v0.4.18.1-test-cuda
       command: ["/bin/sh", "-c"]
       args: 
         - >
@@ -2119,7 +2119,7 @@ spec:
       - name: sel_list
       - name: gpu
     container:
-      image: dwnusa/fedpod:v0.4.18-test-cuda
+      image: dwnusa/fedpod:v0.4.18.1-test-cuda
       command: ["/bin/sh", "-c"]
       args: 
         - >
