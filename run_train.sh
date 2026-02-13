@@ -4,6 +4,7 @@ save_infer=""
 eval_freq=""
 milestone=""
 use_gpu=""
+zoom=""
 flip_lr="1"
 job_name=""
 rounds=""
@@ -24,7 +25,7 @@ label_names=""
 label_index=""
 
 # 명령줄 옵션 처리
-while getopts S:s:f:m:g:L:J:R:r:E:e:i:c:M:p:D:d:C:G:N:I: option
+while getopts S:s:f:m:g:Z:L:J:R:r:E:e:i:c:M:p:D:d:C:G:N:I: option
 do
     case "${option}"
     in
