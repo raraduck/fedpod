@@ -75,8 +75,8 @@ python3 scripts/run_train.py \
   --epochs $epochs \
   --epoch $epoch \
   \
-  --resize 160 \
-  --patch_size 160 \
+  --resize 168 \
+  --patch_size 168 \
   --zoom $zoom \
   --flip_lr $flip_lr \
   --dataset $data_set \
