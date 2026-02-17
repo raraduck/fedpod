@@ -13,8 +13,8 @@ spec:
       value: "20"
     - name: selected-epoch
       value: "00"
-    # - name: data_root
-    #   value: "data" # "data_cc359ppmicmc256_dwnusa"
+    - name: data_root
+      value: "data" # "data_cc359ppmicmc256_dwnusa"
     - name: infer-script
       value: "run_forward2.sh"
     - name: forward-script
@@ -25,8 +25,8 @@ spec:
       value: "undefined"
     - name: split_csv
       value: "undefined"
-    - name: data_root
-      value: "inst_00"
+    # - name: data_root
+    #   value: "inst_00"
     - name: model_pth
       value: "None"
       
