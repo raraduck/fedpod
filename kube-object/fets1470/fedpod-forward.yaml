@@ -102,7 +102,7 @@ spec:
       - name: seg_postfix
       - name: sel_list
     container:
-      image: dwnusa/fedpod:v0.4.17-test-cuda
+      image: dwnusa/fedpod:v0.4.18.1-test-cuda
       imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: 
