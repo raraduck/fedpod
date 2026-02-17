@@ -16,7 +16,7 @@ label_names: "[WT]"
 label_index: "[1]"
 agg-algo: "fedpod"
 seg_postfix: "_seg"
-split_csv: "experiments/FETS1470_v5_cen100.csv"
+split_csv: "experiments/FETS1470_v4.csv"
 
 init_model: "None"
 
