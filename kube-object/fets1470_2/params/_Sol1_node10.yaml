@@ -3,7 +3,7 @@ initial-round: "00"
 initial-epoch: "00"
 
 data_set: "FETS1470"
-data_root: "data_fets1470"
+data_root: "data"
 train-script: "run_train.sh"
 agg-script: "run_aggregation.sh"
 infer-script: "run_infer.sh"
