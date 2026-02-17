@@ -29,8 +29,8 @@ spec:
     #   value: "inst_00"
     - name: model_pth
       value: "None"
-    - name: inst_id
-      value: "1"
+    # - name: inst_id
+    #   value: "1"
       
   templates:
   - name: infer-dag
@@ -78,7 +78,7 @@ spec:
         - { rounds: "{{workflow.parameters.rounds}}",
             round: "20", 
             epoch: "000", 
-            inst: "{{workflow.parameters.inst_id}}",
+            inst: "0",
             split_csv: "{{workflow.parameters.split_csv}}",
             model_pth: "/fedpod/states/{{workflow.parameters.job-prefix}}_0/R20r20/models/R20r20_agg.pth" }
 
