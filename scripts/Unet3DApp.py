@@ -253,7 +253,7 @@ class Unet3DApp:
         model.train()
         
         # [FedProx] 글로벌 모델은 학습되지 않도록 설정 (안전을 위해)
-        if self.cli_args.algorithm == 'fedprox' and global_model is not None:
+        if (self.cli_args.algorithm == 'fedprox' or self.cli_args.algorithm == 'fedpidprox' or self.cli_args.algorithm == 'fedpodprox') and global_model is not None:
             global_model.eval()
             for param in global_model.parameters():
                 param.requires_grad = False
