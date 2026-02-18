@@ -17,7 +17,7 @@ def parse_args(argv):
     # [추가됨] Federated Learning options
     parser.add_argument('--algorithm', type=str, default='fedavg', 
         help='Federated learning algorithm (fedavg, fedprox, fedpod, etc.)')
-    parser.add_argument('--mu', type=float, default=0.01, 
+    parser.add_argument('--mu', type=float, default=0.001, 
         help='The proximal term coefficient for FedProx')
     
     # data

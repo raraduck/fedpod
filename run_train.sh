@@ -24,7 +24,7 @@ label_groups=""
 label_names=""
 label_index=""
 algorithm="" # [추가됨]
-mu=""        # [추가됨]
+mu="0.001"        # [추가됨]
 
 # 명령줄 옵션 처리
 while getopts S:s:f:m:g:Z:L:J:R:r:E:e:i:c:M:p:D:d:C:G:N:I:a:u: option
@@ -96,8 +96,8 @@ python3 scripts/run_train.py \
   --label_groups $label_groups \
   --label_names $label_names \
   --label_index $label_index \
-  --algorithm ${algorithm:-fedavg} \
-  --mu ${mu:-0.01} \
+  --algorithm ${algorithm} \
+  --mu ${mu} \
   \
   --unet_arch unet \
   --channels_list [32,64,128,256] \
