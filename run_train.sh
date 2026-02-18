@@ -23,9 +23,11 @@ intput_channels=""
 label_groups=""
 label_names=""
 label_index=""
+algorithm="" # [추가됨]
+mu=""        # [추가됨]
 
 # 명령줄 옵션 처리
-while getopts S:s:f:m:g:Z:L:J:R:r:E:e:i:c:M:p:D:d:C:G:N:I: option
+while getopts S:s:f:m:g:Z:L:J:R:r:E:e:i:c:M:p:D:d:C:G:N:I:a:u: option
 do
     case "${option}"
     in
@@ -52,17 +54,18 @@ do
         G) label_groups=${OPTARG};;
         N) label_names=${OPTARG};;
         I) label_index=${OPTARG};;
+        a) algorithm=${OPTARG};;
+        u) mu=${OPTARG};;
     esac
 done
-echo "seed: $seed, save_infer: $save_infer, eval_freq: $eval_freq, milestone: $milestone, gpu: $use_gpu, zoom: $zoom, flip_lr: $flip_lr, job: $job_name, rounds: $rounds, round: $round, epochs: $epochs, epoch: $epoch, inst: $inst_id, split_csv: $split_csv, model_pth: $model_pth, data_percentage: $data_percentage, data_root: $data_root, data_root: $data_set, input_channels: $input_channels, label_groups: $label_groups, label_names: $label_names, label_index: $label_index"
+echo "seed: $seed, save_infer: $save_infer, eval_freq: $eval_freq, milestone: $milestone, gpu: $use_gpu, zoom: $zoom, flip_lr: $flip_lr, job: $job_name, rounds: $rounds, round: $round, epochs: $epochs, epoch: $epoch, inst: $inst_id, split_csv: $split_csv, model_pth: $model_pth, data_percentage: $data_percentage, data_root: $data_root, data_set: $data_set, input_channels: $input_channels, label_groups: $label_groups, label_names: $label_names, label_index: $label_index, algorithm: $algorithm, mu: $mu"
 
-# 필수 옵션 검사
-if [ -z "$seed" ] || [ -z "$save_infer" ] || [ -z "$eval_freq" ] || [ -z "$milestone" ] ||[ -z "$use_gpu" ] ||[ -z "$zoom" ] ||[ -z "$flip_lr" ] || [ -z "$job_name" ] || [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$epochs" ] || [ -z "$epoch" ] || [ -z "$inst_id" ] || [ -z "$split_csv" ] || [ -z "$model_pth" ] || [ -z "$data_percentage" ] || [ -z "$data_root" ] || [ -z "$data_set" ] || [ -z "$input_channels" ] || [ -z "$label_groups" ] || [ -z "$label_names" ] || [ -z "$label_index" ]; then
-    echo "Error: All parameters are required."
-    echo "Usage: $0 -S <seed> -s <save_infer> -f <eval_freq> -m <milestone> -g <use_gpu> -Z <zoom> -L <flip_lr> -J <job_name> -R <rounds> -r <round> -E <epochs> -e <epoch> -i <inst_id> -c <split_csv> -M <model_pth> -p <data_percentage> -D <data_root> -d <data_set> -C <input_channels> -G <label_groups> -N <label_names> -I <label_index>"
+# 필수 옵션 검사 (algorithm과 mu는 기본값을 사용하므로 검사에서 제외)
+if [ -z "$seed" ] || [ -z "$save_infer" ] || [ -z "$eval_freq" ] || [ -z "$milestone" ] || [ -z "$use_gpu" ] || [ -z "$zoom" ] || [ -z "$flip_lr" ] || [ -z "$job_name" ] || [ -z "$rounds" ] || [ -z "$round" ] || [ -z "$epochs" ] || [ -z "$epoch" ] || [ -z "$inst_id" ] || [ -z "$split_csv" ] || [ -z "$model_pth" ] || [ -z "$data_percentage" ] || [ -z "$data_root" ] || [ -z "$data_set" ] || [ -z "$input_channels" ] || [ -z "$label_groups" ] || [ -z "$label_names" ] || [ -z "$label_index" ]; then
+    echo "Error: All required parameters are not set."
+    echo "Usage: $0 ..."
     exit 1
 fi
-
 
 python3 scripts/run_train.py \
   --seed $seed \
@@ -93,6 +96,9 @@ python3 scripts/run_train.py \
   --label_groups $label_groups \
   --label_names $label_names \
   --label_index $label_index \
+  --algorithm ${algorithm:-fedavg} \
+  --mu ${mu:-0.01} \
+  \
   --unet_arch unet \
   --channels_list [32,64,128,256] \
   --block res \

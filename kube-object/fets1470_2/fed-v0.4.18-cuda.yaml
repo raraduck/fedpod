@@ -126,6 +126,8 @@ spec:
             value: "{{item.nodeLabel}}"
           - name: gpu
             value: "{{item.gpu}}"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -214,6 +216,8 @@ spec:
             value: "{{item.nodeLabel}}"
           - name: gpu
             value: "{{item.gpu}}"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -306,6 +310,8 @@ spec:
             value: "{{item.nodeLabel}}"
           - name: gpu
             value: "{{item.gpu}}"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -398,6 +404,8 @@ spec:
             value: "{{item.nodeLabel}}"
           - name: gpu
             value: "{{item.gpu}}"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -489,6 +497,8 @@ spec:
             value: "{{item.nodeLabel}}"
           - name: gpu
             value: "{{item.gpu}}"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -585,6 +595,8 @@ spec:
             value: "{{item.nodeLabel}}"
           - name: gpu
             value: "{{item.gpu}}"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -678,6 +690,8 @@ spec:
             value: "{{item.nodeLabel}}"
           - name: gpu
             value: "{{item.gpu}}"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -769,6 +783,8 @@ spec:
             value: "{{item.nodeLabel}}"
           - name: gpu
             value: "{{item.gpu}}"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -860,6 +876,8 @@ spec:
             value: "{{item.nodeLabel}}"
           - name: gpu
             value: "{{item.gpu}}"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -951,6 +969,8 @@ spec:
             value: "{{item.nodeLabel}}"
           - name: gpu
             value: "{{item.gpu}}"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -1046,6 +1066,8 @@ spec:
             value: "{{item.nodeLabel}}"
           - name: gpu
             value: "{{item.gpu}}"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -1139,6 +1161,8 @@ spec:
             value: "{{item.nodeLabel}}"
           - name: gpu
             value: "{{item.gpu}}"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -1231,6 +1255,8 @@ spec:
             value: "{{item.nodeLabel}}"
           - name: gpu
             value: "{{item.gpu}}"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -1323,6 +1349,8 @@ spec:
             value: "{{item.nodeLabel}}"
           - name: gpu
             value: "{{item.gpu}}"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -1415,6 +1443,8 @@ spec:
             value: "{{item.nodeLabel}}"
           - name: gpu
             value: "{{item.gpu}}"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -1507,6 +1537,8 @@ spec:
             value: "{{item.nodeLabel}}"
           - name: gpu
             value: "{{item.gpu}}"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -1600,6 +1632,8 @@ spec:
             value: "{{item.nodeLabel}}"
           - name: gpu
             value: "{{item.gpu}}"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -1692,6 +1726,8 @@ spec:
             value: "{{item.nodeLabel}}"
           - name: gpu
             value: "{{item.gpu}}"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -1784,6 +1820,8 @@ spec:
             value: "{{item.nodeLabel}}"
           - name: gpu
             value: "{{item.gpu}}"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -1876,6 +1914,8 @@ spec:
             value: "{{item.nodeLabel}}"
           - name: gpu
             value: "{{item.gpu}}"
+          - name: algorithm
+            value: "{{workflow.parameters.agg-algo}}"
           # - name: label_groups_trn
           #   value: "{{item.label_groups_trn}}"
         withItems:
@@ -2003,6 +2043,7 @@ spec:
       - name: data_percentage
       - name: nodeLabel
       - name: gpu
+      - name: algorithm  # [추가됨]
     container:
       image: dwnusa/fedpod:v0.4.18.1-test-cuda
       env:
@@ -2028,6 +2069,7 @@ spec:
           -c {{inputs.parameters.split_csv}} 
           -M {{inputs.parameters.model_pth}}
           -p {{inputs.parameters.data_percentage}}
+          -a {{inputs.parameters.algorithm}}
           -D {{workflow.parameters.data_root}} 
           -d {{workflow.parameters.data_set}}
           -C {{workflow.parameters.input_channel_names}}
@@ -2068,6 +2110,7 @@ spec:
       - name: data_percentage
       - name: nodeLabel
       - name: gpu
+      - name: algorithm  # [추가됨]
     container:
       image: dwnusa/fedpod:v0.4.18.1-test-cuda
       command: ["/bin/sh", "-c"]
@@ -2090,6 +2133,7 @@ spec:
           -c {{inputs.parameters.split_csv}} 
           -M {{inputs.parameters.model_pth}}
           -p {{inputs.parameters.data_percentage}}
+          -a {{inputs.parameters.algorithm}}
           -D {{workflow.parameters.data_root}} 
           -d {{workflow.parameters.data_set}}
           -C {{workflow.parameters.input_channel_names}}
@@ -2128,6 +2172,7 @@ spec:
       - name: data_percentage
       - name: nodeLabel
       - name: gpu
+      - name: algorithm  # [추가됨]
     steps:
     - - name: run-with-gpu
         template: train-job-gpu
@@ -2157,6 +2202,8 @@ spec:
             value: "{{inputs.parameters.nodeLabel}}"
           - name: gpu
             value: "{{inputs.parameters.gpu}}"
+          - name: algorithm  # [추가됨] GPU 템플릿으로 전달
+            value: "{{inputs.parameters.algorithm}}"
         when: "{{inputs.parameters.gpu}} != 0"
       - name: run-with-cpu
         template: train-job-cpu
@@ -2186,67 +2233,9 @@ spec:
             value: "{{inputs.parameters.nodeLabel}}"
           - name: gpu
             value: "0"
+          - name: algorithm  # [추가됨] CPU 템플릿으로 전달
+            value: "{{inputs.parameters.algorithm}}"
         when: "{{inputs.parameters.gpu}} == 0"
-
-  # - name: train-job
-  #   inputs:
-  #     parameters:
-  #     - name: job-name
-  #     - name: seed
-  #     - name: split_csv
-  #     - name: train-script
-  #     - name: round
-  #     - name: epochs
-  #     - name: epoch
-  #     - name: inst-id
-  #     - name: model_pth
-  #     - name: data_percentage
-  #     - name: nodeLabel
-  #     - name: gpu
-  #   container:
-  #     image: dwnusa/fedpod:v0.4.18.1-test-cuda
-  #     command: ["/bin/sh", "-c"]
-  #     args:
-  #       - >
-  #         ./{{inputs.parameters.train-script}} 
-  #         -S {{inputs.parameters.seed}} 
-  #         -s 0
-  #         -f 10
-  #         -m [20,60]
-  #         -g {{inputs.parameters.gpu}} 
-  #         -L 0 
-  #         -J {{inputs.parameters.job-name}} 
-  #         -R {{workflow.parameters.rounds}} 
-  #         -r {{inputs.parameters.round}} 
-  #         -E {{inputs.parameters.epochs}} 
-  #         -e {{inputs.parameters.epoch}} 
-  #         -i {{inputs.parameters.inst-id}} 
-  #         -c {{inputs.parameters.split_csv}} 
-  #         -M {{inputs.parameters.model_pth}}
-  #         -p {{inputs.parameters.data_percentage}}
-  #         -D {{workflow.parameters.data_root}} 
-  #         -d {{workflow.parameters.data_set}}
-  #         -C {{workflow.parameters.input_channel_names}}
-  #         -G {{workflow.parameters.label_groups}}
-  #         -N {{workflow.parameters.label_names}}
-  #         -I {{workflow.parameters.label_index}}
-  #     resources:
-  #       requests:
-  #         cpu: "8" # "8"
-  #         memory: "16G" # "4G"
-  #         nvidia.com/gpu: "{{inputs.parameters.gpu}}"
-  #       limits:
-  #         nvidia.com/gpu: "{{inputs.parameters.gpu}}"
-  #     volumeMounts:
-  #     - name: fedpod-volume
-  #       mountPath: /fedpod   # 컨테이너 내부
-  #     stdin: true
-  #     tty: true
-  #   volumes:
-  #   - name: fedpod-volume
-  #     hostPath:
-  #       path: /fedpod   # 호스트 경로
-  #       type: Directory
 
   - name: aggregation-job
     inputs:

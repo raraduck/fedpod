@@ -20,7 +20,7 @@ parser.add_argument('--epochs', type=int, default=0)
 parser.add_argument('--epoch', type=int, default=0)
 parser.add_argument('--cases_split', type=str, default=None, help='file path for split csv')
 parser.add_argument('--algorithm', type=str, default="fedavg", 
-    choices=['fedavg', 'fedwavg', 'fedpid', 'fedpod'], help='type of avg')
+    choices=['fedavg', 'fedwavg', 'fedpid', 'fedpod', 'fedprox'], help='type of avg')
 parser.add_argument('--job_prefix', type=str, default="")
 parser.add_argument('--inst_id', type=int, default=0)
 parser.add_argument('--weight_path', type=str, required=True,
@@ -238,6 +238,17 @@ def fed_processing(args, base_dir, base_logs_dir, curr_round, next_round, logger
         W = [p/sum(P) for p in P]
         M = [el['model'] for el in local_models_with_dlen]
         aggregated_model = fedavg(W, M)
+        for p, w, j in zip(P, W, JOB_NAME):
+            logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][{j}][P,W][{p:.2f},{w:.2f}]")
+    elif args.algorithm == "fedprox":
+        # FedProx의 Aggregation은 FedAvg와 동일 (가중 평균)
+        P = [el['P'] for el in local_models_with_dlen] # 데이터 개수 비례
+        W = [p/sum(P) for p in P]
+        M = [el['model'] for el in local_models_with_dlen]
+        
+        # 별도의 fedprox 함수를 만들 필요 없이 fedavg 로직 재사용
+        aggregated_model = fedavg(W, M) 
+        
         for p, w, j in zip(P, W, JOB_NAME):
             logger.info(f"[{args.job_prefix.upper()}][{args.algorithm.upper()}][{j}][P,W][{p:.2f},{w:.2f}]")
     elif args.algorithm == "fedwavg":

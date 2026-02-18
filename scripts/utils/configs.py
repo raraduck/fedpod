@@ -14,6 +14,11 @@ def parse_args(argv):
     parser.add_argument('--eval_freq', type=int, default=5, help='eval frequency')
     parser.add_argument('--use_gpu', type=int, choices=[0, 1], default=0, help='Enable GPU (0 = No, 1 = Yes, default: 0)')
     parser.add_argument('--job_name', type=str, default=None, help='create job_name folder to save results')
+    # [추가됨] Federated Learning options
+    parser.add_argument('--algorithm', type=str, default='fedavg', 
+        help='Federated learning algorithm (fedavg, fedprox, fedpod, etc.)')
+    parser.add_argument('--mu', type=float, default=0.01, 
+        help='The proximal term coefficient for FedProx')
     
     # data
     parser.add_argument('--cases_split', type=str, default=None, help='file path for split csv')
@@ -91,7 +96,6 @@ def parse_args(argv):
     parser.add_argument('--dropout_prob', type=float, default=0.0, help="prob of dropout")
     parser.add_argument('--norm', type=str, default='instance',
         choices=['instance', 'batch', 'group'], help='type of norm')
-    
     
     args = parser.parse_args(argv)
     return args

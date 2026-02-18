@@ -35,7 +35,6 @@ from utils.scheduler import get_scheduler
 # ToPILImage 변환timestamp기 초기화
 # to_pil = tf.ToPILImage()
 MASKS=['seg','ref','sub','label']
-
 class Unet3DApp:
     def __init__(self, sys_argv=None):
         # 기본 로거 설정 (기본값 사용)
@@ -63,10 +62,6 @@ class Unet3DApp:
         if self.cli_args.label_index.__len__() != self.cli_args.num_classes:
             self.cli_args.label_index = list(range(1, 1+self.cli_args.num_classes))
         self.cli_args.input_channels = self.cli_args.input_channel_names.__len__()
-
-        # [FedProx] mu 기본값 설정 (argparse에 없을 경우 대비)
-        if not hasattr(self.cli_args, 'mu'):
-            self.cli_args.mu = 0.01
 
     def setup_gpu(self, model, mode):
         current_device = next(model.parameters()).device
@@ -248,16 +243,8 @@ class Unet3DApp:
         else:
             raise NotImplementedError(f"[{self.cli_args.job_name.upper()}][MODE:{mode}] is not implemented on initializer()")
     
-    # [FedProx] global_model 인자 추가 및 Loss 계산 로직 수정
-    def train(self, round, rounds, from_epoch, epoch, to_epoch, model, global_model, train_loader, loss_fn, optimizer, scaler, mode='training'):
+    def train(self, round, rounds, from_epoch, epoch, to_epoch, model, train_loader, loss_fn, optimizer, scaler, mode='training'):
         model.train()
-        
-        # [FedProx] 글로벌 모델은 학습되지 않도록 설정 (안전을 위해)
-        if self.cli_args.algorithm == 'fedprox' and global_model is not None:
-            global_model.eval()
-            for param in global_model.parameters():
-                param.requires_grad = False
-
         data_time = AverageMeter('Data', ':6.3f')
         batch_time = AverageMeter('Time', ':6.3f')
         bce_meter = AverageMeter('BCE', ':.4f')
@@ -281,23 +268,9 @@ class Unet3DApp:
                     self.logger.error(msg)
                     raise NotImplementedError(msg)
 
-                # 1. Original Task Loss
                 bce_loss, dsc_loss_by_channels = loss_fn(preds, label)
                 avg_dsc_loss = dsc_loss_by_channels.mean()
                 loss = bce_loss + avg_dsc_loss
-
-                # -----------------------------------------------------------
-                # [FedProx] Proximal Term 추가
-                # -----------------------------------------------------------
-                if self.cli_args.algorithm == 'fedprox' and global_model is not None:
-                    prox_term = 0.0
-                    # 로컬 파라미터(w)와 글로벌 파라미터(w_t)의 차이 계산
-                    for w, w_t in zip(model.parameters(), global_model.parameters()):
-                        prox_term += (w - w_t).norm(2)**2
-                    
-                    # 최종 Loss에 추가
-                    loss += (self.cli_args.mu / 2) * prox_term
-                # -----------------------------------------------------------
 
             # compute gradient and do optimizer step
             optimizer.zero_grad()
@@ -322,18 +295,14 @@ class Unet3DApp:
             # print(f"train: bloss-{bce_loss.item():.3f}, dloss-{avg_dsc_loss.item():.3f}, bdloss-{loss.item():.3f}")
             curr_data = len(train_loader) * (epoch - from_epoch) + (i+1)
             total_data = (to_epoch - from_epoch) * len(train_loader)
-            
-            # [FedProx] 로그 메시지에 알고리즘 정보 추가
-            algo_tag = f"[{self.cli_args.algorithm.upper()}]" if self.cli_args.algorithm else ""
-
             self.logger.info(" ".join([
-                f"[{self.cli_args.job_name.upper()}]{algo_tag}[TRN]({(curr_data/total_data*100):3.0f}%)",
+                f"[{self.cli_args.job_name.upper()}][TRN]({(curr_data/total_data*100):3.0f}%)",
                 f"R:{round:02}/{rounds:02}",
                 f"E:{epoch:03}/{to_epoch:03}",
                 f"D:{i:03}/{len(train_loader):03}",
                 f"BCEL:{bce_loss.item():2.3f}",
                 f"DSCL:{avg_dsc_loss.item():2.3f}",
-                f"TOTAL:{loss.item():2.3f}", # Total loss (includes prox term)
+                f"BCEL+DSCL:{loss.item():2.3f}",
                 f"lr:{optimizer.state_dict()['param_groups'][0]['lr']:0.4f}",
                 f"N:{name}",
                 f"{str(batch_time)}",
@@ -498,16 +467,6 @@ class Unet3DApp:
 
         train_setup = self.initializer(train_val_dict, mode='TRN')
 
-        # [FedProx] 글로벌 모델 생성 (초기 모델 복사)
-        # 중요: 모델을 GPU로 옮긴 후(train_setup['model']) 복사해야 디바이스가 일치합니다.
-        global_model = None
-        if self.cli_args.algorithm == 'fedprox':
-            global_model = copy.deepcopy(train_setup['model'])
-            # global_model은 gradient 계산이 필요 없으므로 메모리 절약을 위해 freeze
-            for param in global_model.parameters():
-                param.requires_grad = False
-            self.logger.info(f"[{self.cli_args.job_name.upper()}][FEDPROX] Global model initialized for proximal term calculation.")
-
         from_epoch  = self.cli_args.epoch
         to_epoch    = self.cli_args.epoch + self.cli_args.epochs
 
@@ -546,7 +505,6 @@ class Unet3DApp:
                 self.cli_args.round, self.cli_args.rounds, 
                 from_epoch, epoch, to_epoch,
                 train_setup['model'], 
-                global_model, # [FedProx] global_model 전달
                 train_setup['train_loader'], 
                 train_setup['loss_fn'], 
                 train_setup['optimizer'], 
@@ -705,7 +663,7 @@ class Unet3DApp:
         # print(VAL_LOSS)
 
         from_folder = os.path.join("states", self.job_name, f"R{self.cli_args.rounds:02}r{self.cli_args.round:02}",
-                                                   f"E{from_epoch:03}")
+                                   f"E{from_epoch:03}")
         from_csv = os.path.join(from_folder, "case_metrics.csv")
         to_csv = self.cli_args.cases_split
         from_df = pd.read_csv(from_csv)
