@@ -16,7 +16,7 @@ label_names: "[TC,ED,ET]"
 label_index: "[1,2,4]"
 agg-algo: "fedwavg"
 seg_postfix: "_sub"
-split_csv: "experiments/FETS1470_v5_rnd20.csv"
+split_csv: "experiments/partition1/FETS1_v1_rnd20_1.csv"
 
 init_model: "None"
 
