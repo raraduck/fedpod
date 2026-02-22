@@ -1,0 +1,23 @@
+# rounds: "19"
+initial-round: "00"
+initial-epoch: "00"
+
+data_set: "FETS1470"
+data_root: "data_fets1470"
+train-script: "run_train.sh"
+agg-script: "run_aggregation.sh"
+infer-script: "run_infer.sh"
+forward-script: "run_forward.sh"
+# job-prefix: "model-241116-3"
+
+input_channel_names: "[t1,t1ce,t2,flair]"
+label_groups: "[[1,2,4,4]]"
+label_names: "[WT]"
+label_index: "[1]"
+agg-algo: "fedpod"
+seg_postfix: "_seg"
+split_csv: "experiments/FETS1470_v4_cen_test.csv"
+
+init_model: "None"
+
+inst_01_ratio_0_4: "100"
