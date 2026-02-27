@@ -30,11 +30,15 @@ from dsets import get_dataset, get_base_transform, get_forward_transform, get_au
 from utils.optim import get_optimizer
 from utils.loss import SoftDiceBCEWithLogitsLoss, robust_sigmoid
 from utils.scheduler import get_scheduler
+import argparse
 # from PIL import Image
 # import torchvision.transforms as tf
 # ToPILImage 변환timestamp기 초기화
 # to_pil = tf.ToPILImage()
 MASKS=['seg','ref','sub','label']
+# PyTorch 2.6+ 보안 로딩 정책 대응
+if hasattr(torch.serialization, 'add_safe_globals'):
+    torch.serialization.add_safe_globals([argparse.Namespace])
 
 class Unet3DApp:
     def __init__(self, sys_argv=None):
