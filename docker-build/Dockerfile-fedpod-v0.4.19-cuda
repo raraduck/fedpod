@@ -1,0 +1,76 @@
+# 1. Base Image: Ubuntu 24.04 + CUDA 12.8
+FROM nvidia/cuda:12.8.0-cudnn-devel-ubuntu24.04
+
+# 환경 변수 설정
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED=1
+ENV LD_LIBRARY_PATH=/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/usr/local/cuda/lib64
+
+# 2. 시스템 필수 패키지 설치 (Ubuntu 24.04 최적화)
+RUN apt-get update && apt-get install -y \
+    python3.12 \
+    python3-pip \
+    python3.12-dev \
+    # libgl1-mesa-glx 대신 libgl1을 사용합니다.
+    libgl1 \
+    libglx-mesa0 \
+    libglib2.0-0 \
+    git \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# 기본 python 커맨드 연결
+RUN ln -s /usr/bin/python3.12 /usr/bin/python
+
+# 3. PyTorch 2.7.1 설치 (시스템 pip 24.0을 그대로 사용)
+# pip 업그레이드 명령은 생략합니다.
+RUN pip3 install --no-cache-dir --break-system-packages \
+    torch==2.7.1 \
+    torchvision \
+    --index-url https://download.pytorch.org/whl/cu128
+
+# 4. 모든 라이브러리 직접 설치
+RUN pip3 install --no-cache-dir --break-system-packages \
+    numpy==1.26.4 \
+    pandas==2.2.0 \
+    scipy==1.14.1 \
+    pyarrow==20.0.0 \
+    joblib==1.3.2 \
+    nnunetv2==2.5.1 \
+    monai \
+    SimpleITK==2.4.0 \
+    nibabel==5.2.1 \
+    nilearn==0.10.4 \
+    nipype==1.8.6 \
+    medpy \
+    scikit-image==0.25.0 \
+    fastapi==0.116.1 \
+    fastapi-utils==0.6.0 \
+    uvicorn==0.29.0 \
+    httpx==0.28.1 \
+    pydantic==2.10.4 \
+    pydantic-settings==2.7.1 \
+    matplotlib==3.10.0 \
+    tqdm==4.66.4 \
+    pillow \
+    natsort \
+    tensorboard \
+    python-dotenv==1.0.1 \
+    requests==2.32.4 \
+    urllib3==2.5.0 \
+    six==1.17.0 \
+    cryptography==46.0.3 \
+    concurrent-log-handler==0.9.25 \
+    notion-client==2.4.0 \
+    openpyxl==3.1.5 \
+    typing-inspect==0.9.0 \
+    setuptools==78.1.1
+
+# 5. nnU-Net v2 환경 변수 설정
+ENV nnUNet_raw="/fedpod/nnUNet_raw"
+ENV nnUNet_preprocessed="/fedpod/nnUNet_preprocessed"
+ENV nnUNet_results="/fedpod/nnUNet_results"
+
+WORKDIR /fedpod
+
+CMD ["python3", "-c", "import torch; print(f'Torch {torch.__version__} / CUDA {torch.version.cuda} Ready')"]
